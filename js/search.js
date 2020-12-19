@@ -82,13 +82,13 @@ function writeSearchTerm(id, search_term_short, search_term) {
     $('#' + id).attr("title", search_term);
 }
 
-function executeSearchRequest(service_url, post_data, service, search_term_short, search_term) {
+function executeSearchRequest(service_url, post_data, service, search_term_short, search_term, timeout) {
     $.ajax({
             url: service_url,
             type: "POST",
             data: post_data,
             dataType: "json",
-            timeout: 120000,
+            timeout: timeout,
 
         })
 
@@ -306,7 +306,7 @@ function tick_function() {
     progessbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
 
     if (value >= 100) {
-        $("#status").html("<span style='color:red'>Creating your visualization takes longer than expected. Please stay tuned!</span>")
+        $("#status").html("<span style='color:red'>" + waiting_page_texts['longer than expected'] + "</span>")
         $("#progressbar").progressbar("value", 5);
     }
 

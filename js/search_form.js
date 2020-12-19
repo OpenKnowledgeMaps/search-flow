@@ -17,7 +17,7 @@ var SearchOptions = {
                     .attr("name", "optradio")
                     .attr("value", option.id)
             
-            if(option.default) {
+            if(option.default && !option.disabled) {
                 radio_button.attr("checked", true)
             }
             
