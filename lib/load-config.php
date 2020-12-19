@@ -1,7 +1,7 @@
 <?php
 function loadConfigFile() {
-    $LOCAL_INI_FILE = "../config_local.ini";
-    $DEFAULT_INI_FILE = "../config.ini";
+    $LOCAL_INI_FILE = dirname(__FILE__) . "../../config_local.ini";
+    $DEFAULT_INI_FILE = dirname(__FILE__) . "../../config.ini";
     
     $ini_array = array();
     
@@ -23,14 +23,14 @@ function loadConfigOption($ini_array, $key, $section = null) {
         if(isset($ini_array[$section])) {
             $current_array = $ini_array[$section];
         } else {
-            die("Config section is not set.");
+            die("Config section is not set: $section");
         }
     }
     
-    if(isset($current_array[$section])) {
-        return $current_array[$section];
+    if(isset($current_array[$key])) {
+        return $current_array[$key];
     } else {
-        die("Config option is not set.");
+        die("Config option is not set: $key");
     }
 }
 
