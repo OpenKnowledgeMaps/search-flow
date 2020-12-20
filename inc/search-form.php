@@ -5,6 +5,7 @@ include_once dirname(__FILE__). '../../lib/get-params.php';
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
+$waiting_page = loadConfigOption($ini_array, "waiting_page", "general");
 ?>
 
 <form id="searchform" action="#" method="POST" class="mittig2" target="_blank">
@@ -229,7 +230,7 @@ $(document).ready(function () {
         config.service = $("input[name='optradio']:checked").val();
         //var radio_val = $(this).val();
         //config.service = radio_val;
-        $("#searchform").attr("action", "search?service=" + config.service);
+        $("#searchform").attr("action", "<?php echo $waiting_page ?>?service=" + config.service);
 
         search_options_object.user_defined_date = false;
         $("#filter-container").html("");
@@ -247,7 +248,7 @@ $(document).ready(function () {
     config.service = $("input[name='optradio']:checked").val();
     chooseOptions();
 
-    $("#searchform").attr("action", "search?service=" + config.service);
+    $("#searchform").attr("action", "<?php echo $waiting_page ?>?service=" + config.service);
 
     changeLibrary();
 
