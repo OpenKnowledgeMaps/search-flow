@@ -110,6 +110,10 @@ var SearchOptions = {
                         .attr("class", "dropdown_multi_" + entry.id)
                         .style("vertical-align", "top")
                         .attr("name", entry.id)
+                
+                if(entry.hasOwnProperty("hidden") && entry.hidden) {
+                    new_select.attr("class", "hidden");
+                }
 
                 if (entry.multiple) {
                     new_select.attr("name", entry.id + "[]")

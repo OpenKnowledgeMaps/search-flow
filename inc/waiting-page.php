@@ -75,6 +75,15 @@ if(!empty($_POST)) {
             case "plos":
                 $params_array = array("article_types", "journals", "from", "to", "sorting");
                 break;
+            
+            //TODO: needs to be adapted and should be moved to config!
+            case "triple_km":
+                $params_array = array("from", "to", "sorting", "vis_type", "language", "limit", "sg_method");
+                break;
+            
+            case "triple_sg":
+                $params_array = array("from", "to", "sorting", "vis_type", "language", "limit", "sg_method");
+                break;
         }
 
         $params_json = packParamsJSON($params_array, $post_array);
