@@ -6,6 +6,7 @@ $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
+$vis_page = loadConfigOption($ini_array, "vis_page", "general");
 
 // This fixes a bug in iOS Safari where an inactive tab would forget the post 
 // parameters - usually when the user opens a different tab while waiting for
@@ -176,7 +177,7 @@ if(!empty($_POST)) {
             window.history.replaceState({}, '', `${location.pathname}?${params}`);
 
             var script = "";
-            var vis_page = "";
+            var vis_page = "<?php echo $vis_page ?>";
             var milliseconds_progressbar = 800;
             var max_length_search_term_short = 115;
             var timeout = 120000;
@@ -200,14 +201,16 @@ if(!empty($_POST)) {
 
             writeSearchTerm('search_term', search_term_short, search_term);
 
-            executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout);
+            executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
 
             var check_fallback_interval = null;
             var check_fallback_timeout = 
                             window.setTimeout(function () {
                                 check_fallback_interval = window.setInterval(fallbackCheck, 4000
                                 , "<?php echo $headstart_path ?>server/services/getLastVersion.php?service=" + service + "&vis_id="
-                                , unique_id);
+                                , unique_id
+                                , vis_page
+                                , post_data);
                             }, 10000);
                             
             const tick_interval = 1;

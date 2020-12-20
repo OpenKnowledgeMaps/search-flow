@@ -20,7 +20,7 @@ function getPostData(post_data, field, type) {
     return(post_data[field]);               
 }
 
-function fallbackCheck(service_url, unique_id) {
+function fallbackCheck(service_url, unique_id, vis_page, post_data) {
 
     // Do not start fallback check if an error occurred
     if(error_occurred) {
@@ -31,7 +31,7 @@ function fallbackCheck(service_url, unique_id) {
                 function(output) {
                     if (output.status === "success") {
                         search_aborted = true;
-                        redirectToMap(unique_id);
+                        redirectToMap(vis_page, unique_id, post_data);
                     }
                 });
 }
@@ -65,10 +65,23 @@ function errorOccurred() {
     $("#error_state").removeClass("nodisplay");
 }
 
-function redirectToMap(id) {
+function redirectToMap(vis_page, id, post_data) {
     $("#progressbar").progressbar("option", "value", 100);
     window.clearTimeout(progessbar_timeout);
-    window.location.replace("map/" + id);
+    let redirect_url = vis_page;
+    if(vis_page_cool_uri) {
+        redirect_url += "/" + id;
+        vis_page_additional_params.forEach(function (param) {
+            redirect_url += "/" + post_data.param;
+        })   
+    } else {
+        redirect_url += "?id=" + id;
+        vis_page_additional_params.forEach(function (param) {
+            redirect_url += "&" + param + "=" + post_data.param;
+        });
+    }
+    
+    window.location.replace(redirect_url);
 }
 
 var getSearchTermShort = function (search_term) {
@@ -82,7 +95,7 @@ function writeSearchTerm(id, search_term_short, search_term) {
     $('#' + id).attr("title", search_term);
 }
 
-function executeSearchRequest(service_url, post_data, service, search_term_short, search_term, timeout) {
+function executeSearchRequest(service_url, post_data, service, search_term_short, search_term, timeout, vis_page) {
     $.ajax({
             url: service_url,
             type: "POST",
@@ -96,7 +109,7 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
 
             if (output.status == "success") {
 
-                redirectToMap(output.id);
+                redirectToMap(vis_page, output.id, post_data);
 
             } else {
                 errorOccurred();
@@ -177,7 +190,7 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
 
 function redirectToIndex() {
     setErrorTexts(error_texts.no_post_data);
-    window.setTimeout(function() { window.location = "index"; }, 10000);
+    window.setTimeout(function() { window.location = vis_page; }, 10000);
 
 }
 
