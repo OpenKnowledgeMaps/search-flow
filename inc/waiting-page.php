@@ -56,8 +56,8 @@ if(!empty($_POST)) {
         $date = new DateTime();
         $post_array["today"] = $date->format('Y-m-d');
 
-        $params_array = array();
-        switch ($service) {
+        $params_array = loadConfigOption($ini_array, "base", "params");
+        /*switch ($service) {
             case "base":
                 $params_array = array("from", "to", "document_types", "sorting", "min_descsize");
                 break;
@@ -85,7 +85,7 @@ if(!empty($_POST)) {
             case "triple_sg":
                 $params_array = array("from", "to", "sorting", "vis_type", "language", "limit", "sg_method");
                 break;
-        }
+        }*/
 
         $params_json = packParamsJSON($params_array, $post_array);
         $unique_id = createID(array($query, $params_json));
