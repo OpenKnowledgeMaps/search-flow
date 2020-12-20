@@ -8,7 +8,7 @@ $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 $waiting_page = loadConfigOption($ini_array, "waiting_page", "general");
 ?>
 
-<link rel="stylesheet" href="<?php echo $searchflow_path ?>css/options">
+<link rel="stylesheet" href="<?php echo $searchflow_path ?>css/options.css">
 
 <form id="searchform" action="#" method="POST" class="mittig2" target="_blank">
     
