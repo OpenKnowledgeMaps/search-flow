@@ -56,7 +56,7 @@ if(!empty($_POST)) {
         $date = new DateTime();
         $post_array["today"] = $date->format('Y-m-d');
 
-        $params_array = loadConfigOption($ini_array, $service, "params");
+        $params_array = $params_arrays[$service];
 
         $params_json = packParamsJSON($params_array, $post_array);
         $unique_id = createID(array($query, $params_json));
