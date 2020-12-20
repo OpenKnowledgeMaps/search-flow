@@ -130,10 +130,6 @@ if(!empty($_POST)) {
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <h3 id="try-again-title" class="waiting-title"></h3>
-            <script>
-                var search_term_focus = true;
-                var show_filters = true;
-            </script>
             <?php
                 $default_lib = $service;
                 $search_query = htmlspecialchars(stripslashes($dirty_query));

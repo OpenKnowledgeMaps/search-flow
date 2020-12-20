@@ -63,16 +63,17 @@ var chooseOptions = function () {
     if(typeof config.service !== "undefined") {
         config.options = window["options_" + config.service];
         config.examples = window["examples_" + config.service];
-    } else {
-        config.options = options_base;
-        config.examples = examples_base;
     }
-
+    
     if(typeof post_data !== "undefined") {
         updateOptions(post_data);
     }
-    search_options_object.drawFilters("#filter-container", config.options, ".try-out-maps", config.examples);
-    search_options_object.drawExamples(".try-out-maps", config.examples);
+    search_options_object.drawFilters("#filter-container", config.options);
+    if(typeof config.examples !== "undefined" 
+            && typeof config.examples.examples !== "undefined"
+            && config.examples.examples.length > 0) {
+        search_options_object.drawExamples(".try-out-maps", config.examples);
+    }
 
     config.options.dropdowns.forEach(function (entry) {
         if (typeof entry.width === "undefined") {
@@ -242,18 +243,19 @@ $(document).ready(function () {
     }; 
 
     $("input[name='optradio']").change(changeLibrary);
-
+    
+    config.service = $("input[name='optradio']:checked").val();
     chooseOptions();
 
     $("#searchform").attr("action", "search?service=" + config.service);
 
     changeLibrary();
 
-    if (search_term_focus) {
+    if (search_options.search_term_focus) {
         document.getElementById("searchterm").focus({preventScroll: true});
     }
     
-    if(show_filters) {
+    if(search_options.show_filters) {
         $("#filters").removeClass("frontend-hidden");
     }
 })
