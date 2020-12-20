@@ -56,36 +56,7 @@ if(!empty($_POST)) {
         $date = new DateTime();
         $post_array["today"] = $date->format('Y-m-d');
 
-        $params_array = loadConfigOption($ini_array, "base", "params");
-        /*switch ($service) {
-            case "base":
-                $params_array = array("from", "to", "document_types", "sorting", "min_descsize");
-                break;
-            
-            case "pubmed":
-                $params_array = array("from", "to", "sorting");
-                if(isset($post_array["article_types"])) {
-                    $params_array[] = "article_types";
-                }
-                break;
-            
-            case "doaj":
-                $params_array = array("from", "to", "today", "sorting");
-                break;
-            
-            case "plos":
-                $params_array = array("article_types", "journals", "from", "to", "sorting");
-                break;
-            
-            //TODO: needs to be adapted and should be moved to config!
-            case "triple_km":
-                $params_array = array("from", "to", "sorting", "vis_type", "language", "limit", "sg_method");
-                break;
-            
-            case "triple_sg":
-                $params_array = array("from", "to", "sorting", "vis_type", "language", "limit", "sg_method");
-                break;
-        }*/
+        $params_array = loadConfigOption($ini_array, $service, "params");
 
         $params_json = packParamsJSON($params_array, $post_array);
         $unique_id = createID(array($query, $params_json));
