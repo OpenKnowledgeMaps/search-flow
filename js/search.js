@@ -100,14 +100,6 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
 
             } else {
                 errorOccurred();
-
-                let search_string = "";
-
-                try {
-                    search_string = unboxPostData(post_data, service);
-                } catch(e) {
-                    console.log("An error ocurred when creating the search string");
-                }
                 
                 let list_array = [];
                 
@@ -140,10 +132,21 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
                     }
                     setErrorRemedy(current_error_texts.remedy, list_array_translated)
                 }
-                if(search_string !== "") {
-                    setErrorMoreInfo(current_error_texts.more_info);
-                    $("#more-info-link_na").attr("href", search_string);
-                    $("#more-info-link_service").text((service === "base") ? ("BASE") : ("PubMed"))
+                
+                if(not_enough_results_links) {
+                    let search_string = "";
+
+                    try {
+                        search_string = unboxPostData(post_data, service);
+                    } catch(e) {
+                        console.log("An error ocurred when creating the search string");
+                    }
+                    
+                    if(search_string !== "") {
+                        setErrorMoreInfo(current_error_texts.more_info);
+                        $("#more-info-link_na").attr("href", search_string);
+                        $("#more-info-link_service").text((service === "base") ? ("BASE") : ("PubMed"))
+                    }
                 }
                 setErrorContact(current_error_texts.contact);
                 writeSearchTerm("search_term_fail", search_term_short, search_term);
@@ -306,7 +309,7 @@ function tick_function() {
     progessbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
 
     if (value >= 100) {
-        $("#status").html("<span style='color:red'>" + waiting_page_texts['longer than expected'] + "</span>")
+        $("#status").html("<span style='color:red'>" + waiting_page_texts['longer_than_expected_text'] + "</span>")
         $("#progressbar").progressbar("value", 5);
     }
 

@@ -113,12 +113,11 @@ if(!empty($_POST)) {
     <!-- screen while knowledge map is loading -->
     <div id="active_state" class="search_active_state" style="text-align: center;">
 
-        <h3 class="waiting-title2">Your knowledge map on <strong id="search_term"></strong> is being created!</h3>
+        <h3 id="waiting-title" class="waiting-title2"></h3>
 
         <div id="progressbar"></div>
 
-        <p id="status" class="animated-ellipsis">Please be patient, this takes around 20 seconds.<br>
-            While you are waiting, find out how the knowledge map is being created below.
+        <p id="status" class="animated-ellipsis">
         </p>
     </div>
 
@@ -130,7 +129,7 @@ if(!empty($_POST)) {
         <p id="error-more-info"></p>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
-            <h3 class="waiting-title">Have another try!</h3>
+            <h3 id="try-again-title" class="waiting-title"></h3>
             <script>
                 var search_term_focus = true;
                 var show_filters = true;
@@ -153,6 +152,10 @@ if(!empty($_POST)) {
 </div>
 
  <script>
+            $("#waiting-title").html(waiting_page_texts.waiting_title);
+            $("#status").html(waiting_page_texts.status_waiting);
+            $("#try-again-title").html(waiting_page_texts.try_again_title);
+            
             var service = "<?php echo $service ?>";
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
@@ -175,6 +178,8 @@ if(!empty($_POST)) {
 
             var search_aborted = false;
             var error_occurred = false;
+            
+            var not_enough_results_links = add_not_enough_results_links;
             
             search_options.options.find(function(item) {
                 if (item.id === service) {
