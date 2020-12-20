@@ -209,6 +209,7 @@ if(!empty($_POST)) {
                                 check_fallback_interval = window.setInterval(fallbackCheck, 4000
                                 , "<?php echo $headstart_path ?>server/services/getLastVersion.php?service=" + service + "&vis_id="
                                 , unique_id
+                                , service
                                 , vis_page
                                 , post_data);
                             }, 10000);

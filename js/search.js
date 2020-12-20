@@ -20,7 +20,7 @@ function getPostData(post_data, field, type) {
     return(post_data[field]);               
 }
 
-function fallbackCheck(service_url, unique_id, vis_page, post_data) {
+function fallbackCheck(service_url, unique_id, vis_page, service, post_data) {
 
     // Do not start fallback check if an error occurred
     if(error_occurred) {
@@ -31,7 +31,7 @@ function fallbackCheck(service_url, unique_id, vis_page, post_data) {
                 function(output) {
                     if (output.status === "success") {
                         search_aborted = true;
-                        redirectToMap(vis_page, unique_id, post_data);
+                        redirectToMap(vis_page, unique_id, service, post_data);
                     }
                 });
 }
@@ -75,7 +75,7 @@ function redirectToMap(vis_page, id, post_data) {
             redirect_url += "/" + post_data.param;
         })   
     } else {
-        redirect_url += "?id=" + id;
+        redirect_url += "?id=" + id + "&service=" + service;
         vis_page_additional_params.forEach(function (param) {
             redirect_url += "&" + param + "=" + post_data.param;
         });
@@ -109,7 +109,7 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
 
             if (output.status == "success") {
 
-                redirectToMap(vis_page, output.id, post_data);
+                redirectToMap(vis_page, output.id, service, post_data);
 
             } else {
                 errorOccurred();
