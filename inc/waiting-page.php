@@ -123,7 +123,7 @@ if(!empty($_POST)) {
 
         <p id="error-contact"></p>
         <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
-            <a id="error-resolution" class="donate-now nodisplay"></a>
+            <a id="error-resolution" class="basic-button nodisplay"></a>
         </p>
     </div>
 </div>

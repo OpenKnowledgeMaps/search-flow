@@ -1,3 +1,4 @@
+/* GENERAL */
 .bold {
     font-weight: 800;
     color: #2c3e52;
@@ -57,6 +58,7 @@
     text-align: left;
 }
 
+/* SEARCH FORM */
 .library {
     font-size: 18px;
     margin: 0px;
@@ -82,6 +84,73 @@
 
 .try-out-maps a {
     margin-left: 10px;
+}
+
+/* WAITING PAGE */
+.nodisplay {
+    display: none;
+}
+
+#progress p {
+    font-size:18px;
+}
+
+.search_active_state p {
+    text-align: center;
+}
+
+#progressbar {
+    height: 10px;
+    max-width: 400px;
+    margin: 10px auto;
+}
+
+#error-remedy_list li {
+    list-style: disc;
+}
+
+#error-remedy_list {
+    margin-left: 20px;
+}
+
+.waiting-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-transform: none;
+    font-weight: 800;
+}
+
+.waiting-title2 {
+    font-weight: 300;
+    font-size: 24px;
+    text-transform: none;
+    color: black;
+}
+
+.waiting-title2 strong {
+    font-weight: 800;
+}
+
+.basic-button {
+    /*text-transform: uppercase;*/
+    text-align: center; 
+    max-width: 300px;
+    width:100%;
+    display: inline-block; 
+    border: 2px solid #2d3e52;
+    background-color: #2d3e52;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none !important;
+}
+
+.basic-button:hover, .basic-button:active, .basic-button:focus {
+    color:#2d3e52;
+    background-color: transparent;
 }
 
 @media screen and (max-width: 1230px) {
@@ -130,6 +199,11 @@
         padding: 20px;
         width:90%;
         margin: 20px 0px 0px 0px;
+    }
+    
+    .basic-button {
+        font-size: 14px;
+        width: 80%;
     }
 }
 
