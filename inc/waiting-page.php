@@ -90,7 +90,7 @@ if(!empty($_POST)) {
 ?>
 </script>
 
-<div id="progress" class="mittig">
+<div id="progress" class="center-div">
     <!-- screen while knowledge map is loading -->
     <div id="active_state" class="search_active_state" style="text-align: center;">
 

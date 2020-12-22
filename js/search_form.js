@@ -65,10 +65,9 @@ var SearchOptions = {
 
         div.append('a')
                 .attr("class", "pointer refine-search")
-                .text(search_options.filters_text)
+                .text(search_options.filters_text + " ")
                 .append('span')
-                .attr("class", "awesome")
-                .text(" ")
+                .attr("class", "fas fa-angle-down underline")
 
         var filters = d3.select(tag).append('div')
                 .attr('id', 'filters')

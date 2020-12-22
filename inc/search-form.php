@@ -11,14 +11,14 @@ $waiting_page = loadConfigOption($ini_array, "waiting_page", "general");
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/search-flow.css">
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/options.css">
 
-<form id="searchform" action="#" method="POST" class="mittig2" target="_blank">
+<form id="searchform" action="#" method="POST" class="center-div2" target="_blank">
     
-    <div style="text-align: left;">
+    <div class="searchform-div">
         <p class="library"></p>
         
         <div id="filter-container"></div>
 
-        <span id="base-language-selector-container" style="display:none"></span>
+        <span id="base-language-selector-container"></span>
         
         <input type="text" name="q" size="89" required class="text-field" 
             id="searchterm" placeholder="Enter your search term" spellcheck="true" 
