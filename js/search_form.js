@@ -64,7 +64,7 @@ var SearchOptions = {
                 .attr("class", "divity")
 
         div.append('a')
-                .attr("class", "pointer refine-search")
+                .attr("class", "pointer refine-search underline")
                 .text(search_options.filters_text + " ")
                 .append('span')
                 .attr("class", "symbol fas fa-angle-down fa fa-chevron-dow underline")

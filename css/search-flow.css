@@ -12,6 +12,10 @@
     text-decoration: underline;
 }
 
+.underline:hover {
+    text-decoration: none;
+}
+
 .awesome {
     font-family: 'FontAwesome';
 }
@@ -76,6 +80,24 @@
     position: relative;
     margin-top: 0px;
     vertical-align: baseline;
+}
+
+.radio-inline input[type=radio] {
+    position: relative;
+    margin-top: 0px;
+    vertical-align: baseline;
+}
+
+.radio-inline {
+    font-weight: 100;
+    vertical-align: top;
+    display: block;
+    padding:5px 0 0px 20px; 
+}
+
+.radio-inline + .radio-inline {
+    margin-top: 0;
+    margin-left: 0px;
 }
 
 .try-out-maps {
@@ -180,6 +202,22 @@
     }
 }
 
+@media screen and (max-width: 700px) {
+
+    .radio-inline + .radio-inline {
+        display: block;
+        margin-left: 0px;
+    }
+    
+    .radio-inline {
+        display: block;
+        margin-left: 0px;
+        font-size: 16px;
+        line-height: 200%;
+    }
+}
+
+
 @media screen and (max-width: 640px) {
     
     .center-div {
@@ -218,6 +256,10 @@
     
     .library {
         margin: 10px 0px 10px 0px;
+    }
+    
+    .radio-inline {
+        font-size: 14px;
     }
     
     .text-field {
