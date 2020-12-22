@@ -1,5 +1,9 @@
 <?php
 $search_flow_config = array(
+    "params_arrays" => array(
+        "base" => array("from", "to", "document_types", "sorting", "min_descsize")
+        , "pubmed" => array("from", "to", "sorting", "article_types")
+    )
 );
 ?>
 
@@ -633,6 +637,15 @@ $search_flow_config = array(
 
             }
         }
+    }
+    
+    if(typeof search_flow_config_local !== "undefined") {
+        $.each(search_flow_config, function(config_option) {
+            if(search_flow_config_local.hasOwnProperty(config_option)) {
+                Object.assign(search_flow_config[config_option]
+                                , search_flow_config_local[config_option])
+            }
+        })
     }
 </script>
 

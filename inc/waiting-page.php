@@ -58,7 +58,7 @@ if(!empty($_POST)) {
         $date = new DateTime();
         $post_array["today"] = $date->format('Y-m-d');
 
-        $params_array = $params_arrays[$service];
+        $params_array = $search_flow_config["params_arrays"][$service];
 
         $params_json = packParamsJSON($params_array, $post_array);
         $unique_id = createID(array($query, $params_json));
@@ -131,9 +131,9 @@ if(!empty($_POST)) {
 </div>
 
  <script>
-            $("#waiting-title").html(search_flow_config.waiting_page_options.waiting_page_texts.waiting_title);
-            $("#status").html(search_flow_config.waiting_page_options.waiting_page_texts.status_waiting);
-            $("#try-again-title").html(search_flow_config.waiting_page_options.waiting_page_texts.try_again_title);
+            $("#waiting-title").html(search_flow_config.waiting_page_texts.waiting_title);
+            $("#status").html(search_flow_config.waiting_page_texts.status_waiting);
+            $("#try-again-title").html(search_flow_config.waiting_page_texts.try_again_title);
             
             var service = "<?php echo $service ?>";
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";

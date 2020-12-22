@@ -1,5 +1,5 @@
 // Everything related to the request to the server
-var error_texts = search_flow_config.waiting_page_options.error_texts;
+var error_texts = search_flow_config.error_texts;
 
 function getPostData(post_data, field, type) {
     if(!(field in post_data) || post_data[field] === 'undefined') {
@@ -138,8 +138,8 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
                 if(list_array.length > 0) {
                     let list_array_translated = [];
                     for (let item of list_array) {
-                        if(search_flow_config.waiting_page_options.error_code_translation.hasOwnProperty(item)) {
-                            list_array_translated.push(search_flow_config.waiting_page_options.error_code_translation[item]);
+                        if(search_flow_config.error_code_translation.hasOwnProperty(item)) {
+                            list_array_translated.push(search_flow_config.error_code_translation[item]);
                         } else {
                             console.log("Unrecognized error code: " + item);
                         }
@@ -324,7 +324,7 @@ function tick_function() {
     progessbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
 
     if (value >= 100) {
-        $("#status").html("<span style='color:red'>" + search_flow_config.waiting_page_options.waiting_page_texts['longer_than_expected_text'] + "</span>")
+        $("#status").html("<span style='color:red'>" + search_flow_config.waiting_page_texts['longer_than_expected_text'] + "</span>")
         $("#progressbar").progressbar("value", 5);
     }
 
