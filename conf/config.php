@@ -1,10 +1,15 @@
 <?php
 $search_flow_config = array(
-    "params_arrays" => array(
-        "base" => array("from", "to", "document_types", "sorting", "min_descsize")
-        , "pubmed" => array("from", "to", "sorting", "article_types")
-    )
+    "params_arrays" => array()
 );
+
+if(isset($search_flow_config_local)) {
+    foreach ($search_flow_config as $key => $value) {
+        if(isset($search_flow_config_local[$key])) {
+            $search_flow_config[$key] = $search_flow_config_local[$key];
+        }
+    }
+}
 ?>
 
 <script>
