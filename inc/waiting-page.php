@@ -5,6 +5,7 @@ include_once dirname(__FILE__). '../../lib/get-params.php';
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
+$search_form_page = loadConfigOption($ini_array, "search_form_page", "general");
 $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
 $vis_page = loadConfigOption($ini_array, "vis_page", "general");
 
@@ -90,7 +91,7 @@ if(!empty($_POST)) {
 ?>
 </script>
 
-<div id="progress" class="center-div">
+<div id="progress" class="waiting-page center-div">
     <!-- screen while knowledge map is loading -->
     <div id="active_state" class="search_active_state" style="text-align: center;">
 
@@ -139,7 +140,7 @@ if(!empty($_POST)) {
             //If the page is called without any data or the ID is missing, redirect to index page
             if(typeof post_data === "undefined" || unique_id === "") {
                 errorOccurred();
-                redirectToIndex();
+                redirectToIndex("<?php echo $search_form_page ?>");
                 throw new Error("No post data or ID missing");
             }
             

@@ -92,6 +92,10 @@ button {
     color: black;
 }
 
+.refine-search:hover .symbol {
+    text-decoration: none;
+}
+
 .filter-btn-highlight, .open > .dropdown-toggle.btn-default, .open > .dropdown-toggle.btn-default:hover, .open > .dropdown-toggle.btn-default:active,
 .btn-default:active, .btn-default:hover, .btn-default:focus {
     background-color: #2D3E52 !important;

@@ -188,9 +188,9 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
 
 }
 
-function redirectToIndex() {
+function redirectToIndex(search_form_page) {
     setErrorTexts(error_texts.no_post_data);
-    window.setTimeout(function() { window.location = vis_page; }, 10000);
+    window.setTimeout(function() { window.location = search_form_page; }, 10000);
 
 }
 
@@ -244,8 +244,9 @@ function setErrorContact(html_string) {
 }
 function setErrorResolution(resolution, resolution_link, show_form) {
         if(typeof show_form !== "undefined" && show_form === true) {
-            $("#new_search_form").show();
-            if(search_term_focus) {
+            $("#new_search_form").removeClass("nodisplay");
+            $("#filters").removeClass("frontend-hidden");
+            if(search_options.search_term_focus) {
                 document.getElementById("searchterm").focus({preventScroll: true});
             }
         } else {

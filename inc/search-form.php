@@ -18,7 +18,7 @@ $waiting_page = loadConfigOption($ini_array, "waiting_page", "general");
         
         <div id="filter-container"></div>
 
-        <span id="base-language-selector-container"></span>
+        <span id="base-language-selector-container" style="display: none"></span>
         
         <input type="text" name="q" size="89" required class="text-field" 
             id="searchterm" placeholder="Enter your search term" spellcheck="true" 
