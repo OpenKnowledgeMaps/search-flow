@@ -2,6 +2,7 @@
 <?php
 include_once dirname(__FILE__) . '../../lib/load-config.php';
 include_once dirname(__FILE__). '../../lib/get-params.php';
+include_once dirname(__FILE__). '../../conf/config.php';
 
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");

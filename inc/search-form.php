@@ -1,6 +1,7 @@
 <?php
 include_once dirname(__FILE__) . '../../lib/load-config.php';
 include_once dirname(__FILE__). '../../lib/get-params.php';
+include_once dirname(__FILE__). '../../conf/config.php';
 
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
@@ -65,8 +66,8 @@ var updateOptions = function(post_data) {
 var chooseOptions = function () {
     search_options_object = SearchOptions;
     if(typeof config.service !== "undefined") {
-        config.options = window["options_" + config.service];
-        config.examples = window["examples_" + config.service];
+        config.options = search_flow_config.search_options.filter_options["options_" + config.service];
+        config.examples = search_flow_config.search_options.examples["examples_" + config.service];
     }
     
     if(typeof post_data !== "undefined") {
@@ -225,7 +226,7 @@ var config = {};
 
 $(document).ready(function () {
     search_options_object = SearchOptions;
-    search_options_object.init(".library", search_options);
+    search_options_object.init(".library", search_flow_config.search_options);
     
     $('[data-toggle="popover"]').popover({trigger: "hover", placement: "top"}); 
 
@@ -255,11 +256,11 @@ $(document).ready(function () {
 
     changeLibrary();
 
-    if (search_options.search_term_focus) {
+    if (search_flow_config.search_options.search_term_focus) {
         document.getElementById("searchterm").focus({preventScroll: true});
     }
     
-    if(search_options.show_filters) {
+    if(search_flow_config.search_options.show_filters) {
         $("#filters").removeClass("frontend-hidden");
     }
 })

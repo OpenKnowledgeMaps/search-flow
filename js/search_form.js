@@ -65,7 +65,7 @@ var SearchOptions = {
 
         div.append('a')
                 .attr("class", "pointer refine-search underline")
-                .text(search_options.filters_text + " ")
+                .text(search_flow_config.search_options.filters_text + " ")
                 .append('span')
                 .attr("class", "symbol fas fa-angle-down fa fa-chevron-dow underline")
 
@@ -514,5 +514,29 @@ var SearchOptions = {
 
     }
 };
+
+var disableItem = function(id) {
+    search_flow_config.search_options.options.find(function(item) {
+        if (item.id === id) {
+            item.disabled = true;
+        }
+    })
+}
+
+var makeDefault = function(id) {
+    search_flow_config.search_options.options.find(function(item) {
+        if (item.id === id) {
+            item.default = true;
+        }
+    })
+}
+
+var removeDefault = function(id) {
+    search_flow_config.search_options.options.find(function(item) {
+        if (item.id === id) {
+            item.default = false;
+        }
+    })
+}
 
 

@@ -1,6 +1,7 @@
 <?php
 include_once dirname(__FILE__) . '../../lib/load-config.php';
 include_once dirname(__FILE__). '../../lib/get-params.php';
+include_once dirname(__FILE__). '../../conf/config.php';
 
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
@@ -130,9 +131,9 @@ if(!empty($_POST)) {
 </div>
 
  <script>
-            $("#waiting-title").html(waiting_page_texts.waiting_title);
-            $("#status").html(waiting_page_texts.status_waiting);
-            $("#try-again-title").html(waiting_page_texts.try_again_title);
+            $("#waiting-title").html(search_flow_config.waiting_page_options.waiting_page_texts.waiting_title);
+            $("#status").html(search_flow_config.waiting_page_options.waiting_page_texts.status_waiting);
+            $("#try-again-title").html(search_flow_config.waiting_page_options.waiting_page_texts.try_again_title);
             
             var service = "<?php echo $service ?>";
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
@@ -157,9 +158,9 @@ if(!empty($_POST)) {
             var search_aborted = false;
             var error_occurred = false;
             
-            var not_enough_results_links = add_not_enough_results_links;
+            var not_enough_results_links = search_flow_config.add_not_enough_results_links;
             
-            search_options.options.find(function(item) {
+            search_flow_config.search_options.options.find(function(item) {
                 if (item.id === service) {
                     script = item.script;
                     milliseconds_progressbar = item.milliseconds_progressbar;
