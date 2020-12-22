@@ -11,7 +11,7 @@ $waiting_page = loadConfigOption($ini_array, "waiting_page", "general");
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/search-flow.css">
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/options.css">
 
-<form id="searchform" action="#" method="POST" class="search-waiting-page center-div2" target="_blank">
+<form id="searchform" action="#" method="POST" class="center-div2" target="_blank">
     
     <div class="searchform-div">
         <p class="library"></p>
