@@ -1,0 +1,39 @@
+.mittig2 {
+    max-width: 560px;
+    width: 100%;
+    margin: 0px auto;
+    background-color: white;
+    padding: 30px 50px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+.search-waiting-page .mittig2 {
+    margin: 0;
+}
+
+@media screen and (max-width: 1230px) {
+
+    .mittig2 {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 865px) {
+    .mittig2 {
+        width:80%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .mittig2 {
+        padding: 20px 30px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .mittig2 {
+        padding: 10px 20px;
+    }
+}
+
