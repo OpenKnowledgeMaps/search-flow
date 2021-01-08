@@ -1,7 +1,7 @@
 <?php
 function loadConfigFile() {
-    $LOCAL_INI_FILE = dirname(__FILE__) . "../../config_local.ini";
-    $DEFAULT_INI_FILE = dirname(__FILE__) . "../../config.ini";
+    $LOCAL_INI_FILE = dirname(__FILE__) . "/../config_local.ini";
+    $DEFAULT_INI_FILE = dirname(__FILE__) . "/../config.ini";
     
     $ini_array = array();
     
@@ -10,7 +10,7 @@ function loadConfigFile() {
     } else if(file_exists($DEFAULT_INI_FILE)) {
         $ini_array = parse_ini_file($DEFAULT_INI_FILE, true);
     } else {
-        die("No config file found.");
+        die("No config file found at " . $LOCAL_INI_FILE);
     }
     
     return $ini_array;

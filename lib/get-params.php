@@ -2,7 +2,8 @@
 
 // Returns parameter or false in case of error/filter failure
 function getParam($param, $where = INPUT_GET, $filter = FILTER_SANITIZE_STRING
-                    , $return_false_nonexistent = false) {
+                    , $return_false_nonexistent = false
+                    , $return_false_null = false) {
     
    $boolean_filter = $filter === FILTER_VALIDATE_BOOLEAN;
     
@@ -21,6 +22,12 @@ function getParam($param, $where = INPUT_GET, $filter = FILTER_SANITIZE_STRING
             return false;
         } else {
             die("The following parameter does not exist: ". $param);
+        }
+    }
+    
+    if($return_false_null) {
+        if($return_param === null) {
+            return false;
         }
     }
 
