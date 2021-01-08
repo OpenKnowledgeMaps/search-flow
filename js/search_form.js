@@ -183,7 +183,8 @@ var SearchOptions = {
                 }()
                 , onChange: function (element, checked) {
                     if (checked === true) {
-                        if(dropdown_class === ".dropdown_multi_time_range") {
+                        if(dropdown_class === ".dropdown_multi_time_range" 
+                                || dropdown_class === ".dropdown_multi_year_range") {
                             if (element.val() !== "user-defined") {
                                 self.user_defined_date = false;
                                 d3.select("#input-container").style("display", "none");

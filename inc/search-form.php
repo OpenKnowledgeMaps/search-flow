@@ -131,7 +131,7 @@ var chooseOptions = function () {
     if (valueExists("id", "time_range")) {
         let value = getFirstSelectedOption("time_range");
         if(value !== "user-defined") {
-            let start_date = (config.service === "base")?("1665-01-01"):("1809-01-01");
+            let start_date = config.options.start_date;
             search_options_object.addDatePickerFromTo("#from", "#to", value, start_date);
         } else {
             let start_date = getInputDate("from");
@@ -140,10 +140,10 @@ var chooseOptions = function () {
         }
         
     } else if (valueExists("id", "year_range")) {
-        let value = getFirstSelectedOption("time_range");
+        let value = getFirstSelectedOption("year_range");
         
         if(value !== "user-defined") {
-            let start_year = "1809";
+            let start_year = config.options.start_date;
             search_options_object.setDateRangeFromPreset("#from", "#to", value, start_year);
         } else {
             let start_year = getInputDate("from");
@@ -271,9 +271,9 @@ $("#searchform").submit(function (e) {
     var webkit = !!ua.match(/WebKit/i);
     var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
-    if(iOSSafari) {
+    //if(iOSSafari) {
         $("#searchform").attr("target", "");
-    }
+    //}
 
     if (!(browser === "Firefox" || browser === "Safari" || browser === "Chrome")) {
         let alert_message = 'You are using an unsupported browser.'
