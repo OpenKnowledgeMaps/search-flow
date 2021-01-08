@@ -127,7 +127,8 @@ if(!empty($_POST)) {
             $("#status").html(search_flow_config.waiting_page_texts.status_waiting);
             $("#try-again-title").html(search_flow_config.waiting_page_texts.try_again_title);
             
-            var service = "<?php echo $service ?>";
+            const params = new URLSearchParams(location.search);
+            var service = params.get("service");
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
             //If the page is called without any data or the ID/service parameter is missing, redirect to index page
@@ -137,7 +138,6 @@ if(!empty($_POST)) {
                 throw new Error("No post data or ID missing");
             }
             
-            const params = new URLSearchParams(location.search);
             params.set('id', unique_id);
             window.history.replaceState({}, '', `${location.pathname}?${params}`);
 
