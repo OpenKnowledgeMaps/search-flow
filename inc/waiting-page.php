@@ -74,14 +74,6 @@ if(!empty($_POST)) {
 }
 ?>
 
-<style>
-#progressbar .ui-widget-header {
-    background: #e55137;
-    border: 1px solid #DDDDDD;
-    color: #333333;
-    font-weight: bold;
-}
-</style>
 <script src="<?php echo $searchflow_path ?>js/search.js"></script>
 <script>
 <?php
@@ -138,8 +130,8 @@ if(!empty($_POST)) {
             var service = "<?php echo $service ?>";
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
-            //If the page is called without any data or the ID is missing, redirect to index page
-            if(typeof post_data === "undefined" || unique_id === "") {
+            //If the page is called without any data or the ID/service parameter is missing, redirect to index page
+            if(typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
                 redirectToIndex("<?php echo $search_form_page ?>");
                 throw new Error("No post data or ID missing");
