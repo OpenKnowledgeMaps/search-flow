@@ -271,9 +271,9 @@ $("#searchform").submit(function (e) {
     var webkit = !!ua.match(/WebKit/i);
     var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
-    //if(iOSSafari) {
+    if(iOSSafari) {
         $("#searchform").attr("target", "");
-    //}
+    }
 
     if (!(browser === "Firefox" || browser === "Safari" || browser === "Chrome")) {
         let alert_message = 'You are using an unsupported browser.'
