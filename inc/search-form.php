@@ -271,7 +271,7 @@ $("#searchform").submit(function (e) {
     var webkit = !!ua.match(/WebKit/i);
     var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
-    if(iOSSafari) {
+    if(iOSSafari || "<?php echo $is_debug ?>" === "1") {
         $("#searchform").attr("target", "");
     }
 
