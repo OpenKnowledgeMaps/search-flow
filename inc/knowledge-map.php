@@ -8,12 +8,10 @@ $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
 $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
-
-$embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true);
 ?>
 <script src="<?php echo $searchflow_path ?>js/knowledge-map.js"></script>
 <script>
-    <?php if (!$embed): ?>
+    <?php if (!$is_embed): ?>
         $(document).ready( function () {
             $(window).on("resize", function () {
                 let debug = <?php echo ($is_debug)?("true"):("false") ?>
@@ -35,7 +33,7 @@ $embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true);
 <script>
     var div_height = calcDivHeight(<?php echo ($is_debug)?("true"):("false") ?>, fit_to_page);
 
-    <?php if (!$embed): ?>
+    <?php if (!$is_embed): ?>
         $(".overflow-vis").css("min-height", div_height + "px")
         $("#visualization").css("min-height", div_height + "px")
     <?php endif ?>
@@ -56,7 +54,7 @@ $embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true);
     </script>          
 <?php endif ?>
 
-<?php if($embed): ?>
+<?php if($is_embed): ?>
     <script>
         data_config.credit_embed = true;
     </script>

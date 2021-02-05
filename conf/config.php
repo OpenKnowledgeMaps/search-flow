@@ -3,8 +3,12 @@ $search_flow_config = array(
     "params_arrays" => array(
         "integration1" => array("from", "to", "article_types")
     )
-    , "vis_default_id" => "zika"
-    , "vis_default_query" => "zika"
+    , "enable_default_id" => false
+    , "default_id" => ""
+    , "enable_default_query" => false
+    , "default_query" => ""
+    , "enable_default_service" => false
+    , "default_service" => ""
     , "enable_custom_title" => false
 );
 
