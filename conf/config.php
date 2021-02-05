@@ -3,6 +3,9 @@ $search_flow_config = array(
     "params_arrays" => array(
         "integration1" => array("from", "to", "article_types")
     )
+    , "vis_default_id" => "zika"
+    , "vis_default_query" => "zika"
+    , "enable_custom_title" => false
 );
 
 if(isset($search_flow_config_local)) {
