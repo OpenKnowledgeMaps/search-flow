@@ -15,6 +15,9 @@ if($id === false || $id === "") {
     }
 }
 
+$vis_type = getParam("vis_type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+$has_vis_type = ($vis_type === false)?(false):(true);
+
 $protocol_server = getParam("HTTPS", INPUT_SERVER, FILTER_SANITIZE_STRING, true, true);
 $protocol = $protocol_server !== false && $protocol_server !== 'off' ? 'https:' : 'http:';
 
@@ -27,21 +30,23 @@ $has_custom_title = ($custom_title !== false)?(true):(false);
 
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true);
 
-$context_json = curl_get_contents($protocol . $headstart_path . "server/services/getContext.php?vis_id=$id");
-$context = json_decode($context_json);
+if($search_flow_config["vis_load_context"]) {
+    $context_json = curl_get_contents($protocol . $headstart_path . "server/services/getContext.php?vis_id=$id");
+    $context = json_decode($context_json);
 
-$service = setVariableFromContext($context
-                                    , "service"
-                                    , $search_flow_config["enable_default_service"]
-                                    , $search_flow_config["default_service"]);
+    $service = setVariableFromContext($context
+                                        , "service"
+                                        , $search_flow_config["enable_default_service"]
+                                        , $search_flow_config["default_service"]);
 
-$query = setVariableFromContext($context
-                                    , "query"
-                                    , $search_flow_config["enable_default_query"]
-                                    , $search_flow_config["default_query"]);
-            
-$query = preg_replace("/\\\\\"/", "&quot;", $query);
-$query = preg_replace("/\\\'/", "&apos;", $query);
+    $query = setVariableFromContext($context
+                                        , "query"
+                                        , $search_flow_config["enable_default_query"]
+                                        , $search_flow_config["default_query"]);
+
+    $query = preg_replace("/\\\\\"/", "&quot;", $query);
+    $query = preg_replace("/\\\'/", "&apos;", $query);
+}
 
 function curl_get_contents($url) {
     $ch = curl_init($url);

@@ -3,6 +3,7 @@ $search_flow_config = array(
     "params_arrays" => array(
         "integration1" => array("from", "to", "article_types")
     )
+    , "vis_load_context" => true
     , "enable_default_id" => false
     , "default_id" => ""
     , "enable_default_query" => false
