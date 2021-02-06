@@ -11,6 +11,91 @@ $search_flow_config = array(
     , "enable_default_service" => false
     , "default_service" => ""
     , "enable_custom_title" => false
+    , "filter_options" => [
+        "options_integration1" =>
+            [
+            'start_date' => '1809-01-01',
+            'dropdowns' => [
+                [
+                    'id' => 'time_range',
+                    'multiple' => false,
+                    'name' => 'Time Range',
+                    'type' => 'dropdown',
+                    'fields' => [
+                        [
+                            'id' => 'any-time',
+                            'text' => 'Any time'
+                        ],
+                        [
+                            'id' => 'last-month',
+                            'text' => 'Last month'
+                        ],
+                        [
+                            'id' => 'last-year',
+                            'text' => 'Last year'
+                        ],
+                        [
+                            'id' => 'user-defined',
+                            'text' => 'Custom range',
+                            'class' => 'user-defined',
+                            'inputs' => [
+                                [
+                                    'id' => 'from',
+                                    'label' => 'From: ',
+                                    'class' => 'time_input'
+                                ],
+                                [
+                                    'id' => 'to',
+                                    'label' => 'To: ',
+                                    'class' => 'time_input'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'id' => 'sorting',
+                    'multiple' => false,
+                    'name' => 'Sorting',
+                    'type' => 'dropdown',
+                    'fields' => [
+                        [
+                            'id' => 'most-relevant',
+                            'text' => 'Most relevant'
+                        ],
+                        [
+                            'id' => 'most-recent',
+                            'text' => 'Most recent'
+                        ]
+                    ]
+                ],
+                [
+                    'id' => 'article_types',
+                    'multiple' => true,
+                    'width' => '140px',
+                    'name' => 'Article types',
+                    'type' => 'dropdown',
+                    'fields' => [
+                        [
+                            'id' => 'adaptive clinical trial',
+                            'text' => 'Adaptive Clinical Trial',
+                            'selected' => true
+                        ],
+                        [
+                            'id' => 'address',
+                            'text' => 'Address',
+                            'selected' => true
+                        ],
+                        [
+                            'id' => 'autobiography',
+                            'text' => 'Autobiography',
+                            'selected' => true
+                        ]
+                    ]
+                ]
+            ]
+        ]
+   ]
 );
 
 if(isset($search_flow_config_local)) {
@@ -45,36 +130,8 @@ if(isset($search_flow_config_local)) {
                     ]
                 }
             }
-            , filter_options: {
-
-                options_integration1: {
-                    start_date: "1809-01-01",
-                    dropdowns: [
-                        {id: "time_range", multiple: false, name: "Time Range", type: "dropdown"
-                            , fields: [
-                                {id: "any-time", text: "Any time"}
-                                , {id: "last-month", text: "Last month"}
-                                , {id: "last-year", text: "Last year"}
-                                , {id: "user-defined", text: "Custom range", class: "user-defined",
-                                    inputs: [
-                                        {id: "from", label: "From: ", class: "time_input"}
-                                        , {id: "to", label: "To: ", class: "time_input"}
-                                    ]}
-                            ]},
-                        {id: "sorting", multiple: false, name: "Sorting", type: "dropdown"
-                            , fields: [
-                                {id: "most-relevant", text: "Most relevant"}
-                                , {id: "most-recent", text: "Most recent"}
-                            ]},
-                        {id: "article_types", multiple: true, width: "140px", name: "Article types", type: "dropdown"
-                            , fields: [
-                                {id: "adaptive clinical trial", text: "Adaptive Clinical Trial", selected: true}
-                                , {id: "address", text: "Address", selected: true}
-                                , {id: "autobiography", text: "Autobiography", selected: true}
-                            ]}
-                    ]
-                }
-            }
+            //empty shell for filter options - do not fill in here, fill in in PHP part above
+            , filter_options: {}
         }
         , waiting_page_options: {
             add_not_enough_results_links: true
@@ -176,5 +233,9 @@ if(isset($search_flow_config_local)) {
             }
         }
     }
+    
+    <?php foreach($search_flow_config["filter_options"] as $name => $options): ?>
+        search_flow_config.search_options.filter_options.<?= $name; ?> = <?= json_encode($options) ?>;
+    <?php endforeach; ?>
 </script>
 

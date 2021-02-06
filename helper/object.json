@@ -1,0 +1,27 @@
+{
+    start_date: "1809-01-01",
+    dropdowns: [
+        {id: "time_range", multiple: false, name: "Time Range", type: "dropdown"
+            , fields: [
+                {id: "any-time", text: "Any time"}
+                , {id: "last-month", text: "Last month"}
+                , {id: "last-year", text: "Last year"}
+                , {id: "user-defined", text: "Custom range", class: "user-defined",
+                    inputs: [
+                        {id: "from", label: "From: ", class: "time_input"}
+                        , {id: "to", label: "To: ", class: "time_input"}
+                    ]}
+            ]},
+        {id: "sorting", multiple: false, name: "Sorting", type: "dropdown"
+            , fields: [
+                {id: "most-relevant", text: "Most relevant"}
+                , {id: "most-recent", text: "Most recent"}
+            ]},
+        {id: "article_types", multiple: true, width: "140px", name: "Article types", type: "dropdown"
+            , fields: [
+                {id: "adaptive clinical trial", text: "Adaptive Clinical Trial", selected: true}
+                , {id: "address", text: "Address", selected: true}
+                , {id: "autobiography", text: "Autobiography", selected: true}
+            ]}
+    ]
+}
