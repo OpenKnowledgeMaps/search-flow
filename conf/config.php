@@ -78,9 +78,23 @@ if(isset($search_flow_config_local)) {
         , waiting_page_options: {
             add_not_enough_results_links: true
             //Whether the vis_page is a cool URI (e.g. "map/21043904") or uses standard parameter form (e.g. "vis?id=21043904")
-            , vis_page_cool_uri: true
-            //Parameters for the vis page
-            , vis_page_additional_params: []
+            , vis_page_cool_uri: false
+            // Parameters for the vis page
+            // id: id in post_params array
+            // name: name of the param passed to vis page
+            // (optional) value: a specific value for this parameter
+            //      example: { id: 'embed', name: 'embed', value: 'true' } sets parameter 'embed' to true
+            //      you can also transform parameter values here with key value pairs
+            //      , e.g. value: {'triple_km': 'overview', 'triple_sg': 'timeline'} 
+            , vis_page_params: [
+                { id: 'unique_id', name: 'id' }
+                , {id: "optradio", "name": "vis_type", value: {'triple_km': 'overview', 'triple_sg': 'timeline'}}
+            ]
+            // For cool URIs the ability to add "classic" parameters with "&param=value"
+            // For classic URIs, it will simply append the parameters in here
+            , vis_page_additional_params: [
+                { id: 'embed', name: 'embed', value: "true" }
+            ]
             , error_always_add: [
                 'typo'
             ]   

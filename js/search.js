@@ -66,23 +66,43 @@ function errorOccurred() {
     $("#error_state").removeClass("nodisplay");
 }
 
-function redirectToMap(vis_page, id, post_data) {
+function redirectToMap(vis_page, id, service, post_data) {
     $("#progressbar").progressbar("option", "value", 100);
     window.clearTimeout(progessbar_timeout);
     let redirect_url = vis_page;
     if(search_flow_config.waiting_page_options.vis_page_cool_uri) {
-        redirect_url += "/" + id;
-        search_flow_config.waiting_page_options.vis_page_additional_params.forEach(function (param) {
-            redirect_url += "/" + post_data.param;
-        })   
+        search_flow_config.waiting_page_options.vis_page_params.forEach(function (param) {
+            redirect_url += "/" + createParamValue(param, post_data);
+        })
     } else {
-        redirect_url += "?id=" + id + "&service=" + service;
-        search_flow_config.waiting_page_options.vis_page_additional_params.forEach(function (param) {
-            redirect_url += "&" + param + "=" + post_data.param;
+        search_flow_config.waiting_page_options.vis_page_params.forEach(function (param, i) {
+            redirect_url += createParamName(param, i) + createParamValue(param, post_data);
         });
     }
     
+    search_flow_config.waiting_page_options.vis_page_additional_params.forEach(function (param, i) {
+        redirect_url += createParamName(param, i) + createParamValue(param, post_data);
+    });
+    
     window.location.replace(redirect_url);
+}
+
+function createParamName(param, i) {
+    return ((i===0)?("?"):("&")) + param.name + "=";
+}
+
+function createParamValue(param, post_data) {
+    let ret_value = "";
+    if (param.hasOwnProperty("value")) {
+        if(typeof param.value === "string") {
+            ret_value = param.value;
+        } else {
+            ret_value = param.value[post_data[param.id]];
+        }
+    } else {
+        ret_value = post_data[param.id];
+    }
+    return ret_value;
 }
 
 var getSearchTermShort = function (search_term) {
