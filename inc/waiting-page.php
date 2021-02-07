@@ -9,6 +9,7 @@ $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 $search_form_page = $search_flow_config["search_form_page"];
 $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
 $vis_page = $search_flow_config["vis_page"];
+$filter_options = $search_flow_config["filter_options"];
 
 // This fixes a bug in iOS Safari where an inactive tab would forget the post 
 // parameters - usually when the user opens a different tab while waiting for
@@ -45,13 +46,81 @@ function createID($string_array) {
     return md5($string_to_hash);
 }
 
+function createGetRequestArray($get_query, $service, $filter_options) {
+    $ret_array = [
+        "q" => $get_query   
+    ];
+    
+    $current_options = $filter_options["options_" . $service];
+    foreach($current_options["dropdowns"] as $options) {
+        $param = $options["id"];
+        $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        if($param_get !== false) {
+            $ret_array[$param] = $param_get;
+        } else {
+            if($options["id"] === "time_range" || $options["id"] === "year_range") {
+                $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                
+                if($param_from === false) {
+                    $date = new DateTime();
+                    $ret_array["from"] = $current_options["start_date"];
+                } else {
+                    $ret_array["from"] = $param_from;
+                }
+                
+                if($param_to === false) {
+                    if(isset($current_options["end_date"])) {
+                        $to_date = $current_options["end_date"];
+                    } else if($options["id"] === "time_range") {
+                        $to_date = $date->format("Y-m-d");
+                    } else if ($options["id"] === "year_range") {
+                        $to_date = $date->format("Y");
+                    }
+
+                    $ret_array["to"] = $to_date;
+                } else {
+                    $ret_array["to"] = $param_to;
+                }
+            } else if($options["multiple"] === true) {
+                $id_array = [];
+                foreach($options["fields"] as $field) {
+                    if(isset($field["selected"]) && $field["selected"] === true) {
+                        $id_array[] = $field["id"];
+                    }
+                }
+                $ret_array[$param] = $id_array;
+            } else {
+                $ret_array[$param] = $options["fields"][0]["id"];
+            }
+        }
+    }
+    
+    return $ret_array;
+}
+
+$request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+$get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
 $unique_id = "";
 $dirty_query = "";
+$post_array = array();
+$has_sufficient_data = false;
 
 if(!empty($_POST)) {
     $post_array = $_POST;
     $dirty_query = $post_array["q"];
+    $has_sufficient_data = true;
+}
+
+if ($search_flow_config["enable_get_requests"] && $request_type === "get" 
+        && $get_query !== false && $service !== false && $service !== null) {
     
+    $post_array = createGetRequestArray($get_query, $service, $filter_options);
+    $dirty_query = $get_query;
+    $has_sufficient_data = true;
+}
+
+if($has_sufficient_data) {    
     if(!isset($post_array["unique_id"])) {
         $query = addslashes(trim(strtolower(strip_tags($dirty_query))));
         
