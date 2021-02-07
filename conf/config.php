@@ -147,11 +147,11 @@ if(isset($search_flow_config_local)) {
             , vis_page_params: [
                 { id: 'unique_id', name: 'id' }
                 , {id: "optradio", "name": "vis_type", value: {'triple_km': 'overview', 'triple_sg': 'timeline'}}
+                , { id: 'embed', name: 'embed', value: "true" }
             ]
             // For cool URIs the ability to add "classic" parameters with "&param=value"
             // For classic URIs, it will simply append the parameters in here
             , vis_page_additional_params: [
-                { id: 'embed', name: 'embed', value: "true" }
             ]
             , error_always_add: [
                 'typo'

@@ -70,25 +70,27 @@ function redirectToMap(vis_page, id, service, post_data) {
     $("#progressbar").progressbar("option", "value", 100);
     window.clearTimeout(progessbar_timeout);
     let redirect_url = vis_page;
+    let has_previous_params = false;
     if(search_flow_config.waiting_page_options.vis_page_cool_uri) {
         search_flow_config.waiting_page_options.vis_page_params.forEach(function (param) {
             redirect_url += "/" + createParamValue(param, post_data);
         })
     } else {
         search_flow_config.waiting_page_options.vis_page_params.forEach(function (param, i) {
-            redirect_url += createParamName(param, i) + createParamValue(param, post_data);
+            redirect_url += createParamName(param, i, has_previous_params) + createParamValue(param, post_data);
+            has_previous_params = true;
         });
     }
     
     search_flow_config.waiting_page_options.vis_page_additional_params.forEach(function (param, i) {
-        redirect_url += createParamName(param, i) + createParamValue(param, post_data);
+        redirect_url += createParamName(param, i, has_previous_params) + createParamValue(param, post_data);
     });
     
     window.location.replace(redirect_url);
 }
 
-function createParamName(param, i) {
-    return ((i===0)?("?"):("&")) + param.name + "=";
+function createParamName(param, i, has_previous_params) {
+    return ((i===0 && !has_previous_params)?("?"):("&")) + param.name + "=";
 }
 
 function createParamValue(param, post_data) {
