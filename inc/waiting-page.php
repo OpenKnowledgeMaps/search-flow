@@ -140,7 +140,7 @@ if($has_sufficient_data) {
     }
     
     $post_array["service"] = $service;
-    
+    $post_array["optradio"] = $service;
     $post_data = json_encode($post_array);
 }
 ?>

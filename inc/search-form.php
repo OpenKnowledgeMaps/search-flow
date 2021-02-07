@@ -228,7 +228,11 @@ $(document).ready(function () {
     search_options_object = SearchOptions;
     search_options_object.init(".library", search_flow_config.search_options);
     
-    $('[data-toggle="popover"]').popover({trigger: "hover", placement: "top"}); 
+    if(typeof service !== 'undefined' && service !== null && service !== false) {
+        $("input[name='optradio'][value='"+ service + "']").attr("checked", true);
+    }
+    
+    $('[data-toggle="popover"]').popover({trigger: "hover", placement: "top"});
 
     var changeLibrary = function () {
         config.service = $("input[name='optradio']:checked").val();
