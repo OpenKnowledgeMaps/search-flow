@@ -3,11 +3,12 @@
 // Returns parameter or false in case of error/filter failure
 function getParam($param, $where = INPUT_GET, $filter = FILTER_SANITIZE_STRING
                     , $return_false_nonexistent = false
-                    , $return_false_null = false) {
+                    , $return_false_null = false
+                    , $options = array()) {
     
    $boolean_filter = $filter === FILTER_VALIDATE_BOOLEAN;
     
-   $return_param = filter_input($where, $param, $filter);
+   $return_param = filter_input($where, $param, $filter, $options);
     
     if(!$boolean_filter && $return_param === false) {
         die("An error ocurred while retrieving the following parameter: " . $param);

@@ -100,7 +100,7 @@ function createGetRequestArray($get_query, $service, $filter_options) {
 }
 
 $request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-$get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+$get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
 $dirty_query = "";
 $post_array = array();
@@ -138,6 +138,8 @@ if($has_sufficient_data) {
     } else {
         $unique_id = $post_array["unique_id"];
     }
+    
+    $post_array["service"] = $service;
     
     $post_data = json_encode($post_array);
 }
@@ -243,8 +245,8 @@ if($has_sufficient_data) {
                                 check_fallback_interval = window.setInterval(fallbackCheck, 4000
                                 , "<?php echo $headstart_path ?>server/services/getLastVersion.php?service=" + service + "&vis_id="
                                 , unique_id
-                                , service
                                 , vis_page
+                                , service
                                 , post_data);
                             }, 10000);
                             
