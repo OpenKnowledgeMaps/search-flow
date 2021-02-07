@@ -6,7 +6,7 @@ include_once dirname(__FILE__). '../../conf/config.php';
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
-$waiting_page = loadConfigOption($ini_array, "waiting_page", "general");
+$waiting_page = $search_flow_config["waiting_page"];
 ?>
 
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/search-flow.css">

@@ -1,6 +1,9 @@
 <?php
 $search_flow_config = array(
-    "params_arrays" => array(
+    "search_form_page" => "index.php"
+    , "waiting_page" => "search.php"
+    , "vis_page" => "headstart.php"
+    , "params_arrays" => array(
         "integration1" => array("from", "to", "article_types")
     )
     , "vis_load_context" => true

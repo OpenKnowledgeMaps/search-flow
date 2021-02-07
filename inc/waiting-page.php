@@ -6,9 +6,9 @@ include_once dirname(__FILE__). '../../conf/config.php';
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
-$search_form_page = loadConfigOption($ini_array, "search_form_page", "general");
+$search_form_page = $search_flow_config["search_form_page"];
 $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
-$vis_page = loadConfigOption($ini_array, "vis_page", "general");
+$vis_page = $search_flow_config["vis_page"];
 
 // This fixes a bug in iOS Safari where an inactive tab would forget the post 
 // parameters - usually when the user opens a different tab while waiting for
@@ -134,7 +134,7 @@ if(!empty($_POST)) {
             //If the page is called without any data or the ID/service parameter is missing, redirect to index page
             if(typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
-                redirectToIndex("<?php echo $search_form_page ?>");
+                redirectToIndex("<?php echo $search_form_page; ?>");
                 throw new Error("No post data or ID missing");
             }
             
