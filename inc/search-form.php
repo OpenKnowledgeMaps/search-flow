@@ -46,12 +46,14 @@ var updateOptions = function(post_data) {
                 for (let dropdown_field of dropdown.fields) {
                     if(dropdown_field.id === post_field || (Array.isArray(post_field) && post_field.includes(dropdown_field.id))) {
                         dropdown_field.selected = true;
-                        if(dropdown.id === "time_range" && dropdown_field.id === "user-defined") {
+                        if((dropdown.id === "time_range" || dropdown.id === "year_range") 
+                                && dropdown_field.id === "user-defined") {
                             for(let input of dropdown_field.inputs) {
                                 if(post_data.hasOwnProperty(input.id)) {
                                     input.text = post_data[input.id];
                                 }
-                            }
+                            }                            
+                            search_options_object.user_defined_date = true;
                         }
                     } else {
                         dropdown_field.selected = false;
@@ -70,7 +72,7 @@ var chooseOptions = function () {
         config.examples = search_flow_config.search_options.examples["examples_" + config.service];
     }
     
-    if(typeof post_data !== "undefined") {
+    if(typeof post_data !== "undefined" && config.service === post_data.service) {
         updateOptions(post_data);
     }
     search_options_object.drawFilters("#filter-container", config.options);
@@ -266,6 +268,9 @@ $(document).ready(function () {
     
     if(search_flow_config.search_options.show_filters) {
         $("#filters").removeClass("frontend-hidden");
+        if (self.user_defined_date) {
+            $("#input-container").css("display", "block");
+        }
     }
 })
 

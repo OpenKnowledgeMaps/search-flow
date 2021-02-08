@@ -67,7 +67,8 @@ var SearchOptions = {
                 .attr("class", "pointer refine-search underline")
                 .text(search_flow_config.search_options.filters_text + " ")
                 .append('span')
-                .attr("class", "symbol fas fa-angle-down fa fa-chevron-dow underline")
+                .attr("class", "awesome")
+                .text("")
 
         var filters = d3.select(tag).append('div')
                 .attr('id', 'filters')
