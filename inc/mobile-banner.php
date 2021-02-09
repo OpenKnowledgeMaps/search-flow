@@ -2,7 +2,7 @@
 include_once dirname(__FILE__). '../../conf/config.php';
 include_once dirname(__FILE__). '../../php/header.php';
 
-if (!$detect->isMobile()): 
+if ($detect->isMobile()): 
 ?>
 
     <div class="alert alert-warning" id="desktop-warning">
