@@ -1,6 +1,6 @@
 <?php
-include_once dirname(__FILE__) . '../../lib/load-config.php';
-include_once dirname(__FILE__). '../../lib/get-params.php';
+include_once dirname(__FILE__) . '../../php/load-config.php';
+include_once dirname(__FILE__). '../../php/get-params.php';
 include_once dirname(__FILE__). '../../conf/config.php';
 
 $ini_array = loadConfigFile();
@@ -9,6 +9,7 @@ $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 $waiting_page = $search_flow_config["waiting_page"];
 ?>
 
+<link rel="stylesheet" href="<?php echo $searchflow_path ?>lib/font-awesome.min.css" >
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/search-flow.css">
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/options.css">
 
