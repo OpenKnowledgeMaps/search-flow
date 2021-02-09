@@ -1,10 +1,6 @@
 <?php
-include_once dirname(__FILE__) . '../../php/load-config.php';
-include_once dirname(__FILE__). '../../php/get-params.php';
 include_once dirname(__FILE__). '../../conf/config.php';
-
-$ini_array = loadConfigFile();
-$headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
+include_once dirname(__FILE__). '../../php/header.php';
 
 $id = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
 if($id === false || $id === "") {

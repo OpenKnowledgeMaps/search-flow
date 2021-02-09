@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <?php
-include_once dirname(__FILE__) . '../../php/load-config.php';
-include_once dirname(__FILE__). '../../php/get-params.php';
 include_once dirname(__FILE__). '../../conf/config.php';
+include_once dirname(__FILE__). '../../php/header.php';
 
-$ini_array = loadConfigFile();
-$is_debug = loadConfigOption($ini_array, "debug", "general");
-$headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
-$searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 ?>
 <script src="<?php echo $searchflow_path ?>js/knowledge-map.js"></script>
 <script>

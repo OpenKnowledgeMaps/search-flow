@@ -242,4 +242,3 @@ if(isset($search_flow_config_local)) {
         search_flow_config.search_options.filter_options.<?= $name; ?> = <?= json_encode($options) ?>;
     <?php endforeach; ?>
 </script>
-

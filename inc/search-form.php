@@ -1,11 +1,7 @@
 <?php
-include_once dirname(__FILE__) . '../../php/load-config.php';
-include_once dirname(__FILE__). '../../php/get-params.php';
 include_once dirname(__FILE__). '../../conf/config.php';
+include_once dirname(__FILE__). '../../php/header.php';
 
-$ini_array = loadConfigFile();
-$is_debug = loadConfigOption($ini_array, "debug", "general");
-$searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 $waiting_page = $search_flow_config["waiting_page"];
 ?>
 
@@ -285,7 +281,7 @@ $("#searchform").submit(function (e) {
         $("#searchform").attr("target", "");
     }
 
-    if (!(browser === "Firefox" || browser === "Safari" || browser === "Chrome")) {
+    if (!is_supported_browser) {
         let alert_message = 'You are using an unsupported browser.'
                             + ' We strongly suggest to switch to one of the supported browsers'
                             + ' before continuing. Otherwise, the search may not work as expected.'
