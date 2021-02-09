@@ -3,7 +3,16 @@
 include_once dirname(__FILE__). '../../conf/config.php';
 include_once dirname(__FILE__). '../../php/header.php';
 
+if ($detect->isMobile()):
 ?>
+    <script>
+        //Enable overflow on mobile so you can pinch and zoom
+        $(document).ready(function () {
+            $(".overflow-vis").css("overflow-y", "visible");
+        })
+    </script>
+<?php endif; ?>
+
 <script src="<?php echo $searchflow_path ?>js/knowledge-map.js"></script>
 <script>
     <?php if (!$is_embed): ?>
