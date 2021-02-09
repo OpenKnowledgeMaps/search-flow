@@ -71,7 +71,7 @@
 
 /* BANNERS */
 
-.desktop-warning {
+#desktop-warning {
     margin-bottom: 0px;
     padding-left: 50px;
     background-color: #f1c500;
@@ -237,7 +237,7 @@
 
 @media screen and (max-width: 640px) {
     
-    .desktop-warning {
+    #desktop-warning {
         padding-left: 20px;
     }
     

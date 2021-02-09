@@ -5,8 +5,7 @@ include_once dirname(__FILE__). '../../php/header.php';
 $waiting_page = $search_flow_config["waiting_page"];
 ?>
 
-<link rel="stylesheet" href="<?php echo $searchflow_path ?>lib/font-awesome.min.css" >
-<link rel="stylesheet" href="<?php echo $searchflow_path ?>css/search-flow.css">
+<link rel="stylesheet" href="<?php echo $searchflow_path ?>lib/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/options.css">
 
 <form id="searchform" action="#" method="POST" class="center-div2" target="_blank">
