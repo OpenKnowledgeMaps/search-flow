@@ -18,6 +18,7 @@ $search_flow_config = array(
     , "enable_default_service" => false
     , "default_service" => ""
     , "enable_custom_title" => false
+    , "banner_alternate_desktop_warning" => false
     , "filter_options" => [
         "options_integration1" =>
             [
@@ -232,6 +233,7 @@ if(isset($search_flow_config_local)) {
         , banner_texts: {
             browser_unsupported_warning: 'You are using <strong>an unsupported browser</strong>. This website was successfully tested with the latest versions of <strong>Firefox, Chrome, Safari, Opera, and Edge</strong>. We strongly suggest <strong>to switch to one of the supported browsers.</strong>' 
             , mobile_warning: 'Note: the map isn\'t optimized for mobile yet, you may encounter some rough edges.'
+            , alternate_desktop_warning: 'This is a prototype - you may encounter some rough edges'
         }
     }
     
