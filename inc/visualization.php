@@ -13,7 +13,7 @@ if ($detect->isMobile()):
     </script>
 <?php endif; ?>
 
-<script src="<?php echo $searchflow_path ?>js/knowledge-map.js"></script>
+<script src="<?php echo $searchflow_path ?>js/visualization.js"></script>
 <script>
     <?php if (!$is_embed): ?>
         $(document).ready( function () {
