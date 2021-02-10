@@ -235,6 +235,9 @@ if(isset($search_flow_config_local)) {
             , mobile_warning: 'Note: the map isn\'t optimized for mobile yet, you may encounter some rough edges.'
             , alternate_desktop_warning: 'This is a prototype - you may encounter some rough edges'
         }
+        , context_texts: {
+            citation_intro: 'Please cite this map as follows:'
+        }
     }
     
     if(typeof search_flow_config_local !== "undefined") {

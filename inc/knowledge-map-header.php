@@ -42,6 +42,12 @@ if($search_flow_config["vis_load_context"]) {
 
     $query = preg_replace("/\\\\\"/", "&quot;", $query);
     $query = preg_replace("/\\\'/", "&apos;", $query);
+    
+    $timestamp = setVariableFromContext($context, "timestamp");
+    
+    $publication_year = ($timestamp !== null)
+                                ? ((new DateTime($timestamp))->format('Y'))
+                                 : ("n.d.");
 }
 
 function curl_get_contents($url) {
