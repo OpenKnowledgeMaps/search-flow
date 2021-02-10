@@ -6,6 +6,9 @@ $search_flow_config = array(
     , "params_arrays" => array(
         "integration1" => array("from", "to", "article_types")
     )
+    , "optional_get_params" => [
+        "integration1" => []
+    ]
     , "enable_get_requests" => false
     , "vis_load_context" => true
     , "enable_default_id" => false

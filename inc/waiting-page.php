@@ -47,10 +47,13 @@ function createID($string_array) {
 }
 
 function createGetRequestArray($get_query, $service, $filter_options) {
+    global $search_flow_config;
+    
     $ret_array = [
         "q" => $get_query   
     ];
     
+    // Check for params from search form
     $current_options = $filter_options["options_" . $service];
     foreach($current_options["dropdowns"] as $options) {
         $param = $options["id"];
@@ -103,6 +106,17 @@ function createGetRequestArray($get_query, $service, $filter_options) {
                 $ret_array[$param] = $id_array;
             } else {
                 $ret_array[$param] = $options["fields"][0]["id"];
+            }
+        }
+    }
+    
+    // Check for params from search form
+    if(isset($search_flow_config["optional_get_params"][$service])) {
+        foreach($search_flow_config["optional_get_params"][$service] as $optional_param) {
+            $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+            if($param_get !== false) {
+                $ret_array[$optional_param] = $param_get;
+                $search_flow_config["params_arrays"][$service][] = $optional_param;
             }
         }
     }
