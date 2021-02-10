@@ -246,7 +246,7 @@ if($has_sufficient_data) {
             var search_aborted = false;
             var error_occurred = false;
             
-            var not_enough_results_links = search_flow_config.add_not_enough_results_links;
+            var not_enough_results_links = search_flow_config.waiting_page_options.add_not_enough_results_links;
             
             search_flow_config.search_options.options.find(function(item) {
                 if (item.id === service) {

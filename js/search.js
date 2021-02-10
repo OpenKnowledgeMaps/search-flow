@@ -145,32 +145,25 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
                                         : [output.reason];
                 }
                 
-                if (list_array.length > 0 && list_array[0] === "API error: timeout") {
-                    setErrorTexts(error_texts.timeout);
-                    return;
-                } else if (list_array.length > 0 && list_array[0] === "API error: requested metadata size") {
-                    setErrorTexts(error_texts.pubmed_502_error);
-                    return;
-                } else if(list_array.length > 0 && list_array[0] === "API error: PubMed not reachable") {
-                    setErrorTexts(error_texts.pubmed_500_error);
-                    return;
-                } else if(list_array.length > 0 && list_array[0] === "unexpected PubMed API error") {
-                    setErrorTexts(error_texts.pubmed_unexpected_error);
-                    return;
-                } else if(list_array.length === 0 || list_array[0] === "unexpected data processing error") {
-                    setErrorTexts(error_texts.server_error);
-                    return;
+                let additional_api_errors = search_flow_config.waiting_page_options.additional_api_errors;
+                if (list_array.length > 0) {
+                    if(Object.keys(additional_api_errors).includes(list_array[0])) {
+                        setErrorTexts(error_texts[additional_api_errors[list_array[0]]]);
+                        return;
+                    } else {
+                        console.log("Unhandled additional API error code: " + list_array[0]);
+                    }
                 }
 
-                let current_error_texts = error_texts.not_enough_results;
+                let current_error_texts = error_texts[search_flow_config.waiting_page_options.default_api_error];
 
                 setErrorTitle(current_error_texts.title);
                 setErrorReason(current_error_texts.reason);
                 if(list_array.length > 0) {
                     let list_array_translated = [];
                     for (let item of list_array) {
-                        if(search_flow_config.error_code_translation.hasOwnProperty(item)) {
-                            list_array_translated.push(search_flow_config.error_code_translation[item]);
+                        if(search_flow_config.error_reason_translation.hasOwnProperty(item)) {
+                            list_array_translated.push(search_flow_config.error_reason_translation[item]);
                         } else {
                             console.log("Unrecognized error code: " + item);
                         }
