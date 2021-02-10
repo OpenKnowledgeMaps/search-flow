@@ -61,7 +61,7 @@ function curl_get_contents($url) {
     return $data;
 }
 
-function setVariableFromContext($context, $var, $enable_default, $default) {
+function setVariableFromContext($context, $var, $enable_default = false, $default = null) {
     
     $ret_val = (isset($context) && property_exists($context, $var) && $context->{$var} !== null) 
                 ? ($context->{$var}) 

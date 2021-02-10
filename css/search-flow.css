@@ -214,6 +214,15 @@
     text-decoration: none;
 }
 
+.citation {
+    display: inline-block;
+    padding: 5px;
+    background-color: rgba(239,243,244,1);
+    hyphens: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
 @media screen and (max-width: 1230px) {
 
     .center-div, .center-div2 {
