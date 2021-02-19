@@ -1,7 +1,7 @@
 <?php
-include_once dirname(__FILE__) . '../../php/load-config.php';
-include_once dirname(__FILE__). '../../php/get-params.php';
-include_once dirname(__FILE__). '../../conf/config.php';
+include_once dirname(__FILE__) . '../../../php/load-config.php';
+include_once dirname(__FILE__). '../../../php/get-params.php';
+include_once dirname(__FILE__). '../../../conf/config.php';
 
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
@@ -204,7 +204,7 @@ if($has_sufficient_data) {
             <?php
                 $default_lib = $service;
                 $search_query = htmlspecialchars(stripslashes($dirty_query));
-                include(dirname(__FILE__). '/search-form.php');
+                include(dirname(__FILE__). '../search-form/search-form.php');
             ?>
             <script>
                 $("#searchform").attr("target", "");

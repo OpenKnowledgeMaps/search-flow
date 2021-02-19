@@ -1,6 +1,6 @@
 <?php 
-include_once dirname(__FILE__). '../../conf/config.php';
-include_once dirname(__FILE__). '../../php/header.php';
+include_once dirname(__FILE__). '../../../conf/config.php';
+include_once dirname(__FILE__). '../../../php/header.php';
 
 if ($detect->isMobile() || $search_flow_config["banner_alternate_desktop_warning"]): 
 ?>

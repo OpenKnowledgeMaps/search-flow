@@ -1,6 +1,6 @@
 <?php
-include_once dirname(__FILE__). '../../conf/config.php';
-include_once dirname(__FILE__). '../../php/header.php';
+include_once dirname(__FILE__). '../../../conf/config.php';
+include_once dirname(__FILE__). '../../../php/header.php';
 
 $waiting_page = $search_flow_config["waiting_page"];
 ?>

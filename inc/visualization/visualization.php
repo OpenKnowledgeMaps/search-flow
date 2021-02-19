@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-include_once dirname(__FILE__). '../../conf/config.php';
-include_once dirname(__FILE__). '../../php/header.php';
+include_once dirname(__FILE__). '../../../conf/config.php';
+include_once dirname(__FILE__). '../../../php/header.php';
 
 if ($detect->isMobile()):
 ?>

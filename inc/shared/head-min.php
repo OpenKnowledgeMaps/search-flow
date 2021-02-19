@@ -1,5 +1,5 @@
 <?php
-include_once dirname(__FILE__) . '../../php/load-config.php';
+include_once dirname(__FILE__) . '../../../php/load-config.php';
 
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");

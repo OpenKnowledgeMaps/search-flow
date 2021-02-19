@@ -1,6 +1,6 @@
 <?php
-include_once dirname(__FILE__). '../../conf/config.php';
-include_once dirname(__FILE__). '../../php/header.php';
+include_once dirname(__FILE__). '../../../conf/config.php';
+include_once dirname(__FILE__). '../../../php/header.php';
 
 $id = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
 if($id === false || $id === "") {
