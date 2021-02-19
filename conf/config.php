@@ -282,6 +282,10 @@ if(isset($search_flow_config_local)) {
 
             },
         }
+        , vis_page_options: {
+            //Fit visualization div to page
+            fit_to_page: false
+        }
         //Banner texts
         , banner_texts: {
             browser_unsupported_warning: 'You are using <strong>an unsupported browser</strong>. This website was successfully tested with the latest versions of <strong>Firefox, Chrome, Safari, Opera, and Edge</strong>. We strongly suggest <strong>to switch to one of the supported browsers.</strong>' 

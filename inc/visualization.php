@@ -20,7 +20,8 @@ if ($detect->isMobile()):
             $(window).on("resize", function () {
                 let debug = <?php echo ($is_debug)?("true"):("false") ?>
                 
-                let div_height = calcDivHeight(debug, fit_to_page);
+                let div_height = calcDivHeight(debug
+                                                , search_flow_config.vis_page_options.fit_to_page);
                 $("#visualization").css("height", div_height + "px")
             });
             $(window).trigger('resize');
@@ -35,7 +36,8 @@ if ($detect->isMobile()):
 
 </div>
 <script>
-    var div_height = calcDivHeight(<?php echo ($is_debug)?("true"):("false") ?>, fit_to_page);
+    var div_height = calcDivHeight(<?php echo ($is_debug)?("true"):("false") ?>
+                                    , search_flow_config.vis_page_options.fit_to_page);
 
     <?php if (!$is_embed): ?>
         $(".overflow-vis").css("min-height", div_height + "px")
