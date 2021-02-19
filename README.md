@@ -4,13 +4,13 @@ This package provides a modular, customizeable workflow for creating knowledge m
 ## Usage
 Drop the package into your example or add it as a submodule. In a next step, copy and rename config.ini to config_local.ini and set the paths to Head Start and the search-flow module on your webserver.
 
-Now you can add the components from the `inc` directory to your example. A typical Headstart example consists of the following elements:
+Now you can add the components from the `inc` directory to your example. A typical Head Start example consists of the following elements:
 
-* Search form: `search-form.php`
-* Waiting page: `waiting-page.php`
-* Visualization: `visualization-header.php` & `visualization.php`
+* Search form: `head-search-form.php` & `search-form.php`
+* Waiting page: `head-search-form.php`,  `waiting-page-header.php` &`waiting-page.php`
+* Visualization: `head-min.php`,  `visualization-header.php` & `visualization.php`
 
-In addition, banners for use on all pages and components providing additional context to a knowledge map are provided.
+In addition, banners for use on all pages and components providing additional context to a visualization are provided.
 
 All components can be configured by creating a local config file, which should be based on `conf/config.php`. Every parameter can be overridden by setting the same parameter in a `$search_flow_config_local` array (for PHP-based settings) or a `search_flow_config_local` object (for JavaScript-based settings).
 
