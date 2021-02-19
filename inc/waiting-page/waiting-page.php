@@ -204,7 +204,7 @@ if($has_sufficient_data) {
             <?php
                 $default_lib = $service;
                 $search_query = htmlspecialchars(stripslashes($dirty_query));
-                include(dirname(__FILE__). '../search-form/search-form.php');
+                include(dirname(__FILE__). '/../search-form/search-form.php');
             ?>
             <script>
                 $("#searchform").attr("target", "");
