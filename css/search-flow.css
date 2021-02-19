@@ -9,10 +9,12 @@
 }
 
 .underline, .underline:focus {
+    color: #2d3e52;
     text-decoration: underline;
 }
 
 .underline:hover {
+    color: #2d3e52;
     text-decoration: none;
 }
 
