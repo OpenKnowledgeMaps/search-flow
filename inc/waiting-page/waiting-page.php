@@ -57,7 +57,10 @@ function createGetRequestArray($get_query, $service, $filter_options) {
     $current_options = $filter_options["options_" . $service];
     foreach($current_options["dropdowns"] as $options) {
         $param = $options["id"];
+        
+        /* TODO: Implement a route for array params here */
         $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        
         if($param_get !== false) {
             $ret_array[$param] = $param_get;
         } else {
@@ -65,12 +68,11 @@ function createGetRequestArray($get_query, $service, $filter_options) {
                 
                 $range = ($options["id"] === "time_range")?("time_range"):("year_range");
                 $is_custom_date = false;
-                
+                               
                 $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
                 $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
                 
-                if($param_from === false) {
-                    $date = new DateTime();
+                if($param_from === false) {                    
                     $ret_array["from"] = $current_options["start_date"];
                 } else {
                     $ret_array["from"] = $param_from;
@@ -78,6 +80,8 @@ function createGetRequestArray($get_query, $service, $filter_options) {
                 }
                 
                 if($param_to === false) {
+                    $date = new DateTime();
+                    
                     if(isset($current_options["end_date"])) {
                         $to_date = $current_options["end_date"];
                     } else if($range === "time_range") {
