@@ -58,8 +58,11 @@ function createGetRequestArray($get_query, $service, $filter_options) {
     foreach($current_options["dropdowns"] as $options) {
         $param = $options["id"];
         
-        /* TODO: Implement a route for array params here */
-        $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        if($options["multiple"] === true) {
+            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
+        } else {
+            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        }
         
         if($param_get !== false) {
             $ret_array[$param] = $param_get;
