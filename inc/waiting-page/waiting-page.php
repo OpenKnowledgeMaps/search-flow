@@ -261,6 +261,7 @@ if($has_sufficient_data) {
                     milliseconds_progressbar = item.milliseconds_progressbar;
                     max_length_search_term_short = item.max_length_search_term_short;
                     timeout = item.timeout;
+                    $("#vis_type_name").text(item.vis_type_name);
                 }
             });
 
