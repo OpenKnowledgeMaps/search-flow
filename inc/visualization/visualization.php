@@ -22,7 +22,7 @@ if ($detect->isMobile()):
                 
                 let div_height = calcDivHeight(debug
                                                 , search_flow_config.vis_page_options.fit_to_page);
-                $("#visualization").css("height", div_height + "px")
+                $("#visualization").css("min-height", div_height + "px")
             });
             $(window).trigger('resize');
         });
