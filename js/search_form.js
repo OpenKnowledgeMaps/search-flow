@@ -202,8 +202,12 @@ var SearchOptions = {
 
         })
     },
-    setDateRangeFromPreset: function (from, to, val, start_date, end_date, hide_inputs) {
+    setDateRangeFromPreset: function (from, to, val, start_date, end_date, hide_inputs, is_year_range) {
         var self = this;
+        
+        if(is_year_range === 'undefined') {
+            is_year_range = false;
+        }
         
         var current_date = new Date();
         var current_year = current_date.getFullYear();
@@ -224,7 +228,7 @@ var SearchOptions = {
             case "user-defined":
                 self.user_defined_date = true;
                 if(typeof end_date !== "undefined") {
-                    this.setDateFields(from, to, start_date, end_date);
+                    this.setDateFields(from, to, start_date, end_date, is_year_range);
                 }
                 if(typeof hide_inputs === "undefined" || hide_inputs === false) {
                     d3.select("#input-container").style("display", "block");
@@ -268,16 +272,24 @@ var SearchOptions = {
                 break;
         }
     },
-    setDateFields: function (from, to, start, end) {
+    setDateFields: function (from, to, start, end, no_datepicker) {
         Date.prototype.yyyymmdd = function () {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
             var dd = this.getDate().toString();
             return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]); // padding
         };
-
-        $(from).datepicker("setDate", start);
-        $(to).datepicker("setDate", end);
+        if(typeof no_datepicker === 'undefined') {
+            no_datepicker = false;
+        }
+        
+        if(no_datepicker) {
+            $(from).val(start);
+            $(to).val(end);
+        } else {
+            $(from).datepicker("setDate", start);
+            $(to).datepicker("setDate", end);
+        }
     },
     initDateFields: function (from, to) {
         setDateFields(from, to);
