@@ -8,6 +8,7 @@ $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 $search_form_page = $search_flow_config["search_form_page"];
 $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
+$enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "general");
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
 
@@ -144,7 +145,7 @@ if(!empty($_POST)) {
     $has_sufficient_data = true;
 }
 
-if ($search_flow_config["enable_get_requests"] && $request_type === "get" 
+if ($enable_get_requests && $request_type === "get" 
         && $get_query !== false && $service !== false && $service !== null) {
     
     $post_array = createGetRequestArray($get_query, $service, $filter_options);

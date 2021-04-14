@@ -14,8 +14,6 @@ $search_flow_config = array(
     , "optional_get_params" => [
         "integration1" => []
     ]
-    //Enable/disable GET requests
-    , "enable_get_requests" => false
     //Load the visualization context on the knowledge map page
     , "vis_load_context" => true
     //Default values and whether to enable them for the knowledge map page
