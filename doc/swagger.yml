@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  title: OKMaps Custom Services Demo API
+  description: OKMaps Custom Services Demo API
+  version: dev
+
+servers:
+  - url: http://dev.openknowledgemaps.org/project-website-searchflow/
+    description: Internal server for testing
+
+paths:
+  /search:
+    get:
+      summary: search-flow entry point
+      description: initiate a search with given parameters
+      parameters:
+        - in: query
+          name: service
+          required: true
+          description: The service you want to use (e.g. base, pubmed)
+          schema:
+            type : string
+            default: base
+        - in: query
+          name: type
+          required: true
+          description: The HTTP request type, get or post. Must be get for the GET route
+          schema:
+            type : string
+            enum:
+              - get
+        - in: query
+          name: q
+          required: true
+          description: The query, e.g. digital+education
+          schema:
+            type : string
+        - in: query
+          name: from
+          required: false
+          description: date/year from, e.g. 2000-01-01
+          schema:
+            type : string
+        - in: query
+          name: to
+          required: false
+          description: date/year to, e.g. 2021-02-25
+          schema:
+            type : string
+        - in: query
+          name: sorting
+          required: false
+          description: Sort order of search results
+          schema:
+            type : string
+            enum: [most-relevant, most-recent]
+            default: most-relevant
+        - in: query
+          name: document_types[]
+          required: false
+          description: BASE only. List of document type IDs, e.g. 121, 14 or 15
+          schema:
+            type : integer
+            default: [121]
+          style: form
+          explode: true
+        - in: query
+          name: article_types[]
+          required: false
+          description: PubMed only. List of article type strings
+          schema:
+            type : string
+          style: form
+          explode: true
+        - in: query
+          name: min_descsize
+          required: false
+          description: BASE only. Minimum abstract length in characters
+          schema:
+            type : integer
+            default: 300
+        - in: query
+          name: repo
+          required: false
+          description: BASE only. denotes a single repository that the search will be restricted to, e.g. ftubbiepub
+          schema:
+            type : string
+        - in: query
+          name: coll
+          required: false
+          description: BASE only. denotes a collection of repositories that the search will be restricted to, e.g. at or de
+          schema:
+            type : string
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
