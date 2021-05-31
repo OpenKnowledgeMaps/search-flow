@@ -255,11 +255,11 @@ if(isset($search_flow_config_local)) {
 
             },
             rate_limit: {
-                title: "Rate limit hit."
-                , reason: "Many people are currently creating knowledge maps. Please try again in a few seconds."
-                , remedy: 'In any case, we recommend to check your Internet settings and try again by <a class="underline" style="cursor:pointer" onClick="window.location.reload();">refreshing this page</a>.'
+                title: "Sorry! Rate limit reached."
+                , reason: "Many people are currently creating knowledge maps. We apologize for the inconvenience. Please try again in a few seconds."
+                , remedy: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
                 , contact: 'If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Refresh this page"
+                , "resolution": "Try again"
                 , "resolution_link": "index"
 
             },
