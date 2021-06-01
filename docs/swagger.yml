@@ -17,7 +17,7 @@ paths:
         - in: query
           name: service
           required: true
-          description: The service to be used.
+          description: The service to be used
           schema:
             type : string
             enum: [base, pubmed]
@@ -25,7 +25,7 @@ paths:
         - in: query
           name: type
           required: true
-          description: The HTTP request type. Must be get for the GET route
+          description: The HTTP request type. Must be `get` for the GET route
           schema:
             type : string
             enum:
@@ -33,20 +33,20 @@ paths:
         - in: query
           name: q
           required: true
-          description: The query, e.g. `digital+education`
+          description: The search query, e.g. `digital+education`
           schema:
             type : string
           example: digital+education
         - in: query
           name: from
           required: false
-          description: optional. date/year of the earliest publication date, e.g. 2000-01-01. When the field is empty, it falls back to the default. For BASE, the default is `1665-01-01`. For PubMed, the default is `1809-01-01`.
+          description: optional. Earliest publication date in the format YYYY-MM-DD, e.g. `2000-01-01`. When the field is empty, the parameter falls back to the default. For BASE, the default is `1665-01-01`. For PubMed, the default is `1809-01-01`.
           schema:
             type : string
         - in: query
           name: to
           required: false
-          description: optional. date/year of the latest publication date, e.g. 2021-02-25. When the field is empty, the parameter defaults to the current date.
+          description: optional. Latest publication date in the format YYYY-MM-DD, e.g. `2021-02-25`. When the field is empty, the parameter defaults to the current day.
           schema:
             type : string
         - in: query
@@ -61,8 +61,8 @@ paths:
           name: document_types[]
           required: false
           description: |
-            BASE only, optional. List of document type IDs, e.g. 121, 14 or 15. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
-            When the field is empty, the parameter defaults to `121` (Journal/newspaper article).
+            BASE only, optional. List of document type IDs, e.g. `121`, `14` or `15`. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
+            To add an additional document type, click on "Add item" below the input field. When the field is empty, the parameter defaults to `121` (Journal/newspaper article).
           allowMultiple: true
           schema:
             type : array
@@ -73,8 +73,8 @@ paths:
           name: article_types[]
           required: false
           description: |
-            PubMed only, optional. List of article type strings. More information on article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types).
-            When the field is empty, the parameter is not used and all article types will be searched.
+            PubMed only, optional. List of article type strings, e.g. `journal article` or `clinical trial`. More information on article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types).
+            To add an additional article type, click on "Add item" below the input field. When the field is empty, the parameter is not used and all article types will be searched.
           allowMultiple: true
           schema:
             type : string
@@ -83,7 +83,7 @@ paths:
         - in: query
           name: min_descsize
           required: false
-          description: BASE only. Minimum abstract length in characters. Must be larger than 0. A value of 300 is recommended to increase metadata quality of abstracts.
+          description: BASE only, optional. Minimum abstract length in characters. Must be larger than 0. A value of 300 is recommended to increase the quality of knowledge maps. When the field is empty, it defaults to 300.
           schema:
             type : integer
             default: 300
@@ -91,11 +91,11 @@ paths:
           name: repo
           required: false
           description: | 
-            BASE only, optional. Denotes a single repository that the search will be restricted to.
-            The shorthand for a repository can be identified by:
-            1. [searching for a content provider](https://www.base-search.net/about/en/about_sources_date.php), 
-            2. clicking on the green question mark next to a name, 
-            3. looking up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`.
+            BASE only, optional. Shorthand for a single repository that the search will be restricted to.
+            The shorthand for a repository can be identified as follows:
+            1. Search for the repository on [the BASE website](https://www.base-search.net/about/en/about_sources_date.php). 
+            2. Once you have identified the repository you want to search in, click on the green question mark next to the name of the repository. 
+            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
             <br><br>
             <img src="../BASE_coll_param.png" />
           schema:
@@ -103,7 +103,7 @@ paths:
         - in: query
           name: coll
           required: false
-          description: BASE only, optional. Denotes a collection of repositories that the search will be restricted to, e.g. `at` or `de`.  More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+          description: BASE only, optional. Denotes a collection of repositories that the search will be restricted to, e.g. `at` or `de`. Note that if a repository has been specified with the `repo` parameter, this paramter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type : string
       responses:
