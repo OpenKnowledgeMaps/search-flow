@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 include_once dirname(__FILE__). '../../../conf/config.php';
-include_once dirname(__FILE__). '../../../php/header.php';
+include_once dirname(__FILE__). '../../../php/header-main.php';
 
 if ($detect->isMobile()):
 ?>
@@ -22,7 +22,7 @@ if ($detect->isMobile()):
                 
                 let div_height = calcDivHeight(debug
                                                 , search_flow_config.vis_page_options.fit_to_page);
-                $("#visualization").css("height", div_height + "px")
+                $("#visualization").css("min-height", div_height + "px")
             });
             $(window).trigger('resize');
         });

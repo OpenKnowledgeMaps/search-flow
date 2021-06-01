@@ -14,8 +14,6 @@ $search_flow_config = array(
     , "optional_get_params" => [
         "integration1" => []
     ]
-    //Enable/disable GET requests
-    , "enable_get_requests" => false
     //Load the visualization context on the knowledge map page
     , "vis_load_context" => true
     //Default values and whether to enable them for the knowledge map page
@@ -140,7 +138,7 @@ if(isset($search_flow_config_local)) {
             //Options for each integration to search in
             , options: [
                 {id: "integration1", name: "Integration 1", disabled: false, default: false
-                    , text: "Integration 1", description: "(all disciplines)"
+                    , text: "Integration 1", description: "(all disciplines)", vis_type_name: "knowledge map"
                     , script: "searchPubmed.php", milliseconds_progressbar: 800
                     , max_length_search_term_short: 115, timeout: 120000
 
@@ -198,7 +196,7 @@ if(isset($search_flow_config_local)) {
         //Texts for the waiting page
         , waiting_page_texts: {
             longer_than_expected_text: 'Creating your visualization takes longer than expected. Please stay tuned!'
-            , waiting_title: 'Your knowledge map on <strong id="search_term"></strong> is being created!'
+            , waiting_title: 'Your <span id="vis_type_name"></span> on <strong id="search_term"></strong> is being created!'
             , status_waiting: 'Please be patient, this takes around 20 seconds.<br>While you are waiting, find out how the knowledge map is being created below.'
             , try_again_title: 'Have another try!'
         }

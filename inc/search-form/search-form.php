@@ -112,7 +112,7 @@ var chooseOptions = function () {
     
     var getInputDate = function(id) {
         for(let dropdown of config.options.dropdowns) {
-            if(dropdown.id === "time_range") {
+            if(dropdown.id === "time_range" || dropdown.id === "year_range") {
                 for(let field of dropdown.fields) {
                     if (field.id === "user-defined") {
                         for(let input of field.inputs) {
@@ -146,7 +146,7 @@ var chooseOptions = function () {
         } else {
             let start_year = getInputDate("from");
             let end_year = getInputDate("to");
-            search_options_object.setDateRangeFromPreset("#from", "#to", value, start_year, end_year, true);
+            search_options_object.setDateRangeFromPreset("#from", "#to", value, start_year, end_year, true, true);
         }
     }
 
