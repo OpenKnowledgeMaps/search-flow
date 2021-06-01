@@ -8,6 +8,7 @@ $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
 $search_form_page = $search_flow_config["search_form_page"];
 $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
+$enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "general");
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
 
@@ -57,7 +58,13 @@ function createGetRequestArray($get_query, $service, $filter_options) {
     $current_options = $filter_options["options_" . $service];
     foreach($current_options["dropdowns"] as $options) {
         $param = $options["id"];
-        $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        
+        if($options["multiple"] === true) {
+            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
+        } else {
+            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        }
+        
         if($param_get !== false) {
             $ret_array[$param] = $param_get;
         } else {
@@ -65,12 +72,11 @@ function createGetRequestArray($get_query, $service, $filter_options) {
                 
                 $range = ($options["id"] === "time_range")?("time_range"):("year_range");
                 $is_custom_date = false;
-                
+                               
                 $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
                 $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
                 
-                if($param_from === false) {
-                    $date = new DateTime();
+                if($param_from === false) {                    
                     $ret_array["from"] = $current_options["start_date"];
                 } else {
                     $ret_array["from"] = $param_from;
@@ -78,6 +84,8 @@ function createGetRequestArray($get_query, $service, $filter_options) {
                 }
                 
                 if($param_to === false) {
+                    $date = new DateTime();
+                    
                     if(isset($current_options["end_date"])) {
                         $to_date = $current_options["end_date"];
                     } else if($range === "time_range") {
@@ -137,7 +145,7 @@ if(!empty($_POST)) {
     $has_sufficient_data = true;
 }
 
-if ($search_flow_config["enable_get_requests"] && $request_type === "get" 
+if ($enable_get_requests && $request_type === "get" 
         && $get_query !== false && $service !== false && $service !== null) {
     
     $post_array = createGetRequestArray($get_query, $service, $filter_options);
@@ -254,6 +262,7 @@ if($has_sufficient_data) {
                     milliseconds_progressbar = item.milliseconds_progressbar;
                     max_length_search_term_short = item.max_length_search_term_short;
                     timeout = item.timeout;
+                    $("#vis_type_name").text(item.vis_type_name);
                 }
             });
 

@@ -1,8 +1,8 @@
 # search-flow
-This package provides a modular, customizeable workflow for creating knowledge maps with Head Start. It is written in PHP and JavaScript and intended for use in PHP-based websites
+This package provides a modular, customizable workflow for creating knowledge maps with Head Start. It is written in PHP and JavaScript and intended for use in PHP-based websites
 
 ## Usage
-Drop the package into your example or add it as a submodule. In a next step, copy and rename config.ini to config_local.ini and set the paths to Head Start and the search-flow module on your webserver.
+Drop the package into your example or add it as a submodule. In a next step, copy and rename config.ini to config_local.ini and set the paths to Head Start and the search-flow module on your webserver. You can also enable the debug mode and [GET requests](doc/GET_route.md) for the search page.
 
 Now you can add the components from the `inc` directory to your example. A typical Head Start example consists of the following elements:
 
@@ -12,9 +12,13 @@ Now you can add the components from the `inc` directory to your example. A typic
 
 In addition, banners for use on all pages and components providing additional context to a visualization are provided.
 
-All components can be configured by creating a local config file, which should be based on `conf/config.php`. Every parameter can be overridden by setting the same parameter in a `$search_flow_config_local` array (for PHP-based settings) or a `search_flow_config_local` object (for JavaScript-based settings).
+All components can be configured by creating a local config file, which should be based on `conf/config.php` and located in the parent directory of `search-flow`. Every parameter can be overridden by setting the same parameter in a `$search_flow_config_local` array (for PHP-based settings) or a `search_flow_config_local` object (for JavaScript-based settings).
 
-For an example to build on top of, refer to the [triple example](https://github.com/OpenKnowledgeMaps/Headstart/tree/master/examples/triple) in Head Start.
+To override the **CSS**, include your own CSS file below the last included component.
+
+For an example to build on top of, refer to the [TRIPLE example](https://github.com/OpenKnowledgeMaps/Headstart/tree/master/examples/triple) in Head Start.
+
+For more information on GET requests, please refer to the [GET route & parameters](doc/GET_route.md) document.
 
 ## Notes
 
