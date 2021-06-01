@@ -97,7 +97,7 @@ paths:
             2. clicking on the green question mark next to a name, 
             3. looking up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`.
             <br><br>
-            <img src="./BASE_coll_param.png" />
+            <img src="../BASE_coll_param.png" />
           schema:
             type : string
         - in: query
