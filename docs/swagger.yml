@@ -5,7 +5,7 @@ info:
   version: dev
 
 servers:
-  - url: https://dev.openknowledgemaps.org/custom-services-demo/
+  - url: please.change
     description: Internal server for testing
 
 paths:
