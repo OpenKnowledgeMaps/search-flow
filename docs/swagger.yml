@@ -1,0 +1,111 @@
+openapi: 3.0.0
+info:
+  title: OKMaps Custom Services Demo API
+  description: OKMaps Custom Services Demo API
+  version: dev
+
+servers:
+  - url: https://dev.openknowledgemaps.org/custom-services-demo/
+    description: Internal server for testing
+
+paths:
+  /search:
+    get:
+      summary: search-flow entry point
+      description: Initiate a search with given parameters
+      parameters:
+        - in: query
+          name: service
+          required: true
+          description: The service to be used.
+          schema:
+            type : string
+            enum: [base, pubmed]
+            default: base
+        - in: query
+          name: type
+          required: true
+          description: The HTTP request type. Must be get for the GET route
+          schema:
+            type : string
+            enum:
+              - get
+        - in: query
+          name: q
+          required: true
+          description: The query, e.g. `digital+education`
+          schema:
+            type : string
+          example: digital+education
+        - in: query
+          name: from
+          required: false
+          description: optional. date/year of the earliest publication date, e.g. 2000-01-01. When the field is empty, it falls back to the default. For BASE, the default is `1665-01-01`. For PubMed, the default is `1809-01-01`.
+          schema:
+            type : string
+        - in: query
+          name: to
+          required: false
+          description: optional. date/year of the latest publication date, e.g. 2021-02-25. When the field is empty, the parameter defaults to the current date.
+          schema:
+            type : string
+        - in: query
+          name: sorting
+          required: false
+          description: Sort order of search results, defaults to `most-relevant`
+          schema:
+            type : string
+            enum: [most-relevant, most-recent]
+            default: most-relevant
+        - in: query
+          name: document_types[]
+          required: false
+          description: |
+            BASE only, optional. List of document type IDs, e.g. 121, 14 or 15. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
+            When the field is empty, the parameter defaults to `121` (Journal/newspaper article).
+          allowMultiple: true
+          schema:
+            type : array
+            default: [121]
+          style: form
+          explode: true
+        - in: query
+          name: article_types[]
+          required: false
+          description: |
+            PubMed only, optional. List of article type strings. More information on article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types).
+            When the field is empty, the parameter is not used and all article types will be searched.
+          allowMultiple: true
+          schema:
+            type : string
+          style: form
+          explode: true
+        - in: query
+          name: min_descsize
+          required: false
+          description: BASE only. Minimum abstract length in characters. Must be larger than 0. A value of 300 is recommended to increase metadata quality of abstracts.
+          schema:
+            type : integer
+            default: 300
+        - in: query
+          name: repo
+          required: false
+          description: | 
+            BASE only, optional. Denotes a single repository that the search will be restricted to.
+            The shorthand for a repository can be identified by:
+            1. [searching for a content provider](https://www.base-search.net/about/en/about_sources_date.php), 
+            2. clicking on the green question mark next to a name, 
+            3. looking up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`.
+            <br><br>
+            <img src="./BASE_coll_param.png" />
+          schema:
+            type : string
+        - in: query
+          name: coll
+          required: false
+          description: BASE only, optional. Denotes a collection of repositories that the search will be restricted to, e.g. `at` or `de`.  More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+          schema:
+            type : string
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
