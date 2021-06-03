@@ -84,7 +84,6 @@ paths:
             default: []
           style: form
           explode: true
-          example: []
         - in: query
           name: min_descsize
           required: false
