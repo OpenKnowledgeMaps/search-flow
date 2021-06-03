@@ -78,9 +78,11 @@ paths:
             To add an additional article type, click on "Add item" below the input field. When the field is empty, the parameter is not used and all article types will be searched.
           allowMultiple: true
           schema:
-            type : string
+            type : array
+            default: []
           style: form
           explode: true
+          example: []
         - in: query
           name: min_descsize
           required: false
