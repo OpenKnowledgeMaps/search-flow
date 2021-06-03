@@ -37,6 +37,7 @@ paths:
           schema:
             type : string
           example: digital+education
+          allowReserved: true
         - in: query
           name: from
           required: false
@@ -103,7 +104,7 @@ paths:
         - in: query
           name: coll
           required: false
-          description: BASE only, optional. Denotes a collection of repositories that the search will be restricted to, e.g. `at` or `de`. Note that if a repository has been specified with the `repo` parameter, this paramter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+          description: BASE only, optional. Denotes a collection of repositories that the search will be restricted to, e.g. `at` or `de`. Note that if a repository has been specified with the `repo` parameter, this parameter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type : string
       responses:
