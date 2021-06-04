@@ -33,10 +33,10 @@ paths:
         - in: query
           name: q
           required: true
-          description: The search query, e.g. `digital+education`
+          description: The search query, e.g. `digital education`
           schema:
             type : string
-          example: digital+education
+          example: digital education
           allowReserved: true
         - in: query
           name: from
