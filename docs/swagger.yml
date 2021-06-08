@@ -67,7 +67,9 @@ paths:
           schema:
             type: array
             items:
-              type: integer
+              oneOf:
+                - type: string
+                - type: integer
             default: [121]
           style: form
           explode: true
