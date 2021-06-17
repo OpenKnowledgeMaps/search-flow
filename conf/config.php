@@ -187,6 +187,7 @@ if(isset($search_flow_config_local)) {
                 , "API error: PubMed not reachable": "pubmed_500_error"
                 , "unexpected PubMed API error": "pubmed_unexpected_error"
                 , "unexpected data processing error": "server_error"
+                , "dataprocessing rate limit": "rate_limit"
             }
             //Reason to always add to the list of error reasons
             , error_reason_always_add: [
@@ -247,7 +248,15 @@ if(isset($search_flow_config_local)) {
                 , reason: "It might be that too many people are currently creating knowledge maps. You may also have lost your Internet connection."
                 , remedy: 'In any case, we recommend to check your Internet settings and try again by <a class="underline" style="cursor:pointer" onClick="window.location.reload();">refreshing this page</a>.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Refresh this page"
+                , "resolution": "Try again"
+                , "resolution_link": "javascript:location.reload()"
+
+            },
+            rate_limit: {
+                title: "Sorry! Rate limit reached."
+                , reason: "Many people are currently creating knowledge maps. We apologize for the inconvenience. Please try again in a few seconds."
+                , contact: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
+                , "resolution": "Try again"
                 , "resolution_link": "javascript:location.reload()"
 
             },
