@@ -188,6 +188,7 @@ if(isset($search_flow_config_local)) {
                 , "unexpected PubMed API error": "pubmed_unexpected_error"
                 , "unexpected data processing error": "server_error"
                 , "dataprocessing rate limit": "rate_limit"
+                , "API error: BASE not reachable": "base_xml_error"
             }
             //Reason to always add to the list of error reasons
             , error_reason_always_add: [
@@ -253,8 +254,8 @@ if(isset($search_flow_config_local)) {
 
             },
             rate_limit: {
-                title: "Sorry! Rate limit reached."
-                , reason: "Many people are currently creating knowledge maps. We apologize for the inconvenience. Please try again in a few seconds."
+                title: "Sorry! We are experiencing too many requests."
+                , reason: "Unfortunately this means, we cannot create your knowledge map. Please try again in a few seconds."
                 , contact: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
                 , "resolution": "Try again"
                 , "resolution_link": "javascript:location.reload()"
@@ -286,6 +287,14 @@ if(isset($search_flow_config_local)) {
                 , "resolution": "Try again"
                 , "resolution_link": "index"
 
+            },
+            base_xml_error: {
+                title: "The API of our data source provider BASE is currently experiencing down time."
+                , reason: "Unfortunately this means, at the moment we cannot create knowledge maps for this data source."
+                , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes.'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , "resolution": "Try again"
+                , "resolution_link": "index"
 
             },
         }
