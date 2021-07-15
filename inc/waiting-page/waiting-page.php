@@ -198,7 +198,7 @@ if($has_sufficient_data) {
 
         <p id="status" class="animated-ellipsis">
         </p>
-    </div>
+    </div>    
 
     <!-- screen when knowledge map has failed -->
     <div id="error_state" class="search_error_state nodisplay" style="text-align: left !important;">
@@ -224,7 +224,11 @@ if($has_sufficient_data) {
             <a id="error-resolution" class="basic-button nodisplay"></a>
         </p>
     </div>
+    
 </div>
+
+<!--Please add php how it works section for KM and SG here-->
+ 
 
  <script>
             $("#waiting-title").html(search_flow_config.waiting_page_texts.waiting_title);
