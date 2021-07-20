@@ -189,6 +189,10 @@ function executeSearchRequest(service_url, post_data, service, search_term_short
                 setErrorContact(current_error_texts.contact);
                 writeSearchTerm("search_term_fail", search_term_short, search_term);
                 setErrorResolution(current_error_texts.resolution, current_error_texts.resolution_link, true);
+
+                if (service.endsWith("sg")) {
+                    $(".vis_type_name").text("streamgraph");
+                }
             }
 
         })

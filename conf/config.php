@@ -198,8 +198,8 @@ if(isset($search_flow_config_local)) {
         //Texts for the waiting page
         , waiting_page_texts: {
             longer_than_expected_text: 'Creating your visualization takes longer than expected. Please stay tuned!'
-            , waiting_title: 'Your <span id="vis_type_name"></span> on <strong id="search_term"></strong> is being created!'
-            , status_waiting: 'Please be patient, this takes around 20 seconds.<br>While you are waiting, find out how the knowledge map is being created below.'
+            , waiting_title: 'Your <span class="vis_type_name">knowledge map</span> on <strong id="search_term"></strong> is being created!'
+            , status_waiting: 'Please be patient, this takes around 20 seconds.<br>While you are waiting, find out how the <span class="vis_type_name">knowledge map</span> is being created below.'
             , try_again_title: 'Have another try!'
         }
         //Translations for potential error reasons when not enough results are returned
@@ -212,7 +212,7 @@ if(isset($search_flow_config_local)) {
         //Error texts
         , error_texts: {
             not_enough_results: {
-                title: "Sorry! We could not create a knowledge map."
+                title: 'Sorry! We could not create a <span class="vis_type_name">knowledge map</span>.'
                 , reason: 'Most likely there were not enough results for <strong id="search_term_fail"></strong> with the selected search options.'
                 , remedy: "<strong>Here are some tips to improve your query:</strong>"
                 , more_info: 'Alternatively you can <a class="underline" id="more-info-link_na" target="_blank">check out results for your search query on <span id="more-info-link_service"></span></a>. For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>.'
@@ -246,7 +246,7 @@ if(isset($search_flow_config_local)) {
             },
             timeout: {
                 title: "We didn't anticipate this taking so long - unfortunately your request timed out."
-                , reason: "It might be that too many people are currently creating knowledge maps. You may also have lost your Internet connection."
+                , reason: "It might be that too many people are currently creating <span class=\"vis_type_name\">knowledge map</span>s. You may also have lost your Internet connection."
                 , remedy: 'In any case, we recommend to check your Internet settings and try again by <a class="underline" style="cursor:pointer" onClick="window.location.reload();">refreshing this page</a>.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , "resolution": "Try again"
@@ -255,7 +255,7 @@ if(isset($search_flow_config_local)) {
             },
             rate_limit: {
                 title: "Sorry! We are experiencing too many requests."
-                , reason: "Unfortunately this means, we cannot create your knowledge map. Please try again in a few seconds."
+                , reason: "Unfortunately this means, we cannot create your <span class=\"vis_type_name\">knowledge map</span>. Please try again in a few seconds."
                 , contact: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
                 , "resolution": "Try again"
                 , "resolution_link": "javascript:location.reload()"
@@ -272,7 +272,7 @@ if(isset($search_flow_config_local)) {
             },
             pubmed_500_error: {
                 title: "The PubMed API is currently experiencing down time."
-                , reason: "Unfortunately this means, at the moment we cannot provide knowledge maps for PubMed."
+                , reason: "Unfortunately this means, at the moment we cannot provide <span class=\"vis_type_name\">knowledge map</span>s for PubMed."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , "resolution": "Try again"
@@ -281,7 +281,7 @@ if(isset($search_flow_config_local)) {
             },
             pubmed_502_error: {
                 title: "An error occurred while retrieving data from PubMed."
-                , reason: "Unfortunately this means we cannot create a knowledge map for this search."
+                , reason: "Unfortunately this means we cannot create a <span class=\"vis_type_name\">knowledge map</span> for this search."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> with a different search term or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , "resolution": "Try again"
@@ -290,7 +290,7 @@ if(isset($search_flow_config_local)) {
             },
             base_xml_error: {
                 title: "The API of our data source provider BASE is currently experiencing down time."
-                , reason: "Unfortunately this means, at the moment we cannot create knowledge maps for this data source."
+                , reason: "Unfortunately this means, at the moment we cannot create <span class=\"vis_type_name\">knowledge map</span>s for this data source."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , "resolution": "Try again"
