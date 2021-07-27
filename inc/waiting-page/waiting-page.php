@@ -227,12 +227,13 @@ if($has_sufficient_data) {
     
 </div>
 
-<?php if($has_vis_type && $vis_type === "timeline"): ?>
-    <?php include('how-it-works-streamgraph.php'); ?>
-<?php else: ?>
-    <?php include('how-it-works-knowledge-map.php'); ?>
-<?php endif; ?>
- 
+<?php
+if (substr($service, -2) === 'sg') {
+    include('how-it-works-streamgraph.php');
+} else {
+    include('how-it-works-knowledge-map.php');
+}
+?>
 
  <script>
             $("#waiting-title").html(search_flow_config.waiting_page_texts.waiting_title);
