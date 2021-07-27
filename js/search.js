@@ -64,6 +64,7 @@ function errorOccurred() {
     clearFallbackInterval();
     $("#active_state").addClass("nodisplay");
     $("#error_state").removeClass("nodisplay");
+    $("#divhow").addClass("nodisplay");
 }
 
 function redirectToMap(vis_page, id, service, post_data) {

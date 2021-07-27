@@ -227,7 +227,11 @@ if($has_sufficient_data) {
     
 </div>
 
-<!--Please add php how it works section for KM and SG here-->
+<?php if($has_vis_type && $vis_type === "timeline"): ?>
+    <?php include('how-it-works-streamgraph.php'); ?>
+<?php else: ?>
+    <?php include('how-it-works-knowledge-map.php'); ?>
+<?php endif; ?>
  
 
  <script>
