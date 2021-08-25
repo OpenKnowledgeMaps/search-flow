@@ -27,6 +27,8 @@ $search_flow_config = array(
     , "enable_custom_title" => false
     //Whether to display an alternate warning for desktops in the mobile warning component
     , "banner_alternate_desktop_warning" => false
+    // force the Headstart embed mode
+    , "force_embed" => false
     //Filter options for search form and for general use in the package
     , "filter_options" => [
         "options_integration1" =>
