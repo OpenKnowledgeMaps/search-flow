@@ -314,14 +314,16 @@ if(isset($search_flow_config_local)) {
         , context_texts: {
             citation_intro: 'Please cite this map as follows:'
         }
+        , fail_page_options: {
+            // if the search fails, display the search form on the fail page
+            show_search_form: true
+        }
     }
     
-    if(typeof search_flow_config_local !== "undefined") {
-        for(const [key, value] of Object.entries(search_flow_config)) {
-            let config_option = key;
-            if(search_flow_config_local.hasOwnProperty(config_option)) {
-                Object.assign(search_flow_config[config_option]
-                                , search_flow_config_local[config_option])
+    if (typeof search_flow_config_local !== "undefined") {
+        for (const [config_option, value] of Object.entries(search_flow_config)) {
+            if (search_flow_config_local.hasOwnProperty(config_option)) {
+                Object.assign(search_flow_config[config_option], search_flow_config_local[config_option]);
             }
         }
     }
