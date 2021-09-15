@@ -24,7 +24,7 @@ $custom_title =
 
 $has_custom_title = ($custom_title !== false)?(true):(false);
 
-$is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true);
+$is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
 
 if($search_flow_config["vis_load_context"]) {
     $context_json = curl_get_contents($protocol . $headstart_path . "server/services/getContext.php?vis_id=$id");

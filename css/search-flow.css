@@ -203,16 +203,11 @@
 
 /* VIS PAGE */
 
-.builtwith {
-    margin: 20px 10px 10px 50px;
-    font-size: 12px;
-}
-
-.builtwith a, .cite-map a {
+.cite-map a {
     text-decoration: underline;
 }
 
-.builtwith a:hover, .cite-map a:hover {
+.cite-map a:hover {
     text-decoration: none;
 }
 
@@ -363,10 +358,6 @@ p {
 
     .library {
         font-size: 14px;
-    } 
-
-    .builtwith {
-        margin: 10px 0px 10px 20px;
     }
 
 }
