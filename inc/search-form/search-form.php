@@ -301,6 +301,7 @@ $("#searchform").submit(function (e) {
 $("#searchform").validate({
     errorPlacement: function(error, element) {
         $("#" + element.attr("id") + "-error").html(error);
-    }
+    },
+    errorClass: "validation-error"
 });
 </script>
