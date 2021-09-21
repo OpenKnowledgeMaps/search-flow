@@ -26,7 +26,7 @@
     cursor: pointer;
 }
 
-.error-message {
+.error-message, .error {
     color: #e55137;
     font-size: 14px;
 }

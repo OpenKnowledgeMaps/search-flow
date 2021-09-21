@@ -88,28 +88,45 @@ var SearchOptions = {
                 var new_input = filters.insert("div", "#input-container")
                         .attr("class", entry.class)
 
+                new_input.append("div").attr("id", entry.id + "-error")
+
                 new_input.append("label")
                         .attr("for", entry.id)
                         .text(entry.label)
                         .style("margin-left", "8px")
 
-                new_input.append("input")
+                var new_input_elem = new_input.append("input")
                         .attr("id", entry.id)
                         .attr("name", entry.id)
                         .attr("type", "text")
                         .attr("size", "5")
                         .attr("value", entry.value)
 
+                if (entry.required) {
+                    new_input_elem.property("required", true)
+                        .attr("data-msg", "The field is required:")
+                }
+
             } else if (entry.type = "dropdown") {
 
-                var new_select = filters
-                        .insert('select', "#input-container")
+                var new_select_container = filters
+                    .insert('div', "#input-container")
+                    .style('display', 'inline-block')
+
+                new_select_container.append("div").attr("id", entry.id + "-error")
+
+                var new_select = new_select_container.append('select')
                         .attr("id", entry.id)
                         .style("width", "350px")
                         .style("overflow", "auto")
                         .attr("class", "dropdown_multi_" + entry.id)
                         .style("vertical-align", "top")
                         .attr("name", entry.id)
+
+                if (entry.required) {
+                    new_select.property("required", true)
+                        .attr("data-msg", "The field is required:")
+                }
                 
                 if(entry.hasOwnProperty("hidden") && entry.hidden) {
                     new_select.attr("class", "hidden");
@@ -132,19 +149,28 @@ var SearchOptions = {
 
                     if (option.inputs != null) {
                         option.inputs.forEach(function (input) {
-                            d3.select("#input-container")
-                                    .append("label")
+                            var container_div = d3.select("#input-container")
+                                    .append("div")
+                                    .style("display", "inline-block")
+
+                            container_div.append("div").attr("id", input.id + "-error")
+
+                            container_div.append("label")
                                     .attr("for", input.id)
                                     .text(input.label)
                                     .style("margin-right", "8px")
 
-                            d3.select("#input-container")
-                                    .append("input")
+                            var input_elem = container_div.append("input")
                                     .attr("id", input.id)
                                     .attr("name", input.id)
                                     .attr("class", input.class)
                                     .attr("type", "text")
                                     .attr("size", "18")
+
+                            if (input.required) {
+                                input_elem.property("required", true)
+                                    .attr("data-msg", "The field is required:")
+                            }
                         })
                     }
                 })

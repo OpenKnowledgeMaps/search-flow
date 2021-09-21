@@ -16,12 +16,16 @@ $waiting_page = $search_flow_config["waiting_page"];
         <div id="filter-container"></div>
 
         <span id="base-language-selector-container" style="display: none"></span>
-        
-        <input type="text" name="q" size="89" required class="text-field" 
-            id="searchterm" placeholder="Enter your search term" spellcheck="true" 
-            value="<?php echo (isset($search_query)?($search_query):("")) ?>">
-        
-        <button type="submit" class="submit-btn">GO</button>
+
+        <div id="searchterm-error"></div>
+        <div>
+            <input type="text" name="q" size="89" required class="text-field" 
+                id="searchterm" placeholder="Enter your search term" spellcheck="true"
+                data-msg="The search term is required:"
+                value="<?php echo (isset($search_query)?($search_query):("")) ?>">
+            
+            <button type="submit" class="submit-btn">GO</button>
+        </div>
         
     </div>
     
@@ -293,4 +297,10 @@ $("#searchform").submit(function (e) {
     }
 
 })
+
+$("#searchform").validate({
+    errorPlacement: function(error, element) {
+        $("#" + element.attr("id") + "-error").html(error);
+    }
+});
 </script>
