@@ -201,6 +201,14 @@
     background-color: transparent;
 }
 
+.searchpage .h2reverse {
+    text-align: center !important;
+}
+
+.searchpage .infohow {
+    background-color: white;
+}
+
 /* VIS PAGE */
 
 .cite-map a {
