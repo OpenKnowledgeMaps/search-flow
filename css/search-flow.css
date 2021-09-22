@@ -385,6 +385,15 @@ p {
     
     .search-waiting-page .center-div {
         width: 100%;
+        padding: 20px 0px;
+    }
+    
+    .waiting-title, .waiting-title2 {
+        font-size: 16px;
+    }
+    
+    #progress p {
+        font-size: 14px;
     }
 }
 
