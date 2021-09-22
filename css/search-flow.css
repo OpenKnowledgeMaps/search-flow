@@ -287,7 +287,7 @@ p {
 }
 
 .infohow {
-    border-top: 1px solid #cacfd3; 
+    border-top: 0px solid #cacfd3; 
 }
 
 @media screen and (max-width: 1230px) {

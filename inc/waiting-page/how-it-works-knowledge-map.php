@@ -41,7 +41,7 @@
     </div>
     
     <p class="try-now" style="text-align: center; margin:30px 0 0;">
-        <a class="donate-now" class="basic-button" target="_blank" href="https://openknowledgemaps.org/faq">
+        <a class="donate-now basic-button" target="_blank" href="https://openknowledgemaps.org/faq">
             Find out more in our FAQs
         </a>
     </p>
