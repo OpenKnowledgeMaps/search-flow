@@ -206,7 +206,7 @@
 }
 
 .searchpage .infohow {
-    background-color: white;
+    background-color: white !important;
 }
 
 /* VIS PAGE */
@@ -374,13 +374,17 @@ p {
 
     .center-div {
         padding: 20px;
-        width:90%;
+        width:100%;
         margin: 20px 0px 0px 0px;
     }
 
     .basic-button {
         font-size: 14px;
         width: 80%;
+    }
+    
+    .search-waiting-page .center-div {
+        width: 100%;
     }
 }
 
