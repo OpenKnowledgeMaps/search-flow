@@ -227,14 +227,6 @@ if($has_sufficient_data) {
     
 </div>
 
-<?php
-if (substr($service, -2) === 'sg') {
-    include('how-it-works-streamgraph.php');
-} else {
-    include('how-it-works-knowledge-map.php');
-}
-?>
-
  <script>
             $("#waiting-title").html(search_flow_config.waiting_page_texts.waiting_title);
             $("#status").html(search_flow_config.waiting_page_texts.status_waiting);
