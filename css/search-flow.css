@@ -368,6 +368,16 @@ p {
         font-size: 14px;
     }
 
+    .howitworks-point {
+        width: 100%;
+        display: block;
+        padding: 0;
+    }
+    
+    .background-lamp {
+        padding: 45px 20px 20px;
+    }
+
 }
 
 @media screen and (max-width: 535px) {
@@ -382,16 +392,16 @@ p {
         font-size: 14px;
         width: 80%;
     }
-    
+
     .search-waiting-page .center-div {
         width: 100%;
         padding: 20px 0px;
     }
-    
+
     .waiting-title, .waiting-title2 {
         font-size: 16px;
     }
-    
+
     #progress p {
         font-size: 14px;
     }
