@@ -314,8 +314,9 @@ p {
 }
 
 @media screen and (max-width: 865px) {
+    
     .center-div, .center-div2 {
-        width:80%;
+        width:88%;
     }
 
     /*how it works section*/
@@ -343,7 +344,6 @@ p {
         line-height: 200%;
     }
 }
-
 
 @media screen and (max-width: 640px) {
 
