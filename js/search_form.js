@@ -178,20 +178,31 @@ var SearchOptions = {
         })
 
         $("#filter-btn").click(function () {
-            $("#filters").toggleClass("frontend-hidden");
-            //$("#stats").toggleClass("frontend-hidden");
-
-            var closed = $("#filters").css("display") == "none";
-
-            if (closed) {
-                $("#input-container").css("display", "none");
-            } else if (self.user_defined_date) {
-                $("#input-container").css("display", "block");
+            if (self.is_filter_closed()) {
+                self.open_filter();
+            } else {
+                self.close_filter();
             }
-
         });
 
     },
+
+    is_filter_closed: function() {
+        return $("#filters").css("display") == "none";
+    },
+
+    close_filter: function() {
+        $("#filters").addClass("frontend-hidden");
+        $("#input-container").css("display", "none");
+    },
+
+    open_filter: function() {
+        $("#filters").removeClass("frontend-hidden");
+        if (this.user_defined_date) {
+            $("#input-container").css("display", "block");
+        }
+    },
+
     select_multi: function (dropdown_class, entity, width, data) {
 
         var self = this;

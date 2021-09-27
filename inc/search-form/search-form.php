@@ -300,8 +300,12 @@ $("#searchform").submit(function (e) {
 
 $("#searchform").validate({
     errorPlacement: function(error, element) {
+        if (SearchOptions.is_filter_closed() && element.attr("id") !== "searchterm") {
+            SearchOptions.open_filter();
+        }
         $("#" + element.attr("id") + "-error").html(error);
     },
-    errorClass: "validation-error"
+    errorClass: "validation-error",
+    ignore: [],
 });
 </script>
