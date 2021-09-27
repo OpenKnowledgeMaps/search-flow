@@ -203,14 +203,19 @@ var SearchOptions = {
         }
     },
 
-    select_multi: function (dropdown_class, entity, width, data) {
+    select_multi: function (dropdown_class, entry, data) {
+
+        var entity = entry.name;
+        var width = entry.width;
+        var required = entry.required;
 
         var self = this;
 
          $(function () {
             $(dropdown_class).multiselect({
+                enableHTML: true,
                 allSelectedText: "All " + entity
-                , nonSelectedText: "No " + entity
+                , nonSelectedText: required ? '<span class="multiselect-empty">0 ' + entity + '</span>' : "0 " + entity
                 , nSelectedText: entity
                 , buttonWidth: width
                 , maxHeight: 250

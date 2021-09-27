@@ -206,6 +206,11 @@ button {
     vertical-align: middle;
 }
 
+.multiselect-empty {
+    color: #e55137;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 710px) {
 
     .text-field {

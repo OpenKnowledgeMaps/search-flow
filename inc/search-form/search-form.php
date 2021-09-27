@@ -86,7 +86,7 @@ var chooseOptions = function () {
         if (typeof entry.width === "undefined") {
             entry.width = "110px";
         }
-        search_options_object.select_multi('.dropdown_multi_' + entry.id, entry.name, entry.width, config.options)
+        search_options_object.select_multi('.dropdown_multi_' + entry.id, entry, config.options)
     })
 
     var valueExists = function (key, value) {
