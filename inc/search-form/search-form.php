@@ -21,7 +21,7 @@ $waiting_page = $search_flow_config["waiting_page"];
         <div>
             <input type="text" name="q" size="89" required class="text-field" 
                 id="searchterm" placeholder="Enter your search term" spellcheck="true"
-                data-msg="The search term is required:"
+                data-msg="Search term required:"
                 value="<?php echo (isset($search_query)?($search_query):("")) ?>">
             
             <button type="submit" class="submit-btn">GO</button>

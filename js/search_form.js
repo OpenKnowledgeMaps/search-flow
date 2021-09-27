@@ -104,7 +104,7 @@ var SearchOptions = {
 
                 if (entry.required) {
                     new_input_elem.property("required", true)
-                        .attr("data-msg", "The field is required:")
+                        .attr("data-msg", entry.required_message ? entry.required_message : "The field is required:")
                 }
 
             } else if (entry.type = "dropdown") {
@@ -125,7 +125,7 @@ var SearchOptions = {
 
                 if (entry.required) {
                     new_select.property("required", true)
-                        .attr("data-msg", "The field is required:")
+                        .attr("data-msg", entry.required_message ? entry.required_message : "The field is required:")
                 }
                 
                 if(entry.hasOwnProperty("hidden") && entry.hidden) {
@@ -169,7 +169,7 @@ var SearchOptions = {
 
                             if (input.required) {
                                 input_elem.property("required", true)
-                                    .attr("data-msg", "The field is required:")
+                                    .attr("data-msg", input.required_message ? input.required_message : "The field is required:")
                             }
                         })
                     }
