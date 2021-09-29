@@ -85,7 +85,12 @@ function redirectToMap(vis_page, id, service, post_data) {
     
     search_flow_config.waiting_page_options.vis_page_additional_params.forEach(function (param, i) {
         redirect_url += createParamName(param, i, has_previous_params) + createParamValue(param, post_data);
+        has_previous_params = true;
     });
+
+    if (post_data.embed) {
+        redirect_url += (has_previous_params ? "&" : "?") + "embed=true";
+    }
     
     window.location.replace(redirect_url);
 }
