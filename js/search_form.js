@@ -190,22 +190,30 @@ var SearchOptions = {
     },
 
     get_form_rules_messages: function(data) {
+        var get_name = function(entry) {
+            if (entry.multiple) {
+                return entry.id + "[]";
+            }
+            return entry.id;
+        };
         var rules = {};
         var add_rule = function(entry) {
-            rules[entry.id] = {
+            var name = get_name(entry);
+            rules[name] = {
                 required: !!entry.required
             };
             if (entry.data_type) {
-                rules[entry.id][entry.data_type] = true;
+                rules[name][entry.data_type] = true;
             }
         };
         var messages = {};
         var add_message = function(entry) {
-            messages[entry.id] = {
+            var name = get_name(entry);
+            messages[name] = {
                 required: entry.required_message ? entry.required_message : "The field is required:",
             };
             if (entry.data_type) {
-                messages[entry.id][entry.data_type] = entry.data_type_message ? entry.data_type_message : "The field is not valid:";
+                messages[name][entry.data_type] = entry.data_type_message ? entry.data_type_message : "The field is not valid:";
             }
         };
         data.dropdowns.forEach(function (entry) {
