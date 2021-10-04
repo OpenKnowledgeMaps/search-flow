@@ -95,17 +95,12 @@ var SearchOptions = {
                         .text(entry.label)
                         .style("margin-left", "8px")
 
-                var new_input_elem = new_input.append("input")
+                new_input.append("input")
                         .attr("id", entry.id)
                         .attr("name", entry.id)
                         .attr("type", "text")
                         .attr("size", "5")
                         .attr("value", entry.value)
-
-                if (entry.required) {
-                    new_input_elem.property("required", true)
-                        .attr("data-msg", entry.required_message ? entry.required_message : "The field is required:")
-                }
 
             } else if (entry.type = "dropdown") {
 
@@ -122,11 +117,6 @@ var SearchOptions = {
                         .attr("class", "dropdown_multi_" + entry.id)
                         .style("vertical-align", "top")
                         .attr("name", entry.id)
-
-                if (entry.required) {
-                    new_select.property("required", true)
-                        .attr("data-msg", entry.required_message ? entry.required_message : "The field is required:")
-                }
                 
                 if(entry.hasOwnProperty("hidden") && entry.hidden) {
                     new_select.attr("class", "hidden");
@@ -160,17 +150,13 @@ var SearchOptions = {
                                     .text(input.label)
                                     .style("margin-right", "8px")
 
-                            var input_elem = container_div.append("input")
+                            container_div.append("input")
                                     .attr("id", input.id)
                                     .attr("name", input.id)
                                     .attr("class", input.class)
                                     .attr("type", "text")
                                     .attr("size", "18")
 
-                            if (input.required) {
-                                input_elem.property("required", true)
-                                    .attr("data-msg", input.required_message ? input.required_message : "The field is required:")
-                            }
                         })
                     }
                 })
@@ -201,6 +187,51 @@ var SearchOptions = {
         if (this.user_defined_date) {
             $("#input-container").css("display", "block");
         }
+    },
+
+    get_form_rules_messages: function(data) {
+        var rules = {};
+        var add_rule = function(entry) {
+            rules[entry.id] = {
+                required: !!entry.required
+            };
+            if (entry.data_type) {
+                rules[entry.id][entry.data_type] = true;
+            }
+        };
+        var messages = {};
+        var add_message = function(entry) {
+            messages[entry.id] = {
+                required: entry.required_message ? entry.required_message : "The field is required:",
+            };
+            if (entry.data_type) {
+                messages[entry.id][entry.data_type] = entry.data_type_message ? entry.data_type_message : "The field is not valid:";
+            }
+        };
+        data.dropdowns.forEach(function (entry) {
+            add_rule(entry);
+            add_message(entry);
+
+            if (!entry.fields) {
+                return;
+            }
+
+            entry.fields.forEach(function (option) {
+                if (!option.inputs) {
+                    return;
+                }
+
+                option.inputs.forEach(function (input) {
+                    add_rule(input);
+                    add_message(input);
+                });
+            });
+        });
+
+        return {
+            rules: rules, 
+            messages: messages
+        };
     },
 
     select_multi: function (dropdown_class, entry, data) {

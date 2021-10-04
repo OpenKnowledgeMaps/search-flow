@@ -272,6 +272,29 @@ $(document).ready(function () {
             $("#input-container").css("display", "block");
         }
     }
+
+    // form validator section
+    $.validator.addMethod(
+        "year",
+        function(value, element) {
+            return value.trim().match(/^[12]?\d{3}$/);
+        },
+    );
+
+    var rules_messages = SearchOptions.get_form_rules_messages(config.options);
+
+    $("#searchform").validate({
+        rules: rules_messages.rules,
+        messages: rules_messages.messages,
+        errorPlacement: function(error, element) {
+            if (SearchOptions.is_filter_closed() && element.attr("id") !== "searchterm") {
+                SearchOptions.open_filter();
+            }
+            $("#" + element.attr("id") + "-error").html(error);
+        },
+        errorClass: "validation-error",
+        ignore: [],
+    });
 })
 
 $("#searchform").submit(function (e) {
@@ -298,14 +321,4 @@ $("#searchform").submit(function (e) {
 
 })
 
-$("#searchform").validate({
-    errorPlacement: function(error, element) {
-        if (SearchOptions.is_filter_closed() && element.attr("id") !== "searchterm") {
-            SearchOptions.open_filter();
-        }
-        $("#" + element.attr("id") + "-error").html(error);
-    },
-    errorClass: "validation-error",
-    ignore: [],
-});
 </script>
