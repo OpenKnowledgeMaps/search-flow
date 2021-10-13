@@ -205,6 +205,12 @@ var SearchOptions = {
             if (entry.data_type) {
                 rules[name][entry.data_type] = true;
             }
+            if (entry.less_than) {
+                rules[name].less_than = entry.less_than;
+            }
+            if (entry.date_in_past) {
+                rules[name].date_in_past = true;
+            }
         };
         var messages = {};
         var add_message = function(entry) {
@@ -214,6 +220,12 @@ var SearchOptions = {
             };
             if (entry.data_type) {
                 messages[name][entry.data_type] = entry.data_type_message ? entry.data_type_message : "The field is not valid:";
+            }
+            if (entry.less_than) {
+                messages[name].less_than = entry.less_than_message ? entry.less_than_message : "The field value is too high:";
+            }
+            if (entry.date_in_past) {
+                messages[name].date_in_past = entry.date_in_past_message ? entry.date_in_past_message : "Past date required:";
             }
         };
         data.dropdowns.forEach(function (entry) {

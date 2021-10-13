@@ -281,6 +281,28 @@ $(document).ready(function () {
         },
     );
 
+    $.validator.addMethod(
+        "less_than",
+        function(value, element, params) {
+            var is_less_than_everything = true;
+            params.forEach(function(otherField) {
+                if (value >= $("#" + otherField).val()) {
+                    is_less_than_everything = false;
+                }
+            });
+            return is_less_than_everything;
+        },
+    );
+
+    var today = new Date(Date.now()).toISOString();
+
+    $.validator.addMethod(
+        "date_in_past",
+        function(value, element) {
+            return value <= today;
+        },
+    );
+
     var rules_messages = SearchOptions.get_form_rules_messages(config.options);
 
     $("#searchform").validate({
