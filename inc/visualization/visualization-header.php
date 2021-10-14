@@ -34,6 +34,10 @@ if($search_flow_config["vis_load_context"]) {
                                         , "service"
                                         , $search_flow_config["enable_default_service"]
                                         , $search_flow_config["default_service"]);
+    // zika map fix (service is in wrong format there)
+    if ($service !== null && substr($service, 0, 4) === "PLOS") {
+        $service = "plos";
+    }
 
     $query = setVariableFromContext($context
                                         , "query"
