@@ -21,6 +21,8 @@ if($id_param === false) {
     $id_param = "";
 }
 
+$is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
+
 if(isset($_SESSION['post']) && isset($_SESSION['post'][$id_param]) && isset($_SESSION['post'][$id_param]["unique_id"]) 
         && $_SESSION['post'][$id_param]["unique_id"] === $id_param) {
     $_POST = $_SESSION['post'][$id_param];
@@ -174,6 +176,7 @@ if($has_sufficient_data) {
     
     $post_array["service"] = $service;
     $post_array["optradio"] = $service;
+    $post_array["embed"] = $is_embed;
     $post_data = json_encode($post_array);
 }
 ?>
