@@ -106,7 +106,7 @@ var SearchOptions = {
 
                 var new_select_container = filters
                     .insert('div', "#input-container")
-                    .style('display', 'block')
+                    .style('display', 'inline-block')
 
                 new_select_container.append("div").attr("id", entry.id + "-error")
 
