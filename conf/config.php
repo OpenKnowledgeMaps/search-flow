@@ -310,10 +310,6 @@ if(isset($search_flow_config_local)) {
             , mobile_warning: 'Note: the visualization isn\'t optimized for mobile yet, you may encounter some rough edges.'
             , alternate_desktop_warning: 'This is a prototype - you may encounter some rough edges'
         }
-        //Knowledge map context texts
-        , context_texts: {
-            citation_intro: 'Please cite this map as follows:'
-        }
     }
     
     if(typeof search_flow_config_local !== "undefined") {
