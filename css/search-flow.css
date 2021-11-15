@@ -31,6 +31,11 @@
     font-size: 14px;
 }
 
+#home .search-box {
+    padding-left: 10px; 
+    padding-right: 10px;
+}
+
 .center-div {
     max-width: 750px;
     width: 100%;
@@ -53,7 +58,6 @@
 }
 
 .search-waiting-page .center-div {
-    width:50%;
     margin: 0px auto;
     background-color: transparent;
     padding: 112px 50px;
@@ -201,6 +205,14 @@
     background-color: transparent;
 }
 
+.searchpage .h2reverse {
+    text-align: center !important;
+}
+
+.searchpage .infohow {
+    background-color: white !important;
+}
+
 /* VIS PAGE */
 
 .cite-map a {
@@ -213,7 +225,7 @@
 
 .citation {
     display: inline-block;
-    padding: 5px;
+    padding: 10px;
     background-color: rgba(239,243,244,1);
     hyphens: none;
     border-radius: 3px;
@@ -221,12 +233,65 @@
 }
 
 body:not(.modal-open){
-  padding-right: 0px !important;
+    padding-right: 0px !important;
 }
 
 .modal-open {
     overflow: hidden;
     padding-right: 0 !important;
+}
+
+/*How it works sections CSS will be added here*/
+p {
+    text-align: left;
+}
+
+#divhow {
+    /*background-color: white;*/
+    padding: 100px 0px 100px 0px;
+}
+
+.h2reverse {
+    background-color: transparent;
+    color: #2d3e52;
+    font-weight: 800;
+    padding: 0px 0px 20px;
+}
+
+.howitworks-div {
+    max-width:100%; 
+    text-align:center; 
+    margin-top:5%;
+}
+
+.howitworks-point {
+    width:22%; 
+    display: inline-block; 
+    padding: 0px 2% 2%; 
+    vertical-align:top; 
+    text-align:left;
+}
+
+.howitworks-point p {
+    font-size: 18px;
+}    
+
+.number {
+    font-size:40px; 
+    color: #2c3e52;
+    font-weight: 800;
+    /*vertical-align: bottom;*/
+    padding-right: 10px;
+}
+
+.howimg {
+    width: auto;
+    max-height: 60px; 
+    vertical-align: baseline;
+}
+
+.infohow {
+    border-top: 0px solid #cacfd3; 
 }
 
 @media screen and (max-width: 1230px) {
@@ -241,11 +306,32 @@ body:not(.modal-open){
     .center-div {
         margin: 50px auto 0;
     }
+    
+    .search-waiting-page .center-div {
+        padding: 45px 0px 0px;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    #divhow {
+        padding: 50px 0px 50px 30px;
+    }
 }
 
 @media screen and (max-width: 865px) {
+    
     .center-div, .center-div2 {
-        width:80%;
+        width:88%;
+    }
+
+    /*how it works section*/
+    .howimg {
+        width: auto;
+        max-height: 40px; 
+    }
+
+    .number {
+        font-size:30px; 
     }
 }
 
@@ -255,7 +341,7 @@ body:not(.modal-open){
         display: block;
         margin-left: 0px;
     }
-    
+
     .radio-inline {
         display: block;
         margin-left: 0px;
@@ -264,13 +350,12 @@ body:not(.modal-open){
     }
 }
 
-
 @media screen and (max-width: 640px) {
-    
+
     #desktop-warning {
         padding-left: 20px;
     }
-    
+
     .center-div {
         -webkit-box-shadow: 0px 0px 0px 0px #cacfd3;
         -moz-box-shadow: 0px 0px 0px 0px #cacfd3;
@@ -278,46 +363,77 @@ body:not(.modal-open){
         margin: 0px auto;
         padding: 50px 0px 0px;
     }
-    
+
+    #divhow {
+        padding-left: 0px;
+    }
+
     .center-div2 {
         padding: 20px 30px;
     }
-    
+
     .library {
         font-size: 14px;
+    }
+
+    .howitworks-point {
+        width: 100%;
+        display: block;
+        padding: 0;
+    }
+    
+    .background-lamp {
+        padding: 45px 20px 20px;
     }
 
 }
 
 @media screen and (max-width: 535px) {
-    
+
     .center-div {
         padding: 20px;
-        width:90%;
+        width:100%;
         margin: 20px 0px 0px 0px;
     }
-    
+
     .basic-button {
         font-size: 14px;
         width: 80%;
     }
+
+    .search-waiting-page .center-div {
+        width: 100%;
+        padding: 20px 0px;
+    }
+
+    .waiting-title, .waiting-title2 {
+        font-size: 16px;
+    }
+
+    #progress p {
+        font-size: 14px;
+    }
 }
 
 @media screen and (max-width: 470px) {
-    
+
     .library {
         margin: 10px 0px 10px 0px;
     }
-    
+
     .radio-inline {
         font-size: 14px;
     }
-    
+
     .text-field {
         display: block;
     }
-    
+
     .try-out-maps {
+        font-size: 14px;
+    }
+
+    .howitworks-point p {
         font-size: 14px;
     }
 }
@@ -327,7 +443,7 @@ body:not(.modal-open){
         padding: 20px;
         width: 100%;
     }
-    
+
     .center-div2 {
         padding: 10px 20px;
     }

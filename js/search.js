@@ -66,6 +66,7 @@ function errorOccurred() {
   clearFallbackInterval();
   $("#active_state").addClass("nodisplay");
   $("#error_state").removeClass("nodisplay");
+  $("#divhow").addClass("nodisplay");
 }
 
 function redirectToMap(vis_page, id, service, post_data) {
@@ -96,8 +97,13 @@ function redirectToMap(vis_page, id, service, post_data) {
       redirect_url +=
         createParamName(param, i, has_previous_params) +
         createParamValue(param, post_data);
+      has_previous_params = true;
     }
   );
+
+  if (post_data.embed) {
+    redirect_url += (has_previous_params ? "&" : "?") + "embed=true";
+  }
 
   window.location.replace(redirect_url);
 }
@@ -217,6 +223,10 @@ function executeSearchRequest(
         current_error_texts.resolution_link,
         search_flow_config.fail_page_options.show_search_form
       );
+
+      if (service.endsWith("sg")) {
+        $(".vis_type_name").text("streamgraph");
+      }
     })
     .fail(function (xhr, status, error) {
       //do not carry out if request is aborted

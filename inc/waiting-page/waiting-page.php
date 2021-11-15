@@ -21,6 +21,8 @@ if($id_param === false) {
     $id_param = "";
 }
 
+$is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
+
 if(isset($_SESSION['post']) && isset($_SESSION['post'][$id_param]) && isset($_SESSION['post'][$id_param]["unique_id"]) 
         && $_SESSION['post'][$id_param]["unique_id"] === $id_param) {
     $_POST = $_SESSION['post'][$id_param];
@@ -174,6 +176,7 @@ if($has_sufficient_data) {
     
     $post_array["service"] = $service;
     $post_array["optradio"] = $service;
+    $post_array["embed"] = $is_embed;
     $post_data = json_encode($post_array);
 }
 ?>
@@ -198,7 +201,7 @@ if($has_sufficient_data) {
 
         <p id="status" class="animated-ellipsis">
         </p>
-    </div>
+    </div>    
 
     <!-- screen when knowledge map has failed -->
     <div id="error_state" class="search_error_state nodisplay" style="text-align: left !important;">
@@ -224,6 +227,7 @@ if($has_sufficient_data) {
             <a id="error-resolution" class="basic-button nodisplay"></a>
         </p>
     </div>
+    
 </div>
 
  <script>
@@ -262,7 +266,7 @@ if($has_sufficient_data) {
                     milliseconds_progressbar = item.milliseconds_progressbar;
                     max_length_search_term_short = item.max_length_search_term_short;
                     timeout = item.timeout;
-                    $("#vis_type_name").text(item.vis_type_name);
+                    $(".vis_type_name").text(item.vis_type_name);
                 }
             });
 
