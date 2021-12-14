@@ -152,6 +152,7 @@ if(!empty($_POST)) {
     $has_sufficient_data = true;
 }
 
+# this is where the request is translated from GET request to POST
 if ($enable_get_requests && $request_type === "get" 
         && $get_query !== false && $service !== false && $service !== null) {
     
