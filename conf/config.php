@@ -313,13 +313,11 @@ if(isset($search_flow_config_local)) {
     }
     
     if(typeof search_flow_config_local !== "undefined") {
-        for(const [key, value] of Object.entries(search_flow_config)) {
-            let config_option = key;
-            if(search_flow_config_local.hasOwnProperty(config_option)) {
-                Object.assign(search_flow_config[config_option]
-                                , search_flow_config_local[config_option])
+        Object.keys(search_flow_config).forEach(function (key) {
+            if(search_flow_config_local.hasOwnProperty(key)) {
+                Object.assign(search_flow_config[key], search_flow_config_local[key]);
             }
-        }
+        });
     }
     
     <?php foreach($search_flow_config["filter_options"] as $name => $options): ?>
