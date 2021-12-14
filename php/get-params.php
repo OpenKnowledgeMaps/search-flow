@@ -7,8 +7,10 @@ function getParam($param, $where = INPUT_GET, $filter = FILTER_SANITIZE_STRING
                     , $options = array()) {
     
    $boolean_filter = $filter === FILTER_VALIDATE_BOOLEAN;
+   # true if $filter === FILTER_VALIDATE_BOOLEAN
     
    $return_param = filter_input($where, $param, $filter, $options);
+   # if $param is expected to be an array, $options needs to be FILTER_REQUIRE_ARRAY
     
     if(!$boolean_filter && $return_param === false) {
         die("An error ocurred while retrieving the following parameter: " . $param);

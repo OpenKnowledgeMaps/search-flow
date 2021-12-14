@@ -12,7 +12,8 @@ $search_flow_config = array(
     )
     //Optional parameters that can be specified in a GET request
     , "optional_get_params" => [
-        "integration1" => []
+        "integration1" => array()
+        // array("param_name" => "param_type")
     ]
     //Load the visualization context on the knowledge map page
     , "vis_load_context" => true
@@ -309,10 +310,6 @@ if(isset($search_flow_config_local)) {
             browser_unsupported_warning: 'You are using <strong>an unsupported browser</strong>. This website was successfully tested with the latest versions of <strong>Firefox, Chrome, Safari, Opera, and Edge</strong>. We strongly suggest <strong>to switch to one of the supported browsers.</strong>' 
             , mobile_warning: 'Note: the visualization isn\'t optimized for mobile yet, you may encounter some rough edges.'
             , alternate_desktop_warning: 'This is a prototype - you may encounter some rough edges'
-        }
-        //Knowledge map context texts
-        , context_texts: {
-            citation_intro: 'Please cite this map as follows:'
         }
     }
     
