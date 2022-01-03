@@ -223,11 +223,7 @@ function executeSearchRequest(
         }
         setErrorContact(current_error_texts.contact);
         writeSearchTerm("search_term_fail", search_term_short, search_term);
-        setErrorResolution(
-          current_error_texts.resolution,
-          current_error_texts.resolution_link,
-          true
-        );
+        setErrorResolution(current_error_texts, true);
 
         if (service.endsWith("sg")) {
           $(".vis_type_name").text("streamgraph");
@@ -286,11 +282,8 @@ function setErrorTexts(text_object, search_term_short, search_term) {
     writeSearchTerm("search_term_fail", search_term_short, search_term);
   }
 
-  if (
-    text_object.hasOwnProperty("resolution") &&
-    text_object.hasOwnProperty("resolution_link")
-  ) {
-    setErrorResolution(text_object.resolution, text_object.resolution_link);
+  if (text_object.resolution_type) {
+    setErrorResolution(text_object);
   }
 }
 
@@ -313,7 +306,7 @@ function setErrorMoreInfo(html_string) {
 function setErrorContact(html_string) {
   writeErrorFieldHTML("error-contact", html_string);
 }
-function setErrorResolution(resolution, resolution_link, show_form) {
+function setErrorResolution(text_object, show_form) {
   if (typeof show_form !== "undefined" && show_form === true) {
     $("#new_search_form").removeClass("nodisplay");
     $("#filters").removeClass("frontend-hidden");
@@ -323,11 +316,48 @@ function setErrorResolution(resolution, resolution_link, show_form) {
     if (search_flow_config.search_options.search_term_focus) {
       document.getElementById("searchterm").focus({ preventScroll: true });
     }
-  } else {
-    $("#error-resolution").removeClass("nodisplay");
-    $("#error-resolution").text(resolution);
-    $("#error-resolution").attr("href", resolution_link);
+
+    return;
   }
+
+  const {
+    resolution_type,
+    resolution_label,
+    resolution_link,
+    resolution_countdown,
+  } = text_object;
+
+  if (resolution_type === "link") {
+    $("#error-resolution-link").removeClass("nodisplay");
+    $("#error-resolution-link").text(resolution_label);
+    $("#error-resolution-link").attr("href", resolution_link);
+
+    return;
+  }
+
+  if (resolution_type === "countdown") {
+    $("#error-resolution-countdown").removeClass("nodisplay");
+    $("#error-resolution-countdown .count-label").text(resolution_label);
+    $("#error-resolution-countdown .count-value").text(
+      resolution_countdown + " seconds."
+    );
+
+    let time_passed = 0;
+    window.setInterval(() => {
+      time_passed++;
+      $("#error-resolution-countdown .count-value").text(
+        resolution_countdown - time_passed + " seconds."
+      );
+
+      if (time_passed >= resolution_countdown) {
+        location.reload();
+      }
+    }, 1000);
+
+    return;
+  }
+
+  console.warn(`Unknown resolution type '${resolution_type}'.`);
 }
 
 function writeErrorFieldHTML(field, html_string) {
