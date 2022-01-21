@@ -321,7 +321,7 @@ p {
 @media screen and (max-width: 865px) {
     
     .center-div, .center-div2 {
-        width:88%;
+        width: initial;
     }
 
     /*how it works section*/
