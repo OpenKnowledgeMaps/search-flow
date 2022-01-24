@@ -66,7 +66,6 @@ function errorOccurred() {
   clearFallbackInterval();
   $("#active_state").addClass("nodisplay");
   $("#error_state").removeClass("nodisplay");
-  $("#divhow").addClass("nodisplay");
 }
 
 function redirectToMap(vis_page, id, service, post_data) {
@@ -316,6 +315,9 @@ function setErrorResolution(text_object, show_form) {
     if (search_flow_config.search_options.search_term_focus) {
       document.getElementById("searchterm").focus({ preventScroll: true });
     }
+
+    // later we might want to hide it also when the search form is not displayed
+    $("#divhow").addClass("nodisplay");
 
     return;
   }
