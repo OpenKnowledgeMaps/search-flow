@@ -44,14 +44,15 @@ if ($detect->isMobile()):
         $("#visualization").css("min-height", div_height + "px")
     <?php endif ?>
 </script>
-<script type="text/javascript" src="<?php echo $headstart_path ?>dist/headstart.js"></script>
+<?php
+    // headstart.php is generated during frontend build using webpack
+    include dirname(__FILE__). '../../../../headstart/dist/headstart.php'; 
+?>
 <script type="text/javascript">
     $(document).ready(function () {
         headstart.start();
     })
 </script>
-
-<link rel="stylesheet" href="<?php echo $headstart_path ?>dist/headstart.css">
 <script>
     data_config.options = search_flow_config.search_options.filter_options.options_<?php echo $service ?>.dropdowns;
     <?php if($has_custom_title): ?>
