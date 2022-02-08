@@ -21,7 +21,7 @@ paths:
           schema:
             type: string
             enum: [base, pubmed]
-            default: base
+            example: base
         - in: query
           name: type
           required: true
