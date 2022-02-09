@@ -37,8 +37,10 @@ function packParamsJSON($params_array, $post_params) {
     $output_array = array();
 
     foreach ($params_array as $entry) {
-        $current_params = $post_params[$entry];
-        $output_array[$entry] = $current_params;
+        if(isset($post_params[$entry])) {
+            $current_params = $post_params[$entry];
+            $output_array[$entry] = $current_params;
+        }
     }
 
     return json_encode($output_array);
@@ -122,13 +124,8 @@ function createGetRequestArray($get_query, $service, $filter_options) {
     
     // Check for params from search form
     if(isset($search_flow_config["optional_get_params"][$service])) {
-        foreach($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
-            if ($optional_param_type == "string") {
-                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-            }
-            if ($optional_param_type == "array") {
-                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
-            }
+        foreach($search_flow_config["optional_get_params"][$service] as $optional_param) {
+            $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
             if($param_get !== false) {
                 $ret_array[$optional_param] = $param_get;
                 $search_flow_config["params_arrays"][$service][] = $optional_param;
