@@ -9,10 +9,12 @@ servers:
     description: Internal server for testing
 
 paths:
-  /search:
+  /search?type=get:
     get:
       summary: search-flow entry point
-      description: Initiate a search with given parameters
+      description: |
+        This is an entry point into the automatic pipeline that leads users directly to a visualization. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters.
+        As it is not returning raw visualization data directly, the entry point does not conform to the strict definition of a HTTP-GET interface.
       parameters:
         - in: query
           name: service
@@ -23,20 +25,12 @@ paths:
             enum: [base, pubmed]
             example: base
         - in: query
-          name: type
-          required: true
-          description: The HTTP request type. Must be `get` for the GET route
-          schema:
-            type: string
-            enum:
-              - get
-        - in: query
           name: q
           required: true
           description: |
             The search query, e.g. `digital education`.
 
-            For BASE, we apply the verbatim search mode to improve visualization quality. Operators such as `open and science`, exclusion such as `science -research` and phrase search such as `"digital education"` is possible.
+            For BASE, we apply the verbatim search mode to improve visualization quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
 
             For PubMed, the query is relayed as-is, which means advanced PubMed syntax can be applied.
           schema:
@@ -70,7 +64,7 @@ paths:
           description: | 
             Sorting here means the way the documents are prioritized by the aggregator before the visualization is created. Defaults to `most-relevant`.
 
-            Most relevant ranks documents according to their relevancy towards the search query, with highest relevancy first.
+            To determine the most relevant documents, we use the relevance ranking provided by the data source e.g. BASE. Data sources mainly use text similarity between your query and the article metadata to determine the relevance ranking. Please consult the FAQs for more information.
 
             Most recent ranks documents according to their recency, with most recent first.
           schema:
