@@ -79,3 +79,8 @@ function setVariableFromContext($context, $var, $enable_default = false, $defaul
     
 }
 ?>
+
+<!-- Zotero add-on metadata -->
+<meta name="citation_author" content="Open Knowledge Maps" />
+<meta name="citation_title" content="Overview of research on <?php echo $has_custom_title ? $custom_title : $query ?>" />
+<meta name="citation_date" content="<?php echo $timestamp !== null ? (new DateTime($timestamp))->format('Y-m-d') : "" ?>" />
