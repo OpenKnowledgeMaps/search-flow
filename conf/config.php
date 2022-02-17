@@ -220,31 +220,35 @@ if(isset($search_flow_config_local)) {
                 , remedy: "<strong>Here are some tips to improve your query:</strong>"
                 , more_info: 'Alternatively you can <a class="underline" id="more-info-link_na" target="_blank">check out results for your search query on <span id="more-info-link_service"></span></a>. For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>.'
                 , contact: 'If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. Please include the search query in your message.'
-                , "resolution": "Try again"
-                , "resolution_link": "index"
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "index"
             },
             connection_error: {
                 title: "Connection lost"
                 , reason: "It seems that your Internet is unavailable or the connection was reset."
                 , remedy: 'Please check your Internet settings and try again by <a class="underline" style="cursor:pointer" onClick="window.location.reload();">refreshing this page</a>.'
-                , "resolution": "Refresh this page"
-                , "resolution_link": "javascript:location.reload()"
+                , resolution_type: "link"
+                , resolution_label: "Refresh this page"
+                , resolution_link: "javascript:location.reload()"
 
             },
             server_error: {
                 title: "Sorry! An unexpected error occurred."
                 , reason: 'Unfortunately we don’t know what went wrong. We apologize for the inconvenience. Please <a class="underline" href="index.php">try again</a> in a few minutes.'
                 , remedy: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
-                , "resolution": "Try again"
-                , "resolution_link": "index"
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "index"
 
             },
             no_post_data: {
                 title: "Ooops! You should not be here..."
                 , reason: 'We apologize for this slight detour. You will be redirected to <a class="underline" href="index">our search page</a> in 10 seconds.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Go to search page"
-                , "resolution_link": "index"
+                , resolution_type: "link"
+                , resolution_label: "Go to search page"
+                , resolution_link: "index"
 
             },
             timeout: {
@@ -252,16 +256,18 @@ if(isset($search_flow_config_local)) {
                 , reason: "It might be that too many people are currently creating <span class=\"vis_type_name\">knowledge map</span>s. You may also have lost your Internet connection."
                 , remedy: 'In any case, we recommend to check your Internet settings and try again by <a class="underline" style="cursor:pointer" onClick="window.location.reload();">refreshing this page</a>.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Try again"
-                , "resolution_link": "javascript:location.reload()"
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "javascript:location.reload()"
 
             },
             rate_limit: {
                 title: "Sorry! We are experiencing too many requests."
-                , reason: "Unfortunately this means, we cannot create your <span class=\"vis_type_name\">knowledge map</span>. Please try again in a few seconds."
+                , reason: "Unfortunately this means, we cannot create your <span class=\"vis_type_name\">knowledge map</span> at the moment. Your request will be added to the queue. This page will be automatically updated in 20 seconds. Thank you for your patience."
                 , contact: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
-                , "resolution": "Try again"
-                , "resolution_link": "javascript:location.reload()"
+                , resolution_type: "countdown"
+                , resolution_label: "The page will be updated in"
+                , resolution_countdown: 20
 
             },
             pubmed_unexpected_error: {
@@ -269,8 +275,9 @@ if(isset($search_flow_config_local)) {
                 , reason: "The PubMed API is currently experiencing problems. We have logged the error and will investigate the issue."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Try again"
-                , "resolution_link": "index"
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "index"
 
             },
             pubmed_500_error: {
@@ -278,8 +285,9 @@ if(isset($search_flow_config_local)) {
                 , reason: "Unfortunately this means, at the moment we cannot provide <span class=\"vis_type_name\">knowledge map</span>s for PubMed."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Try again"
-                , "resolution_link": "index"
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "index"
 
             },
             pubmed_502_error: {
@@ -287,8 +295,9 @@ if(isset($search_flow_config_local)) {
                 , reason: "Unfortunately this means we cannot create a <span class=\"vis_type_name\">knowledge map</span> for this search."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> with a different search term or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Try again"
-                , "resolution_link": "index"
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "index"
 
             },
             base_xml_error: {
@@ -296,8 +305,9 @@ if(isset($search_flow_config_local)) {
                 , reason: "Unfortunately this means, at the moment we cannot create <span class=\"vis_type_name\">knowledge map</span>s for this data source."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
-                , "resolution": "Try again"
-                , "resolution_link": "index"
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "index"
 
             },
         }
@@ -314,13 +324,11 @@ if(isset($search_flow_config_local)) {
     }
     
     if(typeof search_flow_config_local !== "undefined") {
-        for(const [key, value] of Object.entries(search_flow_config)) {
-            let config_option = key;
-            if(search_flow_config_local.hasOwnProperty(config_option)) {
-                Object.assign(search_flow_config[config_option]
-                                , search_flow_config_local[config_option])
+        Object.keys(search_flow_config).forEach(function (key) {
+            if(search_flow_config_local.hasOwnProperty(key)) {
+                Object.assign(search_flow_config[key], search_flow_config_local[key]);
             }
-        }
+        });
     }
     
     <?php foreach($search_flow_config["filter_options"] as $name => $options): ?>
