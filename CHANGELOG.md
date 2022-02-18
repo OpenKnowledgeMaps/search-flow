@@ -1,5 +1,11 @@
 # Changelog
 
+## 2022-02-17
+
+### Removal
+
+- removed citation CSS (moved to Headstart)
+
 ## 2022-01-31
 
 ### New features
