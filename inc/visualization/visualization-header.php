@@ -3,12 +3,8 @@ include_once dirname(__FILE__). '../../../conf/config.php';
 include_once dirname(__FILE__). '../../../php/header-head.php';
 
 $id = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
-if($id === false || $id === "") {
-    if($search_flow_config["enable_default_id"]) {
-        $id = $search_flow_config["default_id"];
-    } else {
-        die("No or invalid visualization ID provided");
-    }
+if ($search_flow_config["enable_default_id"] && ($id === false || $id === "")) {
+    $id = $search_flow_config["default_id"];
 }
 
 $vis_type = getParam("vis_type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
