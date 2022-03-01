@@ -112,6 +112,13 @@ paths:
           description: BASE only, optional. Denotes a collection of repositories that the search will be restricted to, e.g. `at` or `de`. Note that if a repository has been specified with the `repo` parameter, this paramter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
+        - in: query
+          name: vis_type
+          required: false
+          description:
+          schema:
+            type: string
+            enum: [overview, timeline]
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
