@@ -1,5 +1,11 @@
 # Changelog
 
+## 2022-03-03
+
+### Changes
+
+- if no map id is specified, the app doesn't crash
+
 ## 2022-02-17
 
 ### Removal
