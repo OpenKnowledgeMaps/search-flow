@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: OKMaps Custom Services Demo API
-  description: OKMaps Custom Services Demo API
+  title: OKMaps Parameterized Search and Visualisation Service
+  description: OKMaps Parameterized Search and Visualisation Service
   version: dev
 
 servers:
