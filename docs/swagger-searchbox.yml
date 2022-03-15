@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: OKMaps Search Searchbox Configuration Service
+  description: OKMaps Searchbox Configuration Service
+  version: dev
+
+servers:
+  - url: localhost
+    description: Internal server for testing
+
+paths:
+  /searchbox_demo:
+    get:
+      summary: search-flow entry point
+      description: |
+        This is an entry point into the automatic pipeline that leads users directly to a visualization. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters.
+        As it is not returning raw visualization data directly, the entry point does not conform to the strict definition of a HTTP-GET interface.
+      parameters:
+        - in: query
+          name: show_time_range
+          description: Enable/Disable time range option
+          schema:
+            type: boolean
+        - in: query
+          name: show_doc_types
+          description: Enable/Disable document types option
+          schema:
+            type: boolean
+        - in: query
+          name: show_sorting
+          description: Enable/Disable sorting option
+          schema:
+            type: boolean
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
