@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: OKMaps Search Searchbox Configuration Service
+  description: OKMaps Searchbox Configuration Service
+  version: dev
+
+servers:
+  - url: http://localhost
+    description: Internal server for testing
+
+paths:
+  /searchbox_demo:
+    get:
+      summary: search-flow entry point
+      description: |
+          Prototype for searchbox configurator.
+      parameters:
+        - in: query
+          name: show_time_range
+          description: Enable/Disable time range option
+          schema:
+            type: boolean
+        - in: query
+          name: show_doc_types
+          description: Enable/Disable document types option
+          schema:
+            type: boolean
+        - in: query
+          name: show_sorting
+          description: Enable/Disable sorting option
+          schema:
+            type: boolean
+      responses:
+        '200':    # status code
+          description: Redirecting to the searchbox.
