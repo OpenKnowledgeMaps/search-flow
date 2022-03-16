@@ -2,7 +2,8 @@
 
 const e = React.createElement;
 
-const ENDPOINT_URL = "https://dev.openknowledgemaps.org/enkore-demo/search";
+//const ENDPOINT_URL = "https://dev.openknowledgemaps.org/enkore-demo/search";
+const ENDPOINT_URL = "search";
 
 const DEFAULT_SETTINGS = {
   showVisMode: false, // WIP
@@ -144,8 +145,8 @@ class SearchBox extends React.Component {
     const doctypesString = getDoctypesString(doctypes);
 
     window.open(
-      `${ENDPOINT_URL}?type=get&service=base&q=${query}&sorting=${relevancy}&min_descsize=300&${fromString}${toString}${doctypesString}`,
-      "_blank"
+      `${ENDPOINT_URL}?type=get&service=base&q=${query}&sorting=${relevancy}&min_descsize=300&${fromString}${toString}${doctypesString}&embed=true`,
+      "_self"
     );
   }
 
