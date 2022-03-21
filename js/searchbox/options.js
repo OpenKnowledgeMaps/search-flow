@@ -20,16 +20,26 @@ const TIMESPAN_OPTIONS = [
 ];
 
 const TimespanPicker = ({ value, setValue }) => {
-  return e(CustomDropdown, { options: TIMESPAN_OPTIONS, value, setValue });
+  return e(CustomDropdown, {
+    options: TIMESPAN_OPTIONS,
+    name: "time_range",
+    value,
+    setValue,
+  });
 };
 
-const RELEVANCY_OPTIONS = [
+const SORTING_OPTIONS = [
   { id: "most-relevant", label: "Most relevant" },
   { id: "most-recent", label: "Most recent" },
 ];
 
-const RelevancyPicker = ({ value, setValue }) => {
-  return e(CustomDropdown, { options: RELEVANCY_OPTIONS, value, setValue });
+const SortingPicker = ({ value, setValue }) => {
+  return e(CustomDropdown, {
+    options: SORTING_OPTIONS,
+    name: "sorting",
+    value,
+    setValue,
+  });
 };
 
 const InlineDatePicker = ({ label, value, onChange }) => {
@@ -45,7 +55,7 @@ const InlineDatePicker = ({ label, value, onChange }) => {
   );
 };
 
-const CustomDropdown = ({ options, value, setValue }) => {
+const CustomDropdown = ({ options, name, value, setValue }) => {
   const [open, setOpen] = useState(false);
 
   const handleOutsideClick = () => {
@@ -79,7 +89,7 @@ const CustomDropdown = ({ options, value, setValue }) => {
       "ul",
       {
         className: "multiselect-container dropdown-menu",
-        style: { maxHeight: 150, overflow: "hidden auto" },
+        style: { maxHeight: 250, overflow: "hidden auto" },
       },
       ...options.map((o) =>
         e(
@@ -110,6 +120,17 @@ const CustomDropdown = ({ options, value, setValue }) => {
           )
         )
       )
+    ),
+    e(Hiddens, { entries: [{ name, value }] })
+  );
+};
+
+const Hiddens = ({ entries }) => {
+  return e(
+    React.Fragment,
+    null,
+    ...entries.map((entry) =>
+      e("input", { type: "hidden", name: entry.name, value: entry.value })
     )
   );
 };

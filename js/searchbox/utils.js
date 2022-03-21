@@ -16,24 +16,3 @@ const useOutsideClick = (ref, handler) => {
     };
   }, [ref]);
 };
-
-const getTimespanDates = (timespan) => {
-  switch (timespan.type) {
-    case "last-month":
-      // TODO
-      return ["", ""];
-    case "last-year":
-      // TODO
-      return ["", ""];
-    case "user-defined":
-      // TODO
-      return [timespan.from, timespan.to];
-    case "any-time":
-    default:
-      return ["", ""];
-  }
-};
-
-const getDoctypesString = (doctypes) => {
-  return doctypes.map((t) => `document_types[]=${t}`).join("&");
-};
