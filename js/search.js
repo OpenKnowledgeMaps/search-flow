@@ -74,6 +74,9 @@ function redirectToMap(vis_page, id, service, post_data) {
   let redirect_url = vis_page;
   let has_previous_params = false;
   if (search_flow_config.waiting_page_options.vis_page_cool_uri) {
+    if (post_data.vis_type == "timeline") {
+      redirect_url = "streamgraph"
+    }
     search_flow_config.waiting_page_options.vis_page_params.forEach(function (
       param
     ) {
