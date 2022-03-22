@@ -79,16 +79,16 @@ class SearchBox extends React.Component {
   }
 
   toggleOptions() {
+    trackMatomoEvent(
+      "Search box",
+      this.state.showOptions ? "Hide options" : "Show options",
+      "Options toggle"
+    );
+
     this.setState({
       ...this.state,
       showOptions: !this.state.showOptions,
     });
-
-    const message = JSON.stringify({
-      source: "searchbox",
-      event: "resize",
-    });
-    window.parent.postMessage(message, "*");
   }
 
   updateQuery(newValue) {
