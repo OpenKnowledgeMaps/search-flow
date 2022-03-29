@@ -223,15 +223,6 @@
     text-decoration: none;
 }
 
-.citation {
-    display: inline-block;
-    padding: 10px;
-    background-color: rgba(239,243,244,1);
-    hyphens: none;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-}
-
 body:not(.modal-open){
     padding-right: 0px !important;
 }

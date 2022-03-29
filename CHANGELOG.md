@@ -1,5 +1,29 @@
 # Changelog
 
+## 2022-03-28
+
+### Changes
+
+- Headstart FAQs button is hidden in streamgraphs.
+
+## 2022-03-17
+
+### Changes
+
+- Improved the page metadata export to provide better information to the Zotero add-on.
+
+## 2022-03-03
+
+### Changes
+
+- if no map id is specified, the app doesn't crash
+
+## 2022-02-17
+
+### Removal
+
+- removed citation CSS (moved to Headstart)
+
 ## 2022-01-31
 
 ### New features
