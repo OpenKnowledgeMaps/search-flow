@@ -119,6 +119,12 @@ paths:
           schema:
             type: string
             enum: [overview, timeline]
+        - in: query
+          name: limit
+          required: false
+          description:
+          schema:
+            type: integer
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
