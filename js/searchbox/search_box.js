@@ -56,6 +56,9 @@ const getSettings = () => {
   return settings;
 };
 
+const DEFAULT_FROM = "1665-01-01";
+const DEFAULT_TO = new Date().toISOString().split("T")[0];
+
 class SearchBox extends React.Component {
   constructor(props) {
     super(props);
@@ -68,8 +71,8 @@ class SearchBox extends React.Component {
         query: "",
         timespan: {
           type: TIMESPAN_OPTIONS[0].id,
-          from: "1665-01-01",
-          to: new Date().toISOString().split("T")[0],
+          from: DEFAULT_FROM,
+          to: DEFAULT_TO,
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes,
@@ -102,6 +105,22 @@ class SearchBox extends React.Component {
   }
 
   updateTimespanType(newValue) {
+    if (this.state.formData.timespan.type === newValue) {
+      return;
+    }
+    let newFrom = DEFAULT_FROM;
+    let newTo = DEFAULT_TO;
+    if (newValue === "last-month") {
+      let newFromDate = new Date(DEFAULT_TO);
+      newFromDate.setMonth(newFromDate.getMonth() - 1);
+      newFrom = newFromDate.toISOString().split("T")[0];
+    }
+    if (newValue === "last-year") {
+      let newFromDate = new Date(DEFAULT_TO);
+      newFromDate.setFullYear(newFromDate.getFullYear() - 1);
+      newFrom = newFromDate.toISOString().split("T")[0];
+    }
+
     this.setState({
       ...this.state,
       formData: {
@@ -109,6 +128,8 @@ class SearchBox extends React.Component {
         timespan: {
           ...this.state.formData.timespan,
           type: newValue,
+          from: newFrom,
+          to: newTo,
         },
       },
     });
@@ -168,12 +189,14 @@ class SearchBox extends React.Component {
       { name: "lang_id", value: "all" },
     ];
 
+    // time range
+    const { type: rangeType, from, to } = this.state.formData.timespan;
+    entries.push({ name: "from", value: from });
+    entries.push({ name: "to", value: to });
+
     if (!this.state.showOptions) {
-      // time range
-      const { type: rangeType, from, to } = this.state.formData.timespan;
       entries.push({ name: "time_range", value: rangeType });
-      entries.push({ name: "from", value: from });
-      entries.push({ name: "to", value: to });
+
       // sorting
       entries.push({ name: "sorting", value: this.state.formData.sorting });
       // document types
