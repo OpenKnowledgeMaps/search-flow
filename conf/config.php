@@ -12,7 +12,8 @@ $search_flow_config = array(
     )
     //Optional parameters that can be specified in a GET request
     , "optional_get_params" => [
-        "integration1" => []
+        "integration1" => array()
+        // array("param_name" => "param_type")
     ]
     //Load the visualization context on the knowledge map page
     , "vis_load_context" => true

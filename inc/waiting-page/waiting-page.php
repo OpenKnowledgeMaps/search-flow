@@ -37,8 +37,10 @@ function packParamsJSON($params_array, $post_params) {
     $output_array = array();
 
     foreach ($params_array as $entry) {
-        $current_params = $post_params[$entry];
-        $output_array[$entry] = $current_params;
+        if(isset($post_params[$entry])) {
+            $current_params = $post_params[$entry];
+            $output_array[$entry] = $current_params;
+        }
     }
 
     return json_encode($output_array);
@@ -147,6 +149,7 @@ if(!empty($_POST)) {
     $has_sufficient_data = true;
 }
 
+# this is where the request is translated from GET request to POST
 if ($enable_get_requests && $request_type === "get" 
         && $get_query !== false && $service !== false && $service !== null) {
     
