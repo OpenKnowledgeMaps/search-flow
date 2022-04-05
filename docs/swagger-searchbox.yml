@@ -5,32 +5,100 @@ info:
   version: dev
 
 servers:
-  - url: localhost
+  - url: http://localhost
     description: Internal server for testing
 
 paths:
-  /searchbox_demo:
+  /embedded_searchbox:
     get:
       summary: search-flow entry point
       description: |
-        This is an entry point into the automatic pipeline that leads users directly to a visualization. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters.
-        As it is not returning raw visualization data directly, the entry point does not conform to the strict definition of a HTTP-GET interface.
+        Generator of the OKMaps services iframe link. The link displays a search box. The search box is customizable with the following query parameters:
       parameters:
         - in: query
           name: show_time_range
-          description: Enable/Disable time range option
+          description: |
+            Display/hide the time range dropdown in the search box options. 
+
+            The dropdown is displayed by default.
           schema:
             type: boolean
         - in: query
           name: show_doc_types
-          description: Enable/Disable document types option
+          description: |
+            Display/hide the document types dropdown in the search box options. 
+
+            The dropdown is displayed by default.
           schema:
             type: boolean
         - in: query
           name: show_sorting
-          description: Enable/Disable sorting option
+          description: |
+            Display/hide the documents sorting (most relevant/most recent) dropdown in the search box options. 
+
+            The dropdown is displayed by default.
           schema:
             type: boolean
+        - in: query
+          name: document_types[]
+          required: false
+          description: |
+            List of document type codes that will be preselected in the search box options, e.g. `121`, `14` or `15`. Most up-to-date information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
+
+            To add an additional document type, click on "Add item" below the input field. 
+
+            If the parameter is not provided, it defaults to `121` (Journal/newspaper article).
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+          style: form
+          explode: true
+        - in: query
+          name: sorting
+          required: false
+          description: |
+            The sorting value that will be preselected in the search box options.
+
+            Sorting here means the way the documents are prioritized by the aggregator before the visualization is created.
+
+            To determine the most relevant documents, we use the relevance ranking provided by the data source e.g. BASE. Data sources mainly use text similarity between your query and the article metadata to determine the relevance ranking. Please consult the FAQs for more information.
+
+            Most recent ranks documents according to their recency, with most recent first.
+
+            If the parameter is not provided, it defaults to `most-relevant`.
+          schema:
+            type: string
+            enum: [most-relevant, most-recent]
+        - in: query
+          name: title
+          required: false
+          description: |
+            Query expansion for document titles. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
+          
+            Leave it blank if there are no constraints for document titles.
+          schema:
+            type: string
+        - in: query
+          name: abstract
+          required: false
+          description: |
+            Query expansion for document abstracts. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
+          
+            Leave it blank if there are no constraints for document abstracts.
+          schema:
+            type: string
+        - in: query
+          name: keywords
+          required: false
+          description:  |
+            Query expansion for document keywords. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
+          
+            Leave it blank if there are no constraints for document keywords.
+          schema:
+            type: string
       responses:
-        '200':    # status code
-          description: Redirecting to the waiting page
+        "200": # status code
+          description: Returns the search box page.

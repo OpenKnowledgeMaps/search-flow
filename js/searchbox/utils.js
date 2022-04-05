@@ -17,23 +17,14 @@ const useOutsideClick = (ref, handler) => {
   }, [ref]);
 };
 
-const getTimespanDates = (timespan) => {
-  switch (timespan.type) {
-    case "last-month":
-      // TODO
-      return ["", ""];
-    case "last-year":
-      // TODO
-      return ["", ""];
-    case "user-defined":
-      // TODO
-      return [timespan.from, timespan.to];
-    case "any-time":
-    default:
-      return ["", ""];
+const trackMatomoEvent = (category, action, name, value, dimensions) => {
+  if (typeof _paq !== "undefined") {
+    _paq.push(["trackEvent", category, action, name, value, dimensions]);
   }
 };
 
-const getDoctypesString = (doctypes) => {
-  return doctypes.map((t) => `document_types[]=${t}`).join("&");
+const useMatomo = () => {
+  const trackEvent = trackMatomoEvent;
+
+  return { trackEvent };
 };

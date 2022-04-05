@@ -48,7 +48,7 @@ const DoctypesPicker = ({ values, setValues }) => {
       "ul",
       {
         className: "multiselect-container dropdown-menu",
-        style: { maxHeight: 150, overflow: "hidden auto" },
+        style: { maxHeight: 250, overflow: "hidden auto" },
       },
       e(
         "li",
@@ -107,7 +107,13 @@ const DoctypesPicker = ({ values, setValues }) => {
           )
         )
       )
-    )
+    ),
+    e(Hiddens, {
+      entries: values.map((value) => ({
+        name: "document_types[]",
+        value,
+      })),
+    })
   );
 };
 

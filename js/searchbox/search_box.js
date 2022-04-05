@@ -2,15 +2,19 @@
 
 const e = React.createElement;
 
-const ENDPOINT_URL = "https://dev.openknowledgemaps.org/enkore-demo/search";
-
+// settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 const DEFAULT_SETTINGS = {
-  showVisMode: false, // WIP
-  showDataSource: false, // WIP
+  // features on/off
   showTimeRange: true,
   showDocTypes: true,
-  showRelevancy: true,
-  showLanguage: false, // WIP
+  showSorting: true,
+  // default (preselected) values
+  defaultDocTypes: ["121"],
+  defaultSorting: "most-relevant",
+  // hidden values
+  titleExpansion: "",
+  abstractExpansion: "",
+  keywordsExpansion: "",
 };
 
 const isTrue = (value) => value && (value === "true" || parseInt(value) > 0);
@@ -19,8 +23,7 @@ const getSettings = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const settings = { ...DEFAULT_SETTINGS };
 
-  // TODO implement all
-
+  // features on/off
   if (queryParams.has("show_time_range")) {
     settings.showTimeRange = isTrue(queryParams.get("show_time_range"));
   }
@@ -28,42 +31,67 @@ const getSettings = () => {
     settings.showDocTypes = isTrue(queryParams.get("show_doc_types"));
   }
   if (queryParams.has("show_sorting")) {
-    settings.showRelevancy = isTrue(queryParams.get("show_sorting"));
+    settings.showSorting = isTrue(queryParams.get("show_sorting"));
+  }
+
+  // default (preselected) values
+  if (queryParams.has("document_types[]")) {
+    settings.defaultDocTypes = queryParams.getAll("document_types[]");
+  }
+  if (queryParams.has("sorting")) {
+    settings.defaultSorting = queryParams.get("sorting");
+  }
+
+  // hidden values
+  if (queryParams.has("title")) {
+    settings.titleExpansion = queryParams.get("title");
+  }
+  if (queryParams.has("abstract")) {
+    settings.abstractExpansion = queryParams.get("abstract");
+  }
+  if (queryParams.has("keywords")) {
+    settings.keywordsExpansion = queryParams.get("keywords");
   }
 
   return settings;
 };
 
+const DEFAULT_FROM = "1665-01-01";
+const DEFAULT_TO = new Date().toISOString().split("T")[0];
+
 class SearchBox extends React.Component {
   constructor(props) {
     super(props);
+
+    const settings = getSettings();
+
     this.state = {
       showOptions: false,
-      // TODO define the defaults properly
       formData: {
         query: "",
         timespan: {
           type: TIMESPAN_OPTIONS[0].id,
-          from: "1665-01-01",
-          to: new Date().toISOString().split("T")[0],
+          from: DEFAULT_FROM,
+          to: DEFAULT_TO,
         },
-        relevancy: RELEVANCY_OPTIONS[0].id,
-        doctypes: ["121"],
+        sorting: settings.defaultSorting,
+        doctypes: settings.defaultDocTypes,
       },
+      settings,
     };
   }
 
   toggleOptions() {
+    trackMatomoEvent(
+      "Search box",
+      this.state.showOptions ? "Hide options" : "Show options",
+      "Options toggle"
+    );
+
     this.setState({
       ...this.state,
       showOptions: !this.state.showOptions,
     });
-
-    const message = JSON.stringify({
-      source: "searchbox",
-      event: "resize",
-    });
-    window.parent.postMessage(message, "*");
   }
 
   updateQuery(newValue) {
@@ -77,6 +105,22 @@ class SearchBox extends React.Component {
   }
 
   updateTimespanType(newValue) {
+    if (this.state.formData.timespan.type === newValue) {
+      return;
+    }
+    let newFrom = DEFAULT_FROM;
+    let newTo = DEFAULT_TO;
+    if (newValue === "last-month") {
+      let newFromDate = new Date(DEFAULT_TO);
+      newFromDate.setMonth(newFromDate.getMonth() - 1);
+      newFrom = newFromDate.toISOString().split("T")[0];
+    }
+    if (newValue === "last-year") {
+      let newFromDate = new Date(DEFAULT_TO);
+      newFromDate.setFullYear(newFromDate.getFullYear() - 1);
+      newFrom = newFromDate.toISOString().split("T")[0];
+    }
+
     this.setState({
       ...this.state,
       formData: {
@@ -84,6 +128,8 @@ class SearchBox extends React.Component {
         timespan: {
           ...this.state.formData.timespan,
           type: newValue,
+          from: newFrom,
+          to: newTo,
         },
       },
     });
@@ -115,12 +161,12 @@ class SearchBox extends React.Component {
     });
   }
 
-  updateRelevancy(newValue) {
+  updateSorting(newValue) {
     this.setState({
       ...this.state,
       formData: {
         ...this.state.formData,
-        relevancy: newValue,
+        sorting: newValue,
       },
     });
   }
@@ -135,80 +181,116 @@ class SearchBox extends React.Component {
     });
   }
 
-  submit() {
-    const { query, relevancy, doctypes, timespan } = this.state.formData;
+  getHiddenEntries() {
+    const entries = [
+      { name: "min_descsize", value: 300 },
+      // probably required by backend, otherwise useless - same val as "service"
+      { name: "optradio", value: "base" },
+      { name: "lang_id", value: "all" },
+    ];
 
-    const [from, to] = getTimespanDates(timespan);
-    const fromString = from ? `from=${from}&` : "";
-    const toString = to ? `to=${to}&` : "";
-    const doctypesString = getDoctypesString(doctypes);
+    // time range
+    const { type: rangeType, from, to } = this.state.formData.timespan;
+    entries.push({ name: "from", value: from });
+    entries.push({ name: "to", value: to });
 
-    window.open(
-      `${ENDPOINT_URL}?type=get&service=base&q=${query}&sorting=${relevancy}&min_descsize=300&${fromString}${toString}${doctypesString}`,
-      "_blank"
-    );
+    if (!this.state.showOptions) {
+      entries.push({ name: "time_range", value: rangeType });
+
+      // sorting
+      entries.push({ name: "sorting", value: this.state.formData.sorting });
+      // document types
+      this.state.formData.doctypes.forEach((value) => {
+        entries.push({ name: "document_types[]", value });
+      });
+    }
+
+    const { titleExpansion, abstractExpansion, keywordsExpansion } =
+      this.state.settings;
+
+    if (titleExpansion) {
+      entries.push({ name: "title", value: titleExpansion });
+    }
+    if (abstractExpansion) {
+      entries.push({ name: "abstract", value: abstractExpansion });
+    }
+    if (keywordsExpansion) {
+      entries.push({ name: "keywords", value: keywordsExpansion });
+    }
+
+    return entries;
   }
 
   render() {
     // TODO implement all settings
-    const { showTimeRange, showRelevancy, showDocTypes } = getSettings();
+    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+
+    const hiddenEntries = this.getHiddenEntries();
 
     return e(
       "div",
       { className: "search_box" },
-      e(OptionsToggle, {
-        label: "Refine your search",
-        onClick: this.toggleOptions.bind(this),
-      }),
-      this.state.showOptions &&
-        e(
-          Options,
-          null,
+      e(
+        "form",
+        {
+          action: `search?service=${"base"}&embed=true`,
+          method: "POST",
+          target: "_self",
+        },
+        e(OptionsToggle, {
+          label: "Refine your search",
+          onClick: this.toggleOptions.bind(this),
+        }),
+        this.state.showOptions &&
           e(
-            BasicOptions,
+            Options,
             null,
-            showTimeRange &&
-              e(TimespanPicker, {
-                value: this.state.formData.timespan.type,
-                setValue: this.updateTimespanType.bind(this),
-              }),
-            showRelevancy &&
-              e(RelevancyPicker, {
-                value: this.state.formData.relevancy,
-                setValue: this.updateRelevancy.bind(this),
-              }),
-            showDocTypes &&
-              e(DoctypesPicker, {
-                values: this.state.formData.doctypes,
-                setValues: this.updateDoctypes.bind(this),
-              })
-          ),
-          e(
-            AdvancedOptions,
-            null,
-            this.state.formData.timespan.type === "user-defined" &&
-              e(
-                "div",
-                { className: "options_timespan" },
-                e(InlineDatePicker, {
-                  label: "From",
-                  value: this.state.formData.timespan.from,
-                  onChange: this.updateTimespanFrom.bind(this),
+            e(
+              BasicOptions,
+              null,
+              showTimeRange &&
+                e(TimespanPicker, {
+                  value: this.state.formData.timespan.type,
+                  setValue: this.updateTimespanType.bind(this),
                 }),
-                e(InlineDatePicker, {
-                  label: "To",
-                  value: this.state.formData.timespan.to,
-                  onChange: this.updateTimespanTo.bind(this),
+              showSorting &&
+                e(SortingPicker, {
+                  value: this.state.formData.sorting,
+                  setValue: this.updateSorting.bind(this),
+                }),
+              showDocTypes &&
+                e(DoctypesPicker, {
+                  values: this.state.formData.doctypes,
+                  setValues: this.updateDoctypes.bind(this),
                 })
-              )
-          )
-        ),
-      e(SearchField, {
-        value: this.state.formData.query,
-        setValue: this.updateQuery.bind(this),
-        onEnter: this.submit.bind(this),
-      }),
-      e(SearchButton, { onClick: () => this.submit() })
+            ),
+            e(
+              AdvancedOptions,
+              null,
+              this.state.formData.timespan.type === "user-defined" &&
+                e(
+                  "div",
+                  { className: "options_timespan" },
+                  e(InlineDatePicker, {
+                    label: "From",
+                    value: this.state.formData.timespan.from,
+                    onChange: this.updateTimespanFrom.bind(this),
+                  }),
+                  e(InlineDatePicker, {
+                    label: "To",
+                    value: this.state.formData.timespan.to,
+                    onChange: this.updateTimespanTo.bind(this),
+                  })
+                )
+            )
+          ),
+        e(SearchField, {
+          value: this.state.formData.query,
+          setValue: this.updateQuery.bind(this),
+        }),
+        e(Hiddens, { entries: hiddenEntries }),
+        e(SearchButton)
+      )
     );
   }
 }
@@ -223,7 +305,7 @@ const OptionsToggle = ({ label, onClick }) => {
   );
 };
 
-const SearchField = ({ value, setValue, onEnter }) => {
+const SearchField = ({ value, setValue }) => {
   return e("input", {
     autoFocus: true,
     type: "text",
@@ -235,11 +317,6 @@ const SearchField = ({ value, setValue, onEnter }) => {
     spellCheck: true,
     value,
     onChange: (e) => setValue(e.target.value),
-    onKeyPress: (e) => {
-      if (e.key.toLowerCase() === "enter") {
-        onEnter();
-      }
-    },
   });
 };
 

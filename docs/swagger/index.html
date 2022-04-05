@@ -39,7 +39,7 @@
     window.onload = function() {
       // Begin Swagger UI call region
       const ui = SwaggerUIBundle({
-        url: "https://localhost/search-flow/docs/swagger.yml",
+        url: "http://localhost/search-flow/docs/swagger.yml",
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
@@ -49,7 +49,7 @@
         plugins: [
           SwaggerUIBundle.plugins.DownloadUrl
         ],
-        layout: "StandaloneLayout"
+        //layout: "StandaloneLayout"
       });
       // End Swagger UI call region
 
