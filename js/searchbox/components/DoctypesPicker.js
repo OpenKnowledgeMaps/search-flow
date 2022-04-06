@@ -16,6 +16,8 @@ const DoctypesPicker = ({ values, setValues }) => {
   const containerRef = useRef(null);
   useOutsideClick(containerRef, handleOutsideClick);
 
+  const btnLabel = getLabel(values);
+
   return e(
     "div",
     { className: "btn-group" + (open ? " open" : ""), ref: containerRef },
@@ -24,11 +26,11 @@ const DoctypesPicker = ({ values, setValues }) => {
       {
         type: "button",
         className: "multiselect dropdown-toggle btn btn-default",
-        title: "TODO",
+        title: btnLabel,
         onClick: () => setOpen((prev) => !prev),
       },
 
-      e("span", { className: "multiselect-selected-text" }, getLabel(values)),
+      e("span", { className: "multiselect-selected-text" }, btnLabel),
       " ",
       e("b", { className: "caret" })
     ),

@@ -12,6 +12,7 @@ export const DEFAULT_SETTINGS = {
   defaultFrom: "1665-01-01",
   defaultTo: new Date().toISOString().split("T")[0],
   // hidden values
+  minDescriptionSize: undefined,
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
@@ -43,6 +44,9 @@ export const getSettings = () => {
   }
 
   // hidden values
+  if (queryParams.has("min_descsize")) {
+    settings.minDescriptionSize = queryParams.get("min_descsize");
+  }
   if (queryParams.has("title")) {
     settings.titleExpansion = queryParams.get("title");
   }

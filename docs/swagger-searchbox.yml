@@ -73,11 +73,18 @@ paths:
             type: string
             enum: [most-relevant, most-recent]
         - in: query
+          name: min_descsize
+          required: false
+          description: Minimum abstract length in characters. Must be larger than 0. A value of 300 is recommended to increase the quality of knowledge maps.
+          schema:
+            type: integer
+            example: 300
+        - in: query
           name: title
           required: false
           description: |
             Query expansion for document titles. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-          
+
             Leave it blank if there are no constraints for document titles.
           schema:
             type: string
@@ -86,16 +93,16 @@ paths:
           required: false
           description: |
             Query expansion for document abstracts. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-          
+
             Leave it blank if there are no constraints for document abstracts.
           schema:
             type: string
         - in: query
           name: keywords
           required: false
-          description:  |
+          description: |
             Query expansion for document keywords. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-          
+
             Leave it blank if there are no constraints for document keywords.
           schema:
             type: string

@@ -143,7 +143,6 @@ class SearchBox extends React.Component {
 
   getHiddenEntries() {
     const entries = [
-      { name: "min_descsize", value: 300 },
       // probably required by backend, otherwise useless - same val as "service"
       { name: "optradio", value: "base" },
       { name: "lang_id", value: "all" },
@@ -165,9 +164,12 @@ class SearchBox extends React.Component {
       });
     }
 
-    const { titleExpansion, abstractExpansion, keywordsExpansion } =
-      this.state.settings;
+    const { minDescriptionSize, titleExpansion } = this.state.settings;
+    const { abstractExpansion, keywordsExpansion } = this.state.settings;
 
+    if (typeof minDescriptionSize !== "undefined") {
+      entries.push({ name: "min_descsize", value: minDescriptionSize });
+    }
     if (titleExpansion) {
       entries.push({ name: "title", value: titleExpansion });
     }
@@ -182,7 +184,6 @@ class SearchBox extends React.Component {
   }
 
   render() {
-    // TODO implement all settings
     const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
     const hasOptions = showTimeRange || showSorting || showDocTypes;
 

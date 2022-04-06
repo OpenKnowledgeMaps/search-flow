@@ -15,6 +15,9 @@ const CustomDropdown = ({ options, name, value, setValue }) => {
   const containerRef = useRef(null);
   useOutsideClick(containerRef, handleOutsideClick);
 
+  const selectedOption = options.find((o) => o.id === value);
+  const btnLabel = selectedOption ? selectedOption.label : "";
+
   return e(
     "div",
     { className: "btn-group" + (open ? " open" : ""), ref: containerRef },
@@ -23,15 +26,11 @@ const CustomDropdown = ({ options, name, value, setValue }) => {
       {
         type: "button",
         className: "multiselect dropdown-toggle btn btn-default",
-        //title: "TODO",
+        title: btnLabel,
         onClick: () => setOpen((prev) => !prev),
       },
 
-      e(
-        "span",
-        { className: "multiselect-selected-text" },
-        options.find((o) => o.id === value).label
-      ),
+      e("span", { className: "multiselect-selected-text" }, btnLabel),
       " ",
       e("b", { className: "caret" })
     ),
