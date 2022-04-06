@@ -184,6 +184,7 @@ class SearchBox extends React.Component {
   render() {
     // TODO implement all settings
     const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+    const hasOptions = showTimeRange || showSorting || showDocTypes;
 
     const hiddenEntries = this.getHiddenEntries();
 
@@ -197,10 +198,11 @@ class SearchBox extends React.Component {
           method: "POST",
           target: "_self",
         },
-        e(OptionsToggle, {
-          label: "Refine your search",
-          onClick: this.toggleOptions.bind(this),
-        }),
+        hasOptions &&
+          e(OptionsToggle, {
+            label: "Refine your search",
+            onClick: this.toggleOptions.bind(this),
+          }),
         this.state.showOptions &&
           e(
             Options,
