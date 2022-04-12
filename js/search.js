@@ -227,7 +227,7 @@ function executeSearchRequest(
         writeSearchTerm("search_term_fail", search_term_short, search_term);
         setErrorResolution(current_error_texts, true);
 
-        if (service.endsWith("sg")) {
+        if (service.endsWith("sg") || post_data.vis_type === "timeline") {
           $(".vis_type_name").text("streamgraph");
         }
       }
