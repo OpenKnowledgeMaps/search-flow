@@ -153,15 +153,15 @@ class SearchBox extends React.Component {
     entries.push({ name: "from", value: from });
     entries.push({ name: "to", value: to });
 
-    if (!this.state.showOptions) {
+    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+    if (!this.state.showOptions || !showTimeRange) {
       entries.push({ name: "time_range", value: rangeType });
-
-      // sorting
+    }
+    if (!this.state.showOptions || !showSorting) {
       entries.push({ name: "sorting", value: this.state.formData.sorting });
-      // document types
-      this.state.formData.doctypes.forEach((value) => {
-        entries.push({ name: "document_types[]", value });
-      });
+    }
+    if (!this.state.showOptions || !showDocTypes) {
+      entries.push({ name: "document_types[]", value });
     }
 
     const { minDescriptionSize, titleExpansion } = this.state.settings;
