@@ -161,7 +161,9 @@ class SearchBox extends React.Component {
       entries.push({ name: "sorting", value: this.state.formData.sorting });
     }
     if (!this.state.showOptions || !showDocTypes) {
-      entries.push({ name: "document_types[]", value });
+      this.state.formData.doctypes.forEach((value) => {
+        entries.push({ name: "document_types[]", value });
+      });
     }
 
     const { minDescriptionSize, titleExpansion } = this.state.settings;
