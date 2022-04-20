@@ -309,11 +309,16 @@ function setErrorResolution(text_object, show_form) {
   if (typeof show_form !== "undefined" && show_form === true) {
     $("#new_search_form").removeClass("nodisplay");
     $("#filters").removeClass("frontend-hidden");
-    if (search_options_object.user_defined_date) {
+    if (
+      typeof search_options_object !== "undefined" &&
+      search_options_object.user_defined_date
+    ) {
       $("#input-container").css("display", "block");
     }
     if (search_flow_config.search_options.search_term_focus) {
-      document.getElementById("searchterm").focus({ preventScroll: true });
+      requestAnimationFrame(() =>
+        document.getElementById("searchterm").focus({ preventScroll: true })
+      );
     }
 
     // later we might want to hide it also when the search form is not displayed

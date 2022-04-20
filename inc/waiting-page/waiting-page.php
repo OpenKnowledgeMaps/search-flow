@@ -215,7 +215,12 @@ if($has_sufficient_data) {
             <?php
                 $default_lib = $service;
                 $search_query = htmlspecialchars(stripslashes($dirty_query));
-                include(dirname(__FILE__). '/../search-form/search-form.php');
+                $open_options = true;
+                if ($is_embed) {
+                    include(dirname(__FILE__). '/../search-form/new-search-form.php');
+                } else {
+                    include(dirname(__FILE__). '/../search-form/search-form.php');
+                }
             ?>
             <script>
                 $("#searchform").attr("target", "");

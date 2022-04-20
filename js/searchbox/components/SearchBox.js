@@ -12,10 +12,12 @@ import SearchField from "./SearchField.js";
 import SortingPicker from "./SortingPicker.js";
 import TimespanPicker from "./TimespanPicker.js";
 
-import { DEFAULT_SETTINGS, getSettings } from "../settings.js";
+import {
+  DEFAULT_SETTINGS,
+  TRANSFERRED_PARAMS,
+  getSettings,
+} from "../settings.js";
 import { trackMatomoEvent } from "../hooks/useMatomo.js";
-
-import TIMESPAN_OPTIONS from "../options/timespan.js";
 
 const e = React.createElement;
 
@@ -23,14 +25,14 @@ class SearchBox extends React.Component {
   constructor(props) {
     super(props);
 
-    const settings = getSettings();
+    const settings = getSettings(this.props.settings);
 
     this.state = {
-      showOptions: false,
+      showOptions: settings.showOptions,
       formData: {
-        query: "",
+        query: settings.defaultQuery,
         timespan: {
-          type: TIMESPAN_OPTIONS[0].id,
+          type: settings.defaultTimespan,
           from: settings.defaultFrom,
           to: settings.defaultTo,
         },
@@ -185,10 +187,28 @@ class SearchBox extends React.Component {
     return entries;
   }
 
+  getFormActionUrl() {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    Array.from(queryParams.keys()).forEach((param) => {
+      if (!TRANSFERRED_PARAMS.has(param)) {
+        queryParams.delete(param);
+      }
+    });
+
+    queryParams.append("service", "base");
+    queryParams.append("embed", "true");
+
+    const queryString = queryParams.toString();
+
+    return `search?${queryString}`;
+  }
+
   render() {
     const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
     const hasOptions = showTimeRange || showSorting || showDocTypes;
 
+    const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
     return e(
@@ -197,7 +217,7 @@ class SearchBox extends React.Component {
       e(
         "form",
         {
-          action: `search?service=${"base"}&embed=true`,
+          action: actionUrl,
           method: "POST",
           target: "_self",
         },
