@@ -250,7 +250,7 @@ if($has_sufficient_data) {
             //If the page is called without any data or the ID/service parameter is missing, redirect to index page
             if(typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
-                redirectToIndex("<?php echo $search_form_page; ?>");
+                redirectToIndex("<?php echo $is_embed ? "embedded_searchbox" : $search_form_page; ?>", <?php echo $is_embed ? "true" : "false"; ?>, service);
                 throw new Error("No post data or ID missing");
             }
             
