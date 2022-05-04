@@ -18,6 +18,7 @@ export const DEFAULT_SETTINGS = {
   defaultTo: new Date().toISOString().split("T")[0],
   // hidden values
   minDescriptionSize: undefined,
+  contentProvider: undefined,
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
@@ -86,6 +87,9 @@ const getConfigSettings = (outerSettings = {}) => {
   if (["string", "number"].includes(typeof outerSettings.min_descsize)) {
     settings.minDescriptionSize = outerSettings.min_descsize;
   }
+  if (typeof outerSettings.repo === "string") {
+    settings.contentProvider = outerSettings.repo;
+  }
   if (typeof outerSettings.title === "string") {
     settings.titleExpansion = outerSettings.title;
   }
@@ -125,6 +129,9 @@ const getQuerySettings = () => {
   // hidden values
   if (queryParams.has("min_descsize")) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
+  }
+  if (queryParams.has("repo")) {
+    settings.contentProvider = queryParams.get("repo");
   }
   if (queryParams.has("title")) {
     settings.titleExpansion = queryParams.get("title");
