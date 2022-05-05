@@ -37,8 +37,9 @@ function packParamsJSON($params_array, $post_params) {
     $output_array = array();
 
     foreach ($params_array as $entry) {
-        $current_params = $post_params[$entry];
-        $output_array[$entry] = $current_params;
+        if (array_key_exists($entry, $post_params)) {
+            $output_array[$entry] = $post_params[$entry];
+        }
     }
 
     return json_encode($output_array);

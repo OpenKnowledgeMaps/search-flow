@@ -172,10 +172,9 @@ class SearchBox extends React.Component {
     const { titleExpansion, abstractExpansion } = this.state.settings;
     const { keywordsExpansion } = this.state.settings;
 
-    entries.push({
-      name: "min_descsize",
-      value: minDescriptionSize ? minDescriptionSize : 0,
-    });
+    if (minDescriptionSize) {
+      entries.push({ name: "min_descsize", value: minDescriptionSize });
+    }
     if (contentProvider) {
       entries.push({ name: "repo", value: contentProvider });
     }
