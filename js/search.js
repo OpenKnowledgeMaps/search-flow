@@ -231,7 +231,7 @@ function executeSearchRequest(
         writeSearchTerm("search_term_fail", search_term_short, search_term);
         setErrorResolution(current_error_texts, {
           show_form: true,
-          is_embedded: post_data.embed,
+          post_data,
           service: service,
         });
 
@@ -294,11 +294,7 @@ function setErrorTexts(
   }
 
   if (text_object.resolution_type) {
-    setErrorResolution(text_object, { is_embedded: post_data.embed, service });
-  }
-
-  if (post_data.embed) {
-    $("#fail-index").attr("href", "embedded_searchbox");
+    setErrorResolution(text_object, { post_data, service });
   }
 }
 
@@ -322,20 +318,51 @@ function setErrorContact(html_string) {
   writeErrorFieldHTML("error-contact", html_string);
 }
 
-function getResolutionHref(resolution_link, is_embedded = false, service = "") {
+function getResolutionHref(resolution_link, post_data = {}, service = "") {
   if (
-    is_embedded &&
+    post_data.embed &&
     resolution_link === "index" &&
     !service.startsWith("triple")
   ) {
-    return "embedded_searchbox";
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.delete("id");
+    queryParams.delete("service");
+    queryParams.delete("embed");
+    // all the search box params are added into query from post
+    [
+      "repo",
+      "sorting",
+      "min_descsize",
+      "title",
+      "abstract",
+      "keywords",
+    ].forEach((param) => {
+      if (post_data[param]) {
+        queryParams.append(param, post_data[param]);
+      }
+    });
+    if (Array.isArray(post_data.document_types)) {
+      post_data.document_types.forEach((type) =>
+        queryParams.append("document_types[]", type)
+      );
+    }
+    return `embedded_searchbox?${queryParams.toString()}`;
   }
 
   return resolution_link;
 }
 
 function setErrorResolution(text_object, options = {}) {
-  const { show_form, is_embedded, service } = options;
+  const { show_form, post_data, service } = options;
+  const { resolution_link } = text_object;
+
+  const resolution_href = getResolutionHref(
+    resolution_link,
+    post_data,
+    service
+  );
+
+  $("#fail-index").attr("href", resolution_href);
 
   if (show_form) {
     $("#new_search_form").removeClass("nodisplay");
@@ -358,18 +385,8 @@ function setErrorResolution(text_object, options = {}) {
     return;
   }
 
-  const {
-    resolution_type,
-    resolution_label,
-    resolution_link,
-    resolution_countdown,
-  } = text_object;
-
-  const resolution_href = getResolutionHref(
-    resolution_link,
-    is_embedded,
-    service
-  );
+  const { resolution_type, resolution_label, resolution_countdown } =
+    text_object;
 
   if (resolution_type === "link") {
     $("#error-resolution-link").removeClass("nodisplay");

@@ -249,9 +249,17 @@ if($has_sufficient_data) {
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
             //If the page is called without any data or the ID/service parameter is missing, redirect to index page
-            if(typeof post_data === "undefined" || unique_id === "" || service === null) {
+            if (typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
-                redirectToIndex("<?php echo $is_embed ? "embedded_searchbox" : $search_form_page; ?>", <?php echo $is_embed ? "true" : "false"; ?>, service);
+
+                let embed_mode = <?php echo $is_embed ? "true" : "false"; ?>;
+                let form_address = "<?php echo $search_form_page; ?>";
+                if (embed_mode) {
+                    // best effort: pass all query params to the search box component
+                    form_address = `embedded_searchbox${window.location.search}`;
+                }
+
+                redirectToIndex(form_address, embed_mode, service);
                 throw new Error("No post data or ID missing");
             }
             
