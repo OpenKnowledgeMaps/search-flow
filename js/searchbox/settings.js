@@ -1,6 +1,7 @@
 "use strict";
 
 import TIMESPAN_OPTIONS from "./options/timespan.js";
+import DOCTYPES_OPTIONS from "./options/doctypes.js";
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -32,8 +33,6 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_sorting",
 ]);
 
-const isTrue = (value) => value && (value === "true" || parseInt(value) > 0);
-
 /**
  * Returns a settings object. The object should contain the same properties as the DEFAULT_SETTINGS
  * object, where some properties' values are overriden with config and query settings.
@@ -64,8 +63,9 @@ const getConfigSettings = (outerSettings = {}) => {
   }
 
   // default (preselected) values
-  if (typeof outerSettings.query === "string") {
-    settings.defaultQuery = outerSettings.query;
+  if (typeof outerSettings.q === "string") {
+    // the value is also in outerSettings.query, but it's somewhat escaped
+    settings.defaultQuery = outerSettings.q.replace(/\\/g, "");
   }
   if (typeof outerSettings.time_range === "string") {
     settings.defaultTimespan = outerSettings.time_range;
@@ -108,40 +108,120 @@ const getQuerySettings = () => {
   const settings = {};
 
   // features on/off
-  if (queryParams.has("show_time_range")) {
-    settings.showTimeRange = isTrue(queryParams.get("show_time_range"));
+  if (queryParams.hasValid("show_time_range", TYPE_BOOL)) {
+    settings.showTimeRange = queryParams.get("show_time_range") === "true";
   }
-  if (queryParams.has("show_doc_types")) {
-    settings.showDocTypes = isTrue(queryParams.get("show_doc_types"));
+  if (queryParams.hasValid("show_doc_types", TYPE_BOOL)) {
+    settings.showDocTypes = queryParams.get("show_doc_types") === "true";
   }
-  if (queryParams.has("show_sorting")) {
-    settings.showSorting = isTrue(queryParams.get("show_sorting"));
+  if (queryParams.hasValid("show_sorting", TYPE_BOOL)) {
+    settings.showSorting = queryParams.get("show_sorting") === "true";
   }
 
   // default (preselected) values
-  if (queryParams.has("document_types[]")) {
+  if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("document_types[]");
   }
-  if (queryParams.has("sorting")) {
+  if (queryParams.hasValid("sorting", TYPE_SORTING)) {
     settings.defaultSorting = queryParams.get("sorting");
   }
 
   // hidden values
-  if (queryParams.has("min_descsize")) {
+  if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
   }
-  if (queryParams.has("repo")) {
+  if (queryParams.hasValid("repo", TYPE_SINGLE)) {
     settings.contentProvider = queryParams.get("repo");
   }
-  if (queryParams.has("title")) {
+  if (queryParams.hasValid("title", TYPE_SINGLE)) {
     settings.titleExpansion = queryParams.get("title");
   }
-  if (queryParams.has("abstract")) {
+  if (queryParams.hasValid("abstract", TYPE_SINGLE)) {
     settings.abstractExpansion = queryParams.get("abstract");
   }
-  if (queryParams.has("keywords")) {
+  if (queryParams.hasValid("keywords", TYPE_SINGLE)) {
     settings.keywordsExpansion = queryParams.get("keywords");
   }
 
   return settings;
+};
+
+const TYPE_BOOL = {
+  validator: (values) =>
+    values.length === 1 && ["true", "false"].includes(values[0]),
+  description: "Only the values 'true' and 'false' are allowed.",
+};
+const TYPE_DOCTYPES = {
+  validator: (values) =>
+    !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
+  description: "Only the BASE document ids (codes) are allowed.",
+};
+const TYPE_INT = (from, to) => ({
+  validator: (values) => {
+    if (!values.length === 1) {
+      return false;
+    }
+
+    const num = parseInt(values[0]);
+    if (isNaN(num)) {
+      return false;
+    }
+
+    if (typeof from === "number" && num < from) {
+      return false;
+    }
+
+    if (typeof to === "number" && num > to) {
+      return false;
+    }
+
+    return true;
+  },
+  description: `The value must be a number${parseRange(from, to)}.`,
+});
+const TYPE_SORTING = {
+  validator: (values) =>
+    values.length === 1 && ["most-relevant", "most-recent"].includes(values[0]),
+  description: "Only the values 'most-relevant' and 'most-recent' are allowed.",
+};
+const TYPE_SINGLE = {
+  validator: (values) => values.length <= 1,
+  description: "Specifying multiple values is prohibited.",
+};
+const TYPE_ANY = {
+  validator: () => true,
+  description: "Any value can be used.",
+};
+
+URLSearchParams.prototype.hasValid = function (name, type) {
+  if (!this.has(name)) {
+    return false;
+  }
+
+  const values = this.getAll(name);
+  if (!type.validator(values)) {
+    console.warn(
+      `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+    );
+
+    return false;
+  }
+
+  return true;
+};
+
+const parseRange = (from, to) => {
+  if (typeof from === "number" && typeof to === "number") {
+    return ` in range from ${from} to ${to}`;
+  }
+
+  if (typeof from === "number") {
+    return ` greater than or equal to ${from}`;
+  }
+
+  if (typeof to === "number") {
+    return ` less than or equal to ${from}`;
+  }
+
+  return "";
 };
