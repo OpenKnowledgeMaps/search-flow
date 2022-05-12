@@ -1,6 +1,10 @@
 "use strict";
 
-import TIMESPAN_OPTIONS from "./options/timespan.js";
+import TIMESPAN_OPTIONS, {
+  DEFAULT_FROM,
+  DEFAULT_TO,
+  getTimespanBounds,
+} from "./options/timespan.js";
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
@@ -15,8 +19,8 @@ export const DEFAULT_SETTINGS = {
   defaultDocTypes: ["121"],
   defaultSorting: "most-relevant",
   defaultTimespan: TIMESPAN_OPTIONS[0].id,
-  defaultFrom: "1665-01-01",
-  defaultTo: new Date().toISOString().split("T")[0],
+  defaultFrom: DEFAULT_FROM,
+  defaultTo: DEFAULT_TO,
   // hidden values
   minDescriptionSize: undefined,
   contentProvider: undefined,
@@ -119,6 +123,12 @@ const getQuerySettings = () => {
   }
 
   // default (preselected) values
+  if (queryParams.hasValid("time_range", TYPE_TIMESPAN)) {
+    settings.defaultTimespan = queryParams.get("time_range");
+    const { from, to } = getTimespanBounds(settings.defaultTimespan);
+    settings.defaultFrom = from;
+    settings.defaultTo = to;
+  }
   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("document_types[]");
   }
@@ -150,6 +160,13 @@ const TYPE_BOOL = {
   validator: (values) =>
     values.length === 1 && ["true", "false"].includes(values[0]),
   description: "Only the values 'true' and 'false' are allowed.",
+};
+const TYPE_TIMESPAN = {
+  validator: (values) =>
+    !values.some((value) => !TIMESPAN_OPTIONS.some((opt) => opt.id === value)),
+  description: `Only the values '${TIMESPAN_OPTIONS.map((o) => o.id).join(
+    "', '"
+  )}' are allowed.`,
 };
 const TYPE_DOCTYPES = {
   validator: (values) =>

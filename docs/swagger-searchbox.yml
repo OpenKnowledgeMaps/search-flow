@@ -40,6 +40,16 @@ paths:
           schema:
             type: boolean
         - in: query
+          name: time_range
+          required: false
+          description: |
+            The time range value that will be preselected in the dropdown in the search box options.
+
+            If the parameter is not provided, it defaults to `any-time`.
+          schema:
+            type: string
+            enum: [any-time, last-month, last-year, user-defined]
+        - in: query
           name: document_types[]
           required: false
           description: |
@@ -82,7 +92,7 @@ paths:
         - in: query
           name: repo
           required: false
-          description: | 
+          description: |
             Shorthand for a single content provider that the search will be restricted to.
             The shorthand for a content provider can be identified as follows:
             1. Search for the content provider within the list of content providers on [the BASE website](https://www.base-search.net/about/en/about_sources_date.php). 

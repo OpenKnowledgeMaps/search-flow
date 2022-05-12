@@ -12,12 +12,9 @@ import SearchField from "./SearchField.js";
 import SortingPicker from "./SortingPicker.js";
 import TimespanPicker from "./TimespanPicker.js";
 
-import {
-  DEFAULT_SETTINGS,
-  TRANSFERRED_PARAMS,
-  getSettings,
-} from "../settings.js";
+import { TRANSFERRED_PARAMS, getSettings } from "../settings.js";
 import { trackMatomoEvent } from "../hooks/useMatomo.js";
+import { getTimespanBounds } from "../options/timespan.js";
 
 const e = React.createElement;
 
@@ -70,18 +67,7 @@ class SearchBox extends React.Component {
     if (this.state.formData.timespan.type === newValue) {
       return;
     }
-    let newFrom = DEFAULT_SETTINGS.defaultFrom;
-    let newTo = DEFAULT_SETTINGS.defaultTo;
-    if (newValue === "last-month") {
-      let newFromDate = new Date(DEFAULT_SETTINGS.defaultTo);
-      newFromDate.setMonth(newFromDate.getMonth() - 1);
-      newFrom = newFromDate.toISOString().split("T")[0];
-    }
-    if (newValue === "last-year") {
-      let newFromDate = new Date(DEFAULT_SETTINGS.defaultTo);
-      newFromDate.setFullYear(newFromDate.getFullYear() - 1);
-      newFrom = newFromDate.toISOString().split("T")[0];
-    }
+    const { from, to } = getTimespanBounds(newValue);
 
     this.setState({
       ...this.state,
@@ -90,8 +76,8 @@ class SearchBox extends React.Component {
         timespan: {
           ...this.state.formData.timespan,
           type: newValue,
-          from: newFrom,
-          to: newTo,
+          from: from,
+          to: to,
         },
       },
     });
