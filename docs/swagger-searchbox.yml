@@ -40,6 +40,16 @@ paths:
           schema:
             type: boolean
         - in: query
+          name: time_range
+          required: false
+          description: |
+            The time range value that will be preselected in the dropdown in the search box options.
+
+            If the parameter is not provided, it defaults to `any-time`.
+          schema:
+            type: string
+            enum: [any-time, last-month, last-year, user-defined]
+        - in: query
           name: document_types[]
           required: false
           description: |
@@ -73,11 +83,31 @@ paths:
             type: string
             enum: [most-relevant, most-recent]
         - in: query
+          name: min_descsize
+          required: false
+          description: Minimum abstract length in characters. Must be larger than 0. A value of 300 is recommended to increase the quality of knowledge maps.
+          schema:
+            type: integer
+            example: 300
+        - in: query
+          name: repo
+          required: false
+          description: |
+            Shorthand for a single content provider that the search will be restricted to.
+            The shorthand for a content provider can be identified as follows:
+            1. Search for the content provider within the list of content providers on [the BASE website](https://www.base-search.net/about/en/about_sources_date.php). 
+            2. Once you have identified the content provider you want to search in, click on the question mark next to the name of the content provider. 
+            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
+            <br><br>
+            <img src="../BASE_coll_param.png" />
+          schema:
+            type: string
+        - in: query
           name: title
           required: false
           description: |
             Query expansion for document titles. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-          
+
             Leave it blank if there are no constraints for document titles.
           schema:
             type: string
@@ -86,16 +116,16 @@ paths:
           required: false
           description: |
             Query expansion for document abstracts. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-          
+
             Leave it blank if there are no constraints for document abstracts.
           schema:
             type: string
         - in: query
           name: keywords
           required: false
-          description:  |
+          description: |
             Query expansion for document keywords. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-          
+
             Leave it blank if there are no constraints for document keywords.
           schema:
             type: string

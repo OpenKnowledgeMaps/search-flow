@@ -37,8 +37,9 @@ function packParamsJSON($params_array, $post_params) {
     $output_array = array();
 
     foreach ($params_array as $entry) {
-        $current_params = $post_params[$entry];
-        $output_array[$entry] = $current_params;
+        if (array_key_exists($entry, $post_params)) {
+            $output_array[$entry] = $post_params[$entry];
+        }
     }
 
     return json_encode($output_array);
@@ -215,7 +216,12 @@ if($has_sufficient_data) {
             <?php
                 $default_lib = $service;
                 $search_query = htmlspecialchars(stripslashes($dirty_query));
-                include(dirname(__FILE__). '/../search-form/search-form.php');
+                $open_options = true;
+                if ($is_embed) {
+                    include(dirname(__FILE__). '/../search-form/new-search-form.php');
+                } else {
+                    include(dirname(__FILE__). '/../search-form/search-form.php');
+                }
             ?>
             <script>
                 $("#searchform").attr("target", "");
@@ -243,9 +249,17 @@ if($has_sufficient_data) {
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
             //If the page is called without any data or the ID/service parameter is missing, redirect to index page
-            if(typeof post_data === "undefined" || unique_id === "" || service === null) {
+            if (typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
-                redirectToIndex("<?php echo $search_form_page; ?>");
+
+                let embed_mode = <?php echo $is_embed ? "true" : "false"; ?>;
+                let form_address = "<?php echo $search_form_page; ?>";
+                if (embed_mode) {
+                    // best effort: pass all query params to the search box component
+                    form_address = `embedded_searchbox${window.location.search}`;
+                }
+
+                redirectToIndex(form_address, embed_mode, service);
                 throw new Error("No post data or ID missing");
             }
             

@@ -1,78 +1,37 @@
 "use strict";
 
+import AdvancedOptions from "./AdvancedOptions.js";
+import BasicOptions from "./BasicOptions.js";
+import DoctypesPicker from "./DoctypesPicker.js";
+import Hiddens from "./Hiddens.js";
+import InlineDatePicker from "./InlineDatePicker.js";
+import Options from "./Options.js";
+import OptionsToggle from "./OptionsToggle.js";
+import SearchButton from "./SearchButton.js";
+import SearchField from "./SearchField.js";
+import SortingPicker from "./SortingPicker.js";
+import TimespanPicker from "./TimespanPicker.js";
+
+import { TRANSFERRED_PARAMS, getSettings } from "../settings.js";
+import { trackMatomoEvent } from "../hooks/useMatomo.js";
+import { getTimespanBounds } from "../options/timespan.js";
+
 const e = React.createElement;
-
-// settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
-const DEFAULT_SETTINGS = {
-  // features on/off
-  showTimeRange: true,
-  showDocTypes: true,
-  showSorting: true,
-  // default (preselected) values
-  defaultDocTypes: ["121"],
-  defaultSorting: "most-relevant",
-  // hidden values
-  titleExpansion: "",
-  abstractExpansion: "",
-  keywordsExpansion: "",
-};
-
-const isTrue = (value) => value && (value === "true" || parseInt(value) > 0);
-
-const getSettings = () => {
-  const queryParams = new URLSearchParams(window.location.search);
-  const settings = { ...DEFAULT_SETTINGS };
-
-  // features on/off
-  if (queryParams.has("show_time_range")) {
-    settings.showTimeRange = isTrue(queryParams.get("show_time_range"));
-  }
-  if (queryParams.has("show_doc_types")) {
-    settings.showDocTypes = isTrue(queryParams.get("show_doc_types"));
-  }
-  if (queryParams.has("show_sorting")) {
-    settings.showSorting = isTrue(queryParams.get("show_sorting"));
-  }
-
-  // default (preselected) values
-  if (queryParams.has("document_types[]")) {
-    settings.defaultDocTypes = queryParams.getAll("document_types[]");
-  }
-  if (queryParams.has("sorting")) {
-    settings.defaultSorting = queryParams.get("sorting");
-  }
-
-  // hidden values
-  if (queryParams.has("title")) {
-    settings.titleExpansion = queryParams.get("title");
-  }
-  if (queryParams.has("abstract")) {
-    settings.abstractExpansion = queryParams.get("abstract");
-  }
-  if (queryParams.has("keywords")) {
-    settings.keywordsExpansion = queryParams.get("keywords");
-  }
-
-  return settings;
-};
-
-const DEFAULT_FROM = "1665-01-01";
-const DEFAULT_TO = new Date().toISOString().split("T")[0];
 
 class SearchBox extends React.Component {
   constructor(props) {
     super(props);
 
-    const settings = getSettings();
+    const settings = getSettings(this.props.settings);
 
     this.state = {
-      showOptions: false,
+      showOptions: settings.showOptions,
       formData: {
-        query: "",
+        query: settings.defaultQuery,
         timespan: {
-          type: TIMESPAN_OPTIONS[0].id,
-          from: DEFAULT_FROM,
-          to: DEFAULT_TO,
+          type: settings.defaultTimespan,
+          from: settings.defaultFrom,
+          to: settings.defaultTo,
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes,
@@ -108,18 +67,7 @@ class SearchBox extends React.Component {
     if (this.state.formData.timespan.type === newValue) {
       return;
     }
-    let newFrom = DEFAULT_FROM;
-    let newTo = DEFAULT_TO;
-    if (newValue === "last-month") {
-      let newFromDate = new Date(DEFAULT_TO);
-      newFromDate.setMonth(newFromDate.getMonth() - 1);
-      newFrom = newFromDate.toISOString().split("T")[0];
-    }
-    if (newValue === "last-year") {
-      let newFromDate = new Date(DEFAULT_TO);
-      newFromDate.setFullYear(newFromDate.getFullYear() - 1);
-      newFrom = newFromDate.toISOString().split("T")[0];
-    }
+    const { from, to } = getTimespanBounds(newValue);
 
     this.setState({
       ...this.state,
@@ -128,8 +76,8 @@ class SearchBox extends React.Component {
         timespan: {
           ...this.state.formData.timespan,
           type: newValue,
-          from: newFrom,
-          to: newTo,
+          from: from,
+          to: to,
         },
       },
     });
@@ -183,7 +131,6 @@ class SearchBox extends React.Component {
 
   getHiddenEntries() {
     const entries = [
-      { name: "min_descsize", value: 300 },
       // probably required by backend, otherwise useless - same val as "service"
       { name: "optradio", value: "base" },
       { name: "lang_id", value: "all" },
@@ -194,20 +141,29 @@ class SearchBox extends React.Component {
     entries.push({ name: "from", value: from });
     entries.push({ name: "to", value: to });
 
-    if (!this.state.showOptions) {
+    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+    if (!this.state.showOptions || !showTimeRange) {
       entries.push({ name: "time_range", value: rangeType });
-
-      // sorting
+    }
+    if (!this.state.showOptions || !showSorting) {
       entries.push({ name: "sorting", value: this.state.formData.sorting });
-      // document types
+    }
+    if (!this.state.showOptions || !showDocTypes) {
       this.state.formData.doctypes.forEach((value) => {
         entries.push({ name: "document_types[]", value });
       });
     }
 
-    const { titleExpansion, abstractExpansion, keywordsExpansion } =
-      this.state.settings;
+    const { minDescriptionSize, contentProvider } = this.state.settings;
+    const { titleExpansion, abstractExpansion } = this.state.settings;
+    const { keywordsExpansion } = this.state.settings;
 
+    if (minDescriptionSize) {
+      entries.push({ name: "min_descsize", value: minDescriptionSize });
+    }
+    if (contentProvider) {
+      entries.push({ name: "repo", value: contentProvider });
+    }
     if (titleExpansion) {
       entries.push({ name: "title", value: titleExpansion });
     }
@@ -221,10 +177,28 @@ class SearchBox extends React.Component {
     return entries;
   }
 
-  render() {
-    // TODO implement all settings
-    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+  getFormActionUrl() {
+    const queryParams = new URLSearchParams(window.location.search);
 
+    Array.from(queryParams.keys()).forEach((param) => {
+      if (!TRANSFERRED_PARAMS.has(param)) {
+        queryParams.delete(param);
+      }
+    });
+
+    queryParams.append("service", "base");
+    queryParams.append("embed", "true");
+
+    const queryString = queryParams.toString();
+
+    return `search?${queryString}`;
+  }
+
+  render() {
+    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+    const hasOptions = showTimeRange || showSorting || showDocTypes;
+
+    const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
     return e(
@@ -233,14 +207,15 @@ class SearchBox extends React.Component {
       e(
         "form",
         {
-          action: `search?service=${"base"}&embed=true`,
+          action: actionUrl,
           method: "POST",
           target: "_self",
         },
-        e(OptionsToggle, {
-          label: "Refine your search",
-          onClick: this.toggleOptions.bind(this),
-        }),
+        hasOptions &&
+          e(OptionsToggle, {
+            label: "Refine your search",
+            onClick: this.toggleOptions.bind(this),
+          }),
         this.state.showOptions &&
           e(
             Options,
@@ -295,42 +270,4 @@ class SearchBox extends React.Component {
   }
 }
 
-const OptionsToggle = ({ label, onClick }) => {
-  return e(
-    "div",
-    { className: "refine-search", onClick: onClick },
-    label,
-    " ",
-    e("i", { className: "refine-search fa fa-angle-down" })
-  );
-};
-
-const SearchField = ({ value, setValue }) => {
-  return e("input", {
-    autoFocus: true,
-    type: "text",
-    name: "q",
-    size: "89",
-    className: "text-field",
-    id: "searchterm",
-    placeholder: "Enter your search term",
-    spellCheck: true,
-    value,
-    onChange: (e) => setValue(e.target.value),
-  });
-};
-
-const SearchButton = ({ onClick }) => {
-  return e(
-    "button",
-    {
-      type: "submit",
-      className: "submit-btn",
-      onClick: onClick,
-    },
-    "GO"
-  );
-};
-
-const domContainer = document.querySelector("#search_box_container");
-ReactDOM.render(e(SearchBox), domContainer);
+export default SearchBox;
