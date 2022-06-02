@@ -217,7 +217,7 @@ if($has_sufficient_data) {
                 $default_lib = $service;
                 $search_query = htmlspecialchars(stripslashes($dirty_query));
                 $open_options = true;
-                if ($is_embed) {
+                if ($is_embed && substr($service, 0, 6) !== "triple") {
                     include(dirname(__FILE__). '/../search-form/new-search-form.php');
                 } else {
                     include(dirname(__FILE__). '/../search-form/search-form.php');
@@ -252,7 +252,8 @@ if($has_sufficient_data) {
             if (typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
 
-                let embed_mode = <?php echo $is_embed ? "true" : "false"; ?>;
+                const is_triple = typeof service === "string" && service.startsWith("triple");
+                const embed_mode = <?php echo $is_embed ? "true" : "false"; ?> && !is_triple;
                 let form_address = "<?php echo $search_form_page; ?>";
                 if (embed_mode) {
                     // best effort: pass all query params to the search box component
