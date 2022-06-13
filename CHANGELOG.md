@@ -1,5 +1,17 @@
 # Changelog
 
+## 2022-03-28
+
+### Changes
+
+- Headstart FAQs button is hidden in streamgraphs.
+
+## 2022-03-17
+
+### Changes
+
+- Improved the page metadata export to provide better information to the Zotero add-on.
+
 ## 2022-03-03
 
 ### Changes

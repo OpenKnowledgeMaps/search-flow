@@ -191,6 +191,7 @@ if(isset($search_flow_config_local)) {
                 , "unexpected data processing error": "server_error"
                 , "dataprocessing rate limit": "rate_limit"
                 , "API error: BASE not reachable": "base_xml_error"
+                , "BASE error: timeout": "base_timeout_error"
             }
             //Reason to always add to the list of error reasons
             , error_reason_always_add: [
@@ -307,6 +308,16 @@ if(isset($search_flow_config_local)) {
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "index"
+
+            },
+            base_timeout_error: {
+                title: "An unexpected error occurred while retrieving data from BASE."
+                , reason: "The BASE API is currently experiencing problems. We have logged the error and will investigate the issue."
+                , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in around 10 seconds.'
+                , contact: 'For more information about our service please <a href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , resolution_type: "link"
+                , resolution_label: "Refresh this page"
+                , resolution_link: "javascript:location.reload()"
 
             },
         }
