@@ -125,7 +125,20 @@ const getQuerySettings = () => {
   // default (preselected) values
   if (queryParams.hasValid("time_range", TYPE_TIMESPAN)) {
     settings.defaultTimespan = queryParams.get("time_range");
-    const { from, to } = getTimespanBounds(settings.defaultTimespan);
+
+    const customFrom = queryParams.hasValid("from", TYPE_DATE)
+      ? queryParams.get("from")
+      : undefined;
+    const customTo = queryParams.hasValid("to", TYPE_DATE)
+      ? queryParams.get("to")
+      : undefined;
+
+    const { from, to } = getTimespanBounds(
+      settings.defaultTimespan,
+      customFrom,
+      customTo
+    );
+
     settings.defaultFrom = from;
     settings.defaultTo = to;
   }
@@ -204,6 +217,13 @@ const TYPE_SORTING = {
 const TYPE_SINGLE = {
   validator: (values) => values.length <= 1,
   description: "Specifying multiple values is prohibited.",
+};
+const TYPE_DATE = {
+  validator: (values) =>
+    values.length === 1 &&
+    values[0].match(/^[12]?\d{3}-\d{2}-\d{2}$/) &&
+    !isNaN(new Date(values[0])),
+  description: "Only valid dates in format YYYY-MM-DD are allowed.",
 };
 const TYPE_ANY = {
   validator: () => true,

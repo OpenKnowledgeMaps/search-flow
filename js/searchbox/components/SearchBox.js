@@ -201,6 +201,9 @@ class SearchBox extends React.Component {
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
+    const showExtraTimePickers =
+      showTimeRange && this.state.formData.timespan.type === "custom-range";
+
     return e(
       "div",
       { className: "search_box" },
@@ -242,7 +245,7 @@ class SearchBox extends React.Component {
             e(
               AdvancedOptions,
               null,
-              this.state.formData.timespan.type === "user-defined" &&
+              showExtraTimePickers &&
                 e(
                   "div",
                   { className: "options_timespan" },

@@ -48,7 +48,29 @@ paths:
             If the parameter is not provided, it defaults to `any-time`.
           schema:
             type: string
-            enum: [any-time, last-month, last-year, user-defined]
+            enum: [any-time, last-month, last-year, custom-range]
+        - in: query
+          name: from
+          required: false
+          description: |
+            This parameter is only applied if the `time_range` is set to `custom-range`.
+
+            Start date for the search in the format YYYY-MM-DD. When the field is left empty, the parameter falls back to the default (`1665-01-01`). 
+          schema:
+            type: string
+            format: date
+            example: "1665-01-01"
+        - in: query
+          name: to
+          required: false
+          description: |
+            This parameter is only applied if the `time_range` is set to `custom-range`.
+
+            End date for the search in the format YYYY-MM-DD. When the field is left empty, the parameter defaults to the current day.
+          schema:
+            type: string
+            format: date
+            example: "2022-01-01"
         - in: query
           name: document_types[]
           required: false
