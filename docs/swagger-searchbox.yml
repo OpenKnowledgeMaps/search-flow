@@ -55,11 +55,10 @@ paths:
           description: |
             This parameter is only applied if the `time_range` is set to `custom-range`.
 
-            Start date for the search in the format YYYY-MM-DD. When the field is left empty, the parameter falls back to the default (`1665-01-01`). 
+            Start date for the search in the format YYYY-MM-DD. When the field is left empty, the parameter falls back to the default (`1665-01-01`).
           schema:
             type: string
             format: date
-            example: "1665-01-01"
         - in: query
           name: to
           required: false
@@ -70,7 +69,6 @@ paths:
           schema:
             type: string
             format: date
-            example: "2022-01-01"
         - in: query
           name: document_types[]
           required: false
@@ -122,6 +120,12 @@ paths:
             3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
             <br><br>
             <img src="../BASE_coll_param.png" />
+          schema:
+            type: string
+        - in: query
+          name: coll
+          required: false
+          description: Denotes a collection of content providers that the search will be restricted to, e.g. `at` or `de`. Note that if a content provider has been specified with the `repo` parameter, this paramter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query

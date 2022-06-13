@@ -24,6 +24,7 @@ export const DEFAULT_SETTINGS = {
   // hidden values
   minDescriptionSize: undefined,
   contentProvider: undefined,
+  collection: undefined,
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
@@ -94,6 +95,9 @@ const getConfigSettings = (outerSettings = {}) => {
   if (typeof outerSettings.repo === "string") {
     settings.contentProvider = outerSettings.repo;
   }
+  if (typeof outerSettings.coll === "string") {
+    settings.collection = outerSettings.collection;
+  }
   if (typeof outerSettings.title === "string") {
     settings.titleExpansion = outerSettings.title;
   }
@@ -155,6 +159,9 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("repo", TYPE_SINGLE)) {
     settings.contentProvider = queryParams.get("repo");
+  }
+  if (queryParams.hasValid("coll", TYPE_SINGLE)) {
+    settings.collection = queryParams.get("coll");
   }
   if (queryParams.hasValid("title", TYPE_SINGLE)) {
     settings.titleExpansion = queryParams.get("title");
