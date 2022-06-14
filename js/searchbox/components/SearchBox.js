@@ -28,6 +28,7 @@ class SearchBox extends React.Component {
       showOptions: settings.showOptions,
       formData: {
         query: settings.defaultQuery,
+        visType: settings.defaultVisType,
         timespan: {
           type: settings.defaultTimespan,
           from: settings.defaultFrom,
@@ -153,6 +154,8 @@ class SearchBox extends React.Component {
         entries.push({ name: "document_types[]", value });
       });
     }
+    // TODO add this conditionally once the toggle is implemented
+    entries.push({ name: "vis_type", value: this.state.formData.visType });
 
     const { minDescriptionSize, contentProvider } = this.state.settings;
     const { titleExpansion, abstractExpansion } = this.state.settings;

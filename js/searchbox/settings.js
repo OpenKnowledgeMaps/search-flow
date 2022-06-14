@@ -6,6 +6,8 @@ import TIMESPAN_OPTIONS, {
   getTimespanBounds,
 } from "./options/timespan.js";
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
+import VIS_TYPE_OPTIONS from "./options/vis_type.js";
+import SORTING_OPTIONS from "./options/sorting.js";
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -22,6 +24,7 @@ export const DEFAULT_SETTINGS = {
   defaultFrom: DEFAULT_FROM,
   defaultTo: DEFAULT_TO,
   // hidden values
+  defaultVisType: VIS_TYPE_OPTIONS[0].id, // TODO move to preselected once we implement the toggle
   minDescriptionSize: undefined,
   contentProvider: undefined,
   collection: undefined,
@@ -89,6 +92,10 @@ const getConfigSettings = (outerSettings = {}) => {
   }
 
   // hidden values
+  if (typeof outerSettings.vis_type === "string") {
+    // TODO move to preselected once we implement the toggle
+    settings.defaultVisType = outerSettings.vis_type;
+  }
   if (["string", "number"].includes(typeof outerSettings.min_descsize)) {
     settings.minDescriptionSize = outerSettings.min_descsize;
   }
@@ -127,7 +134,7 @@ const getQuerySettings = () => {
   }
 
   // default (preselected) values
-  if (queryParams.hasValid("time_range", TYPE_TIMESPAN)) {
+  if (queryParams.hasValid("time_range", TYPE_OPTION(TIMESPAN_OPTIONS))) {
     settings.defaultTimespan = queryParams.get("time_range");
 
     const customFrom = queryParams.hasValid("from", TYPE_DATE)
@@ -149,11 +156,15 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("document_types[]");
   }
-  if (queryParams.hasValid("sorting", TYPE_SORTING)) {
+  if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
   }
 
   // hidden values
+  if (queryParams.hasValid("vis_type", TYPE_OPTION(VIS_TYPE_OPTIONS))) {
+    // TODO move to preselected once we implement the toggle
+    settings.defaultVisType = queryParams.get("vis_type");
+  }
   if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
   }
@@ -180,13 +191,6 @@ const TYPE_BOOL = {
   validator: (values) =>
     values.length === 1 && ["true", "false"].includes(values[0]),
   description: "Only the values 'true' and 'false' are allowed.",
-};
-const TYPE_TIMESPAN = {
-  validator: (values) =>
-    !values.some((value) => !TIMESPAN_OPTIONS.some((opt) => opt.id === value)),
-  description: `Only the values '${TIMESPAN_OPTIONS.map((o) => o.id).join(
-    "', '"
-  )}' are allowed.`,
 };
 const TYPE_DOCTYPES = {
   validator: (values) =>
@@ -216,11 +220,6 @@ const TYPE_INT = (from, to) => ({
   },
   description: `The value must be a number${parseRange(from, to)}.`,
 });
-const TYPE_SORTING = {
-  validator: (values) =>
-    values.length === 1 && ["most-relevant", "most-recent"].includes(values[0]),
-  description: "Only the values 'most-relevant' and 'most-recent' are allowed.",
-};
 const TYPE_SINGLE = {
   validator: (values) => values.length <= 1,
   description: "Specifying multiple values is prohibited.",
@@ -232,6 +231,13 @@ const TYPE_DATE = {
     !isNaN(new Date(values[0])),
   description: "Only valid dates in format YYYY-MM-DD are allowed.",
 };
+const TYPE_OPTION = (options) => ({
+  validator: (values) =>
+    values.length === 1 && options.some((opt) => opt.id === values[0]),
+  description: `Only the values '${options
+    .map((o) => o.id)
+    .join("', '")}' are allowed.`,
+});
 const TYPE_ANY = {
   validator: () => true,
   description: "Any value can be used.",
