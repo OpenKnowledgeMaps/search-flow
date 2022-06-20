@@ -28,6 +28,7 @@ class SearchBox extends React.Component {
       showOptions: settings.showOptions,
       formData: {
         query: settings.defaultQuery,
+        visType: settings.defaultVisType,
         timespan: {
           type: settings.defaultTimespan,
           from: settings.defaultFrom,
@@ -153,16 +154,21 @@ class SearchBox extends React.Component {
         entries.push({ name: "document_types[]", value });
       });
     }
+    // TODO add this conditionally once the toggle is implemented
+    entries.push({ name: "vis_type", value: this.state.formData.visType });
 
     const { minDescriptionSize, contentProvider } = this.state.settings;
     const { titleExpansion, abstractExpansion } = this.state.settings;
-    const { keywordsExpansion } = this.state.settings;
+    const { keywordsExpansion, collection } = this.state.settings;
 
     if (minDescriptionSize) {
       entries.push({ name: "min_descsize", value: minDescriptionSize });
     }
     if (contentProvider) {
       entries.push({ name: "repo", value: contentProvider });
+    }
+    if (collection) {
+      entries.push({ name: "coll", value: collection });
     }
     if (titleExpansion) {
       entries.push({ name: "title", value: titleExpansion });
@@ -200,6 +206,9 @@ class SearchBox extends React.Component {
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
+
+    const showExtraTimePickers =
+      showTimeRange && this.state.formData.timespan.type === "custom-range";
 
     return e(
       "div",
@@ -242,7 +251,7 @@ class SearchBox extends React.Component {
             e(
               AdvancedOptions,
               null,
-              this.state.formData.timespan.type === "user-defined" &&
+              showExtraTimePickers &&
                 e(
                   "div",
                   { className: "options_timespan" },
