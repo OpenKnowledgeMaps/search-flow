@@ -134,12 +134,6 @@ paths:
           schema:
             type: string
             enum: [overview, timeline]
-        - in: query
-          name: limit
-          required: false
-          description: Set the maximum number of documents to be considered for a streamgraph. This parameter only has an effect in conjunction with `vis_type=timeline` and has an upper ceiling of 1000.
-          schema:
-            type: integer
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
