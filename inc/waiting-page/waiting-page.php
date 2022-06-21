@@ -148,6 +148,7 @@ if(!empty($_POST)) {
     $has_sufficient_data = true;
 }
 
+# this is where the request is translated from GET request to POST
 if ($enable_get_requests && $request_type === "get" 
         && $get_query !== false && $service !== false && $service !== null) {
     
@@ -284,7 +285,7 @@ if($has_sufficient_data) {
                     milliseconds_progressbar = item.milliseconds_progressbar;
                     max_length_search_term_short = item.max_length_search_term_short;
                     timeout = item.timeout;
-                    $(".vis_type_name").text(item.vis_type_name);
+                    $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
                 }
             });
 

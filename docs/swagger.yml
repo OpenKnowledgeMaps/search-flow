@@ -127,6 +127,19 @@ paths:
           description: BASE only. Denotes a collection of content providers that the search will be restricted to, e.g. `at` or `de`. Note that if a content provider has been specified with the `repo` parameter, this paramter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
+        - in: query
+          name: vis_type
+          required: false
+          description: Select between knowledge map and streamgraph visualisation types.
+          schema:
+            type: string
+            enum: [overview, timeline]
+        - in: query
+          name: limit
+          required: false
+          description: Set the maximum number of documents to be considered for a streamgraph. This parameter only has an effect in conjunction with `vis_type=timeline` and has an upper ceiling of 1000.
+          schema:
+            type: integer
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
