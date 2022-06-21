@@ -128,33 +128,6 @@ paths:
           description: Denotes a collection of content providers that the search will be restricted to, e.g. `at` or `de`. Note that if a content provider has been specified with the `repo` parameter, this paramter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
-        - in: query
-          name: title
-          required: false
-          description: |
-            Query expansion for document titles. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-
-            Leave it blank if there are no constraints for document titles.
-          schema:
-            type: string
-        - in: query
-          name: abstract
-          required: false
-          description: |
-            Query expansion for document abstracts. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-
-            Leave it blank if there are no constraints for document abstracts.
-          schema:
-            type: string
-        - in: query
-          name: keywords
-          required: false
-          description: |
-            Query expansion for document keywords. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax.
-
-            Leave it blank if there are no constraints for document keywords.
-          schema:
-            type: string
       responses:
         "200": # status code
           description: Returns the search box page.
