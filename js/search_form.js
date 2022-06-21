@@ -8,6 +8,7 @@ var SearchOptions = {
     },
     
     drawOptions: function(tag, data) {
+        const self = this;
         data.options.forEach(function(option) {
             let label = d3.select(tag).append("label")
                     .attr("class", "radio-inline")
@@ -16,6 +17,7 @@ var SearchOptions = {
                     .attr("type", "radio")
                     .attr("name", "optradio")
                     .attr("value", option.id)
+                    .on("click", () => self.trackOptionEvent("change", "data_source"));
             
             if(option.default && !option.disabled) {
                 radio_button.attr("checked", true)
@@ -43,6 +45,7 @@ var SearchOptions = {
     },
     
     drawExamples: function(tag, data) {
+        const self = this;
         d3.select(tag).text(data.example_text);
         let examples = d3.select(tag).append("span")
                                 .attr("class", "map-examples")
@@ -52,7 +55,8 @@ var SearchOptions = {
                     .attr("class", "underline")
                     .attr("target", "_blank")
                     .attr("href", example.link)
-                    .text(example.text);
+                    .text(example.text)
+                    .on("click", () => self.trackMatomoEvent("Search box", "Open try-out map", "Try-out link"));
         })
     },
     
@@ -145,6 +149,7 @@ var SearchOptions = {
                                     .attr("class", input.class)
                                     .attr("type", "text")
                                     .attr("size", "18")
+                                    .on("change", () => self.trackOptionEvent("change", input.id));
                         })
                     }
                 })
@@ -163,18 +168,19 @@ var SearchOptions = {
                 $("#input-container").css("display", "block");
             }
 
+            self.trackMatomoEvent("Search box", closed ? "Hide options" : "Show options", "Options toggle");
         });
 
     },
-    select_multi: function (dropdown_class, entity, width, data) {
-
-        var self = this;
+    select_multi: function (entityID, entityName, width, data) {
+        const self = this;
+        const dropdown_class = '.dropdown_multi_' + entityID;
 
          $(function () {
             $(dropdown_class).multiselect({
-                allSelectedText: "All " + entity
-                , nonSelectedText: "No " + entity
-                , nSelectedText: entity
+                allSelectedText: "All " + entityName
+                , nonSelectedText: "No " + entityName
+                , nSelectedText: entityName
                 , buttonWidth: width
                 , maxHeight: 250
                 , includeSelectAllOption: true
@@ -197,6 +203,20 @@ var SearchOptions = {
                             self.setDateRangeFromPreset("#from", "#to", element.val(), data.start_date);
                         }
                     }
+
+                    self.trackOptionEvent("change", entityID);
+                }
+                , onDropdownShown: function() {
+                    self.trackOptionEvent("show", entityID);
+                }
+                , onDropdownHidden: function() {
+                    self.trackOptionEvent("hide", entityID);
+                }
+                , onSelectAll: function() {
+                    self.trackOptionEvent("select_all", entityID);
+                }
+                , onDeselectAll: function() {
+                    self.trackOptionEvent("deselect_all", entityID);
                 }
             });
 
@@ -308,6 +328,7 @@ var SearchOptions = {
                     var d = i.selectedDay;
                     $(this).datepicker('setDate', new Date(y, m - 1, d));
                 },
+                onSelect: () => self.trackOptionEvent("change", from.replace("#", "")),
                 firstDay: 1
             });
             $(to).datepicker({
@@ -319,6 +340,7 @@ var SearchOptions = {
                     var d = i.selectedDay;
                     $(this).datepicker('setDate', new Date(y, m - 1, d));
                 },
+                onSelect: () => self.trackOptionEvent("change", to.replace("#", "")),
                 firstDay: 1
             });
 
@@ -526,6 +548,21 @@ var SearchOptions = {
             return null // unknown lang code
         }
 
+    },
+    trackMatomoEvent: function(category, action, name, value, dimensions) {
+        // _paq is a global variable defined by the matomo script
+        if (typeof _paq !== "undefined") {
+            _paq.push(["trackEvent", category, action, name, value, dimensions]);
+        }
+        if (window.location.hostname.startsWith("localhost")) {
+            console.log("DEBUG MATOMO:", {category, action, name, value, dimensions});
+        }
+    },
+    trackOptionEvent: function(type, option_id) {
+        if (event_type_to_name[type][option_id]) {
+            const [action, name] = event_type_to_name[type][option_id];
+            this.trackMatomoEvent("Search box", action, name);
+        }
     }
 };
 
@@ -553,4 +590,32 @@ var removeDefault = function(id) {
     })
 }
 
-
+var event_type_to_name = {
+    show: {
+        time_range: ["Show timespan options", "Timespan dropdown"],
+        sorting: ["Show sorting options", "Sorting dropdown"],
+        document_types: ["Show doctypes options", "Doctypes dropdown"],
+        min_descsize: ["Show quality options", "Metadata quality dropdown"],
+    },
+    hide: {
+        time_range: ["Hide timespan options", "Timespan dropdown"],
+        sorting: ["Hide sorting options", "Sorting dropdown"],
+        document_types: ["Hide doctypes options", "Doctypes dropdown"],
+        min_descsize: ["Hide quality options", "Metadata quality dropdown"],
+    },
+    change: {
+        time_range: ["Change timespan", "Timespan dropdown"],
+        sorting: ["Change sorting", "Sorting dropdown"],
+        document_types: ["Change doctypes", "Doctypes dropdown"],
+        min_descsize: ["Change quality", "Metadata quality dropdown"],
+        from: ["Change date", "From input"],
+        to: ["Change date", "To input"],
+        data_source: ["Change data source", "Data source radio"],
+    },
+    select_all: {
+        document_types: ["Select all doctypes", "Doctypes dropdown"],
+    },
+    deselect_all: {
+        document_types: ["Deselect all doctypes", "Doctypes dropdown"],
+    }
+}

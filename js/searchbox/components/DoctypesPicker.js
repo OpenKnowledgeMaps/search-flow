@@ -1,22 +1,10 @@
 "use strict";
 
-const { useState, useRef } = React;
+import Hiddens from "./Hiddens.js";
+import DOCTYPES_OPTIONS from "../options/doctypes.js";
+import useOutsideClick from "../hooks/useOutsideClick.js";
 
-const DOCTYPES_OPTIONS = [
-  // TODO add more
-  { id: "4", label: "Audio" },
-  { id: "11", label: "Book" },
-  { id: "111", label: "Book part" },
-  { id: "13", label: "Conference object" },
-  { id: "16", label: "Course material" },
-  { id: "7", label: "Dataset" },
-  { id: "5", label: "Image/video" },
-  { id: "12", label: "Journal/newspaper" },
-  { id: "121", label: "Journal/newspaper article" },
-  { id: "122", label: "Journal/newspaper other content" },
-];
-
-const DEFAULT_VAL = "12";
+const { useState, useRef, createElement: e } = React;
 
 const DoctypesPicker = ({ values, setValues }) => {
   const [open, setOpen] = useState(false);
@@ -28,6 +16,8 @@ const DoctypesPicker = ({ values, setValues }) => {
   const containerRef = useRef(null);
   useOutsideClick(containerRef, handleOutsideClick);
 
+  const btnLabel = getLabel(values);
+
   return e(
     "div",
     { className: "btn-group" + (open ? " open" : ""), ref: containerRef },
@@ -36,11 +26,11 @@ const DoctypesPicker = ({ values, setValues }) => {
       {
         type: "button",
         className: "multiselect dropdown-toggle btn btn-default",
-        title: "TODO",
+        title: btnLabel,
         onClick: () => setOpen((prev) => !prev),
       },
 
-      e("span", { className: "multiselect-selected-text" }, getLabel(values)),
+      e("span", { className: "multiselect-selected-text" }, btnLabel),
       " ",
       e("b", { className: "caret" })
     ),
@@ -48,7 +38,7 @@ const DoctypesPicker = ({ values, setValues }) => {
       "ul",
       {
         className: "multiselect-container dropdown-menu",
-        style: { maxHeight: 150, overflow: "hidden auto" },
+        style: { maxHeight: 250, overflow: "hidden auto" },
       },
       e(
         "li",
@@ -107,9 +97,17 @@ const DoctypesPicker = ({ values, setValues }) => {
           )
         )
       )
-    )
+    ),
+    e(Hiddens, {
+      entries: values.map((value) => ({
+        name: "document_types[]",
+        value,
+      })),
+    })
   );
 };
+
+export default DoctypesPicker;
 
 const getLabel = (selectedValues) => {
   if (selectedValues.length === 0) {
