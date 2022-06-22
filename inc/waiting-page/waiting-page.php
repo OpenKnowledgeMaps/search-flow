@@ -51,7 +51,7 @@ function createID($string_array) {
 }
 
 function createGetRequestArray($get_query, $service, $filter_options) {
-    global $search_flow_config;
+    global $search_flow_config, $is_embed;
     
     $ret_array = [
         "q" => $get_query   
@@ -104,7 +104,7 @@ function createGetRequestArray($get_query, $service, $filter_options) {
                 }
                 
                 if ($is_custom_date) {
-                    $ret_array[$range] = "user-defined";
+                    $ret_array[$range] = $is_embed ? "custom-range" : "user-defined";
                 }
                 
             } else if($options["multiple"] === true) {
