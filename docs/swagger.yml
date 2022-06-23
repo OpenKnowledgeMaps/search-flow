@@ -9,21 +9,22 @@ servers:
     description: Internal server for testing
 
 paths:
-  /search?type=get:
+  /search?type=get&service=base:
     get:
-      summary: search-flow entry point
+      summary: |
+        Parameterized Search and Visualisation Service (Data source: BASE)
       description: |
-        This is an entry point into the automatic pipeline that leads users directly to a visualization. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters.
-        As it is not returning raw visualization data directly, the entry point does not conform to the strict definition of a HTTP-GET interface.
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on BASE data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters.
+        
+        As it is not returning raw visualisation data directly, the entry point does not conform to the strict definition of a HTTP-GET interface.
       parameters:
         - in: query
-          name: service
-          required: true
-          description: The aggregator service used for searching and retrieving the document data.
+          name: vis_type
+          required: false
+          description: Choose between knowledge map (overview) and streamgraph (timeline). Please note that the streamgraph is still a prototype.
           schema:
             type: string
-            enum: [base, pubmed]
-            example: base
+            enum: [overview, timeline]
         - in: query
           name: q
           required: true
@@ -88,19 +89,6 @@ paths:
           style: form
           explode: true
         - in: query
-          name: article_types[]
-          required: false
-          description: |
-            PubMed only. List of article type strings that the search will be restricted to, e.g. `journal article` or `clinical trial`. More information on article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types).
-            To add an additional article type, click on "Add item" below the input field. When the field is empty, the parameter is not used and all article types will be searched.
-          schema:
-            type: array
-            items:
-              type: string
-            default: []
-          style: form
-          explode: true
-        - in: query
           name: min_descsize
           required: false
           description: BASE only. Minimum abstract length in characters. Must be larger than 0. A value of 300 is recommended to increase the quality of knowledge maps. When the field is empty, it defaults to 300.
@@ -127,13 +115,65 @@ paths:
           description: BASE only. Denotes a collection of content providers that the search will be restricted to, e.g. `at` or `de`. Note that if a content provider has been specified with the `repo` parameter, this paramter will be ignored. More information can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
+  /search?type=get&service=pubmed:
+    get:
+      summary: |
+        Parameterized Search and Visualisation Service (Data source: PubMed)
+      description: |
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on PubMed data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters.
+
+        As it is not returning raw visualisation data directly, the entry point does not conform to the strict definition of a HTTP-GET interface.
+      parameters:
         - in: query
-          name: vis_type
+          name: q
+          required: true
+          description: |
+            The search query, e.g. `digital education`.
+
+            For BASE, we apply the verbatim search mode to improve visualization quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
+
+            For PubMed, the query is relayed as-is, which means advanced PubMed syntax can be applied.
+          schema:
+            type : string
+          example: digital education
+          allowReserved: true
+        - in: query
+          name: from
           required: false
-          description: Select between knowledge map and streamgraph visualisation types.
+          description: |
+            Start date for the search in the format YYYY-MM-DD. When the field is left empty, the parameter falls back to the default.
+            
+            For BASE, the default is `1665-01-01`. This date only applies to journal articles, other data types may have earlier publication dates.
+            
+            For PubMed, the default is `1809-01-01`.
           schema:
             type: string
-            enum: [overview, timeline]
+            format: date
+            example: "1665-01-01"
+        - in: query
+          name: to
+          required: false
+          description: End date for the search in the format YYYY-MM-DD. When the field is left empty, the parameter defaults to the current day.
+          schema:
+            type: string
+            format: date
+            example: "2022-01-01"
+        - in: query
+          name: article_types[]
+          required: false
+          description: |
+            PubMed only. List of article type strings that the search will be restricted to, e.g. `journal article` or `clinical trial`. More information on article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types).
+            To add an additional article type, click on "Add item" below the input field. When the field is empty, the parameter is not used and all article types will be searched.
+          schema:
+            type: array
+            items:
+              type: string
+            default: []
+          style: form
+          explode: true
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
