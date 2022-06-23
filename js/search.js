@@ -171,7 +171,11 @@ function executeSearchRequest(
           search_flow_config.waiting_page_options.additional_api_errors;
         if (list_array.length > 0) {
           if (Object.keys(additional_api_errors).includes(list_array[0])) {
-            setErrorTexts(error_texts[additional_api_errors[list_array[0]]]);
+            setErrorTexts(
+              error_texts[additional_api_errors[list_array[0]]],
+              post_data,
+              service
+            );
             return;
           } else {
             console.log(
@@ -218,11 +222,18 @@ function executeSearchRequest(
             $("#more-info-link_service").text(
               service === "base" ? "BASE" : "PubMed"
             );
+            if (post_data.embed) {
+              $("#more-info-service-desc").hide();
+            }
           }
         }
         setErrorContact(current_error_texts.contact);
         writeSearchTerm("search_term_fail", search_term_short, search_term);
-        setErrorResolution(current_error_texts, true);
+        setErrorResolution(current_error_texts, {
+          show_form: true,
+          post_data,
+          service: service,
+        });
 
         if (service.endsWith("sg")) {
           $(".vis_type_name").text("streamgraph");
@@ -237,17 +248,17 @@ function executeSearchRequest(
       errorOccurred();
 
       if (status === "timeout") {
-        setErrorTexts(error_texts.timeout);
+        setErrorTexts(error_texts.timeout, post_data, service);
       } else if (xhr.status === 0) {
-        setErrorTexts(error_texts.connection_error);
+        setErrorTexts(error_texts.connection_error, post_data, service);
       } else {
-        setErrorTexts(error_texts.server_error);
+        setErrorTexts(error_texts.server_error, post_data, service);
       }
     });
 }
 
-function redirectToIndex(search_form_page) {
-  setErrorTexts(error_texts.no_post_data);
+function redirectToIndex(search_form_page, embed = false, service = "") {
+  setErrorTexts(error_texts.no_post_data, { embed }, service);
   window.setTimeout(function () {
     window.location = search_form_page;
   }, 10000);
@@ -256,7 +267,13 @@ function redirectToIndex(search_form_page) {
 // Everything related to error messaging apart from translating
 // error descriptions/possible reasons
 
-function setErrorTexts(text_object, search_term_short, search_term) {
+function setErrorTexts(
+  text_object,
+  post_data,
+  service,
+  search_term_short,
+  search_term
+) {
   if (text_object.hasOwnProperty("title")) {
     setErrorTitle(text_object.title);
   }
@@ -272,17 +289,12 @@ function setErrorTexts(text_object, search_term_short, search_term) {
   if (text_object.hasOwnProperty("title")) {
     setErrorContact(text_object.contact);
   }
-  if (
-    typeof search_term_short !== "undefined" &&
-    search_term_short !== null &&
-    typeof search_term !== "undefined" &&
-    search_term !== null
-  ) {
+  if (search_term_short !== undefined && search_term !== undefined) {
     writeSearchTerm("search_term_fail", search_term_short, search_term);
   }
 
   if (text_object.resolution_type) {
-    setErrorResolution(text_object);
+    setErrorResolution(text_object, { post_data, service });
   }
 }
 
@@ -305,15 +317,66 @@ function setErrorMoreInfo(html_string) {
 function setErrorContact(html_string) {
   writeErrorFieldHTML("error-contact", html_string);
 }
-function setErrorResolution(text_object, show_form) {
-  if (typeof show_form !== "undefined" && show_form === true) {
+
+function getResolutionHref(resolution_link, post_data = {}, service = "") {
+  if (
+    post_data.embed &&
+    resolution_link === "index" &&
+    !service.startsWith("triple")
+  ) {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.delete("id");
+    queryParams.delete("service");
+    queryParams.delete("embed");
+    // all the search box params are added into query from post
+    [
+      "repo",
+      "sorting",
+      "min_descsize",
+      "title",
+      "abstract",
+      "keywords",
+    ].forEach((param) => {
+      if (post_data[param]) {
+        queryParams.append(param, post_data[param]);
+      }
+    });
+    if (Array.isArray(post_data.document_types)) {
+      post_data.document_types.forEach((type) =>
+        queryParams.append("document_types[]", type)
+      );
+    }
+    return `embedded_searchbox?${queryParams.toString()}`;
+  }
+
+  return resolution_link;
+}
+
+function setErrorResolution(text_object, options = {}) {
+  const { show_form, post_data, service } = options;
+  const { resolution_link } = text_object;
+
+  const resolution_href = getResolutionHref(
+    resolution_link,
+    post_data,
+    service
+  );
+
+  $("#fail-index").attr("href", resolution_href);
+
+  if (show_form) {
     $("#new_search_form").removeClass("nodisplay");
     $("#filters").removeClass("frontend-hidden");
-    if (search_options_object.user_defined_date) {
+    if (
+      typeof search_options_object !== "undefined" &&
+      search_options_object.user_defined_date
+    ) {
       $("#input-container").css("display", "block");
     }
     if (search_flow_config.search_options.search_term_focus) {
-      document.getElementById("searchterm").focus({ preventScroll: true });
+      requestAnimationFrame(() =>
+        document.getElementById("searchterm").focus({ preventScroll: true })
+      );
     }
 
     // later we might want to hide it also when the search form is not displayed
@@ -322,17 +385,13 @@ function setErrorResolution(text_object, show_form) {
     return;
   }
 
-  const {
-    resolution_type,
-    resolution_label,
-    resolution_link,
-    resolution_countdown,
-  } = text_object;
+  const { resolution_type, resolution_label, resolution_countdown } =
+    text_object;
 
   if (resolution_type === "link") {
     $("#error-resolution-link").removeClass("nodisplay");
     $("#error-resolution-link").text(resolution_label);
-    $("#error-resolution-link").attr("href", resolution_link);
+    $("#error-resolution-link").attr("href", resolution_href);
 
     return;
   }
