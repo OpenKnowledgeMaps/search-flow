@@ -1,5 +1,17 @@
 # Changelog
 
+## 2022-06-23
+
+### New features
+
+- New frontend component: search box
+- New swagger for setting the new search box parameters
+
+### Changes
+
+- GET endpoint swagger improvements
+- Improved CS fail page links & behavior
+
 ## 2022-03-28
 
 ### Changes
