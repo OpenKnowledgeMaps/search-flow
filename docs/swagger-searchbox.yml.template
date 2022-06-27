@@ -64,7 +64,7 @@ paths:
           description: |
             **Please note** this parameter can only be applied if the `time_range` value is set to custom-range.
 
-            Select a start date for the search in the format YYYY-MM-DD. If the parameter is not provided, it defaults to `1665-01-01`.
+            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
           schema:
             type: string
             format: date
@@ -74,7 +74,7 @@ paths:
           description: |
             **Please note** this parameter can only be applied if the `time_range` value is set to `custom-range`.
 
-            Select an end date for the search in the format YYYY-MM-DD. If the parameter is not provided, it defaults to the current day.
+            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
           schema:
             type: string
             format: date
