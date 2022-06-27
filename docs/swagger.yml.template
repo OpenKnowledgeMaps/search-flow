@@ -5,7 +5,7 @@ info:
   version: dev
 
 servers:
-  - url: localhost
+  - url: http://localhost
     description: Internal server for testing
 
 paths:
