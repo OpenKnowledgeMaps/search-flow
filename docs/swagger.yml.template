@@ -119,7 +119,7 @@ paths:
           description: |
             Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
 
-            1. Search for the content provider within the list of content providers on the BASE website.
+            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
             2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
             3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
             <br><br>
