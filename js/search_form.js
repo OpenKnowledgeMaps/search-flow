@@ -17,7 +17,7 @@ var SearchOptions = {
                     .attr("type", "radio")
                     .attr("name", "optradio")
                     .attr("value", option.id)
-                    .on("click", () => self.trackOptionEvent("change", "data_source"));
+                    .on("click", () => self.trackOptionEvent("change", "data_source", option.id));
             
             if(option.default && !option.disabled) {
                 radio_button.attr("checked", true)
@@ -56,7 +56,7 @@ var SearchOptions = {
                     .attr("target", "_blank")
                     .attr("href", example.link)
                     .text(example.text)
-                    .on("click", () => self.trackMatomoEvent("Search box", "Open try-out map", "Try-out link"));
+                    .on("click", () => self.trackMatomoEvent("Search box", "Open try-out map", example.link));
         })
     },
     
@@ -175,6 +175,7 @@ var SearchOptions = {
     select_multi: function (entityID, entityName, width, data) {
         const self = this;
         const dropdown_class = '.dropdown_multi_' + entityID;
+        const is_multiple = !!$(dropdown_class).prop("multiple");
 
          $(function () {
             $(dropdown_class).multiselect({
@@ -184,10 +185,7 @@ var SearchOptions = {
                 , buttonWidth: width
                 , maxHeight: 250
                 , includeSelectAllOption: true
-                , numberDisplayed: function () {
-                    let is_multiple = $(dropdown_class).prop("multiple");
-                    return is_multiple ? 0 : 1;
-                }()
+                , numberDisplayed: !is_multiple
                 , onChange: function (element, checked) {
                     if (checked === true) {
                         if(dropdown_class === ".dropdown_multi_time_range" 
@@ -204,7 +202,15 @@ var SearchOptions = {
                         }
                     }
 
-                    self.trackOptionEvent("change", entityID);
+                    let identifier = entityID;
+                    if (is_multiple) {
+                        if (checked) {
+                            identifier += "_add";
+                        } else {
+                            identifier += "_remove";
+                        }
+                    }
+                    self.trackOptionEvent("change", identifier, element.val());
                 }
                 , onDropdownShown: function() {
                     self.trackOptionEvent("show", entityID);
@@ -558,9 +564,10 @@ var SearchOptions = {
             console.log("DEBUG MATOMO:", {category, action, name, value, dimensions});
         }
     },
-    trackOptionEvent: function(type, option_id) {
+    trackOptionEvent: function(type, option_id, value) {
         if (event_type_to_name[type][option_id]) {
-            const [action, name] = event_type_to_name[type][option_id];
+            const [action, defaultName] = event_type_to_name[type][option_id];
+            const name = typeof value !== "undefined" ? value : defaultName;
             this.trackMatomoEvent("Search box", action, name);
         }
     }
@@ -606,7 +613,8 @@ var event_type_to_name = {
     change: {
         time_range: ["Change timespan", "Timespan dropdown"],
         sorting: ["Change sorting", "Sorting dropdown"],
-        document_types: ["Change doctypes", "Doctypes dropdown"],
+        document_types_add: ["Add document type", "Doctypes dropdown"],
+        document_types_remove: ["Remove document type", "Doctypes dropdown"],
         min_descsize: ["Change quality", "Metadata quality dropdown"],
         from: ["Change date", "From input"],
         to: ["Change date", "To input"],
