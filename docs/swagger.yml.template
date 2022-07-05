@@ -1,0 +1,209 @@
+openapi: 3.0.0
+info:
+  title: OKMaps Parameterized Search and Visualisation Service
+  description: |
+    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE or PubMed data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
+
+    However, the service is not returning a raw data representation of a visualisation, but rather a web page that triggers the creation of the visualisation. Therefore, the service entry point does not conform to the strict definition of a HTTP-GET interface.
+    
+    A link representing a request to the entry point can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). When the user clicks on the link, a new tab is opened showing a waiting page while the visual interface is being computed. Once the computation has successfully finished, the user is forwarded to the visual interface in the same tab. Visualisation data is persisted on our servers.
+  version: dev
+
+servers:
+  - url: http://localhost
+    description: Internal server for testing
+
+paths:
+  /search?type=get&service=base:
+    get:
+      summary: |
+        Configure searches and create visualisations (Data source: BASE)
+      description: |
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on BASE data. 
+      parameters:
+        - in: query
+          name: vis_type
+          required: false
+          description: |
+            Choose a visualisation type. There are two types available: 1) Knowledge Map = `overview` and 2) Streamgraph = `timeline`. 
+            
+            A Knowledge Map presents you with a topical overview for your search query based on the 100 most relevant documents matching your query. 
+            
+            A Streamgraph presents you with an overview of the main keywords over time based on up to 1000 documents matching your query. Please note the streamgraph is a prototype and may be rough around the edges.
+            
+            If the parameter is not provided, it defaults to `overview` (=Knowledge Map).
+          schema:
+            type: string
+            enum: [overview, timeline]
+        - in: query
+          name: q
+          required: true
+          description: |
+            Enter your search query, e.g. `digital education`.
+            We apply the verbatim search mode to improve visualisation quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
+            If the parameter is empty the link can’t be generated. 
+          schema:
+            type : string
+          example: digital education
+          allowReserved: true
+        - in: query
+          name: from
+          required: false
+          description: |
+            Specify a start date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`. **Please note** this is the earliest date available for journal articles, other document types may have even earlier publication dates.
+          schema:
+            type: string
+            format: date
+            example: "1665-01-01"
+        - in: query
+          name: to
+          required: false
+          description: Specify an end date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
+          schema:
+            type: string
+            format: date
+            example: "2022-01-01"
+        - in: query
+          name: sorting
+          required: false
+          description: | 
+            Choose a sorting value for your search. 
+
+            Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
+
+            To determine the `most-relevant` documents, we use the relevance ranking provided by BASE. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information.
+
+            The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
+
+            If the parameter is not provided, it defaults to `most-relevant`.
+
+          schema:
+            type : string
+            enum: [most-relevant, most-recent]
+            default: most-relevant
+        - in: query
+          name: document_types[]
+          required: false
+          description: |
+            Specify the BASE-internal document type(s) that your search will be restricted to e.g. `121`, `14` or `15`. More information on available document types can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
+
+            To add an additional document type code, click on "Add item" below the input field.
+
+            If the parameter is not provided, it defaults to `121` (Journal/newspaper article).
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+            default: [121]
+          style: form
+          explode: true
+        - in: query
+          name: min_descsize
+          required: false
+          description: |
+            Specify the minimum abstract length in characters. Documents with an abstract length below that value will not be included in the search results.
+
+            To activate the filter, the value has to be larger than 0. We recommend this setting if your repository contains mostly documents with an abstract. Our internal research has shown that a value of ≥300 increases the quality of visualisations for most repositories. Values larger than 1.000 are less likely to produce results for the majority of repositories.
+
+            To deactivate the filter, the value has to be `0`. We recommend this setting if your repository contains mostly documents without an abstract. **Please note that low metadata quality may significantly reduce the quality of your visualisations.**
+
+            If the parameter is not provided, it defaults to a value of `300`.
+          schema:
+            type: integer
+            example: 300
+        - in: query
+          name: repo
+          required: false
+          description: |
+            Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
+
+            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
+            2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
+            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
+            <br><br>
+            <img src="../BASE_coll_param.png" />
+          schema:
+            type: string
+        - in: query
+          name: coll
+          required: false
+          description: |
+            Specify a collection available within BASE that your search will be restricted to. 
+
+            This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+          schema:
+            type: string
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
+  /search?type=get&service=pubmed:
+    get:
+      summary: |
+        Configure searches and create visualisations (Data source: PubMed)
+      description: |
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on PubMed data. 
+      parameters:
+        - in: query
+          name: q
+          required: true
+          description: |
+            Enter your search query, e.g. `“climate change”`.
+            For PubMed, the query is relayed as-is, which means advanced PubMed syntax can be applied.
+          schema:
+            type : string
+          example: digital education
+          allowReserved: true
+        - in: query
+          name: from
+          required: false
+          description: |
+            Specify a start date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1809-01-01`.
+          schema:
+            type: string
+            format: date
+            example: "1665-01-01"
+        - in: query
+          name: to
+          required: false
+          description: Select an end date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
+          schema:
+            type: string
+            format: date
+            example: "2022-01-01"
+        - in: query
+          name: sorting
+          required: false
+          description: | 
+            Choose a sorting value for your search. 
+
+            Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
+
+            To determine the `most-relevant` documents, we use the relevance ranking provided by PubMed. PubMed mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://www.ncbi.nlm.nih.gov/books/NBK3827/#pubmedhelp.Computation_of_Weighted_Relev) for more information.
+
+            The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
+
+            If the parameter is not provided, it defaults to `most-relevant`.
+          schema:
+            type : string
+            enum: [most-relevant, most-recent]
+            default: most-relevant
+        - in: query
+          name: article_types[]
+          required: false
+          description: |
+            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
+            To add an additional article type, click on "Add item" below the input field. 
+            If the parameter is not specified, it defaults to all article types.
+          schema:
+            type: array
+            items:
+              type: string
+            default: []
+          style: form
+          explode: true
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
+
