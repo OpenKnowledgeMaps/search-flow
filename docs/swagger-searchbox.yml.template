@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Open Knowledge Maps Search Box Configuration Service
+  description: |
+    This is a tool to configure the customizable search box component. This search box serves as an entry point for defining the visualisation parameters and generating the visualisation in a user-friendly interface.
+  version: dev
+
+servers:
+  - url: http://localhost
+    description: Internal server for testing
+
+paths:
+  /embedded_searchbox:
+    get:
+      summary: Configure the Custom Services Search Box
+      description: |
+        A link representing the search box and its settings can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). The link is then intended to be used in an iframe. 
+
+        The path to the component is /embedded_searchbox. By default the search box displays a query field and a set of option dropdowns with preselected values. Those dropdowns can be customised using URL query parameters.
+        You can customise some of the options by overriding their default values. In addition you can also decide whether to show/hide the option to your end users.
+
+        Once the component link is generated, the used parameters can be further validated by the Custom Services integrators by opening the browser console at the component link page. In case a parameter has an invalid value, a warning message is displayed in the console stating the parameter name and its allowed values.
+
+      parameters:
+        - in: query
+          name: show_time_range
+          description: |
+            Display or hide the time range dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_doc_types
+          description: |
+            Display or hide the document types dropdown in the search box options.
+            
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_sorting
+          description: |
+            Display or hide the documents sorting (most relevant/most recent) dropdown in the search box options.
+            
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: time_range
+          required: false
+          description: |
+            Select the time range value that will be preselected in the dropdown in the search box options.
+
+            In case the value `custom-range` is selected, the range boundaries can be specified by the parameters `from` and `to`.
+
+            If the parameter is not provided, it defaults to any-time.
+          schema:
+            type: string
+            enum: [any-time, last-month, last-year, custom-range]
+        - in: query
+          name: from
+          required: false
+          description: |
+            **Please note** this parameter can only be applied if the `time_range` value is set to custom-range.
+
+            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          required: false
+          description: |
+            **Please note** this parameter can only be applied if the `time_range` value is set to `custom-range`.
+
+            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: document_types[]
+          required: false
+          description: |
+            Specify the BASE-internal document types that will be preselected in the search box options, e.g. `121`, `14` or `15`. More information on available document types can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
+
+            To add an additional document type code, click on "Add item" below the input field.
+
+            If the parameter is not provided, it defaults to `121` (Journal/newspaper article).
+
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+          style: form
+          explode: true
+        - in: query
+          name: sorting
+          required: false
+          description: |
+            Select the sorting value that will be preselected in the search box options.
+
+            Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
+            
+            To determine the `most-relevant` documents, we use the relevance ranking provided by BASE. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information.
+
+            The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
+
+            If the parameter is not provided, it defaults to `most-relevant`.
+
+          schema:
+            type: string
+            enum: [most-relevant, most-recent]
+        - in: query
+          name: min_descsize
+          required: false
+          description: |
+            Specify the minimum abstract length in characters. Documents with an abstract length below that value will not be included in the search results.
+
+            To activate the filter, the value has to be larger than 0. We recommend this setting if your repository contains mostly documents with an abstract. Our internal research has shown that a value of ≥300 increases the quality of visualisations for most repositories. Values larger than 1.000 are less likely to produce results for the majority of repositories.
+
+            To deactivate the filter, the value has to be `0`. We recommend this setting if your repository contains mostly documents without an abstract. **Please note that low metadata quality may significantly reduce the quality of your visualisations.**
+
+            If the parameter is not provided, it defaults to a value of `300`.
+          schema:
+            type: integer
+            example: 300
+        - in: query
+          name: repo
+          required: false
+          description: |
+            Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
+
+            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
+            2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
+            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
+            <br><br>
+            <img src="../BASE_coll_param.png" />
+          schema:
+            type: string
+        - in: query
+          name: coll
+          required: false
+          description: |
+            Specify a collection available within BASE that your search will be restricted to. 
+
+            This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: Returns the search box page.
