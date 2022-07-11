@@ -569,6 +569,8 @@ var SearchOptions = {
             const [action, defaultName] = event_type_to_name[type][option_id];
             const name = typeof value !== "undefined" ? value : defaultName;
             this.trackMatomoEvent("Search box", action, name);
+        } else {
+            console.warn(`The type '${type}', option '${option_id}' couldn't be mapped to an event.`);
         }
     }
 };
@@ -602,12 +604,14 @@ var event_type_to_name = {
         time_range: ["Show timespan options", "Timespan dropdown"],
         sorting: ["Show sorting options", "Sorting dropdown"],
         document_types: ["Show doctypes options", "Doctypes dropdown"],
+        article_types: ["Show doctypes options", "Doctypes dropdown"],
         min_descsize: ["Show quality options", "Metadata quality dropdown"],
     },
     hide: {
         time_range: ["Hide timespan options", "Timespan dropdown"],
         sorting: ["Hide sorting options", "Sorting dropdown"],
         document_types: ["Hide doctypes options", "Doctypes dropdown"],
+        article_types: ["Hide doctypes options", "Doctypes dropdown"],
         min_descsize: ["Hide quality options", "Metadata quality dropdown"],
     },
     change: {
@@ -615,6 +619,8 @@ var event_type_to_name = {
         sorting: ["Change sorting", "Sorting dropdown"],
         document_types_add: ["Add document type", "Doctypes dropdown"],
         document_types_remove: ["Remove document type", "Doctypes dropdown"],
+        article_types_add: ["Add document type", "Doctypes dropdown"],
+        article_types_remove: ["Remove document type", "Doctypes dropdown"],
         min_descsize: ["Change quality", "Metadata quality dropdown"],
         from: ["Change date", "From input"],
         to: ["Change date", "To input"],
@@ -622,8 +628,10 @@ var event_type_to_name = {
     },
     select_all: {
         document_types: ["Select all doctypes", "Doctypes dropdown"],
+        article_types: ["Select all doctypes", "Doctypes dropdown"],
     },
     deselect_all: {
         document_types: ["Deselect all doctypes", "Doctypes dropdown"],
+        article_types: ["Deselect all doctypes", "Doctypes dropdown"],
     }
 }
