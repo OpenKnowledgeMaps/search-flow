@@ -1,5 +1,11 @@
 # Changelog
 
+## 2022-07-14
+
+### Changes
+
+- Improved search box event tracking structure (tracking dropdown options).
+
 ## 2022-06-23
 
 ### New features
