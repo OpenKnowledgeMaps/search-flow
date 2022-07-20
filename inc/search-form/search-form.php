@@ -29,7 +29,7 @@ $waiting_page = $search_flow_config["waiting_page"];
     
 </form>
 
-<script src="<?php echo $searchflow_path ?>js/search_form.js"></script>
+<script src="<?php echo $searchflow_path ?>js/search_form.js?v=2022-06-30-1"></script>
 
 <script>
 var search_options_object;
