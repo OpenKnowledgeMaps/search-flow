@@ -1,5 +1,11 @@
 # Changelog
 
+## 2022-07-20
+
+### Changes
+
+- Customized UI so that it works with streamgraphs in BASE too.
+
 ## 2022-07-14
 
 ### Changes
