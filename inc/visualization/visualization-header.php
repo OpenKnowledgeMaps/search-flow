@@ -74,9 +74,13 @@ function setVariableFromContext($context, $var, $enable_default = false, $defaul
     return $ret_val;
     
 }
+
+$citation_vis_type = $vis_type === "timeline" ? "Streamgraph" : "Knowledge Map";
+$citation_title = $has_custom_title ? $custom_title : $query;
+$citation_meta_string = $citation_vis_type . " for research on " . $citation_title;
 ?>
 
 <!-- Zotero add-on metadata -->
 <meta name="citation_author" content="Open Knowledge Maps" />
-<meta name="citation_title" content="Overview of research on <?php echo $has_custom_title ? $custom_title : $query ?>" />
+<meta name="citation_title" content="<?php echo $citation_meta_string ?>" />
 <meta name="citation_date" content="<?php echo $timestamp !== null ? (new DateTime($timestamp))->format('Y-m-d') : "" ?>" />
