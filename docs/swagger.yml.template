@@ -37,10 +37,21 @@ paths:
             enum: [overview, timeline]
         - in: query
           name: q
-          required: true
+          required: false
           description: |
             Enter your search query, e.g. `digital education`.
             We apply the verbatim search mode to improve visualisation quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
+            If the parameter is empty the link can’t be generated. 
+          schema:
+            type : string
+          example: digital education
+          allowReserved: true
+        - in: query
+          name: q_advanced
+          required: false
+          description: |
+            Enter your advanced search query, e.g. `orcid:dddd-dddd-dddd-dddd`.
+            This query is directly relayed to the BASE HTTP API. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
             If the parameter is empty the link can’t be generated. 
           schema:
             type : string
