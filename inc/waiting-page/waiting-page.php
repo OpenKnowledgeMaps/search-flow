@@ -50,11 +50,12 @@ function createID($string_array) {
     return md5($string_to_hash);
 }
 
-function createGetRequestArray($get_query, $service, $filter_options) {
+function createGetRequestArray($get_query, $service, $filter_options, $get_q_advanced) {
     global $search_flow_config, $is_embed;
     
     $ret_array = [
-        "q" => $get_query   
+        "q" => $get_query,
+        "q_advanced" => $get_q_advanced
     ];
     
     // Check for params from search form
@@ -137,14 +138,21 @@ function createGetRequestArray($get_query, $service, $filter_options) {
 
 $request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
 $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+$get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
 $dirty_query = "";
+$dirty_q_advanced = "";
 $post_array = array();
 $has_sufficient_data = false;
 
 if(!empty($_POST)) {
     $post_array = $_POST;
-    $dirty_query = $post_array["q"];
+    if (array_key_exists("q", $post_array)) {
+        $dirty_query = $post_array["q"];
+    }
+    if (array_key_exists("q_advanced", $post_array)) {
+        $dirty_q_advanced = $post_array["q"];
+    }
     $has_sufficient_data = true;
 }
 
@@ -152,7 +160,7 @@ if(!empty($_POST)) {
 if ($enable_get_requests && $request_type === "get" 
         && $get_query !== false && $service !== false && $service !== null) {
     
-    $post_array = createGetRequestArray($get_query, $service, $filter_options);
+    $post_array = createGetRequestArray($get_query, $service, $filter_options, $get_q_advanced);
     $dirty_query = $get_query;
     $has_sufficient_data = true;
 }
@@ -167,7 +175,15 @@ if($has_sufficient_data) {
         $params_array = $search_flow_config["params_arrays"][$service];
 
         $params_json = packParamsJSON($params_array, $post_array);
-        $unique_id = createID(array($query, $params_json));
+        if(!empty($query) && empty($get_q_advanced)) {
+            $unique_id = createID(array($query, $params_json));
+        }
+        if(empty($query) && !empty($get_q_advanced)) {
+            $unique_id = createID(array($get_q_advanced, $params_json));
+        }
+        if(!empty($query) && !empty($get_q_advanced)) {
+            $unique_id = createID(array($query, $get_q_advanced, $params_json));
+        }
 
         $post_array["q"] = $query;
         $post_array["unique_id"] = $unique_id;
