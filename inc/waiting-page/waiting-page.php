@@ -12,6 +12,14 @@ $enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "gene
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
 
+function console_log($data) {
+    $console = $data;
+    if (is_array($console))
+    $console = implode(',', $console);
+   
+    echo "<script>console.log('Console: " . $console . "' );</script>";
+   }
+
 // This fixes a bug in iOS Safari where an inactive tab would forget the post 
 // parameters - usually when the user opens a different tab while waiting for
 // a map to be created.
@@ -158,7 +166,7 @@ if(!empty($_POST)) {
 
 # this is where the request is translated from GET request to POST
 if ($enable_get_requests && $request_type === "get" 
-        && $get_query !== false && $service !== false && $service !== null) {
+        && $service !== false && $service !== null) {
     
     $post_array = createGetRequestArray($get_query, $service, $filter_options, $get_q_advanced);
     $dirty_query = $get_query;
@@ -265,7 +273,7 @@ if($has_sufficient_data) {
             var service = params.get("service");
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
-            //If the page is called without any data or the ID/service parameter is missing, redirect to index page
+            //If the page is called without any data or the ID/service parameter is missing, redirect to index page            
             if (typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
 
