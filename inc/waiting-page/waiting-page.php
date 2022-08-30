@@ -159,7 +159,7 @@ if(!empty($_POST)) {
         $dirty_query = $post_array["q"];
     }
     if (array_key_exists("q_advanced", $post_array)) {
-        $dirty_q_advanced = $post_array["q"];
+        $dirty_q_advanced = $post_array["q_advanced"];
     }
     $has_sufficient_data = true;
 }
@@ -314,9 +314,14 @@ if($has_sufficient_data) {
             });
 
             let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
-            let search_term_short = getSearchTermShort(search_term);
+            let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
+            let terms = [search_term, search_term_advanced].filter(element => {
+                return element !== '';
+            });
+            let search_term_short = getSearchTermShort(terms.join(" "));
 
-            writeSearchTerm('search_term', search_term_short, search_term);
+            // take search_term(s) and write them to the element with id #search_term
+            writeSearchTerm('search_term', search_term_short, terms.join(" "));
 
             executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
 
