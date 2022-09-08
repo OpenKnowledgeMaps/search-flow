@@ -62,9 +62,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     global $search_flow_config, $is_embed;
     
     $ret_array = [
-        "q" => $get_query,
-        "q_advanced" => $get_q_advanced
+        "q" => $get_query        
     ];
+    if($get_q_advanced !== false) {
+        $ret_array["q_advanced"] = $get_q_advanced;
+    }
     
     // Check for params from search form
     $current_options = $filter_options["options_" . $service];
@@ -314,6 +316,9 @@ if($has_sufficient_data) {
             });
 
             let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
+            if (post_data["q_advanced"] === false) {
+                post_data["q_advanced"] = "undefined";
+            }
             let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
             let terms = [search_term, search_term_advanced].filter(element => {
                 return element !== '';
