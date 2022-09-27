@@ -323,7 +323,7 @@ if($has_sufficient_data) {
             let terms = [search_term, search_term_advanced].filter(element => {
                 return element !== '';
             });
-            let search_term_short = getSearchTermShort(terms.join(" "));
+            let search_term_short = getSearchTermShort(terms.join(" and "));
 
             // take search_term(s) and write them to the element with id #search_term
             writeSearchTerm('search_term', search_term_short, terms.join(" "));
