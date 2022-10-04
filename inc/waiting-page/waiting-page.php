@@ -235,19 +235,27 @@ if($has_sufficient_data) {
     <div id="error_state" class="search_error_state nodisplay" style="text-align: left !important;">
         <h3 class="waiting-title" id="error-title" style="color: #e55137;"></h3>
         <p id="error-reason"></p>
-        <p id="error-remedy"></p>
+        <?php 
+            if (!array_key_exists("q_advanced", $post_array)) { ?>
+                <p id="error-remedy"></p>
+        <?php    } ?>
         <p id="error-more-info"></p>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
-            <h3 id="try-again-title" class="waiting-title"></h3>
+            <?php 
+                if (!array_key_exists("q_advanced", $post_array)) { ?>
+                    <h3 id="try-again-title" class="waiting-title"></h3>
+            <?php    } ?>
             <?php
-                $default_lib = $service;
-                $search_query = htmlspecialchars(stripslashes($dirty_query));
-                $open_options = true;
-                if ($is_embed && substr($service, 0, 6) !== "triple") {
-                    include(dirname(__FILE__). '/../search-form/new-search-form.php');
-                } else {
-                    include(dirname(__FILE__). '/../search-form/search-form.php');
+                if (!array_key_exists("q_advanced", $post_array)) {
+                    $default_lib = $service;
+                    $search_query = htmlspecialchars(stripslashes($dirty_query));
+                    $open_options = true;
+                    if ($is_embed && substr($service, 0, 6) !== "triple") {
+                        include(dirname(__FILE__). '/../search-form/new-search-form.php');
+                    } else {
+                        include(dirname(__FILE__). '/../search-form/search-form.php');
+                    }
                 }
             ?>
             <script>
