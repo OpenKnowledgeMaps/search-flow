@@ -46,7 +46,7 @@ if ($detect->isMobile()):
 </script>
 <?php
     // headstart.php is generated during frontend build using webpack
-    include dirname(__FILE__). '../../../../headstart/dist/headstart.php'; 
+    include dirname(__FILE__). '../../../../dist/headstart.php'; 
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
