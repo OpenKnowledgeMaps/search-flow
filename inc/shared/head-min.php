@@ -9,5 +9,5 @@ $LIB_PATH = $searchflow_path . "lib/";
 ?>
 
 <link rel="stylesheet" href="<?php echo $LIB_PATH ?>font-awesome.min.css" >
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="<?php echo $LIB_PATH ?>jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="<?php echo $LIB_PATH ?>bootstrap.min.css">

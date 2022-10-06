@@ -37,8 +37,9 @@ function packParamsJSON($params_array, $post_params) {
     $output_array = array();
 
     foreach ($params_array as $entry) {
-        $current_params = $post_params[$entry];
-        $output_array[$entry] = $current_params;
+        if (array_key_exists($entry, $post_params)) {
+            $output_array[$entry] = $post_params[$entry];
+        }
     }
 
     return json_encode($output_array);
@@ -50,7 +51,7 @@ function createID($string_array) {
 }
 
 function createGetRequestArray($get_query, $service, $filter_options) {
-    global $search_flow_config;
+    global $search_flow_config, $is_embed;
     
     $ret_array = [
         "q" => $get_query   
@@ -103,7 +104,7 @@ function createGetRequestArray($get_query, $service, $filter_options) {
                 }
                 
                 if ($is_custom_date) {
-                    $ret_array[$range] = "user-defined";
+                    $ret_array[$range] = $is_embed ? "custom-range" : "user-defined";
                 }
                 
             } else if($options["multiple"] === true) {
@@ -147,6 +148,7 @@ if(!empty($_POST)) {
     $has_sufficient_data = true;
 }
 
+# this is where the request is translated from GET request to POST
 if ($enable_get_requests && $request_type === "get" 
         && $get_query !== false && $service !== false && $service !== null) {
     
@@ -215,7 +217,12 @@ if($has_sufficient_data) {
             <?php
                 $default_lib = $service;
                 $search_query = htmlspecialchars(stripslashes($dirty_query));
-                include(dirname(__FILE__). '/../search-form/search-form.php');
+                $open_options = true;
+                if ($is_embed && substr($service, 0, 6) !== "triple") {
+                    include(dirname(__FILE__). '/../search-form/new-search-form.php');
+                } else {
+                    include(dirname(__FILE__). '/../search-form/search-form.php');
+                }
             ?>
             <script>
                 $("#searchform").attr("target", "");
@@ -243,9 +250,18 @@ if($has_sufficient_data) {
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
             //If the page is called without any data or the ID/service parameter is missing, redirect to index page
-            if(typeof post_data === "undefined" || unique_id === "" || service === null) {
+            if (typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
-                redirectToIndex("<?php echo $search_form_page; ?>");
+
+                const is_triple = typeof service === "string" && service.startsWith("triple");
+                const embed_mode = <?php echo $is_embed ? "true" : "false"; ?> && !is_triple;
+                let form_address = "<?php echo $search_form_page; ?>";
+                if (embed_mode) {
+                    // best effort: pass all query params to the search box component
+                    form_address = `embedded_searchbox${window.location.search}`;
+                }
+
+                redirectToIndex(form_address, embed_mode, service);
                 throw new Error("No post data or ID missing");
             }
             
@@ -269,7 +285,7 @@ if($has_sufficient_data) {
                     milliseconds_progressbar = item.milliseconds_progressbar;
                     max_length_search_term_short = item.max_length_search_term_short;
                     timeout = item.timeout;
-                    $(".vis_type_name").text(item.vis_type_name);
+                    $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
                 }
             });
 

@@ -29,7 +29,7 @@ $waiting_page = $search_flow_config["waiting_page"];
     
 </form>
 
-<script src="<?php echo $searchflow_path ?>js/search_form.js"></script>
+<script src="<?php echo $searchflow_path ?>js/search_form.js?v=yyyy-mm-dd"></script>
 
 <script>
 var search_options_object;
@@ -82,7 +82,7 @@ var chooseOptions = function () {
         if (typeof entry.width === "undefined") {
             entry.width = "110px";
         }
-        search_options_object.select_multi('.dropdown_multi_' + entry.id, entry.name, entry.width, config.options)
+        search_options_object.select_multi(entry.id, entry.name, entry.width, config.options)
     })
 
     var valueExists = function (key, value) {
@@ -292,5 +292,6 @@ $("#searchform").submit(function (e) {
         }
     }
 
+    SearchOptions.trackMatomoEvent("Search box", "Search", "Search button");
 })
 </script>

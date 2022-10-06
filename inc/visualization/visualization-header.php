@@ -3,12 +3,8 @@ include_once dirname(__FILE__). '../../../conf/config.php';
 include_once dirname(__FILE__). '../../../php/header-head.php';
 
 $id = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
-if($id === false || $id === "") {
-    if($search_flow_config["enable_default_id"]) {
-        $id = $search_flow_config["default_id"];
-    } else {
-        die("No or invalid visualization ID provided");
-    }
+if ($search_flow_config["enable_default_id"] && ($id === false || $id === "")) {
+    $id = $search_flow_config["default_id"];
 }
 
 $vis_type = getParam("vis_type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
@@ -78,4 +74,13 @@ function setVariableFromContext($context, $var, $enable_default = false, $defaul
     return $ret_val;
     
 }
+
+$citation_vis_type = $vis_type === "timeline" ? "Streamgraph" : "Knowledge Map";
+$citation_title = $has_custom_title ? $custom_title : $query;
+$citation_meta_string = $citation_vis_type . " for research on " . $citation_title;
 ?>
+
+<!-- Zotero add-on metadata -->
+<meta name="citation_author" content="Open Knowledge Maps" />
+<meta name="citation_title" content="<?php echo $citation_meta_string ?>" />
+<meta name="citation_date" content="<?php echo $timestamp !== null ? (new DateTime($timestamp))->format('Y-m-d') : "" ?>" />

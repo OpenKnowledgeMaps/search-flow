@@ -63,6 +63,7 @@ if ($detect->isMobile()):
     <?php if($has_vis_type && $vis_type === "timeline"): ?>
         data_config.is_streamgraph = true;
         data_config.show_area = false;
+        data_config.faqs_button = false;
     <?php endif; ?>
 
     <?php if($is_embed): ?>
