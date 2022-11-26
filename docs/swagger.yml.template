@@ -37,14 +37,38 @@ paths:
             enum: [overview, timeline]
         - in: query
           name: q
-          required: true
+          required: false
           description: |
             Enter your search query, e.g. `digital education`.
-            We apply the verbatim search mode to improve visualisation quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.4 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
-            If the parameter is empty the link can’t be generated. 
+
+            We apply the verbatim search mode to improve visualisation quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
+            
+            This parameter can be used on its own or in conjunction with q_advanced. If you decide to leave it empty please make sure you fill in `q_advanced` instead otherwise a working link can’t be generated.
+
           schema:
             type : string
           example: digital education
+          allowReserved: true
+        - in: query
+          name: q_advanced
+          required: false
+          description: |
+            Enter your advanced search query, e.g. `dcorcid:0000-0002-1894-5040`. 
+
+            It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
+
+            * `dcorcid:0000-0002-1894-5040`
+            * `dcrelation:"https://zenodo.org/communities/biosyslit"`
+            * `dccreator:"Lastname Firstname"`
+
+            This parameter can either be used instead of `q` or in conjunction with `q`.
+
+            Experimental use of advanced queries involving Boolean operators such as `AND`, `OR`, and `NOT` (described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
+
+            **Warning: Do not** use the same query in the q and q_advanced field, this can lead to an error during the request.
+
+          schema:
+            type : string
           allowReserved: true
         - in: query
           name: from
@@ -62,7 +86,6 @@ paths:
           schema:
             type: string
             format: date
-            example: "2022-01-01"
         - in: query
           name: sorting
           required: false
@@ -150,7 +173,10 @@ paths:
           required: true
           description: |
             Enter your search query, e.g. `“climate change”`.
+            
             For PubMed, the query is relayed as-is, which means advanced PubMed syntax can be applied.
+            
+            If the parameter is empty the link can’t be generated. 
           schema:
             type : string
           example: digital education
