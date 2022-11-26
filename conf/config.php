@@ -322,9 +322,9 @@ if(isset($search_flow_config_local)) {
 
             },
             q_advanced_error: {
-                title: "q_advanced error"
-                , reason: ""
-                , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in around 10 seconds.'
+                title: "Sorry! We could not create a knowledge map."
+                , reason: "'Most likely there were not enough results for your search query'."
+                , remedy: 'We recommend adjusting the query and trying again (e.g. use keywords instead of long phrases, use only one of the q fields).'
                 , contact: 'For more information about our service please <a href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
