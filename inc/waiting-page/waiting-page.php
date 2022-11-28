@@ -331,7 +331,8 @@ if($has_sufficient_data) {
                 post_data["q_advanced"] = "undefined";
             }
             let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
-            let terms = [search_term, search_term_advanced].filter(element => {
+            let search_term_projects =  getPostData(post_data, "project_id", "string").replace(/[\\]/g, "");
+            let terms = [search_term, search_term_advanced, search_term_projects].filter(element => {
                 return element !== '';
             });
             let search_term_short = getSearchTermShort(terms.join(" and "));
