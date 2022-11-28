@@ -254,3 +254,6 @@ paths:
             please add
           schema:
             type: string
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
