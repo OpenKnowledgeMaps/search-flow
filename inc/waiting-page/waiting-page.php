@@ -69,65 +69,67 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     }
     
     // Check for params from search form
-    $current_options = $filter_options["options_" . $service];
-    foreach($current_options["dropdowns"] as $options) {
-        $param = $options["id"];
-        
-        if($options["multiple"] === true) {
-            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
-        } else {
-            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-        }
-        
-        if($param_get !== false) {
-            $ret_array[$param] = $param_get;
-        } else {
-            if($options["id"] === "time_range" || $options["id"] === "year_range") {
-                
-                $range = ($options["id"] === "time_range")?("time_range"):("year_range");
-                $is_custom_date = false;
-                               
-                $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-                $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-                
-                if($param_from === false) {                    
-                    $ret_array["from"] = $current_options["start_date"];
-                } else {
-                    $ret_array["from"] = $param_from;
-                    $is_custom_date = true;
-                }
-                
-                if($param_to === false) {
-                    $date = new DateTime();
-                    
-                    if(isset($current_options["end_date"])) {
-                        $to_date = $current_options["end_date"];
-                    } else if($range === "time_range") {
-                        $to_date = $date->format("Y-m-d");
-                    } else if ($range === "year_range") {
-                        $to_date = $date->format("Y");
-                    }
-
-                    $ret_array["to"] = $to_date;
-                } else {
-                    $ret_array["to"] = $param_to;
-                    $is_custom_date = true;
-                }
-                
-                if ($is_custom_date) {
-                    $ret_array[$range] = $is_embed ? "custom-range" : "user-defined";
-                }
-                
-            } else if($options["multiple"] === true) {
-                $id_array = [];
-                foreach($options["fields"] as $field) {
-                    if(isset($field["selected"]) && $field["selected"] === true) {
-                        $id_array[] = $field["id"];
-                    }
-                }
-                $ret_array[$param] = $id_array;
+    if(array_key_exists("options_" . $service, $filter_options)) {
+        $current_options = $filter_options["options_" . $service];
+        foreach($current_options["dropdowns"] as $options) {
+            $param = $options["id"];
+            
+            if($options["multiple"] === true) {
+                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
             } else {
-                $ret_array[$param] = $options["fields"][0]["id"];
+                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+            }
+            
+            if($param_get !== false) {
+                $ret_array[$param] = $param_get;
+            } else {
+                if($options["id"] === "time_range" || $options["id"] === "year_range") {
+                    
+                    $range = ($options["id"] === "time_range")?("time_range"):("year_range");
+                    $is_custom_date = false;
+                                
+                    $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                    $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                    
+                    if($param_from === false) {                    
+                        $ret_array["from"] = $current_options["start_date"];
+                    } else {
+                        $ret_array["from"] = $param_from;
+                        $is_custom_date = true;
+                    }
+                    
+                    if($param_to === false) {
+                        $date = new DateTime();
+                        
+                        if(isset($current_options["end_date"])) {
+                            $to_date = $current_options["end_date"];
+                        } else if($range === "time_range") {
+                            $to_date = $date->format("Y-m-d");
+                        } else if ($range === "year_range") {
+                            $to_date = $date->format("Y");
+                        }
+
+                        $ret_array["to"] = $to_date;
+                    } else {
+                        $ret_array["to"] = $param_to;
+                        $is_custom_date = true;
+                    }
+                    
+                    if ($is_custom_date) {
+                        $ret_array[$range] = $is_embed ? "custom-range" : "user-defined";
+                    }
+                    
+                } else if($options["multiple"] === true) {
+                    $id_array = [];
+                    foreach($options["fields"] as $field) {
+                        if(isset($field["selected"]) && $field["selected"] === true) {
+                            $id_array[] = $field["id"];
+                        }
+                    }
+                    $ret_array[$param] = $id_array;
+                } else {
+                    $ret_array[$param] = $options["fields"][0]["id"];
+                }
             }
         }
     }
