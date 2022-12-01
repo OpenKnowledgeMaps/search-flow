@@ -149,7 +149,12 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
 }
 
 $request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-$get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+if ($service != "openaire") {
+    $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+} else {
+    $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+}
+
 $get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
 $dirty_query = "";
@@ -197,7 +202,7 @@ if($has_sufficient_data) {
             $unique_id = createID(array($query, $get_q_advanced, $params_json));
         }
         if($service=="openaire") {
-            $unique_id = createID(array($params_json));
+            $unique_id = createID(array($params_json));            
         }
 
         $post_array["q"] = $query;
@@ -326,6 +331,11 @@ if($has_sufficient_data) {
                     timeout = item.timeout;
                     $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
                 }
+                // this manual injection is necessary at this point because we can't add it in search_options.php as a 
+                // normal service, because we don't want it to show up in the search box for now.
+                if (service === "openaire") {
+                    script = "searchOpenAire.php";
+                }
             });
 
             let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
@@ -333,8 +343,7 @@ if($has_sufficient_data) {
                 post_data["q_advanced"] = "undefined";
             }
             let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
-            let search_term_projects =  getPostData(post_data, "project_id", "string").replace(/[\\]/g, "");
-            let terms = [search_term, search_term_advanced, search_term_projects].filter(element => {
+            let terms = [search_term, search_term_advanced].filter(element => {
                 return element !== '';
             });
             let search_term_short = getSearchTermShort(terms.join(" and "));
