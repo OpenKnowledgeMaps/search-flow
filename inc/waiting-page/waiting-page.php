@@ -245,16 +245,24 @@ if($has_sufficient_data) {
     <div id="error_state" class="search_error_state nodisplay" style="text-align: left !important;">
         <h3 class="waiting-title" id="error-title" style="color: #e55137;"></h3>
         <p id="error-reason"></p>
+
+        <?php if ($service == "openaire") {
+        } else { ?>
         <p id="error-remedy"></p>
         <p id="error-more-info"></p>
+        <?php } ?>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php 
-                if (!array_key_exists("q_advanced", $post_array)) { ?>
+                if (array_key_exists("q_advanced", $post_array)) {                    
+                } elseif ($service == "openaire") {
+                } else { ?>
                     <h3 id="try-again-title" class="waiting-title"></h3>
             <?php    } ?>
             <?php
-                if (!array_key_exists("q_advanced", $post_array)) {
+                if (array_key_exists("q_advanced", $post_array)) {                    
+                } elseif ($service == "openaire") {
+                } else {
                     $default_lib = $service;
                     $search_query = htmlspecialchars(stripslashes($dirty_query));
                     $open_options = true;
@@ -272,7 +280,9 @@ if($has_sufficient_data) {
 
         <p id="error-contact"></p>
         <?php
-            if (!array_key_exists("q_advanced", $post_array)) { ?>
+            if (array_key_exists("q_advanced", $post_array)) {                    
+            } elseif ($service == "openaire") {
+            } else { ?>
                 <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
                     <a id="error-resolution-link" class="basic-button nodisplay"></a>
                     <p id="error-resolution-countdown" class="error-countdown nodisplay">
