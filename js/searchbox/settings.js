@@ -31,6 +31,7 @@ export const DEFAULT_SETTINGS = {
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
+  q_advanced: ""
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -114,6 +115,9 @@ const getConfigSettings = (outerSettings = {}) => {
   if (typeof outerSettings.keywords === "string") {
     settings.keywordsExpansion = outerSettings.keywords;
   }
+  if (typeof outerSettings.q_advanced === "string") {
+    settings.q_advanced = outerSettings.q_advanced;
+  }
 
   return settings;
 };
@@ -182,6 +186,9 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("keywords", TYPE_SINGLE)) {
     settings.keywordsExpansion = queryParams.get("keywords");
+  }
+  if (queryParams.hasValid("q_advanced", TYPE_SINGLE)) {
+    settings.q_advanced = queryParams.get("q_advanced");
   }
 
   return settings;
