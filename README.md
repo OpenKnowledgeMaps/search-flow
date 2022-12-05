@@ -20,6 +20,20 @@ For an example to build on top of, refer to the [TRIPLE example](https://github.
 
 For more information on GET requests, please refer to the [GET route & parameters](doc/GET_route.md) document.
 
+## Local development with minimal search box example
+
+A containerized environment for the new search box  has been set up with a minimal example (no backend integration).
+
+To work with this environment, docker and docker-compose are needed.
+
+* Run the example:
+
+`docker-compose up`
+
+* Navigate to `http://localhost:8085/entrypoint.php`
+
+The new search box should be visible, and changes in the code will show after a page reload.
+
 ## Notes
 
 The current implementation is extracted from https://github.com/OpenKnowledgeMaps/project-website and turned into a reusable package. As such, there is of course room for improvement; but the package should nevertheless alleviate the process of rewriting the search-flow for every Head Start integration.
