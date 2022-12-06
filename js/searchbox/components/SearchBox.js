@@ -37,7 +37,7 @@ class SearchBox extends React.Component {
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes,
-        language: settings.defaultLanguage,
+        lang: settings.defaultLang,
       },
       settings,
     };
@@ -132,12 +132,12 @@ class SearchBox extends React.Component {
     });
   }
 
-  updateLanguage(newValue) {
+  updateLang(newValue) {
     this.setState({
       ...this.state,
       formData: {
         ...this.state.formData,
-        language: newValue,
+        lang: newValue,
       },
     });
   }
@@ -154,7 +154,7 @@ class SearchBox extends React.Component {
     entries.push({ name: "from", value: from });
     entries.push({ name: "to", value: to });
 
-    const { showTimeRange, showSorting, showDocTypes, showLanguages } = this.state.settings;
+    const { showTimeRange, showSorting, showDocTypes, showLang } = this.state.settings;
     if (!this.state.showOptions || !showTimeRange) {
       entries.push({ name: "time_range", value: rangeType });
     }
@@ -166,8 +166,8 @@ class SearchBox extends React.Component {
         entries.push({ name: "document_types[]", value });
       });
     }
-    if (!this.state.showOptions || !showLanguages) {
-      entries.push({ name: "language", value: this.state.formData.language });
+    if (!this.state.showOptions || !showLang) {
+      entries.push({ name: "lang", value: this.state.formData.lang });
     }
     // TODO add this conditionally once the toggle is implemented
     entries.push({ name: "vis_type", value: this.state.formData.visType });
@@ -220,8 +220,8 @@ class SearchBox extends React.Component {
   }
 
   render() {
-    const { showTimeRange, showSorting, showDocTypes, showLanguages } = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes || showLanguages;
+    const { showTimeRange, showSorting, showDocTypes, showLang } = this.state.settings;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
@@ -267,10 +267,10 @@ class SearchBox extends React.Component {
                   setValues: this.updateDoctypes.bind(this),
                 }),
                 // place for Language filter
-                showLanguages &&
+                showLang &&
                 e(LanguagePicker, {
-                  value: this.state.formData.language,
-                  setValue: this.updateLanguage.bind(this),
+                  value: this.state.formData.lang,
+                  setValue: this.updateLang.bind(this),
                 }),
             ),
             e(

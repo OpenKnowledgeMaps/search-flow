@@ -1,7 +1,7 @@
 "use strict";
 
 const LANGUAGE_OPTIONS = [
-  { id: "all-languages", label: "All languages" },
+  { id: "all-lang", label: "All languages" },
   { id: "eng", label: "English" },
   { id: "eng1", label: "English_1" },
   { id: "eng2", label: "English_2" },

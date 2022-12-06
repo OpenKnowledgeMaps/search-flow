@@ -18,7 +18,7 @@ export const DEFAULT_SETTINGS = {
   showDocTypes: true,
   showSorting: true,
   // add language filter
-  showLanguages: true,
+  showLang: true,
   // default (preselected) values
   defaultQuery: "",
   defaultDocTypes: ["121"],
@@ -27,7 +27,7 @@ export const DEFAULT_SETTINGS = {
   defaultFrom: DEFAULT_FROM,
   defaultTo: DEFAULT_TO,
   // add language filter
-  defaultLanguage: "all-languages",
+  defaultLang: "all-lang",
   // hidden values
   defaultVisType: VIS_TYPE_OPTIONS[0].id, // TODO move to preselected once we implement the toggle
   minDescriptionSize: undefined,
@@ -45,7 +45,7 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_time_range",
   "show_doc_types",
   "show_sorting",
-  "show_languages",
+  "show_lang",
 ]);
 
 /**
@@ -98,8 +98,8 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.defaultSorting = outerSettings.sorting;
   }
 
-  if (typeof outerSettings.language === "string") {
-    settings.defaultLanguage = outerSettings.language;
+  if (typeof outerSettings.lang === "string") {
+    settings.defaultLang = outerSettings.lang;
   }
 
   // hidden values
@@ -146,8 +146,8 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("show_sorting", TYPE_BOOL)) {
     settings.showSorting = queryParams.get("show_sorting") === "true";
   }
-  if (queryParams.hasValid("show_languages", TYPE_BOOL)) {
-    settings.showLangauges = queryParams.get("show_languages") === "true";
+  if (queryParams.hasValid("show_lang", TYPE_BOOL)) {
+    settings.showLangauges = queryParams.get("show_lang") === "true";
   }
 
   // default (preselected) values
@@ -177,7 +177,7 @@ const getQuerySettings = () => {
     settings.defaultSorting = queryParams.get("sorting");
   }
   if (queryParams.hasValid("", TYPE_OPTION(LANGUAGE_OPTIONS))) {
-      settings.defaultLanguage = queryParams.get("language");
+      settings.defaultLang = queryParams.get("lang");
   }
 
   // hidden values

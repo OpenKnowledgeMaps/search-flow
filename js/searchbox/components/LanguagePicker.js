@@ -8,7 +8,7 @@ const e = React.createElement;
 const LanguagePicker = ({ value, setValue }) => {
   return e(CustomDropdown, {
     options: LANGUAGE_OPTIONS,
-    name: "language",
+    name: "lang",
     value,
     setValue,
   });
