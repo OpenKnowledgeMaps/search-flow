@@ -15,6 +15,7 @@ import TimespanPicker from "./TimespanPicker.js";
 import { TRANSFERRED_PARAMS, getSettings } from "../settings.js";
 import { trackMatomoEvent } from "../hooks/useMatomo.js";
 import { getTimespanBounds } from "../options/timespan.js";
+import LanguagePicker from "./LanguagePicker.js";
 
 const e = React.createElement;
 
@@ -36,6 +37,7 @@ class SearchBox extends React.Component {
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes,
+        language: settings.defaultLanguage,
       },
       settings,
     };
@@ -130,6 +132,16 @@ class SearchBox extends React.Component {
     });
   }
 
+  updateLanguage(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        language: newValue,
+      },
+    });
+  }
+
   getHiddenEntries() {
     const entries = [
       // probably required by backend, otherwise useless - same val as "service"
@@ -142,7 +154,7 @@ class SearchBox extends React.Component {
     entries.push({ name: "from", value: from });
     entries.push({ name: "to", value: to });
 
-    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+    const { showTimeRange, showSorting, showDocTypes, showLanguages } = this.state.settings;
     if (!this.state.showOptions || !showTimeRange) {
       entries.push({ name: "time_range", value: rangeType });
     }
@@ -153,6 +165,9 @@ class SearchBox extends React.Component {
       this.state.formData.doctypes.forEach((value) => {
         entries.push({ name: "document_types[]", value });
       });
+    }
+    if (!this.state.showOptions || !showLanguages) {
+      entries.push({ name: "language", value: this.state.formData.language });
     }
     // TODO add this conditionally once the toggle is implemented
     entries.push({ name: "vis_type", value: this.state.formData.visType });
@@ -205,8 +220,8 @@ class SearchBox extends React.Component {
   }
 
   render() {
-    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes;
+    const { showTimeRange, showSorting, showDocTypes, showLanguages } = this.state.settings;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLanguages;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
@@ -250,7 +265,13 @@ class SearchBox extends React.Component {
                 e(DoctypesPicker, {
                   values: this.state.formData.doctypes,
                   setValues: this.updateDoctypes.bind(this),
-                })
+                }),
+                // place for Language filter
+                showLanguages &&
+                e(LanguagePicker, {
+                  value: this.state.formData.language,
+                  setValue: this.updateLanguage.bind(this),
+                }),
             ),
             e(
               AdvancedOptions,
