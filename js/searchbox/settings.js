@@ -8,7 +8,7 @@ import TIMESPAN_OPTIONS, {
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
-import LANGUAGE_OPTIONS from "./options/languages.js";
+import LANGUAGE_OPTIONS from "./options/lang.js";
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {

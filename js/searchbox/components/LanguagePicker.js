@@ -1,7 +1,7 @@
 "use strict";
 
 import CustomDropdown from "./CustomDropdown.js";
-import LANGUAGE_OPTIONS from "../options/languages.js";
+import LANGUAGE_OPTIONS from "../options/lang.js";
 
 const e = React.createElement;
 
