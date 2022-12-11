@@ -8,5 +8,6 @@ services:
       - ../project-website:/var/www/html
       - ./:/var/www/html/search-flow
       - ../Headstart:/var/www/html/headstart
+      - ./entrypoint.php://var/www/html/entrypoint.php
     ports:
       - 8085:80
