@@ -16,7 +16,7 @@ const CustomDropdown = ({ options, name, value, setValue }) => {
   useOutsideClick(containerRef, handleOutsideClick);
 
   const selectedOption = options.find((o) => o.id === value);
-  const btnLabel = selectedOption ? cutLabel(selectedOption.label, 18)  : "";
+  const btnLabel = selectedOption ? selectedOption.label : "";
 
   // returns cutted string if it's longer than expected length of symbols
   function cutLabel(label, n){
@@ -35,7 +35,7 @@ const CustomDropdown = ({ options, name, value, setValue }) => {
         onClick: () => setOpen((prev) => !prev),
       },
 
-      e("span", { className: "multiselect-selected-text" }, btnLabel),
+      e("span", { className: "multiselect-selected-text" }, cutLabel(btnLabel, 18)),
       " ",
       e("b", { className: "caret" })
     ),
