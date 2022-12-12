@@ -16,7 +16,12 @@ const CustomDropdown = ({ options, name, value, setValue }) => {
   useOutsideClick(containerRef, handleOutsideClick);
 
   const selectedOption = options.find((o) => o.id === value);
-  const btnLabel = selectedOption ? selectedOption.label : "";
+  const btnLabel = selectedOption ? cutLabel(selectedOption.label, 18)  : "";
+
+  // returns cutted string if it's longer than expected length of symbols
+  function cutLabel(label, n){
+    return (label.length > n) ? `${label.slice(0, n-1)}...` : label;
+  };
 
   return e(
     "div",
