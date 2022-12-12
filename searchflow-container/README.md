@@ -57,14 +57,7 @@ processing_backend = "api"
 
 
 
-sqlite_db = "/var/www/html/headstart/server/localstorage/local.sqlite"
-```
-
-If `localstorage/local.sqlite` does not exists, please create it by coyping over the `test.sqlite` database.
-The folder and the database need to be assigned to the `www-data` user:
-
-```
-sudo chown -R www-data:www-data localstorage
+sqlite_db = "/var/www/localstorage/local.sqlite"
 ```
 
 * config.js
