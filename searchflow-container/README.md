@@ -1,5 +1,16 @@
 ## Developing locally with the full pipeline
 
+A containerized environment for the new search box  has been set up.
+
+To work with this environment, docker and docker-compose are needed.
+
+* Run the example:
+
+`docker-compose up`
+
+* Navigate to `http://localhost:8085/entrypoint.php`
+
+The new search box should be visible, and changes in the code will show after a page reload.
 
 ### Adding configs:
 
