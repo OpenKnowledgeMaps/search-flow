@@ -37,7 +37,7 @@ class SearchBox extends React.Component {
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes,
-        lang: settings.defaultLang,
+        lang_id: settings.defaultLang,
       },
       settings,
     };
@@ -137,7 +137,7 @@ class SearchBox extends React.Component {
       ...this.state,
       formData: {
         ...this.state.formData,
-        lang: newValue,
+        lang_id: newValue,
       },
     });
   }
@@ -146,7 +146,8 @@ class SearchBox extends React.Component {
     const entries = [
       // probably required by backend, otherwise useless - same val as "service"
       { name: "optradio", value: "base" },
-      { name: "lang_id", value: "all" },
+      //  unused
+      // { name: "lang_id", value: "all" },
     ];
 
     // time range
@@ -167,7 +168,7 @@ class SearchBox extends React.Component {
       });
     }
     if (!this.state.showOptions || !showLang) {
-      entries.push({ name: "lang", value: this.state.formData.lang });
+      entries.push({ name: "lang_id", value: this.state.formData.lang_id });
     }
     // TODO add this conditionally once the toggle is implemented
     entries.push({ name: "vis_type", value: this.state.formData.visType });
@@ -269,7 +270,7 @@ class SearchBox extends React.Component {
                 // place for Language filter
                 showLang &&
                 e(LangPicker, {
-                  value: this.state.formData.lang,
+                  value: this.state.formData.lang_id,
                   setValue: this.updateLang.bind(this),
                 }),
             ),

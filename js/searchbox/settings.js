@@ -98,8 +98,8 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.defaultSorting = outerSettings.sorting;
   }
 
-  if (typeof outerSettings.lang === "string") {
-    settings.defaultLang = outerSettings.lang;
+  if (typeof outerSettings.lang_id === "string") {
+    settings.defaultLang = outerSettings.lang_id;
   }
 
   // hidden values
@@ -177,7 +177,7 @@ const getQuerySettings = () => {
     settings.defaultSorting = queryParams.get("sorting");
   }
   if (queryParams.hasValid("", TYPE_OPTION(LANG_OPTIONS))) {
-      settings.defaultLang = queryParams.get("lang");
+      settings.defaultLang = queryParams.get("lang_id");
   }
 
   // hidden values
