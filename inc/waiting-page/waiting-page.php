@@ -202,6 +202,7 @@ if($has_sufficient_data) {
             $unique_id = createID(array($query, $get_q_advanced, $params_json));
         }
         if($service=="openaire") {
+            $query = addslashes(trim(strip_tags($dirty_query)));
             $unique_id = createID(array($query, $params_json));
         }
 
