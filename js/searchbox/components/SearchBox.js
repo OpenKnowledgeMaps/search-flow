@@ -15,7 +15,7 @@ import TimespanPicker from "./TimespanPicker.js";
 import { TRANSFERRED_PARAMS, getSettings } from "../settings.js";
 import { trackMatomoEvent } from "../hooks/useMatomo.js";
 import { getTimespanBounds } from "../options/timespan.js";
-import LanguagePicker from "./LanguagePicker.js";
+import LangPicker from "./LangPicker.js";
 
 const e = React.createElement;
 
@@ -268,7 +268,7 @@ class SearchBox extends React.Component {
                 }),
                 // place for Language filter
                 showLang &&
-                e(LanguagePicker, {
+                e(LangPicker, {
                   value: this.state.formData.lang,
                   setValue: this.updateLang.bind(this),
                 }),

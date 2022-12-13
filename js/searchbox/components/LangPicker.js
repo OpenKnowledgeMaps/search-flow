@@ -1,17 +1,17 @@
 "use strict";
 
 import CustomDropdown from "./CustomDropdown.js";
-import LANGUAGE_OPTIONS from "../options/lang.js";
+import LANG_OPTIONS from "../options/lang.js";
 
 const e = React.createElement;
 
-const LanguagePicker = ({ value, setValue }) => {
+const LangPicker = ({ value, setValue }) => {
   return e(CustomDropdown, {
-    options: LANGUAGE_OPTIONS,
+    options: LANG_OPTIONS,
     name: "lang",
     value,
     setValue,
   });
 };
 
-export default LanguagePicker;
+export default LangPicker;
