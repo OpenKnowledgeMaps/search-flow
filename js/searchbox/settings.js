@@ -147,7 +147,7 @@ const getQuerySettings = () => {
     settings.showSorting = queryParams.get("show_sorting") === "true";
   }
   if (queryParams.hasValid("show_lang", TYPE_BOOL)) {
-    settings.showLangauges = queryParams.get("show_lang") === "true";
+    settings.showLang = queryParams.get("show_lang") === "true";
   }
 
   // default (preselected) values
