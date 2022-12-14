@@ -40,9 +40,6 @@
         "label": "Afrikaans"
     },
     {
-        "id": "aii"
-    },
-    {
         "id": "ain",
         "label": "Ainu"
     },
@@ -1787,7 +1784,8 @@
         "label": "Umbundu"
     },
     {
-        "id": "unknown"
+        "id": "unknown",
+        "label": "unknown"
     },
     {
         "id": "urd",

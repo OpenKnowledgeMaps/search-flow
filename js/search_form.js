@@ -606,7 +606,7 @@ var event_type_to_name = {
         document_types: ["Show doctypes options", "Doctypes dropdown"],
         article_types: ["Show doctypes options", "Doctypes dropdown"],
         min_descsize: ["Show quality options", "Metadata quality dropdown"],
-        lang: ["Show language options", "Language dropdown"],
+        lang_id: ["Show language options", "Language dropdown"],
     },
     hide: {
         time_range: ["Hide timespan options", "Timespan dropdown"],
@@ -614,7 +614,7 @@ var event_type_to_name = {
         document_types: ["Hide doctypes options", "Doctypes dropdown"],
         article_types: ["Hide doctypes options", "Doctypes dropdown"],
         min_descsize: ["Hide quality options", "Metadata quality dropdown"],
-        lang: ["Hide language options", "Language dropdown"],
+        lang_id: ["Hide language options", "Language dropdown"],
     },
     change: {
         time_range: ["Change timespan", "Timespan dropdown"],
@@ -627,7 +627,7 @@ var event_type_to_name = {
         from: ["Change date", "From input"],
         to: ["Change date", "To input"],
         data_source: ["Change data source", "Data source radio"],
-        lang: ["Change language", "Language dropdown"],
+        lang_id: ["Change language", "Language dropdown"],
     },
     select_all: {
         document_types: ["Select all doctypes", "Doctypes dropdown"],
