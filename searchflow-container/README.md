@@ -31,6 +31,10 @@ $SEARCH_FLOW_PATH = "./search-flow/";
 $SNAPSHOT_PATH = $HEADSTART_URL . "server/storage/";
 ```
 
+* project-website/.htaccess
+
+If this file does not exist, it can cause a 404 or other server error right after starting a search. To fix this, create of copy of `settings.htaccess` and rename it to `.htaccess`. The search should now work.
+
 #### Headstart
 
 * server/preprocessing/conf/config_local.ini

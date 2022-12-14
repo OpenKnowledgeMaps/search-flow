@@ -47,6 +47,14 @@ paths:
           schema:
             type: boolean
         - in: query
+          name: show_lang
+          description: |
+            Display or hide the language filter dropdown in the search box options.
+            
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
           name: time_range
           required: false
           description: |
@@ -113,6 +121,15 @@ paths:
           schema:
             type: string
             enum: [most-relevant, most-recent]
+        - in: query
+          name: lang_id
+          required: false
+          description:
+            Specify the language that will be preselected in the search box options.
+            
+            Parameter for language filter. Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
+          schema:
+            type: string
         - in: query
           name: min_descsize
           required: false

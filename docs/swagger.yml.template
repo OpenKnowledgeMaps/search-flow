@@ -160,6 +160,13 @@ paths:
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
+        - in: query
+          name: lang_id
+          required: false
+          description:
+            Parameter for language filter. Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
+          schema:
+            type: string
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
