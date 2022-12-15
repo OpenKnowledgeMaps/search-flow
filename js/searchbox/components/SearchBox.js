@@ -267,8 +267,8 @@ class SearchBox extends React.Component {
                   values: this.state.formData.doctypes,
                   setValues: this.updateDoctypes.bind(this),
                 }),
-                // place for Language filter
-                showLang &&
+              // place for Language filter
+              showLang &&
                 e(LangPicker, {
                   value: this.state.formData.lang_id,
                   setValue: this.updateLang.bind(this),

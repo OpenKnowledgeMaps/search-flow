@@ -176,7 +176,7 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
   }
-  if (queryParams.hasValid("", TYPE_OPTION(LANG_OPTIONS))) {
+  if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
       settings.defaultLang = queryParams.get("lang_id");
   }
 
