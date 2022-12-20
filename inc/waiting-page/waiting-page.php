@@ -347,6 +347,7 @@ if($has_sufficient_data) {
                 // normal service, because we don't want it to show up in the search box for now.
                 if (service === "openaire") {
                     script = "searchOpenAire.php";
+                    timeout = 240000;
                 }
             });
 
