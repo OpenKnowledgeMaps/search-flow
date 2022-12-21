@@ -247,12 +247,8 @@ if($has_sufficient_data) {
         <h3 class="waiting-title" id="error-title" style="color: #e55137;"></h3>
         <p id="error-reason"></p>
 
-        <?php if ($service == "openaire") { ?>            
-        <p id="error-remedy"></p>
-        <?php } else { ?>
         <p id="error-remedy"></p>
         <p id="error-more-info"></p>
-        <?php } ?>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php 
