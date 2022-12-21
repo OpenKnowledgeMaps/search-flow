@@ -335,8 +335,8 @@ if(isset($search_flow_config_local)) {
             },
             project_id_error: {
                 title: "Sorry! We could not create a knowledge map."
-                , reason: "text will be added in next iteration"
-                , remedy: 'We recommend adjusting the query and trying again.'
+                , reason: 'You may have entered a wrong project ID and/or funder.'
+                , remedy:  'Please adjust the project ID and/or funder and try again.'
                 , contact: 'For more information about our service please <a href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
@@ -345,8 +345,8 @@ if(isset($search_flow_config_local)) {
             },
             project_no_results_error: {
                 title: "Sorry! We could not create a knowledge map."
-                , reason: "Most likely there were not enough results for your search query."
-                , remedy: 'We recommend adjusting the query and trying again (text will be adapted in next iteration)'
+                , reason: 'There are no results for the given project ID.'
+                , remedy: 'Please try again with another project ID.'
                 , contact: 'For more information about our service please <a href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
