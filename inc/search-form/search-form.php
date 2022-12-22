@@ -182,7 +182,7 @@ var populateLanguageSelector = function () {
 
     // set "all languages" option
     select.append("option")
-        .attr("value", "all")
+        .attr("value", "all-lang")
         .text("All Languages")
 
     // find corresponding 3 char language code of browser language
