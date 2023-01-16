@@ -17,7 +17,7 @@ export const DEFAULT_SETTINGS = {
   showTimeRange: true,
   showDocTypes: true,
   showSorting: true,
-  // add language filter
+  // show language filter
   showLang: true,
   // default (preselected) values
   defaultQuery: "",
@@ -26,7 +26,7 @@ export const DEFAULT_SETTINGS = {
   defaultTimespan: TIMESPAN_OPTIONS[0].id,
   defaultFrom: DEFAULT_FROM,
   defaultTo: DEFAULT_TO,
-  // add language filter
+  // language filter
   defaultLang: "all-lang",
   // hidden values
   defaultVisType: VIS_TYPE_OPTIONS[0].id, // TODO move to preselected once we implement the toggle
@@ -175,9 +175,13 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
+  }else{
+    settings.defaultSorting = DEFAULT_SETTINGS.defaultSorting;
   }
   if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
-      settings.defaultLang = queryParams.get("lang_id");
+     settings.defaultLang = queryParams.get("lang_id");
+  } else {
+    settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
   }
 
   // hidden values
