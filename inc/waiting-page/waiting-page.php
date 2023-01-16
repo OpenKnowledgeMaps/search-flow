@@ -12,6 +12,14 @@ $enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "gene
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
 
+function console_log($data) {
+    $console = $data;
+    if (is_array($console))
+    $console = implode(',', $console);
+   
+    echo "<script>console.log('Console: " . $console . "' );</script>";
+   }
+
 // This fixes a bug in iOS Safari where an inactive tab would forget the post 
 // parameters - usually when the user opens a different tab while waiting for
 // a map to be created.
@@ -50,12 +58,15 @@ function createID($string_array) {
     return md5($string_to_hash);
 }
 
-function createGetRequestArray($get_query, $service, $filter_options) {
+function createGetRequestArray($get_query, $service, $filter_options, $get_q_advanced) {
     global $search_flow_config, $is_embed;
     
     $ret_array = [
-        "q" => $get_query   
+        "q" => $get_query        
     ];
+    if($get_q_advanced !== false) {
+        $ret_array["q_advanced"] = $get_q_advanced;
+    }
     
     // Check for params from search form
     $current_options = $filter_options["options_" . $service];
@@ -137,22 +148,29 @@ function createGetRequestArray($get_query, $service, $filter_options) {
 
 $request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
 $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+$get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
 $dirty_query = "";
+$dirty_q_advanced = "";
 $post_array = array();
 $has_sufficient_data = false;
 
 if(!empty($_POST)) {
     $post_array = $_POST;
-    $dirty_query = $post_array["q"];
+    if (array_key_exists("q", $post_array)) {
+        $dirty_query = $post_array["q"];
+    }
+    if (array_key_exists("q_advanced", $post_array)) {
+        $dirty_q_advanced = $post_array["q_advanced"];
+    }
     $has_sufficient_data = true;
 }
 
 # this is where the request is translated from GET request to POST
 if ($enable_get_requests && $request_type === "get" 
-        && $get_query !== false && $service !== false && $service !== null) {
+        && $service !== false && $service !== null) {
     
-    $post_array = createGetRequestArray($get_query, $service, $filter_options);
+    $post_array = createGetRequestArray($get_query, $service, $filter_options, $get_q_advanced);
     $dirty_query = $get_query;
     $has_sufficient_data = true;
 }
@@ -167,7 +185,15 @@ if($has_sufficient_data) {
         $params_array = $search_flow_config["params_arrays"][$service];
 
         $params_json = packParamsJSON($params_array, $post_array);
-        $unique_id = createID(array($query, $params_json));
+        if(!empty($query) && empty($get_q_advanced)) {
+            $unique_id = createID(array($query, $params_json));
+        }
+        if(empty($query) && !empty($get_q_advanced)) {
+            $unique_id = createID(array($get_q_advanced, $params_json));
+        }
+        if(!empty($query) && !empty($get_q_advanced)) {
+            $unique_id = createID(array($query, $get_q_advanced, $params_json));
+        }
 
         $post_array["q"] = $query;
         $post_array["unique_id"] = $unique_id;
@@ -213,15 +239,20 @@ if($has_sufficient_data) {
         <p id="error-more-info"></p>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
-            <h3 id="try-again-title" class="waiting-title"></h3>
+            <?php 
+                if (!array_key_exists("q_advanced", $post_array)) { ?>
+                    <h3 id="try-again-title" class="waiting-title"></h3>
+            <?php    } ?>
             <?php
-                $default_lib = $service;
-                $search_query = htmlspecialchars(stripslashes($dirty_query));
-                $open_options = true;
-                if ($is_embed && substr($service, 0, 6) !== "triple") {
-                    include(dirname(__FILE__). '/../search-form/new-search-form.php');
-                } else {
-                    include(dirname(__FILE__). '/../search-form/search-form.php');
+                if (!array_key_exists("q_advanced", $post_array)) {
+                    $default_lib = $service;
+                    $search_query = htmlspecialchars(stripslashes($dirty_query));
+                    $open_options = true;
+                    if ($is_embed && substr($service, 0, 6) !== "triple") {
+                        include(dirname(__FILE__). '/../search-form/new-search-form.php');
+                    } else {
+                        include(dirname(__FILE__). '/../search-form/search-form.php');
+                    }
                 }
             ?>
             <script>
@@ -230,12 +261,15 @@ if($has_sufficient_data) {
         </div>
 
         <p id="error-contact"></p>
-        <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
-            <a id="error-resolution-link" class="basic-button nodisplay"></a>
-            <p id="error-resolution-countdown" class="error-countdown nodisplay">
-                <span class="count-label"></span> <span class="count-value"></span>
-            </p>
-        </p>
+        <?php
+            if (!array_key_exists("q_advanced", $post_array)) { ?>
+                <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
+                    <a id="error-resolution-link" class="basic-button nodisplay"></a>
+                    <p id="error-resolution-countdown" class="error-countdown nodisplay">
+                        <span class="count-label"></span> <span class="count-value"></span>
+                    </p>
+                </p>
+        <?php } ?>
     </div>
     
 </div>
@@ -249,7 +283,7 @@ if($has_sufficient_data) {
             var service = params.get("service");
             var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
             
-            //If the page is called without any data or the ID/service parameter is missing, redirect to index page
+            //If the page is called without any data or the ID/service parameter is missing, redirect to index page            
             if (typeof post_data === "undefined" || unique_id === "" || service === null) {
                 errorOccurred();
 
@@ -290,9 +324,17 @@ if($has_sufficient_data) {
             });
 
             let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
-            let search_term_short = getSearchTermShort(search_term);
+            if (post_data["q_advanced"] === false) {
+                post_data["q_advanced"] = "undefined";
+            }
+            let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
+            let terms = [search_term, search_term_advanced].filter(element => {
+                return element !== '';
+            });
+            let search_term_short = getSearchTermShort(terms.join(" and "));
 
-            writeSearchTerm('search_term', search_term_short, search_term);
+            // take search_term(s) and write them to the element with id #search_term
+            writeSearchTerm('search_term', search_term_short, terms.join(" "));
 
             executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
 

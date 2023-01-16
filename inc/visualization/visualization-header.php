@@ -2,6 +2,9 @@
 include_once dirname(__FILE__). '../../../conf/config.php';
 include_once dirname(__FILE__). '../../../php/header-head.php';
 
+$docker_internal = loadConfigOption($ini_array, "docker_internal", "general");
+$headstart_path_docker_internal = loadConfigOption($ini_array, "headstart_path_docker_internal", "general");
+
 $id = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
 if ($search_flow_config["enable_default_id"] && ($id === false || $id === "")) {
     $id = $search_flow_config["default_id"];
@@ -23,7 +26,11 @@ $has_custom_title = ($custom_title !== false)?(true):(false);
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
 
 if($search_flow_config["vis_load_context"]) {
-    $context_json = curl_get_contents($protocol . $headstart_path . "server/services/getContext.php?vis_id=$id");
+    if ($docker_internal) {
+        $context_json = curl_get_contents($protocol . $headstart_path_docker_internal . "server/services/getContext.php?vis_id=$id");
+    } else {
+        $context_json = curl_get_contents($protocol . $headstart_path . "server/services/getContext.php?vis_id=$id");
+    }
     $context = json_decode($context_json);
 
     $service = setVariableFromContext($context

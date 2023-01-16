@@ -15,6 +15,7 @@ import TimespanPicker from "./TimespanPicker.js";
 import { TRANSFERRED_PARAMS, getSettings } from "../settings.js";
 import { trackMatomoEvent } from "../hooks/useMatomo.js";
 import { getTimespanBounds } from "../options/timespan.js";
+import LangPicker from "./LangPicker.js";
 
 const e = React.createElement;
 
@@ -36,6 +37,7 @@ class SearchBox extends React.Component {
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes,
+        lang_id: settings.defaultLang,
       },
       settings,
     };
@@ -130,11 +132,22 @@ class SearchBox extends React.Component {
     });
   }
 
+  updateLang(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        lang_id: newValue,
+      },
+    });
+  }
+
   getHiddenEntries() {
     const entries = [
       // probably required by backend, otherwise useless - same val as "service"
       { name: "optradio", value: "base" },
-      { name: "lang_id", value: "all" },
+      //  unused
+      // { name: "lang_id", value: "all" },
     ];
 
     // time range
@@ -142,7 +155,7 @@ class SearchBox extends React.Component {
     entries.push({ name: "from", value: from });
     entries.push({ name: "to", value: to });
 
-    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
+    const { showTimeRange, showSorting, showDocTypes, showLang } = this.state.settings;
     if (!this.state.showOptions || !showTimeRange) {
       entries.push({ name: "time_range", value: rangeType });
     }
@@ -154,12 +167,16 @@ class SearchBox extends React.Component {
         entries.push({ name: "document_types[]", value });
       });
     }
+    if (!this.state.showOptions || !showLang) {
+      entries.push({ name: "lang_id", value: this.state.formData.lang_id });
+    }
     // TODO add this conditionally once the toggle is implemented
     entries.push({ name: "vis_type", value: this.state.formData.visType });
 
     const { minDescriptionSize, contentProvider } = this.state.settings;
     const { titleExpansion, abstractExpansion } = this.state.settings;
     const { keywordsExpansion, collection } = this.state.settings;
+    const { q_advanced } = this.state.settings;
 
     if (minDescriptionSize) {
       entries.push({ name: "min_descsize", value: minDescriptionSize });
@@ -178,6 +195,9 @@ class SearchBox extends React.Component {
     }
     if (keywordsExpansion) {
       entries.push({ name: "keywords", value: keywordsExpansion });
+    }
+    if (q_advanced) {
+      entries.push({ name: "q_advanced", value: q_advanced })
     }
 
     return entries;
@@ -201,8 +221,8 @@ class SearchBox extends React.Component {
   }
 
   render() {
-    const { showTimeRange, showSorting, showDocTypes } = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes;
+    const { showTimeRange, showSorting, showDocTypes, showLang } = this.state.settings;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
@@ -246,7 +266,13 @@ class SearchBox extends React.Component {
                 e(DoctypesPicker, {
                   values: this.state.formData.doctypes,
                   setValues: this.updateDoctypes.bind(this),
-                })
+                }),
+              // place for Language filter
+              showLang &&
+                e(LangPicker, {
+                  value: this.state.formData.lang_id,
+                  setValue: this.updateLang.bind(this),
+                }),
             ),
             e(
               AdvancedOptions,
