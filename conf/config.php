@@ -345,7 +345,7 @@ if(isset($search_flow_config_local)) {
             },
             project_no_results_error: {
                 title: "Sorry! We could not create a knowledge map."
-                , reason: 'There are no results for the given project ID.'
+                , reason: 'There are no results for the given project.'
                 , remedy: 'Please try again with another project ID.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"

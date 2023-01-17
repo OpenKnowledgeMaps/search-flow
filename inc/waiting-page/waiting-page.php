@@ -359,6 +359,9 @@ if($has_sufficient_data) {
 
             // take search_term(s) and write them to the element with id #search_term
             writeSearchTerm('search_term', search_term_short, terms.join(" "));
+            if (service === "openaire") {
+                $("#waiting_title_query_prefix").text("project ");
+                }
 
             executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
 
