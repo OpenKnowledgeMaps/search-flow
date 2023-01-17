@@ -10,4 +10,4 @@ services:
       - ../Headstart:/var/www/html/headstart
       - ./entrypoint.php://var/www/html/entrypoint.php
     ports:
-      - 8085:80
+      - 127.0.0.1:8085:80
