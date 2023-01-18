@@ -136,6 +136,9 @@ const getQuerySettings = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const settings = {};
 
+  // Search query parameters value
+  const search_params = queryParams.searchParams;
+
   // features on/off
   if (queryParams.hasValid("show_time_range", TYPE_BOOL)) {
     settings.showTimeRange = queryParams.get("show_time_range") === "true";
@@ -175,11 +178,12 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
-  }else{
+  }
+  else{
     settings.defaultSorting = DEFAULT_SETTINGS.defaultSorting;
   }
   if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
-     settings.defaultLang = queryParams.get("lang_id");
+    settings.defaultLang = queryParams.get("lang_id");
   } else {
     settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
   }
@@ -276,10 +280,20 @@ URLSearchParams.prototype.hasValid = function (name, type) {
   }
 
   const values = this.getAll(name);
+
   if (!type.validator(values)) {
+
     console.warn(
-      `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
     );
+
+    // if lang_id option has wrong/no-existing id, will replace optional "all-lang" and run the link with optional and without error page
+    if (name==="lang_id"){
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('lang_id', DEFAULT_SETTINGS.defaultLang)
+      const newParams = searchParams.toString()
+      window.location.replace(`search?${newParams}`)
+    }
 
     return false;
   }
