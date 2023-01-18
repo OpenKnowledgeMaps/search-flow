@@ -284,7 +284,7 @@ function setErrorTexts(
     setErrorReason(text_object.reason);
   }
   if (text_object.hasOwnProperty("remedy")) {
-    setErrorMoreInfo(text_object.remedy);
+    setErrorRemedy(text_object.remedy);
   }
   if (text_object.hasOwnProperty("more_info")) {
     setErrorMoreInfo(text_object.more_info);
