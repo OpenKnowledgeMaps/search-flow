@@ -245,10 +245,10 @@ if($has_sufficient_data) {
     <div id="error_state" class="search_error_state nodisplay" style="text-align: left !important;">
         <h3 class="waiting-title" id="error-title" style="color: #e55137;"></h3>
         <p id="error-reason"></p>
+        <p id="error-remedy"></p>
 
 	<?php if ($service == "openaire") {
         } else { ?>
-        <p id="error-remedy"></p>
         <p id="error-more-info"></p>
 	<?php } ?>
 
