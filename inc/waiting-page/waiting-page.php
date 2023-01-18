@@ -343,11 +343,11 @@ if($has_sufficient_data) {
 		}
         // this manual injection is necessary at this point because we can't add it in search_options.php as a 
         // normal service, because we don't want it to show up in the search box for now.
-		if (service === "openaire") {
-		    script = "searchOpenAire.php";
+        if (service === "openaire") {
+            script = "searchOpenAire.php";
             timeout = 240000;
-		}
-	    });
+        }
+        });
 
             let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
             if (post_data["q_advanced"] === false) {
