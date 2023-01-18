@@ -154,7 +154,6 @@ if ($service != "openaire") {
 } else {
     $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 }
-
 $get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
 $dirty_query = "";
@@ -201,9 +200,9 @@ if($has_sufficient_data) {
         if(!empty($query) && !empty($get_q_advanced)) {
             $unique_id = createID(array($query, $get_q_advanced, $params_json));
         }
-        if($service=="openaire") {
-            $query = addslashes(trim(strip_tags($dirty_query)));
-            $unique_id = createID(array($query, $params_json));
+	if($service=="openaire") {
+	    $query = addslashes(trim(strip_tags($dirty_query)));
+	    $unique_id = createID(array($query, $params_json));
         }
 
         $post_array["q"] = $query;
@@ -247,8 +246,11 @@ if($has_sufficient_data) {
         <h3 class="waiting-title" id="error-title" style="color: #e55137;"></h3>
         <p id="error-reason"></p>
 
+	<?php if ($service == "openaire") {
+        } else { ?>
         <p id="error-remedy"></p>
         <p id="error-more-info"></p>
+	<?php } ?>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php 
@@ -289,7 +291,7 @@ if($has_sufficient_data) {
                 </p>
         <?php } ?>
     </div>
-    
+
 </div>
 
  <script>
@@ -331,21 +333,21 @@ if($has_sufficient_data) {
             
             var not_enough_results_links = search_flow_config.waiting_page_options.add_not_enough_results_links;
             
-            search_flow_config.search_options.options.find(function(item) {
+	    search_flow_config.search_options.options.find(function(item) {
                 if (item.id === service) {
                     script = item.script;
                     milliseconds_progressbar = item.milliseconds_progressbar;
                     max_length_search_term_short = item.max_length_search_term_short;
                     timeout = item.timeout;
                     $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
-                }
-                // this manual injection is necessary at this point because we can't add it in search_options.php as a 
-                // normal service, because we don't want it to show up in the search box for now.
-                if (service === "openaire") {
-                    script = "searchOpenAire.php";
-                    timeout = 240000;
-                }
-            });
+		}
+        // this manual injection is necessary at this point because we can't add it in search_options.php as a 
+        // normal service, because we don't want it to show up in the search box for now.
+		if (service === "openaire") {
+		    script = "searchOpenAire.php";
+            timeout = 240000;
+		}
+	    });
 
             let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
             if (post_data["q_advanced"] === false) {
