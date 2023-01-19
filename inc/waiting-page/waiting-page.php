@@ -183,6 +183,13 @@ if($has_sufficient_data) {
         $post_array["today"] = $date->format('Y-m-d');
 
         $params_array = $search_flow_config["params_arrays"][$service];
+        if(isset($search_flow_config["optional_get_params"][$service])) {
+            foreach($search_flow_config["optional_get_params"][$service] as $optional_param) {
+                if(array_key_exists($optional_param, $post_array) && !in_array($optional_param, $params_array)) {
+                    $params_array[] = $optional_param;
+                }
+            }
+        }
 
         $params_json = packParamsJSON($params_array, $post_array);
         if(!empty($query) && empty($get_q_advanced)) {
