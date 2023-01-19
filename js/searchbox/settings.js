@@ -283,16 +283,20 @@ URLSearchParams.prototype.hasValid = function (name, type) {
 
   if (!type.validator(values)) {
 
-    console.warn(
-        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
-    );
-
     if (name==="lang_id"){
+
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set('lang_id', DEFAULT_SETTINGS.defaultLang)
       const newParams = searchParams.toString()
       window.location.replace(`${window.location.pathname}?${newParams}`)
+      console.warn(
+        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+      );
     }
+
+    console.warn(
+        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+    );
 
     return false;
   }
