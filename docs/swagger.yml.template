@@ -53,7 +53,7 @@ paths:
           name: q_advanced
           required: false
           description: |
-            **Prototype**
+            **This feature is a prototype! Some queries may not work as expected.**
             
             Enter your advanced search query, e.g. `dcorcid:0000-0002-1894-5040`. 
 
@@ -72,6 +72,17 @@ paths:
           schema:
             type : string
           allowReserved: true
+        - in: query
+          name: lang_id
+          required: false
+          description: |
+            Specify one language ID that your search will be restricted to, e.g. spa (=Spanish).
+
+            Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
+
+            If the parameter is not provided or if you enter a wrong parameter, it defaults to `all-lang`, which means that no language filter will be applied to the search results.
+          schema:
+            type: string
         - in: query
           name: from
           required: false
@@ -158,13 +169,6 @@ paths:
             Specify a collection available within BASE that your search will be restricted to. 
 
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
-          schema:
-            type: string
-        - in: query
-          name: lang_id
-          required: false
-          description:
-            Parameter for language filter. Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
           schema:
             type: string
       responses:

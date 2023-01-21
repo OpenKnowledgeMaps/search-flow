@@ -55,6 +55,17 @@ paths:
           schema:
             type: boolean
         - in: query
+          name: lang_id
+          required: false
+          description:
+            Specify one language ID that will be preselected in the search box options, e.g. `spa` (=Spanish).
+            
+            Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
+
+            If the parameter is not provided or if you enter a wrong parameter, it defaults to `all-lang`, which means that no language filter will be applied to the search results.
+          schema:
+            type: string
+        - in: query
           name: time_range
           required: false
           description: |
@@ -121,15 +132,6 @@ paths:
           schema:
             type: string
             enum: [most-relevant, most-recent]
-        - in: query
-          name: lang_id
-          required: false
-          description:
-            Specify the language that will be preselected in the search box options.
-            
-            Parameter for language filter. Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
-          schema:
-            type: string
         - in: query
           name: min_descsize
           required: false
