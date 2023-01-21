@@ -287,12 +287,15 @@ URLSearchParams.prototype.hasValid = function (name, type) {
         `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
     );
 
-    // if lang_id option has wrong/no-existing id, will replace optional "all-lang" and run the link with optional and without error page
     if (name==="lang_id"){
+
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set('lang_id', DEFAULT_SETTINGS.defaultLang)
       const newParams = searchParams.toString()
-      window.location.replace(`search?${newParams}`)
+      window.location.replace(`${window.location.pathname}?${newParams}`)
+      console.warn(
+        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+      );
     }
 
     return false;
