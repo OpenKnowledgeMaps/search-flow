@@ -238,22 +238,58 @@ paths:
       summary: |
         Configure searches and create visualisations (Data source: OpenAIRE)
       description: |
-        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on OpenAIRE data. 
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on OpenAIRE data.
       parameters:
         - in: query
           name: project_id
           required: true
           description: |
-            please add
+            Enter a valid project ID, e.g. `643410` (=OpenAIRE2020).
+
+            **Please note** that OpenAIRE also lists projects which may not have any resources (publications or datasets) associated with it. In this case the search will fail and display an error.
           schema:
             type: string
         - in: query
           name: funder
           required: true
           description: |
-            please add
+            Enter the funder ID related to the project you entered above, e.g. `EC` (=European Commission).
+
+            **Please note** that the funder ID and the project ID have to match, otherwise a visualisation can’t be created.
+
+            Possible funders include (sorted by alphabetical order of the funder name):
+
+            `AKA` - Academy of Finland  
+            `ASAP` - Aligning Science Across Parkinson’s  
+            `ARC` - Australian Research Council  
+            `FWF` - Austrian Science Fund  
+            `CHISTERA` - CHIST-ERA  
+            `CIHR` - Canadian Institutes of Health Research  
+            `HRZZ` - Croatian Science Foundation  
+            `EC` - European Commission  
+            `EEA` - European Environment Agency  
+            `ANR` - French National Research Agency  
+            `FCT` - Fundação para a Ciência e a Tecnologia, I.P.  
+            `MESTD` - Ministry of Education, Science and Technological Development of Republic of Serbia  
+            `MZOS` - Ministry of Science, Education and Sports of the Republic of Croatia  
+            `NHMRC` - National Health and Medical Research Council  
+            `NIH` - National Institutes of Health  
+            `NSF` - National Science Foundation  
+            `NSERC` - Natural Sciences and Engineering Research Council of Canada  
+            `NWO` - Netherlands Organisation for Scientific Research  
+            `SFI` - Science Foundation Ireland  
+            `SSHRC` - Social Sciences and Humanities Research Council  
+            `SNSF` - Swiss National Science Foundation  
+            `TARA` - Tara Expeditions Foundation  
+            `TUBITAK` - Türkiye Bilimsel ve Teknolojik Araştırma Kurumu  
+            `UKRI` - UK Research and Innovation  
+            `WT` - Wellcome Trust  
+          
+            Please note that this list may not be complete. More information on funder IDs can be found in the [OpenAIRE API documentation](https://graph.openaire.eu/develop/api.html).
+
           schema:
             type: string
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
+
