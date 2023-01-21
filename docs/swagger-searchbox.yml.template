@@ -57,7 +57,7 @@ paths:
         - in: query
           name: lang_id
           required: false
-          description:
+          description: |
             Specify one language ID that will be preselected in the search box options, e.g. `spa` (=Spanish).
             
             Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
