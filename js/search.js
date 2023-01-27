@@ -48,10 +48,10 @@ function clearFallbackInterval() {
 
 function stopAndResetProgressbar() {
   if (
-    typeof progessbar_timeout !== "undefined" &&
-    progessbar_timeout !== null
+    typeof progressbar_timeout !== "undefined" &&
+    progressbar_timeout !== null
   ) {
-    window.clearTimeout(progessbar_timeout);
+    window.clearTimeout(progressbar_timeout);
     $("#progressbar").progressbar("option", "value", 0);
   } else {
     console.log("Progressbar timeout not defined");
@@ -70,7 +70,7 @@ function errorOccurred() {
 
 function redirectToMap(vis_page, id, service, post_data) {
   $("#progressbar").progressbar("option", "value", 100);
-  window.clearTimeout(progessbar_timeout);
+  window.clearTimeout(progressbar_timeout);
   let redirect_url = vis_page;
   let has_previous_params = false;
   if (search_flow_config.waiting_page_options.vis_page_cool_uri) {
@@ -284,7 +284,7 @@ function setErrorTexts(
     setErrorReason(text_object.reason);
   }
   if (text_object.hasOwnProperty("remedy")) {
-    setErrorMoreInfo(text_object.remedy);
+    setErrorRemedy(text_object.remedy);
   }
   if (text_object.hasOwnProperty("more_info")) {
     setErrorMoreInfo(text_object.more_info);
@@ -505,7 +505,7 @@ function tick_function() {
   var value = $("#progressbar").progressbar("option", "value");
   value += tick_increment;
   $("#progressbar").progressbar("option", "value", value);
-  progessbar_timeout = window.setTimeout(
+  progressbar_timeout = window.setTimeout(
     tick_function,
     tick_interval * milliseconds_progressbar
   );
