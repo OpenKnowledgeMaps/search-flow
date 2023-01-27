@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+
+  searchflow:
+    image: php:7.4-apache
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 8085:80

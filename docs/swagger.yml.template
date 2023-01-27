@@ -53,6 +53,8 @@ paths:
           name: q_advanced
           required: false
           description: |
+            **Prototype**
+            
             Enter your advanced search query, e.g. `dcorcid:0000-0002-1894-5040`. 
 
             It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
