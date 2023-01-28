@@ -69,65 +69,67 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     }
     
     // Check for params from search form
-    $current_options = $filter_options["options_" . $service];
-    foreach($current_options["dropdowns"] as $options) {
-        $param = $options["id"];
-        
-        if($options["multiple"] === true) {
-            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
-        } else {
-            $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-        }
-        
-        if($param_get !== false) {
-            $ret_array[$param] = $param_get;
-        } else {
-            if($options["id"] === "time_range" || $options["id"] === "year_range") {
-                
-                $range = ($options["id"] === "time_range")?("time_range"):("year_range");
-                $is_custom_date = false;
-                               
-                $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-                $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-                
-                if($param_from === false) {                    
-                    $ret_array["from"] = $current_options["start_date"];
-                } else {
-                    $ret_array["from"] = $param_from;
-                    $is_custom_date = true;
-                }
-                
-                if($param_to === false) {
-                    $date = new DateTime();
-                    
-                    if(isset($current_options["end_date"])) {
-                        $to_date = $current_options["end_date"];
-                    } else if($range === "time_range") {
-                        $to_date = $date->format("Y-m-d");
-                    } else if ($range === "year_range") {
-                        $to_date = $date->format("Y");
-                    }
-
-                    $ret_array["to"] = $to_date;
-                } else {
-                    $ret_array["to"] = $param_to;
-                    $is_custom_date = true;
-                }
-                
-                if ($is_custom_date) {
-                    $ret_array[$range] = $is_embed ? "custom-range" : "user-defined";
-                }
-                
-            } else if($options["multiple"] === true) {
-                $id_array = [];
-                foreach($options["fields"] as $field) {
-                    if(isset($field["selected"]) && $field["selected"] === true) {
-                        $id_array[] = $field["id"];
-                    }
-                }
-                $ret_array[$param] = $id_array;
+    if(array_key_exists("options_" . $service, $filter_options)) {
+        $current_options = $filter_options["options_" . $service];
+        foreach($current_options["dropdowns"] as $options) {
+            $param = $options["id"];
+            
+            if($options["multiple"] === true) {
+                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
             } else {
-                $ret_array[$param] = $options["fields"][0]["id"];
+                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+            }
+            
+            if($param_get !== false) {
+                $ret_array[$param] = $param_get;
+            } else {
+                if($options["id"] === "time_range" || $options["id"] === "year_range") {
+                    
+                    $range = ($options["id"] === "time_range")?("time_range"):("year_range");
+                    $is_custom_date = false;
+                                
+                    $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                    $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                    
+                    if($param_from === false) {                    
+                        $ret_array["from"] = $current_options["start_date"];
+                    } else {
+                        $ret_array["from"] = $param_from;
+                        $is_custom_date = true;
+                    }
+                    
+                    if($param_to === false) {
+                        $date = new DateTime();
+                        
+                        if(isset($current_options["end_date"])) {
+                            $to_date = $current_options["end_date"];
+                        } else if($range === "time_range") {
+                            $to_date = $date->format("Y-m-d");
+                        } else if ($range === "year_range") {
+                            $to_date = $date->format("Y");
+                        }
+
+                        $ret_array["to"] = $to_date;
+                    } else {
+                        $ret_array["to"] = $param_to;
+                        $is_custom_date = true;
+                    }
+                    
+                    if ($is_custom_date) {
+                        $ret_array[$range] = $is_embed ? "custom-range" : "user-defined";
+                    }
+                    
+                } else if($options["multiple"] === true) {
+                    $id_array = [];
+                    foreach($options["fields"] as $field) {
+                        if(isset($field["selected"]) && $field["selected"] === true) {
+                            $id_array[] = $field["id"];
+                        }
+                    }
+                    $ret_array[$param] = $id_array;
+                } else {
+                    $ret_array[$param] = $options["fields"][0]["id"];
+                }
             }
         }
     }
@@ -147,7 +149,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
 }
 
 $request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-$get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+if ($service != "openaire") {
+    $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+} else {
+    $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+}
 $get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
 $dirty_query = "";
@@ -194,6 +200,10 @@ if($has_sufficient_data) {
         if(!empty($query) && !empty($get_q_advanced)) {
             $unique_id = createID(array($query, $get_q_advanced, $params_json));
         }
+	if($service=="openaire") {
+	    $query = addslashes(trim(strip_tags($dirty_query)));
+	    $unique_id = createID(array($query, $params_json));
+        }
 
         $post_array["q"] = $query;
         $post_array["unique_id"] = $unique_id;
@@ -236,15 +246,23 @@ if($has_sufficient_data) {
         <h3 class="waiting-title" id="error-title" style="color: #e55137;"></h3>
         <p id="error-reason"></p>
         <p id="error-remedy"></p>
+
+	<?php if ($service == "openaire") {
+        } else { ?>
         <p id="error-more-info"></p>
+	<?php } ?>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php 
-                if (!array_key_exists("q_advanced", $post_array)) { ?>
+                if (array_key_exists("q_advanced", $post_array)) {                    
+                } elseif ($service == "openaire") {
+                } else { ?>
                     <h3 id="try-again-title" class="waiting-title"></h3>
             <?php    } ?>
             <?php
-                if (!array_key_exists("q_advanced", $post_array)) {
+                if (array_key_exists("q_advanced", $post_array)) {                    
+                } elseif ($service == "openaire") {
+                } else {
                     $default_lib = $service;
                     $search_query = htmlspecialchars(stripslashes($dirty_query));
                     $open_options = true;
@@ -262,7 +280,9 @@ if($has_sufficient_data) {
 
         <p id="error-contact"></p>
         <?php
-            if (!array_key_exists("q_advanced", $post_array)) { ?>
+            if (array_key_exists("q_advanced", $post_array)) {                    
+            } elseif ($service == "openaire") {
+            } else { ?>
                 <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
                     <a id="error-resolution-link" class="basic-button nodisplay"></a>
                     <p id="error-resolution-countdown" class="error-countdown nodisplay">
@@ -271,7 +291,7 @@ if($has_sufficient_data) {
                 </p>
         <?php } ?>
     </div>
-    
+
 </div>
 
  <script>
@@ -313,15 +333,21 @@ if($has_sufficient_data) {
             
             var not_enough_results_links = search_flow_config.waiting_page_options.add_not_enough_results_links;
             
-            search_flow_config.search_options.options.find(function(item) {
+	    search_flow_config.search_options.options.find(function(item) {
                 if (item.id === service) {
                     script = item.script;
                     milliseconds_progressbar = item.milliseconds_progressbar;
                     max_length_search_term_short = item.max_length_search_term_short;
                     timeout = item.timeout;
                     $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
-                }
-            });
+		}
+        // this manual injection is necessary at this point because we can't add it in search_options.php as a 
+        // normal service, because we don't want it to show up in the search box for now.
+        if (service === "openaire") {
+            script = "searchOpenAire.php";
+            timeout = 240000;
+        }
+        });
 
             let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
             if (post_data["q_advanced"] === false) {
@@ -335,6 +361,9 @@ if($has_sufficient_data) {
 
             // take search_term(s) and write them to the element with id #search_term
             writeSearchTerm('search_term', search_term_short, terms.join(" "));
+            if (service === "openaire") {
+                $("#waiting_title_query_prefix").text("project ");
+                }
 
             executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
 

@@ -193,6 +193,8 @@ if(isset($search_flow_config_local)) {
                 , "API error: BASE not reachable": "base_xml_error"
                 , "BASE error: timeout": "base_timeout_error"
                 , "API error: q_advanced": "q_advanced_error"
+                , "project id or funder id wrong": "project_id_error"
+                , "not enough results for project": "project_no_results_error"
             }
             //Reason to always add to the list of error reasons
             , error_reason_always_add: [
@@ -315,7 +317,7 @@ if(isset($search_flow_config_local)) {
                 title: "An unexpected error occurred while retrieving data from BASE."
                 , reason: "The BASE API is currently experiencing problems. We have logged the error and will investigate the issue."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in around 10 seconds.'
-                , contact: 'For more information about our service please <a href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
                 , resolution_link: "javascript:location.reload()"
@@ -325,7 +327,27 @@ if(isset($search_flow_config_local)) {
                 title: "Sorry! We could not create a knowledge map."
                 , reason: "Most likely there were not enough results for your search query."
                 , remedy: 'We recommend adjusting the query and trying again (e.g. use keywords instead of long phrases, use only one of the q fields).'
-                , contact: 'For more information about our service please <a href="https://openknowledgemaps.org/faq">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , resolution_type: "link"
+                , resolution_label: "Refresh this page"
+                , resolution_link: "javascript:location.reload()"
+
+            },
+            project_id_error: {
+                title: "Sorry! We could not create a knowledge map."
+                , reason: 'You may have entered a wrong project ID and/or funder.'
+                , remedy:  'Please adjust the project ID and/or funder and try again.'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , resolution_type: "link"
+                , resolution_label: "Refresh this page"
+                , resolution_link: "javascript:location.reload()"
+
+            },
+            project_no_results_error: {
+                title: "Sorry! We could not create a knowledge map."
+                , reason: 'There are no results for the given project.'
+                , remedy: 'Please try again with another project ID.'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
                 , resolution_link: "javascript:location.reload()"
