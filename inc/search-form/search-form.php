@@ -181,9 +181,9 @@ var populateLanguageSelector = function () {
         .attr("name","lang_id")
 
     // set "all languages" option
-    select.append("option")
-        .attr("value", "all")
-        .text("All Languages")
+    // select.append("option")
+    //     .attr("value", "all-lang")
+    //     .text("All Languages")
 
     // find corresponding 3 char language code of browser language
     var browserLang = search_options_object.get639_2Frombcp47(window.navigator.language);

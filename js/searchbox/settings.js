@@ -8,6 +8,7 @@ import TIMESPAN_OPTIONS, {
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
+import LANG_OPTIONS from "./options/lang.js";
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -16,6 +17,8 @@ export const DEFAULT_SETTINGS = {
   showTimeRange: true,
   showDocTypes: true,
   showSorting: true,
+  // show language filter
+  showLang: true,
   // default (preselected) values
   defaultQuery: "",
   defaultDocTypes: ["121"],
@@ -23,6 +26,8 @@ export const DEFAULT_SETTINGS = {
   defaultTimespan: TIMESPAN_OPTIONS[0].id,
   defaultFrom: DEFAULT_FROM,
   defaultTo: DEFAULT_TO,
+  // language filter
+  defaultLang: "all-lang",
   // hidden values
   defaultVisType: VIS_TYPE_OPTIONS[0].id, // TODO move to preselected once we implement the toggle
   minDescriptionSize: undefined,
@@ -40,6 +45,7 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_time_range",
   "show_doc_types",
   "show_sorting",
+  "show_lang",
 ]);
 
 /**
@@ -92,6 +98,10 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.defaultSorting = outerSettings.sorting;
   }
 
+  if (typeof outerSettings.lang_id === "string") {
+    settings.defaultLang = outerSettings.lang_id;
+  }
+
   // hidden values
   if (typeof outerSettings.vis_type === "string") {
     // TODO move to preselected once we implement the toggle
@@ -126,6 +136,9 @@ const getQuerySettings = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const settings = {};
 
+  // Search query parameters value
+  const search_params = queryParams.searchParams;
+
   // features on/off
   if (queryParams.hasValid("show_time_range", TYPE_BOOL)) {
     settings.showTimeRange = queryParams.get("show_time_range") === "true";
@@ -135,6 +148,9 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("show_sorting", TYPE_BOOL)) {
     settings.showSorting = queryParams.get("show_sorting") === "true";
+  }
+  if (queryParams.hasValid("show_lang", TYPE_BOOL)) {
+    settings.showLang = queryParams.get("show_lang") === "true";
   }
 
   // default (preselected) values
@@ -162,6 +178,14 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
+  }
+  else{
+    settings.defaultSorting = DEFAULT_SETTINGS.defaultSorting;
+  }
+  if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
+    settings.defaultLang = queryParams.get("lang_id");
+  } else {
+    settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
   }
 
   // hidden values
@@ -256,10 +280,23 @@ URLSearchParams.prototype.hasValid = function (name, type) {
   }
 
   const values = this.getAll(name);
+
   if (!type.validator(values)) {
+
     console.warn(
-      `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
     );
+
+    if (name==="lang_id"){
+
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('lang_id', DEFAULT_SETTINGS.defaultLang)
+      const newParams = searchParams.toString()
+      window.location.replace(`${window.location.pathname}?${newParams}`)
+      console.warn(
+        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+      );
+    }
 
     return false;
   }

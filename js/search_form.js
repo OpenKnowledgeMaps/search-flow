@@ -6,27 +6,27 @@ var SearchOptions = {
         self.drawOptions(tag_options, data_options);
 
     },
-    
+
     drawOptions: function(tag, data) {
         const self = this;
         data.options.forEach(function(option) {
             let label = d3.select(tag).append("label")
                     .attr("class", "radio-inline")
-            
+
             let radio_button = label.append("input")
                     .attr("type", "radio")
                     .attr("name", "optradio")
                     .attr("value", option.id)
                     .on("click", () => self.trackOptionEvent("change", "data_source", option.id));
-            
+
             if(option.default && !option.disabled) {
                 radio_button.attr("checked", true)
             }
-            
+
             label.append("span")
                     .attr("class", "bold")
                     .text(" " + option.text)
-            
+
             label.append("span")
                     .attr("class", function () {
                         if(option.disabled) {
@@ -34,23 +34,23 @@ var SearchOptions = {
                         }
                     })
                     .text(" " + option.description)
-            
+
             if(option.disabled) {
                 radio_button.attr("disabled", true)
                 label.append("span")
                         .attr("class", "error-message")
                         .text(" " + data.disabled_message)
             }
-        })            
+        })
     },
-    
+
     drawExamples: function(tag, data) {
         const self = this;
         d3.select(tag).text(data.example_text);
         let examples = d3.select(tag).append("span")
                                 .attr("class", "map-examples")
-        
-        data.examples.forEach(function (example) { 
+
+        data.examples.forEach(function (example) {
             examples.append("a")
                     .attr("class", "underline")
                     .attr("target", "_blank")
@@ -59,7 +59,7 @@ var SearchOptions = {
                     .on("click", () => self.trackMatomoEvent("Search box", "Open try-out map", example.link));
         })
     },
-    
+
     drawFilters: function (tag, data) {
         var self = this;
 
@@ -83,7 +83,7 @@ var SearchOptions = {
                 .attr('class', 'divity frontend-hidden')
 
         data.dropdowns.forEach(function (entry) {
-            
+
             if(entry.hasOwnProperty("display") && entry.display === "none") {
                 return;
             }
@@ -114,7 +114,7 @@ var SearchOptions = {
                         .attr("class", "dropdown_multi_" + entry.id)
                         .style("vertical-align", "top")
                         .attr("name", entry.id)
-                
+
                 if(entry.hasOwnProperty("hidden") && entry.hidden) {
                     new_select.attr("class", "hidden");
                 }
@@ -188,7 +188,7 @@ var SearchOptions = {
                 , numberDisplayed: !is_multiple
                 , onChange: function (element, checked) {
                     if (checked === true) {
-                        if(dropdown_class === ".dropdown_multi_time_range" 
+                        if(dropdown_class === ".dropdown_multi_time_range"
                                 || dropdown_class === ".dropdown_multi_year_range") {
                             if (element.val() !== "user-defined") {
                                 self.user_defined_date = false;
@@ -230,25 +230,25 @@ var SearchOptions = {
     },
     setDateRangeFromPreset: function (from, to, val, start_date, end_date, hide_inputs, is_year_range) {
         var self = this;
-        
+
         if(is_year_range === 'undefined') {
             is_year_range = false;
         }
-        
+
         var current_date = new Date();
         var current_year = current_date.getFullYear();
-        
+
         var start = new Date();
         var end = new Date();
-        
+
         //set ranges for date picker
         var start_date_object = new Date(start_date);
         var start_year = start_date_object.getFullYear();
-        
+
         var range = start_year + ":" + current_year;
         $(from).datepicker("option", "yearRange", range);
         $(to).datepicker("option", "yearRange", range);
-        
+
         switch (val) {
 
             case "user-defined":
@@ -265,7 +265,7 @@ var SearchOptions = {
             case "any-time":
                 start.setTime(Date.parse(start_date));
                 this.setDateFields(from, to, start, end);
-                
+
                 break;
 
             case "last-month":
@@ -308,7 +308,7 @@ var SearchOptions = {
         if(typeof no_datepicker === 'undefined') {
             no_datepicker = false;
         }
-        
+
         if(no_datepicker) {
             $(from).val(start);
             $(to).val(end);
@@ -330,7 +330,7 @@ var SearchOptions = {
                 changeYear: true,
                 numberOfMonths: 1,
                 dateFormat: 'yy-mm-dd',
-                onChangeMonthYear:function(y, m, i){                                
+                onChangeMonthYear:function(y, m, i){
                     var d = i.selectedDay;
                     $(this).datepicker('setDate', new Date(y, m - 1, d));
                 },
@@ -342,7 +342,7 @@ var SearchOptions = {
                 changeYear: true,
                 numberOfMonths: 1,
                 dateFormat: 'yy-mm-dd',
-                onChangeMonthYear:function(y, m, i){                                
+                onChangeMonthYear:function(y, m, i){
                     var d = i.selectedDay;
                     $(this).datepicker('setDate', new Date(y, m - 1, d));
                 },
@@ -606,6 +606,7 @@ var event_type_to_name = {
         document_types: ["Show doctypes options", "Doctypes dropdown"],
         article_types: ["Show doctypes options", "Doctypes dropdown"],
         min_descsize: ["Show quality options", "Metadata quality dropdown"],
+        lang_id: ["Show language options", "Language dropdown"],
     },
     hide: {
         time_range: ["Hide timespan options", "Timespan dropdown"],
@@ -613,6 +614,7 @@ var event_type_to_name = {
         document_types: ["Hide doctypes options", "Doctypes dropdown"],
         article_types: ["Hide doctypes options", "Doctypes dropdown"],
         min_descsize: ["Hide quality options", "Metadata quality dropdown"],
+        lang_id: ["Hide language options", "Language dropdown"],
     },
     change: {
         time_range: ["Change timespan", "Timespan dropdown"],
@@ -625,6 +627,7 @@ var event_type_to_name = {
         from: ["Change date", "From input"],
         to: ["Change date", "To input"],
         data_source: ["Change data source", "Data source radio"],
+        lang_id: ["Change language", "Language dropdown"],
     },
     select_all: {
         document_types: ["Select all doctypes", "Doctypes dropdown"],
