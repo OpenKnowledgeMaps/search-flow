@@ -3,8 +3,11 @@ version: '3.7'
 services:
 
   searchflow:
-    image: php:7.4-apache
+    build: searchflow-container
     volumes:
-      - ./:/var/www/html
+      - ../project-website:/var/www/html
+      - ./:/var/www/html/search-flow
+      - ../Headstart:/var/www/html/headstart
+      - ./entrypoint.php://var/www/html/entrypoint.php
     ports:
-      - 8085:80
+      - 127.0.0.1:8085:80

@@ -18,6 +18,11 @@ const CustomDropdown = ({ options, name, value, setValue }) => {
   const selectedOption = options.find((o) => o.id === value);
   const btnLabel = selectedOption ? selectedOption.label : "";
 
+  // returns cutted string if it's longer than expected length of symbols
+  function cutLabel(label, n){
+    return (label.length > n) ? `${label.slice(0, n-1)}...` : label;
+  };
+
   return e(
     "div",
     { className: "btn-group" + (open ? " open" : ""), ref: containerRef },
@@ -30,7 +35,7 @@ const CustomDropdown = ({ options, name, value, setValue }) => {
         onClick: () => setOpen((prev) => !prev),
       },
 
-      e("span", { className: "multiselect-selected-text" }, btnLabel),
+      e("span", { className: "multiselect-selected-text" }, cutLabel(btnLabel, 18)),
       " ",
       e("b", { className: "caret" })
     ),

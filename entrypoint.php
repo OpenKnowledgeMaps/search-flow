@@ -5,27 +5,27 @@
     <meta charset="UTF-8" />
     <title>Open Knowledge Maps Search Box</title>
 
-    <link rel="stylesheet" href="lib/bootstrap.min.css">
-    <link rel="stylesheet" href="lib/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="search-flow/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="search-flow/lib/bootstrap-multiselect.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/search_box.css">
+    <link rel="stylesheet" href="search-flow/css/search_box.css">
 
-    <script type="module" src="js/searchbox/runner.js"></script>
+    <script type="module" src="search-flow/js/searchbox/runner.js"></script>
 </head>
 
 <body class="iframed">
     <?php
     $search_box_class = "iframed";
-    include 'inc/search-form/new-search-form.php';
+    include 'search-flow/inc/search-form/new-search-form.php';
 
     //inlined from project-website/config.example.php
     //clean this up later
-    $SITE_URL = "//";
-    $HEADSTART_URL = $SITE_URL . "headstart/";
+    $SITE_URL = "//localhost:8085/";
+    $HEADSTART_URL = $SITE_URL . "./headstart/";
     $COMPONENTS_PATH = "components/";
     $LIB_PATH = "lib/";
-    $SEARCH_FLOW_PATH = "./";
+    $SEARCH_FLOW_PATH = "./search-flow/";
     $SNAPSHOT_PATH = $HEADSTART_URL . "server/storage/";
 
     $PIWIK_ENABLED = false;
