@@ -172,6 +172,10 @@ const getQuerySettings = () => {
 
     settings.defaultFrom = from;
     settings.defaultTo = to;
+
+  } else{
+    settings.defaultFrom = DEFAULT_FROM;
+    settings.defaultTo = new Date().toISOString().slice(0, 10);
   }
   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("document_types[]");
