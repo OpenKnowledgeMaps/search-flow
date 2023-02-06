@@ -173,7 +173,8 @@ const getQuerySettings = () => {
     settings.defaultFrom = from;
     settings.defaultTo = to;
 
-  } else{
+  }
+  else{
     settings.defaultFrom = DEFAULT_FROM;
     settings.defaultTo = new Date().toISOString().slice(0, 10);
   }
