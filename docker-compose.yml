@@ -9,5 +9,6 @@ services:
       - ./:/var/www/html/search-flow
       - ../Headstart:/var/www/html/headstart
       - ./entrypoint.php://var/www/html/entrypoint.php
+      - ./entrypoint_sb2.php://var/www/html/entrypoint_sb2.php
     ports:
       - 127.0.0.1:8085:80

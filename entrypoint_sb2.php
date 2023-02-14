@@ -5,21 +5,26 @@
     <meta charset="UTF-8" />
     <title>Open Knowledge Maps Search Box</title>
 
-    <link rel="stylesheet" href="search-flow/lib/bootstrap.min.css">
-    <link rel="stylesheet" href="search-flow/lib/bootstrap-multiselect.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="search-flow/css/search_box.css">
     <link rel="stylesheet" href="search-flow/css/output.css">
 
 
-    <script type="module" src="search-flow/js/searchbox/runner.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+ <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+
+<!--  <script type="module" src="search-flow/js_sb2/searchbox/runner.js"></script> -->
+
 </head>
 
 <body class="iframed">
     <?php
     $search_box_class = "iframed";
-    include 'search-flow/inc/search-form/new-search-form.php';
+    include 'search-flow/inc/search-form/new-search-form_2.php';
+
 
     //inlined from project-website/config.example.php
     //clean this up later

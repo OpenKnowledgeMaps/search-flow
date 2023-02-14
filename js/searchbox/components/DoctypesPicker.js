@@ -17,7 +17,6 @@ const DoctypesPicker = ({ values, setValues }) => {
   useOutsideClick(containerRef, handleOutsideClick);
 
   const btnLabel = getLabel(values);
-
   return e(
     "div",
     { className: "btn-group" + (open ? " open" : ""), ref: containerRef },
