@@ -10,3 +10,4 @@ RUN sed -i 's#AllowOverride [Nn]one#AllowOverride All#' /etc/apache2/apache2.con
 RUN mkdir /var/www/localstorage
 COPY test.sqlite /var/www/localstorage/local.sqlite
 RUN chown -R www-data:www-data /var/www/localstorage
+RUN npx tailwindcss -i ./css/input.css -o ./css/output.css --watch
