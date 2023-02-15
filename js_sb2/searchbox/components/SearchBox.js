@@ -30,8 +30,8 @@ class SearchBox extends React.Component {
   render() {
 
     return (
-        <div className={''}>
-          hello !
+        <div className={'text-5xl text-red-600 flex justify-center items-center'}>
+            <div>hello world!</div>
         </div>
     );
   }
