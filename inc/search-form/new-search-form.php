@@ -1,8 +1,8 @@
 <div id="search_box_container" class="<?php echo isset($search_box_class) ? $search_box_class : "" ?>"></div>
 
 <!-- Note: when developing, replace "production.min.js" with "development.js". -->
-<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="search-flow/lib/react.development.js"></script>
+<script src="search-flow/lib/react-dom.development.js"></script>
 
 <script>
     var searchboxSettings = {
