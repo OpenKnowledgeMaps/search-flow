@@ -1,7 +1,7 @@
 // import SearchBox from "./components/SearchBox.js";
 
 const container = document.getElementById('search_box_test');
-    const root = ReactDOM.createRoot(container);
+const root = ReactDOM.createRoot(container);
 root.render(
     // <SearchBox/>
     <div className={'flex items-center justify-center mt-10'}>
