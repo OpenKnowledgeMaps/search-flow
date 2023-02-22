@@ -16,6 +16,7 @@ import { TRANSFERRED_PARAMS, getSettings } from "../settings.js";
 import { trackMatomoEvent } from "../hooks/useMatomo.js";
 import { getTimespanBounds } from "../options/timespan.js";
 import LangPicker from "./LangPicker.js";
+import DataSource from "./DataSource.js";
 
 const e = React.createElement;
 
@@ -38,22 +39,30 @@ class SearchBox extends React.Component {
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes,
         lang_id: settings.defaultLang,
+        // data source
+        service: settings.defaultService,
       },
       settings,
+      showOptionsLabel: "Show advanced search options",
+      showOptionsIcon: "fa-angle-down",
     };
   }
 
   toggleOptions() {
     trackMatomoEvent(
-      "Search box",
-      this.state.showOptions ? "Hide options" : "Show options",
-      "Options toggle"
+        "Search box",
+        this.state.showOptions ? "Hide options" : "Show options",
+        "Options toggle"
     );
 
     this.setState({
       ...this.state,
       showOptions: !this.state.showOptions,
+      showOptionsLabel: this.state.showOptions ? "Show advanced search options" : "Hide advanced search options",
+      showOptionsIcon: this.state.showOptions ? "fa-angle-down" : "fa-angle-up",
     });
+
+
   }
 
   updateQuery(newValue) {
@@ -142,10 +151,20 @@ class SearchBox extends React.Component {
     });
   }
 
+  updateService(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        service: newValue,
+      },
+    });
+  }
+
   getHiddenEntries() {
     const entries = [
       // probably required by backend, otherwise useless - same val as "service"
-      { name: "optradio", value: "base" },
+      {name: "optradio", value: "base"},
       //  unused
       // { name: "lang_id", value: "all" },
     ];
@@ -234,65 +253,70 @@ class SearchBox extends React.Component {
       "div",
       { className: "search_box" },
       e(
-        "form",
-        {
-          action: actionUrl,
-          method: "POST",
-          target: "_self",
-        },
-        hasOptions &&
+          "form",
+          {
+            action: actionUrl,
+            method: "POST",
+            target: "_self",
+          },
+          e(DataSource, {
+            value: this.state.formData.service,
+            setValue: this.updateService.bind(this),
+          }),
+          hasOptions &&
           e(OptionsToggle, {
-            label: "Refine your search",
+            label: this.state.showOptionsLabel,
+            icon: this.state.showOptionsIcon,
             onClick: this.toggleOptions.bind(this),
           }),
-        this.state.showOptions &&
+          this.state.showOptions &&
           e(
-            Options,
-            null,
-            e(
-              BasicOptions,
+              Options,
               null,
-              showTimeRange &&
-                e(TimespanPicker, {
-                  value: this.state.formData.timespan.type,
-                  setValue: this.updateTimespanType.bind(this),
-                }),
-              showSorting &&
-                e(SortingPicker, {
-                  value: this.state.formData.sorting,
-                  setValue: this.updateSorting.bind(this),
-                }),
-              showDocTypes &&
-                e(DoctypesPicker, {
-                  values: this.state.formData.doctypes,
-                  setValues: this.updateDoctypes.bind(this),
-                }),
-              // place for Language filter
-              showLang &&
-                e(LangPicker, {
-                  value: this.state.formData.lang_id,
-                  setValue: this.updateLang.bind(this),
-                }),
-            ),
-            e(
-              AdvancedOptions,
-              null,
-              showExtraTimePickers &&
-                e(
-                  "div",
-                  { className: "options_timespan" },
-                  e(InlineDatePicker, {
-                    label: "From",
-                    value: this.state.formData.timespan.from,
-                    onChange: this.updateTimespanFrom.bind(this),
+              e(
+                  BasicOptions,
+                  null,
+                  showTimeRange &&
+                  e(TimespanPicker, {
+                    value: this.state.formData.timespan.type,
+                    setValue: this.updateTimespanType.bind(this),
                   }),
-                  e(InlineDatePicker, {
-                    label: "To",
-                    value: this.state.formData.timespan.to,
-                    onChange: this.updateTimespanTo.bind(this),
-                  })
-                )
-            )
+                  showSorting &&
+                  e(SortingPicker, {
+                    value: this.state.formData.sorting,
+                    setValue: this.updateSorting.bind(this),
+                  }),
+                  showDocTypes &&
+                  e(DoctypesPicker, {
+                    values: this.state.formData.doctypes,
+                    setValues: this.updateDoctypes.bind(this),
+                  }),
+                  // place for Language filter
+                  showLang &&
+                  e(LangPicker, {
+                    value: this.state.formData.lang_id,
+                    setValue: this.updateLang.bind(this),
+                  }),
+              ),
+              e(
+                  AdvancedOptions,
+                  null,
+                  showExtraTimePickers &&
+                  e(
+                      "div",
+                      {className: "options_timespan"},
+                      e(InlineDatePicker, {
+                        label: "From",
+                        value: this.state.formData.timespan.from,
+                        onChange: this.updateTimespanFrom.bind(this),
+                      }),
+                      e(InlineDatePicker, {
+                        label: "To",
+                        value: this.state.formData.timespan.to,
+                        onChange: this.updateTimespanTo.bind(this),
+                      })
+                  )
+              )
           ),
         e(SearchField, {
           value: this.state.formData.query,

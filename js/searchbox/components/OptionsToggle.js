@@ -1,14 +1,16 @@
 "use strict";
 
-const e = React.createElement;
+// const e = React.createElement;
+const {useState, useRef, createElement: e} = React;
 
-const OptionsToggle = ({ label, onClick }) => {
+const OptionsToggle = ({label, icon, onClick}) => {
+
   return e(
-    "div",
-    { className: "refine-search", onClick: onClick },
-    label,
-    " ",
-    e("i", { className: "refine-search fa fa-angle-down" })
+      "div",
+      {className: "refine-search", onClick: onClick},
+      label,
+      " ",
+      e("i", {className: `refine-search fa ${icon}`})
   );
 };
 

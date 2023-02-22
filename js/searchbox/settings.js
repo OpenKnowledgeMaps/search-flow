@@ -36,7 +36,9 @@ export const DEFAULT_SETTINGS = {
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
-  q_advanced: ""
+  q_advanced: "",
+  // Data Source
+  defaultService: "base",
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -46,6 +48,8 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_doc_types",
   "show_sorting",
   "show_lang",
+  // TODO add this functionality
+  "show_service",
 ]);
 
 /**
