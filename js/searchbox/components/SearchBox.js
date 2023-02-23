@@ -17,6 +17,7 @@ import { trackMatomoEvent } from "../hooks/useMatomo.js";
 import { getTimespanBounds } from "../options/timespan.js";
 import LangPicker from "./LangPicker.js";
 import DataSource from "./DataSource.js";
+import VisType from "./VisType.js";
 
 const e = React.createElement;
 
@@ -131,6 +132,16 @@ class SearchBox extends React.Component {
     });
   }
 
+  updateVisType(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        visType: newValue,
+      },
+    });
+  }
+
   updateDoctypes(newValue) {
     this.setState({
       ...this.state,
@@ -165,8 +176,6 @@ class SearchBox extends React.Component {
     const entries = [
       // probably required by backend, otherwise useless - same val as "service"
       {name: "optradio", value: "base"},
-      //  unused
-      // { name: "lang_id", value: "all" },
     ];
 
     // time range
@@ -174,37 +183,40 @@ class SearchBox extends React.Component {
     entries.push({ name: "from", value: from });
     entries.push({ name: "to", value: to });
 
-    const { showTimeRange, showSorting, showDocTypes, showLang } = this.state.settings;
+    const {showTimeRange, showSorting, showDocTypes, showLang, showService} = this.state.settings;
     if (!this.state.showOptions || !showTimeRange) {
       entries.push({ name: "time_range", value: rangeType });
     }
     if (!this.state.showOptions || !showSorting) {
-      entries.push({ name: "sorting", value: this.state.formData.sorting });
+      entries.push({name: "sorting", value: this.state.formData.sorting});
     }
     if (!this.state.showOptions || !showDocTypes) {
       this.state.formData.doctypes.forEach((value) => {
-        entries.push({ name: "document_types[]", value });
+        entries.push({name: "document_types[]", value});
       });
     }
     if (!this.state.showOptions || !showLang) {
-      entries.push({ name: "lang_id", value: this.state.formData.lang_id });
+      entries.push({name: "lang_id", value: this.state.formData.lang_id});
+    }
+    if (!this.state.showOptions || !showService) {
+      entries.push({name: "service", value: this.state.formData.service});
     }
     // TODO add this conditionally once the toggle is implemented
-    entries.push({ name: "vis_type", value: this.state.formData.visType });
+    entries.push({name: "vis_type", value: this.state.formData.visType});
 
-    const { minDescriptionSize, contentProvider } = this.state.settings;
-    const { titleExpansion, abstractExpansion } = this.state.settings;
-    const { keywordsExpansion, collection } = this.state.settings;
-    const { q_advanced } = this.state.settings;
+    const {minDescriptionSize, contentProvider} = this.state.settings;
+    const {titleExpansion, abstractExpansion} = this.state.settings;
+    const {keywordsExpansion, collection} = this.state.settings;
+    const {q_advanced} = this.state.settings;
 
     if (minDescriptionSize) {
-      entries.push({ name: "min_descsize", value: minDescriptionSize });
+      entries.push({name: "min_descsize", value: minDescriptionSize});
     }
     if (contentProvider) {
-      entries.push({ name: "repo", value: contentProvider });
+      entries.push({name: "repo", value: contentProvider});
     }
     if (collection) {
-      entries.push({ name: "coll", value: collection });
+      entries.push({name: "coll", value: collection});
     }
     if (titleExpansion) {
       entries.push({ name: "title", value: titleExpansion });
@@ -240,91 +252,97 @@ class SearchBox extends React.Component {
   }
 
   render() {
-    const { showTimeRange, showSorting, showDocTypes, showLang } = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang;
+    const {showTimeRange, showSorting, showDocTypes, showLang, showService, showVisType} = this.state.settings;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
     const showExtraTimePickers =
-      showTimeRange && this.state.formData.timespan.type === "custom-range";
+        showTimeRange && this.state.formData.timespan.type === "custom-range";
 
     return e(
-      "div",
-      { className: "search_box" },
-      e(
-          "form",
-          {
-            action: actionUrl,
-            method: "POST",
-            target: "_self",
-          },
-          e(DataSource, {
-            value: this.state.formData.service,
-            setValue: this.updateService.bind(this),
-          }),
-          hasOptions &&
-          e(OptionsToggle, {
-            label: this.state.showOptionsLabel,
-            icon: this.state.showOptionsIcon,
-            onClick: this.toggleOptions.bind(this),
-          }),
-          this.state.showOptions &&
-          e(
-              Options,
-              null,
-              e(
-                  BasicOptions,
-                  null,
-                  showTimeRange &&
-                  e(TimespanPicker, {
-                    value: this.state.formData.timespan.type,
-                    setValue: this.updateTimespanType.bind(this),
-                  }),
-                  showSorting &&
-                  e(SortingPicker, {
-                    value: this.state.formData.sorting,
-                    setValue: this.updateSorting.bind(this),
-                  }),
-                  showDocTypes &&
-                  e(DoctypesPicker, {
-                    values: this.state.formData.doctypes,
-                    setValues: this.updateDoctypes.bind(this),
-                  }),
-                  // place for Language filter
-                  showLang &&
-                  e(LangPicker, {
-                    value: this.state.formData.lang_id,
-                    setValue: this.updateLang.bind(this),
-                  }),
-              ),
-              e(
-                  AdvancedOptions,
-                  null,
-                  showExtraTimePickers &&
-                  e(
-                      "div",
-                      {className: "options_timespan"},
-                      e(InlineDatePicker, {
-                        label: "From",
-                        value: this.state.formData.timespan.from,
-                        onChange: this.updateTimespanFrom.bind(this),
-                      }),
-                      e(InlineDatePicker, {
-                        label: "To",
-                        value: this.state.formData.timespan.to,
-                        onChange: this.updateTimespanTo.bind(this),
-                      })
-                  )
-              )
-          ),
-        e(SearchField, {
-          value: this.state.formData.query,
-          setValue: this.updateQuery.bind(this),
-        }),
-        e(Hiddens, { entries: hiddenEntries }),
-        e(SearchButton)
-      )
+        "div",
+        {className: "search_box"},
+        e(
+            "form",
+            {
+              action: actionUrl,
+              method: "POST",
+              target: "_self",
+            },
+            showService &&
+            e(DataSource, {
+              value: this.state.formData.service,
+              setValue: this.updateService.bind(this),
+            }),
+            hasOptions &&
+            e(OptionsToggle, {
+              label: this.state.showOptionsLabel,
+              icon: this.state.showOptionsIcon,
+              onClick: this.toggleOptions.bind(this),
+            }),
+            this.state.showOptions &&
+            e(
+                Options,
+                null,
+                e(
+                    BasicOptions,
+                    null,
+                    // showTimeRange &&
+                    // e(TimespanPicker, {
+                    //   value: this.state.formData.timespan.type,
+                    //   setValue: this.updateTimespanType.bind(this),
+                    // }),
+                    (showVisType && this.state.formData.service === "base") &&
+                    e(VisType, {
+                      value: this.state.formData.visType,
+                      setValue: this.updateVisType.bind(this),
+                    }),
+                    showSorting &&
+                    e(SortingPicker, {
+                      value: this.state.formData.sorting,
+                      setValue: this.updateSorting.bind(this),
+                    }),
+
+                    showDocTypes &&
+                    e(DoctypesPicker, {
+                      values: this.state.formData.doctypes,
+                      setValues: this.updateDoctypes.bind(this),
+                    }),
+                    showLang &&
+                    e(LangPicker, {
+                      value: this.state.formData.lang_id,
+                      setValue: this.updateLang.bind(this),
+                    }),
+                ),
+                // e(
+                //     AdvancedOptions,
+                //     null,
+                //     showExtraTimePickers &&
+                //     e(
+                //         "div",
+                //         {className: "options_timespan"},
+                //         e(InlineDatePicker, {
+                //           label: "From",
+                //           value: this.state.formData.timespan.from,
+                //           onChange: this.updateTimespanFrom.bind(this),
+                //         }),
+                //         e(InlineDatePicker, {
+                //           label: "To",
+                //           value: this.state.formData.timespan.to,
+                //           onChange: this.updateTimespanTo.bind(this),
+                //         })
+                //     )
+                // )
+            ),
+            e(SearchField, {
+              value: this.state.formData.query,
+              setValue: this.updateQuery.bind(this),
+            }),
+            e(Hiddens, {entries: hiddenEntries}),
+            e(SearchButton)
+        )
     );
   }
 }
