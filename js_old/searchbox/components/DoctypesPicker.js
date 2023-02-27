@@ -19,40 +19,36 @@ const DoctypesPicker = ({ values, setValues }) => {
   const btnLabel = getLabel(values);
 
   return e(
-      "div",
+    "div",
+    { className: "btn-group" + (open ? " open" : ""), ref: containerRef },
+    e(
+      "button",
       {
-          className: "btn-group" + (open ? " open" : ""),
-          ref: containerRef
+        type: "button",
+        className: "multiselect dropdown-toggle btn btn-default",
+        title: btnLabel,
+        onClick: () => setOpen((prev) => !prev),
+      },
+
+      e("span", { className: "multiselect-selected-text" }, btnLabel),
+      " ",
+      e("b", { className: "caret" })
+    ),
+    e(
+      "ul",
+      {
+        className: "multiselect-container dropdown-menu",
+        style: { maxHeight: 250, overflow: "hidden auto" },
       },
       e(
-          "button",
-          {
-              type: "button",
-              className: "multiselect dropdown-toggle btn btn-default",
-              style: {width: '100%'},
-              title: btnLabel,
-              onClick: () => setOpen((prev) => !prev),
-          },
-
-          e("span", {className: "multiselect-selected-text"}, btnLabel),
-          " ",
-          e("b", {className: "caret"})
-      ),
-      e(
-          "ul",
-          {
-              className: "multiselect-container dropdown-menu",
-              style: {maxHeight: 250, overflow: "hidden auto"},
-          },
+        "li",
+        {
+          className: values.length === DOCTYPES_OPTIONS.length ? "active" : "",
+        },
+        e(
+          "a",
+          { tabIndex: 0, className: "multiselect-all" },
           e(
-              "li",
-              {
-                  className: values.length === DOCTYPES_OPTIONS.length ? "active" : "",
-              },
-              e(
-                  "a",
-                  {tabIndex: 0, className: "multiselect-all"},
-                  e(
             "label",
             { className: "checkbox" },
             e("input", {

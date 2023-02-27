@@ -9,8 +9,6 @@ import DOCTYPES_OPTIONS from "./options/doctypes.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
 import LANG_OPTIONS from "./options/lang.js";
-import SERVICES_OPTIONS from "./options/services.js";
-import DESK_SIZE_OPTIONS from "./options/desk_size.js";
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -19,6 +17,7 @@ export const DEFAULT_SETTINGS = {
   showTimeRange: true,
   showDocTypes: true,
   showSorting: true,
+  // show language filter
   showLang: true,
   // default (preselected) values
   defaultQuery: "",
@@ -27,22 +26,17 @@ export const DEFAULT_SETTINGS = {
   defaultTimespan: TIMESPAN_OPTIONS[0].id,
   defaultFrom: DEFAULT_FROM,
   defaultTo: DEFAULT_TO,
+  // language filter
   defaultLang: "all-lang",
-
-  defaultVisType: VIS_TYPE_OPTIONS[0].id,
-  // minDescriptionSize: undefined,
-  minDescriptionSize: DESK_SIZE_OPTIONS[0].id,
+  // hidden values
+  defaultVisType: VIS_TYPE_OPTIONS[0].id, // TODO move to preselected once we implement the toggle
+  minDescriptionSize: undefined,
   contentProvider: undefined,
   collection: undefined,
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
-  q_advanced: "",
-  // Data Source (new param)
-  defaultService: SERVICES_OPTIONS[0].id,
-  showService: true,
-  showVisType: true,
-  showMinDesksize: true,
+  q_advanced: ""
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -52,9 +46,6 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_doc_types",
   "show_sorting",
   "show_lang",
-  "show_service",
-  "show_vis_type",
-  "show_min_desksize",
 ]);
 
 /**
@@ -110,12 +101,8 @@ const getConfigSettings = (outerSettings = {}) => {
   if (typeof outerSettings.lang_id === "string") {
     settings.defaultLang = outerSettings.lang_id;
   }
-  if (typeof outerSettings.service === "string") {
-    settings.defaultService = outerSettings.service;
-  }
 
   // hidden values
-  // TODO: check this vis_type param
   if (typeof outerSettings.vis_type === "string") {
     // TODO move to preselected once we implement the toggle
     settings.defaultVisType = outerSettings.vis_type;
@@ -165,26 +152,17 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("show_lang", TYPE_BOOL)) {
     settings.showLang = queryParams.get("show_lang") === "true";
   }
-  if (queryParams.hasValid("show_service", TYPE_BOOL)) {
-    settings.showService = queryParams.get("show_service") === "true";
-  }
-  if (queryParams.hasValid("show_vis_type", TYPE_BOOL)) {
-    settings.showVisType = queryParams.get("show_vis_type") === "true";
-  }
-  if (queryParams.hasValid("show_min_desksize", TYPE_BOOL)) {
-    settings.showMinDesksize = queryParams.get("show_min_desksize") === "true";
-  }
 
   // default (preselected) values
   if (queryParams.hasValid("time_range", TYPE_OPTION(TIMESPAN_OPTIONS))) {
     settings.defaultTimespan = queryParams.get("time_range");
 
     const customFrom = queryParams.hasValid("from", TYPE_DATE)
-        ? queryParams.get("from")
-        : undefined;
+      ? queryParams.get("from")
+      : undefined;
     const customTo = queryParams.hasValid("to", TYPE_DATE)
-        ? queryParams.get("to")
-        : undefined;
+      ? queryParams.get("to")
+      : undefined;
 
     const { from, to } = getTimespanBounds(
       settings.defaultTimespan,
@@ -200,7 +178,8 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
-  } else {
+  }
+  else{
     settings.defaultSorting = DEFAULT_SETTINGS.defaultSorting;
   }
   if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
@@ -208,27 +187,15 @@ const getQuerySettings = () => {
   } else {
     settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
   }
-  // refactor correctly work with services param
-  if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
-    settings.defaultService = queryParams.get("service");
-  } else {
-    settings.defaultService = DEFAULT_SETTINGS.defaultService;
-  }
-  if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESK_SIZE_OPTIONS))) {
-    settings.minDescriptionSize = queryParams.get("min_descsize");
-  } else {
-    settings.minDescriptionSize = DEFAULT_SETTINGS.minDescriptionSize;
-  }
 
   // hidden values
   if (queryParams.hasValid("vis_type", TYPE_OPTION(VIS_TYPE_OPTIONS))) {
+    // TODO move to preselected once we implement the toggle
     settings.defaultVisType = queryParams.get("vis_type");
-  } else {
-    settings.defaultVisType = DEFAULT_SETTINGS.defaultVisType;
   }
-  // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
-  //   settings.minDescriptionSize = queryParams.get("min_descsize");
-  // }
+  if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
+    settings.minDescriptionSize = queryParams.get("min_descsize");
+  }
   if (queryParams.hasValid("repo", TYPE_SINGLE)) {
     settings.contentProvider = queryParams.get("repo");
   }

@@ -18,6 +18,7 @@ import { getTimespanBounds } from "../options/timespan.js";
 import LangPicker from "./LangPicker.js";
 import DataSource from "./DataSource.js";
 import VisType from "./VisType.js";
+import MetadataQuality from "./MetadataQuality.js";
 
 const e = React.createElement;
 
@@ -42,6 +43,7 @@ class SearchBox extends React.Component {
         lang_id: settings.defaultLang,
         // data source
         service: settings.defaultService,
+        minDescriptionSize: settings.minDescriptionSize
       },
       settings,
       showOptionsLabel: "Show advanced search options",
@@ -172,20 +174,38 @@ class SearchBox extends React.Component {
     });
   }
 
+  updateMinDesksize(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        minDescriptionSize: newValue,
+      },
+    });
+  }
+
   getHiddenEntries() {
     const entries = [
       // probably required by backend, otherwise useless - same val as "service"
-      {name: "optradio", value: "base"},
+      // {name: "optradio", value: "base"},
     ];
 
     // time range
-    const { type: rangeType, from, to } = this.state.formData.timespan;
-    entries.push({ name: "from", value: from });
-    entries.push({ name: "to", value: to });
+    const {type: rangeType, from, to} = this.state.formData.timespan;
+    entries.push({name: "from", value: from});
+    entries.push({name: "to", value: to});
 
-    const {showTimeRange, showSorting, showDocTypes, showLang, showService} = this.state.settings;
+    const {
+      showTimeRange,
+      showSorting,
+      showDocTypes,
+      showLang,
+      showService,
+      showVisType,
+      showMinDesksize
+    } = this.state.settings;
     if (!this.state.showOptions || !showTimeRange) {
-      entries.push({ name: "time_range", value: rangeType });
+      entries.push({name: "time_range", value: rangeType});
     }
     if (!this.state.showOptions || !showSorting) {
       entries.push({name: "sorting", value: this.state.formData.sorting});
@@ -198,20 +218,31 @@ class SearchBox extends React.Component {
     if (!this.state.showOptions || !showLang) {
       entries.push({name: "lang_id", value: this.state.formData.lang_id});
     }
-    if (!this.state.showOptions || !showService) {
+    if (!showService) {
+      entries.push({name: "service", value: this.state.formData.service});
+    } else {
       entries.push({name: "service", value: this.state.formData.service});
     }
-    // TODO add this conditionally once the toggle is implemented
-    entries.push({name: "vis_type", value: this.state.formData.visType});
 
-    const {minDescriptionSize, contentProvider} = this.state.settings;
+    if (showVisType) {
+      entries.push({name: "vis_type", value: this.state.formData.visType});
+    }
+
+    // const {minDescriptionSize, contentProvider} = this.state.settings;
+    const {contentProvider} = this.state.settings;
     const {titleExpansion, abstractExpansion} = this.state.settings;
     const {keywordsExpansion, collection} = this.state.settings;
     const {q_advanced} = this.state.settings;
 
-    if (minDescriptionSize) {
-      entries.push({name: "min_descsize", value: minDescriptionSize});
+
+    // if (minDescriptionSize) {
+    //   entries.push({name: "min_descsize", value: minDescriptionSize});
+    // }
+
+    if (showMinDesksize) {
+      entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
     }
+    
     if (contentProvider) {
       entries.push({name: "repo", value: contentProvider});
     }
@@ -219,7 +250,7 @@ class SearchBox extends React.Component {
       entries.push({name: "coll", value: collection});
     }
     if (titleExpansion) {
-      entries.push({ name: "title", value: titleExpansion });
+      entries.push({name: "title", value: titleExpansion});
     }
     if (abstractExpansion) {
       entries.push({ name: "abstract", value: abstractExpansion });
@@ -252,8 +283,16 @@ class SearchBox extends React.Component {
   }
 
   render() {
-    const {showTimeRange, showSorting, showDocTypes, showLang, showService, showVisType} = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType;
+    const {
+      showTimeRange,
+      showSorting,
+      showDocTypes,
+      showLang,
+      showService,
+      showVisType,
+      showMinDesksize
+    } = this.state.settings;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDesksize;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
@@ -335,6 +374,11 @@ class SearchBox extends React.Component {
                 //         })
                 //     )
                 // )
+                (showMinDesksize && this.state.formData.service === "base") &&
+                e(MetadataQuality, {
+                  value: this.state.formData.minDescriptionSize,
+                  setValue: this.updateMinDesksize.bind(this),
+                }),
             ),
             e(SearchField, {
               value: this.state.formData.query,

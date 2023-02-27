@@ -171,7 +171,7 @@
 
 body.iframed {
     width: 100vw;
-    height: 60vh;
+    height: 50vh;
     /*height: 100vh;*/
     margin: 0;
     font-family: "Open Sans", Helvetica;
@@ -300,8 +300,8 @@ body.iframed {
 }
 
 .multiselect-container > li > a > label {
-  padding: 10px 20px 10px 40px;
-  border-bottom: 1px solid #eee;
+    padding: 10px 20px 10px 40px;
+    border-bottom: 1px solid #eee;
 }
 
 .dropdown-menu > .active > a {
@@ -311,6 +311,9 @@ body.iframed {
 
 .btn {
     height: 40px;
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid #818181;
 }
 
 
@@ -410,3 +413,19 @@ input[type=radio] {
 /*    flex-direction: column;*/
 /*    gap: 10px;*/
 /*}*/
+
+.info-title {
+    margin-left: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+span.info-title:hover {
+    text-decoration: none;
+    color: #333333;
+}
+
+.radio-menu {
+    max-height: 250px;
+    margin-bottom: 10px;
+}

@@ -6,14 +6,11 @@ const {createElement: e} = React;
 
 function RadioInputList({label, options, name, value, setValue}) {
 
-    // const selectedOption = options.find((o) => o.id === value);
-    // const btnLabel = selectedOption ? selectedOption.label : "";
-
     return e(
         "div",
         {
-            // className: "dropdown-menu",
-            style: {maxHeight: 250, marginBottom: 10},
+            className: "radio-menu",
+            style: {},
         },
         e("div", {
             className: 'filter-label',
@@ -31,17 +28,12 @@ function RadioInputList({label, options, name, value, setValue}) {
                         "div",
                         {
                             // role: "radiogroup",
-                            // "aria-label": `${name}`,
+                            "aria-label": `${name}`,
                             className: "filter-value",
                             tabIndex: 0,
                         },
                         e("input", {
                             type: "radio",
-                            // role: "radio",
-                            // ariaChecked: o.id === value,
-                            // 'aria-checked': o.id === value,
-                            // ariaChecked: false,
-                            // tabIndex: options.indexOf(o) === 0 ? 0 : -1,
                             tabIndex: 0,
                             value: o.id,
                             checked: o.id === value,
@@ -55,19 +47,14 @@ function RadioInputList({label, options, name, value, setValue}) {
                         o.label,
                         e('span',
                             {
-                                style: {
-                                    marginLeft: 5,
-                                    cursor: 'pointer',
-                                    textDecoration: 'underline',
-                                }
+                                className: 'info-title',
                             },
                             e("span", {
                                     title: o.infoContent,
-                                    hover: {text: '#333333'}
                                 },
                                 `(${o.infoTitle}`,
                                 e("i", {
-                                    style: {marginLeft: 5, hover: {text: '#333333'}},
+                                    style: {marginLeft: 5},
                                     className: "fa fa-info-circle",
                                 }),
                                 ")"
