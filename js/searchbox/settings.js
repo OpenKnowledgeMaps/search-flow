@@ -172,6 +172,17 @@ const getQuerySettings = () => {
 
     settings.defaultFrom = from;
     settings.defaultTo = to;
+
+  }
+  else if (!queryParams.hasValid("from", TYPE_DATE) && !queryParams.hasValid("to", TYPE_DATE) ){
+    settings.defaultFrom = DEFAULT_FROM;
+    settings.defaultTo = new Date().toISOString().slice(0, 10);
+  }
+  else if (!queryParams.hasValid("from", TYPE_DATE)){
+    settings.defaultFrom = DEFAULT_FROM;
+  }
+  else if (!queryParams.hasValid("to", TYPE_DATE)){
+    settings.defaultTo = new Date().toISOString().slice(0, 10);
   }
   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("document_types[]");
