@@ -272,31 +272,33 @@ paths:
 
             Possible funders include (sorted by alphabetical order of the funder name):
 
-            `AKA` - Academy of Finland  
-            `ASAP` - Aligning Science Across Parkinson’s  
-            `ARC` - Australian Research Council  
-            `FWF` - Austrian Science Fund  
-            `CHISTERA` - CHIST-ERA  
-            `CIHR` - Canadian Institutes of Health Research  
-            `HRZZ` - Croatian Science Foundation  
-            `EC` - European Commission  
-            `EEA` - European Environment Agency  
-            `ANR` - French National Research Agency  
-            `FCT` - Fundação para a Ciência e a Tecnologia, I.P.  
-            `MESTD` - Ministry of Education, Science and Technological Development of Republic of Serbia  
-            `MZOS` - Ministry of Science, Education and Sports of the Republic of Croatia  
-            `NHMRC` - National Health and Medical Research Council  
-            `NIH` - National Institutes of Health  
-            `NSF` - National Science Foundation  
-            `NSERC` - Natural Sciences and Engineering Research Council of Canada  
-            `NWO` - Netherlands Organisation for Scientific Research  
-            `SFI` - Science Foundation Ireland  
-            `SSHRC` - Social Sciences and Humanities Research Council  
-            `SNSF` - Swiss National Science Foundation  
-            `TARA` - Tara Expeditions Foundation  
-            `TUBITAK` - Türkiye Bilimsel ve Teknolojik Araştırma Kurumu  
-            `UKRI` - UK Research and Innovation  
-            `WT` - Wellcome Trust  
+            | funder | funder name |
+            | ------ | ----- |
+            |`AKA`| Academy of Finland |
+            |`ASAP`| Aligning Science Across Parkinson’s |
+            |`ARC`| Australian Research Council |
+            |`FWF`| Austrian Science Fund |
+            |`CHISTERA`| CHIST-ERA |
+            |`CIHR`| Canadian Institutes of Health Research |
+            |`HRZZ`| Croatian Science Foundation |
+            |`EC`| European Commission |
+            |`EEA`| European Environment Agency |
+            |`ANR`| French National Research Agency |
+            |`FCT`| Fundação para a Ciência e a Tecnologia, I.P. |
+            |`MESTD`| Ministry of Education, Science and Technological Development of Republic of Serbia |
+            |`MZOS`| Ministry of Science, Education and Sports of the Republic of Croatia |
+            |`NHMRC`| National Health and Medical Research Council |
+            |`NIH`| National Institutes of Health |
+            |`NSF`| National Science Foundation |
+            |`NSERC`| Natural Sciences and Engineering Research Council of Canada |
+            |`NWO`| Netherlands Organisation for Scientific Research |
+            |`SFI`| Science Foundation Ireland |
+            |`SSHRC`| Social Sciences and Humanities Research Council |
+            |`SNSF`| Swiss National Science Foundation |
+            |`TARA`| Tara Expeditions Foundation |
+            |`TUBITAK`| Türkiye Bilimsel ve Teknolojik Araştırma Kurumu |
+            |`UKRI`| UK Research and Innovation |
+            |`WT`| Wellcome Trust |
           
             Please note that this list may not be complete. More information on funder IDs can be found in the [OpenAIRE API documentation](https://graph.openaire.eu/develop/api.html).
 
