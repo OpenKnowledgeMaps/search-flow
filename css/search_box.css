@@ -171,8 +171,7 @@
 
 body.iframed {
     width: 100vw;
-    height: 50vh;
-    /*height: 100vh;*/
+    height: 100vh;
     margin: 0;
     font-family: "Open Sans", Helvetica;
     font-weight: 400;
@@ -182,19 +181,21 @@ body.iframed {
 }
 
 #search_box_container {
+    position: absolute;
+    top: 50%; /*  relative to nearest positioned ancestor or body element */
+    transform: translate(0, -50%); /* relative to element's height & width */
     box-sizing: border-box;
-    /*width: 660px;*/
-    width: 30%;
+    width: 490px;
     padding: 30px 50px 40px;
     background-color: white;
     border-radius: 5px;
 }
 
 #search_box_container.iframed {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -133px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #search_box_container * {
@@ -222,7 +223,7 @@ body.iframed {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -133px);
+        transform: translate(-50%, -50%);
     }
 }
 
@@ -244,13 +245,6 @@ body.iframed {
     border-radius: 14px;
     font-size: 14px;
     font-weight: 400;
-
-
-    /*  height: 50px;*/
-    /*padding-left: 5px;*/
-    /*width: 85%;*/
-    /*border: 1px solid gray;*/
-    /*border-radius: 2px;*/
 }
 
 .submit-btn {
@@ -301,19 +295,36 @@ body.iframed {
 
 .multiselect-container > li > a > label {
     padding: 10px 20px 10px 40px;
-    border-bottom: 1px solid #eee;
 }
 
 .dropdown-menu > .active > a {
-    background-color: #cacfd3;
-    color: black;
+    background-color: white;
+    /*background-color: transparent;*/
+    /*color: #333333;*/
+    /*font-weight: 800;*/
+
 }
 
+.dropdown-menu:hover {
+    color: #333333;
+}
+
+/*.dropdown-menu > .active > a:hover {*/
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:after {
+    background-color: white;
+    border: white;
+    color: #333333;
+}
+
+
 .btn {
-    height: 40px;
+    height: 50px;
     width: 100%;
     border-radius: 14px;
     border: 1px solid #818181;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
@@ -429,3 +440,61 @@ span.info-title:hover {
     max-height: 250px;
     margin-bottom: 10px;
 }
+
+/* ul style */
+.custom-ul {
+    max-height: 200px;
+    overflow: hidden auto;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px 10px 20px;
+}
+
+/*icons style*/
+
+.custom-icons {
+    color: #818181;
+}
+
+/* checkbox css  style without border and fontawesome black check mark */
+
+input[type=checkbox] {
+    display: none;
+}
+
+/*input[type=checkbox]:checked + label {*/
+/*    !*content: '\f00c';*!*/
+/*    !*font-family: FontAwesome;*!*/
+/*    color: black;*/
+/*    content: '\f00c';*/
+/*    font-family: "Font Awesome 5 Free";*/
+/*}*/
+
+/*.custom-checkbox {*/
+/*    -webkit-appearance: none;*/
+/*    -moz-appearance: none;*/
+/*    appearance: none;*/
+/*    border: none;*/
+/*    outline: none;*/
+/*    background-color: transparent;*/
+/*    cursor: pointer;*/
+/*    position: relative;*/
+/*}*/
+
+/*.custom-checkbox:before {*/
+/*    content: "\f00c";*/
+/*    font-family: FontAwesome;*/
+/*    display: block;*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    text-align: center;*/
+/*    line-height: 1.2;*/
+/*}*/
+
+/*.custom-checkbox:checked:before {*/
+/*    color: #2ecc71; !* change color when checked *!*/
+/*}*/

@@ -12,15 +12,25 @@ import SearchField from "./SearchField.js";
 import SortingPicker from "./SortingPicker.js";
 import TimespanPicker from "./TimespanPicker.js";
 
-import { TRANSFERRED_PARAMS, getSettings } from "../settings.js";
-import { trackMatomoEvent } from "../hooks/useMatomo.js";
-import { getTimespanBounds } from "../options/timespan.js";
+import {TRANSFERRED_PARAMS, getSettings} from "../settings.js";
+import {trackMatomoEvent} from "../hooks/useMatomo.js";
+import {getTimespanBounds} from "../options/timespan.js";
 import LangPicker from "./LangPicker.js";
 import DataSource from "./DataSource.js";
 import VisType from "./VisType.js";
 import MetadataQuality from "./MetadataQuality.js";
+import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 
 const e = React.createElement;
+
+
+const pubMedDefaultId = []
+
+PUBMED_DOCTYPES_OPTIONS.forEach((option) => {
+  if (option.id !== 'retracted publication') {
+    pubMedDefaultId.push(option.id)
+  }
+});
 
 class SearchBox extends React.Component {
   constructor(props) {
@@ -39,7 +49,9 @@ class SearchBox extends React.Component {
           to: settings.defaultTo,
         },
         sorting: settings.defaultSorting,
-        doctypes: settings.defaultDocTypes,
+        doctypes: settings.defaultDocTypes, // this value only for service='base'
+        // doctypes: settings.service === 'base' ? settings.defaultDocTypes : pubMedDefaultId,
+        doctypesPubmedConstraint: 'retracted publication', // this value only for service='pubmed'
         lang_id: settings.defaultLang,
         // data source
         service: settings.defaultService,
@@ -165,11 +177,18 @@ class SearchBox extends React.Component {
   }
 
   updateService(newValue) {
+    let docTypesType = []
+    if (newValue === 'base') {
+      docTypesType = this.state.settings.defaultDocTypes
+    } else if (newValue === 'pubmed') {
+      docTypesType = pubMedDefaultId
+    }
     this.setState({
       ...this.state,
       formData: {
         ...this.state.formData,
         service: newValue,
+        doctypes: docTypesType,
       },
     });
   }
@@ -183,6 +202,7 @@ class SearchBox extends React.Component {
       },
     });
   }
+
 
   getHiddenEntries() {
     const entries = [
@@ -242,7 +262,7 @@ class SearchBox extends React.Component {
     if (showMinDesksize) {
       entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
     }
-    
+
     if (contentProvider) {
       entries.push({name: "repo", value: contentProvider});
     }
@@ -281,6 +301,7 @@ class SearchBox extends React.Component {
 
     return `search?${queryString}`;
   }
+
 
   render() {
     const {
@@ -348,6 +369,7 @@ class SearchBox extends React.Component {
                     e(DoctypesPicker, {
                       values: this.state.formData.doctypes,
                       setValues: this.updateDoctypes.bind(this),
+                      service: this.state.formData.service,
                     }),
                     showLang &&
                     e(LangPicker, {

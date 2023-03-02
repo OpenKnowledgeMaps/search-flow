@@ -22,7 +22,7 @@ export const DEFAULT_SETTINGS = {
   showLang: true,
   // default (preselected) values
   defaultQuery: "",
-  defaultDocTypes: ["121"],
+  defaultDocTypes: ["121"], // deafult value for service='base'
   defaultSorting: "most-relevant",
   defaultTimespan: TIMESPAN_OPTIONS[0].id,
   defaultFrom: DEFAULT_FROM,
