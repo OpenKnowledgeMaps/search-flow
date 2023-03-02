@@ -391,6 +391,6 @@ if($has_sufficient_data) {
             $("#progressbar").progressbar();
             $("#progressbar").progressbar("value", 2);
 
-            var progessbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
+            var progressbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
            
         </script>
