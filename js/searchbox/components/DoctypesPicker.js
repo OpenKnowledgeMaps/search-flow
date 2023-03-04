@@ -32,6 +32,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
         docTypes = filtered
     }
 
+
     function highlightWord(text, word) {
         if (search.length > 0 && text.toString().toLowerCase().includes(word.toString().toLowerCase())) {
             // Find the index of the first occurrence of the word
@@ -102,7 +103,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     }),
                 ),
             ),
-
             e(
                 "ul",
                 {
@@ -128,7 +128,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         style: {position: 'absolute', left: 10, top: 12}
                     }),
                 ),
-
                 e(
                     "li",
                     {
@@ -136,7 +135,20 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     },
                     e(
                         "a",
-                        {tabIndex: 0, className: "multiselect-all"},
+                        {
+                            tabIndex: 0,
+                            className: "multiselect-all",
+                            onKeyDown: (e) => {
+                                console.log(e.key)
+                                if (e.key === 'Enter') {
+                                    if (!values.length) {
+                                        setValues([]);
+                                    } else {
+                                        setValues(docTypes.map((o) => o.id));
+                                    }
+                                }
+                            },
+                        },
                         !search.length &&
                         e(
                             "label",
@@ -176,7 +188,21 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         },
                         e(
                             "a",
-                            {tabIndex: 0},
+                            {
+                                role: "menuitem",
+                                tabIndex: 0,
+                                onKeyDown: (e) => {
+                                    console.log(e.key)
+                                    if (e.key === 'Enter') {
+                                        if (values.includes(o.id)) {
+                                            setValues(values.filter((v) => v !== o.id));
+                                        } else {
+                                            setValues([...values, o.id]);
+                                        }
+                                        console.log('key down')
+                                    }
+                                },
+                            },
                             e(
                                 "label",
                                 {
@@ -184,14 +210,18 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                     style: {color: "#818181", fontWeight: values.includes(o.id) ? 800 : 400}
                                 },
                                 e("input", {
+                                    tabIndex: 0,
                                     type: "checkbox",
                                     value: o.id,
                                     checked: values.includes(o.id),
+                                    // onClick: (e) => {
                                     onChange: (e) => {
-                                        if (!e.target.checked) {
-                                            setValues(values.filter((v) => v !== o.id));
-                                        } else {
-                                            setValues([...values, o.id]);
+                                        if (e.key !== 'Enter') {
+                                            if (!e.target.checked) {
+                                                setValues(values.filter((v) => v !== o.id));
+                                            } else {
+                                                setValues([...values, o.id]);
+                                            }
                                         }
                                     },
                                 }),

@@ -8,9 +8,9 @@ const OptionsToggle = ({label, icon, onClick}) => {
   return e(
       "div",
       {
-        className: "refine-search",
-        tabIndex: 0,
-        onClick: onClick
+          className: "refine-search",
+          tabIndex: 0,
+          onClick: onClick
       },
       label,
       " ",

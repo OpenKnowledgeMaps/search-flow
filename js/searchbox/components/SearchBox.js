@@ -371,16 +371,20 @@ class SearchBox extends React.Component {
                       setValues: this.updateDoctypes.bind(this),
                       service: this.state.formData.service,
                     }),
-                    showLang &&
+                    // showLang &&
                     // e(LangPicker, {
                     //   value: this.state.formData.lang_id,
                     //   setValue: this.updateLang.bind(this),
                     // }),
+                    showLang &&
                     e(LanguagePicker, {
                       values: this.state.formData.lang_id,
                       setValues: this.updateLang.bind(this),
-                      // values: this.state.formData.doctypes,
-                      // setValues: this.updateDoctypes.bind(this),
+                    }),
+                    (showMinDesksize && this.state.formData.service === "base") &&
+                    e(MetadataQuality, {
+                      value: this.state.formData.minDescriptionSize,
+                      setValue: this.updateMinDesksize.bind(this),
                     }),
                 ),
                 // e(
@@ -402,11 +406,6 @@ class SearchBox extends React.Component {
                 //         })
                 //     )
                 // )
-                (showMinDesksize && this.state.formData.service === "base") &&
-                e(MetadataQuality, {
-                  value: this.state.formData.minDescriptionSize,
-                  setValue: this.updateMinDesksize.bind(this),
-                }),
             ),
             e(SearchField, {
               value: this.state.formData.query,

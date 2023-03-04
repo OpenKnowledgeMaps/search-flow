@@ -175,7 +175,8 @@ body.iframed {
     margin: 0;
     font-family: "Open Sans", Helvetica;
     font-weight: 400;
-    overflow: hidden;
+    /*overflow: hidden;*/
+    overflow: auto;
     background-color: transparent !important;
     position: relative;
 }
@@ -232,8 +233,8 @@ body.iframed {
     text-decoration: underline;
     color: #333333;
     cursor: pointer;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
     font-weight: 800;
 }
 
@@ -265,16 +266,18 @@ body.iframed {
 }
 
 .options {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    /*margin-bottom: 10px;*/
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    /*gap: 10px;*/
+    gap: 15px;
 }
 
 .basic_options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     /*gap: 5px;*/
 
 }
@@ -438,17 +441,25 @@ span.info-title:hover {
 
 .radio-menu {
     max-height: 250px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
 }
 
 /* ul style */
 .custom-ul {
     max-height: 200px;
-    overflow: hidden auto;
+    /*overflow: hidden auto;*/
+    overflow: hidden;
     width: 100%;
     border-radius: 10px;
     box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.1);
     padding: 10px 20px 10px 20px;
+}
+
+
+/*.ul-scroll {*/
+.multiselect-container, .dropdown-menu, .custom-ul > li {
+    overflow: auto;
+    max-height: 200px;
 }
 
 /*icons style*/

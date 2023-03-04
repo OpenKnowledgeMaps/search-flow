@@ -12,8 +12,6 @@ const LanguagePicker = ({values, setValues}) => {
     // variable to store the current document types
     let docTypes = LANG_OPTIONS
 
-    console.log(docTypes)
-
     const [open, setOpen] = useState(false);
 
     const [search, setSearch] = useState('');
@@ -32,6 +30,15 @@ const LanguagePicker = ({values, setValues}) => {
             .includes(search.toString().toLowerCase()));
         docTypes = filtered
     }
+
+    // clear all selected values
+    function clearSelectedValues() {
+        values.length = 0;
+        setValues(...values, ["all-lang"]);
+        // setValues(["all-lang"]);
+        // values = ["all-lang"];
+    }
+
 
     function highlightWord(text, word) {
         if (search.length > 0 && text.toString().toLowerCase().includes(word.toString().toLowerCase())) {
@@ -92,14 +99,14 @@ const LanguagePicker = ({values, setValues}) => {
                         style: {marginRight: 25},
                         className: "fa fa-times-circle custom-icons",
                         onClick: () => {
-                            clearSelectedValues(values)
+                            clearSelectedValues()
                         }
                     }),
                     e("i", {
                         style: {marginLeft: 5, fontSize: 22},
                         className: "fa fa-angle-down custom-icons",
                         onClick: () => {
-                            clearSelectedValues(values)
+                            clearSelectedValues()
                         }
                     }),
                 ),
@@ -115,7 +122,6 @@ const LanguagePicker = ({values, setValues}) => {
                         "input",
                         {
                             form: 'none',
-                            // name: "notSent",
                             className: "text-field",
                             type: "text",
                             placeholder: "Enter document type",
@@ -139,7 +145,21 @@ const LanguagePicker = ({values, setValues}) => {
                         },
                         e(
                             "a",
-                            {tabIndex: 0},
+                            {
+                                tabIndex: 0,
+                                onKeyDown: (e) => {
+                                    if (e.key === 'Enter') {
+                                        if (values.includes(o.id)) {
+                                            setValues(values.filter((v) => v !== o.id));
+                                        } else {
+                                            if (values.includes("all-lang")) {
+                                                values = []
+                                            }
+                                            setValues([...values, o.id]);
+                                        }
+                                    }
+                                },
+                            },
                             e(
                                 "label",
                                 {
@@ -151,13 +171,15 @@ const LanguagePicker = ({values, setValues}) => {
                                     value: o.id,
                                     checked: values.includes(o.id),
                                     onChange: (e) => {
-                                        if (!e.target.checked) {
-                                            setValues(values.filter((v) => v !== o.id));
-                                        } else {
-                                            if (values.includes("all-lang")) {
-                                                values = []
+                                        if (e.key !== 'Enter') {
+                                            if (!e.target.checked) {
+                                                setValues(values.filter((v) => v !== o.id));
+                                            } else {
+                                                if (values.includes("all-lang")) {
+                                                    values = []
+                                                }
+                                                setValues([...values, o.id]);
                                             }
-                                            setValues([...values, o.id]);
                                         }
                                     },
                                 }),
@@ -187,6 +209,8 @@ export default LanguagePicker;
 
 const getLabel = (selectedValues) => {
 
+    console.log(selectedValues)
+
     // if (selectedValues.length === 0) {
     if (!selectedValues.length || selectedValues.length === LANG_OPTIONS.length) {
         // return "No language(s) selected";
@@ -212,10 +236,4 @@ function cutString(str, length) {
         return str.substring(0, length) + '...';
     }
     return str;
-}
-
-// clear all selected values
-function clearSelectedValues(values) {
-    values.length = 0;
-    setValues(...values, "all-lang");
 }
