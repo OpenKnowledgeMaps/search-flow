@@ -27,7 +27,8 @@ export const DEFAULT_SETTINGS = {
   defaultTimespan: TIMESPAN_OPTIONS[0].id,
   defaultFrom: DEFAULT_FROM,
   defaultTo: DEFAULT_TO,
-  defaultLang: "all-lang",
+  defaultLang: ["all-lang"],
+  // defaultLang: "all-lang",
 
   defaultVisType: VIS_TYPE_OPTIONS[0].id,
   // minDescriptionSize: undefined,
@@ -107,9 +108,12 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.defaultSorting = outerSettings.sorting;
   }
 
-  if (typeof outerSettings.lang_id === "string") {
+  if (Array.isArray(outerSettings.lang_id)) {
     settings.defaultLang = outerSettings.lang_id;
   }
+  // else if (typeof outerSettings.lang_id === "string") {
+  //   settings.defaultLang = outerSettings.lang_id;
+  // }
   if (typeof outerSettings.service === "string") {
     settings.defaultService = outerSettings.service;
   }
@@ -203,6 +207,9 @@ const getQuerySettings = () => {
   } else {
     settings.defaultSorting = DEFAULT_SETTINGS.defaultSorting;
   }
+  if (queryParams.hasValid("lang_id[]", TYPE_LANGTYPES)) {
+    settings.defaultDocTypes = queryParams.getAll("lang_id[]");
+  }
   if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
     settings.defaultLang = queryParams.get("lang_id");
   } else {
@@ -229,6 +236,7 @@ const getQuerySettings = () => {
   // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
   //   settings.minDescriptionSize = queryParams.get("min_descsize");
   // }
+
   if (queryParams.hasValid("repo", TYPE_SINGLE)) {
     settings.contentProvider = queryParams.get("repo");
   }
@@ -253,14 +261,21 @@ const getQuerySettings = () => {
 
 const TYPE_BOOL = {
   validator: (values) =>
-    values.length === 1 && ["true", "false"].includes(values[0]),
+      values.length === 1 && ["true", "false"].includes(values[0]),
   description: "Only the values 'true' and 'false' are allowed.",
 };
 const TYPE_DOCTYPES = {
   validator: (values) =>
-    !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
+      !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
   description: "Only the BASE document ids (codes) are allowed.",
 };
+
+const TYPE_LANGTYPES = {
+  validator: (values) =>
+      !values.some((value) => !LANG_OPTIONS.some((opt) => opt.id === value)),
+  description: "Only the BASE languages ids (codes) are allowed.",
+};
+
 const TYPE_INT = (from, to) => ({
   validator: (values) => {
     if (!values.length === 1) {

@@ -20,6 +20,7 @@ import DataSource from "./DataSource.js";
 import VisType from "./VisType.js";
 import MetadataQuality from "./MetadataQuality.js";
 import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
+import LanguagePicker from "./LanguagePicker.js";
 
 const e = React.createElement;
 
@@ -364,7 +365,6 @@ class SearchBox extends React.Component {
                       value: this.state.formData.sorting,
                       setValue: this.updateSorting.bind(this),
                     }),
-
                     showDocTypes &&
                     e(DoctypesPicker, {
                       values: this.state.formData.doctypes,
@@ -372,9 +372,15 @@ class SearchBox extends React.Component {
                       service: this.state.formData.service,
                     }),
                     showLang &&
-                    e(LangPicker, {
-                      value: this.state.formData.lang_id,
-                      setValue: this.updateLang.bind(this),
+                    // e(LangPicker, {
+                    //   value: this.state.formData.lang_id,
+                    //   setValue: this.updateLang.bind(this),
+                    // }),
+                    e(LanguagePicker, {
+                      values: this.state.formData.lang_id,
+                      setValues: this.updateLang.bind(this),
+                      // values: this.state.formData.doctypes,
+                      // setValues: this.updateDoctypes.bind(this),
                     }),
                 ),
                 // e(

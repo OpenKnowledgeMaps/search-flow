@@ -1,17 +1,18 @@
 "use strict";
 
 import Hiddens from "./Hiddens.js";
-import DOCTYPES_OPTIONS from "../options/doctypes.js";
-import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
+import LANG_OPTIONS from "../options/lang.js";
 import useOutsideClick from "../hooks/useOutsideClick.js";
 
 const {useState, useRef, createElement: e} = React;
 
 
-const DoctypesPicker = ({values, setValues, service}) => {
+const LanguagePicker = ({values, setValues}) => {
 
     // variable to store the current document types
-    let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
+    let docTypes = LANG_OPTIONS
+
+    console.log(docTypes)
 
     const [open, setOpen] = useState(false);
 
@@ -24,7 +25,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
     const containerRef = useRef(null);
     useOutsideClick(containerRef, handleOutsideClick);
 
-    const btnLabel = getLabel(values, service);
+    const btnLabel = getLabel(values);
 
     if (search.length > 0) {
         const filtered = docTypes.filter((o) => o.label.toString().toLowerCase()
@@ -51,7 +52,8 @@ const DoctypesPicker = ({values, setValues, service}) => {
             // Split the string into 3 parts iw word in the middle
 
             return e(
-                "span", {}, text.slice(0, index), e("span", {style: {fontWeight: 800}}, text.slice(index, index + word.length)), text.slice(index + word.length)
+                "span", {}, text.slice(0, index), e("span", {style: {fontWeight: 800}}, text.slice(index, index + word.length)),
+                text.slice(index + word.length)
             )
         }
         return text;
@@ -60,7 +62,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
     return e('div', {style: {display: 'flex', flexDirection: "column"}},
         e("label", {
             className: 'filter-label',
-        }, `select doctype(s)`),
+        }, `select languages(s)`),
         e(
             "div",
             {
@@ -79,13 +81,13 @@ const DoctypesPicker = ({values, setValues, service}) => {
                 e("div", {
                     className: "multiselect-selected-text",
                     style: {
-                        color: !values.length ? 'red' : "#818181",
+                        color: "#818181",
                     },
                 }, btnLabel),
 
                 e("div", {style: {display: 'flex', flexDirection: 'row', alignItems: 'center'}},
 
-                    values.length > 0 &&
+                    (values.length > 0 && !values.includes("all-lang")) &&
                     e("i", {
                         style: {marginRight: 25},
                         className: "fa fa-times-circle custom-icons",
@@ -113,7 +115,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         "input",
                         {
                             form: 'none',
-                            name: "notSent",
+                            // name: "notSent",
                             className: "text-field",
                             type: "text",
                             placeholder: "Enter document type",
@@ -128,47 +130,8 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         style: {position: 'absolute', left: 10, top: 12}
                     }),
                 ),
-
-                e(
-                    "li",
-                    {
-                        className: values.length === docTypes.length ? "active" : "",
-                    },
-                    e(
-                        "a",
-                        {tabIndex: 0, className: "multiselect-all"},
-                        !search.length &&
-                        e(
-                            "label",
-                            {
-                                className: "checkbox",
-                                style: {
-                                    color: '#818181',
-                                    fontWeight: values.length === docTypes.length ? 800 : 400
-                                }
-                            },
-                            e("input", {
-                                name: "multiselect_all",
-                                type: "checkbox",
-                                checked: values.length === docTypes.length,
-                                onChange: (e) => {
-                                    if (!e.target.checked) {
-                                        setValues([]);
-                                    } else {
-                                        setValues(docTypes.map((o) => o.id));
-                                    }
-                                },
-                            }),
-                            values.length === docTypes.length &&
-                            e("i", {
-                                className: "fa fa-check custom-icons",
-                                style: {position: "absolute", left: 20, top: 13, marginRight: 10}
-                            }),
-                            "Select all"
-                        )
-                    )
-                ),
                 ...docTypes.map((o) =>
+                    o.id !== "all-lang" &&
                     e(
                         "li",
                         {
@@ -191,6 +154,9 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                         if (!e.target.checked) {
                                             setValues(values.filter((v) => v !== o.id));
                                         } else {
+                                            if (values.includes("all-lang")) {
+                                                values = []
+                                            }
                                             setValues([...values, o.id]);
                                         }
                                     },
@@ -210,41 +176,33 @@ const DoctypesPicker = ({values, setValues, service}) => {
         ),
         e(Hiddens, {
             entries: values.map((value) => ({
-                name: "document_types[]",
+                name: "lang_id[]",
                 value,
             })),
         })
     );
 };
 
-export default DoctypesPicker;
+export default LanguagePicker;
 
-const getLabel = (selectedValues, service) => {
+const getLabel = (selectedValues) => {
 
-    let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
-
-    if (selectedValues.length === 0) {
-        return "No type(s) selected";
+    // if (selectedValues.length === 0) {
+    if (!selectedValues.length || selectedValues.length === LANG_OPTIONS.length) {
+        // return "No language(s) selected";
+        return `All languages`;
     }
 
-    if (service === 'pubmed' && selectedValues.length === 91 && !selectedValues.includes('retracted publication')) {
-        return " 91 types of 92 are preselected";
-    }
-
-    if (docTypes.length > selectedValues.length > 0) {
+    if (LANG_OPTIONS.length > selectedValues.length > 0) {
         let text = '';
 
         selectedValues.forEach((value) => {
-            text += docTypes.find((o) => o.id === value).label + (selectedValues.length > 1 ? ', ' : '');
+            text += LANG_OPTIONS.find((o) => o.id === value).label + (selectedValues.length > 1 ? ', ' : '');
         });
         return `${cutString(text, 40)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
     }
 
-    if (selectedValues.length === docTypes.length) {
-        return `All document types selected (${docTypes.length})`;
-    }
-
-    return `${selectedValues.length} document types`;
+    return `${selectedValues.length} languages`;
 };
 
 
@@ -259,4 +217,5 @@ function cutString(str, length) {
 // clear all selected values
 function clearSelectedValues(values) {
     values.length = 0;
+    setValues(...values, "all-lang");
 }
