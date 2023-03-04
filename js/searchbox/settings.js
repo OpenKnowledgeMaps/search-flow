@@ -6,11 +6,16 @@ import TIMESPAN_OPTIONS, {
   getTimespanBounds,
 } from "./options/timespan.js";
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
+import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
 import LANG_OPTIONS from "./options/lang.js";
 import SERVICES_OPTIONS from "./options/services.js";
 import DESK_SIZE_OPTIONS from "./options/desk_size.js";
+
+
+// const pubmed_doctypes = PUBMED_DOCTYPES_OPTIONS.filter((option) => option.id !== 'retracted publication');
+
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -22,7 +27,9 @@ export const DEFAULT_SETTINGS = {
   showLang: true,
   // default (preselected) values
   defaultQuery: "",
+  // TODO: test combination "pubmed" and "base" as default
   defaultDocTypes: ["121"], // deafult value for service='base'
+  // defaultDocTypes: pubmed_doctypes, // deafult value for service='base'
   defaultSorting: "most-relevant",
   defaultTimespan: TIMESPAN_OPTIONS[0].id,
   defaultFrom: DEFAULT_FROM,

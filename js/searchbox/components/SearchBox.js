@@ -350,11 +350,6 @@ class SearchBox extends React.Component {
                 e(
                     BasicOptions,
                     null,
-                    // showTimeRange &&
-                    // e(TimespanPicker, {
-                    //   value: this.state.formData.timespan.type,
-                    //   setValue: this.updateTimespanType.bind(this),
-                    // }),
                     (showVisType && this.state.formData.service === "base") &&
                     e(VisType, {
                       value: this.state.formData.visType,
@@ -380,6 +375,11 @@ class SearchBox extends React.Component {
                     e(LanguagePicker, {
                       values: this.state.formData.lang_id,
                       setValues: this.updateLang.bind(this),
+                    }),
+                    showTimeRange &&
+                    e(TimespanPicker, {
+                      value: this.state.formData.timespan.type,
+                      setValue: this.updateTimespanType.bind(this),
                     }),
                     (showMinDesksize && this.state.formData.service === "base") &&
                     e(MetadataQuality, {

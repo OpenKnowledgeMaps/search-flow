@@ -35,10 +35,7 @@ const LanguagePicker = ({values, setValues}) => {
     function clearSelectedValues() {
         values.length = 0;
         setValues(...values, ["all-lang"]);
-        // setValues(["all-lang"]);
-        // values = ["all-lang"];
     }
-
 
     function highlightWord(text, word) {
         if (search.length > 0 && text.toString().toLowerCase().includes(word.toString().toLowerCase())) {
