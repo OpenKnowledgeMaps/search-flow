@@ -97,9 +97,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     e("i", {
                         style: {marginLeft: 5, fontSize: 22},
                         className: "fa fa-angle-down custom-icons",
-                        onClick: () => {
-                            clearSelectedValues(values)
-                        }
                     }),
                 ),
             ),
@@ -265,9 +262,9 @@ const getLabel = (selectedValues, service) => {
         let text = '';
 
         selectedValues.forEach((value) => {
-            text += docTypes.find((o) => o.id === value).label + (selectedValues.length > 1 ? ', ' : '');
+            text += docTypes.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });
-        return `${cutString(text, 40)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
+        return `${cutString(text, 30)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
     }
 
     if (selectedValues.length === docTypes.length) {

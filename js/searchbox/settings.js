@@ -1,12 +1,7 @@
 "use strict";
 
-import TIMESPAN_OPTIONS, {
-  DEFAULT_FROM,
-  DEFAULT_TO,
-  getTimespanBounds,
-} from "./options/timespan.js";
+import {DEFAULT_FROM, DEFAULT_TO,} from "./options/timespan.js";
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
-import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
 import LANG_OPTIONS from "./options/lang.js";
@@ -27,11 +22,8 @@ export const DEFAULT_SETTINGS = {
   showLang: true,
   // default (preselected) values
   defaultQuery: "",
-  // TODO: test combination "pubmed" and "base" as default
   defaultDocTypes: ["121"], // deafult value for service='base'
-  // defaultDocTypes: pubmed_doctypes, // deafult value for service='base'
   defaultSorting: "most-relevant",
-  defaultTimespan: TIMESPAN_OPTIONS[0].id,
   defaultFrom: DEFAULT_FROM,
   defaultTo: DEFAULT_TO,
   defaultLang: ["all-lang"],
@@ -99,9 +91,9 @@ const getConfigSettings = (outerSettings = {}) => {
     // the value is also in outerSettings.query, but it's somewhat escaped
     settings.defaultQuery = outerSettings.q.replace(/\\/g, "");
   }
-  if (typeof outerSettings.time_range === "string") {
-    settings.defaultTimespan = outerSettings.time_range;
-  }
+  // if (typeof outerSettings.time_range === "string") {
+  //   settings.defaultTimespan = outerSettings.time_range;
+  // }
   if (typeof outerSettings.from === "string") {
     settings.defaultFrom = outerSettings.from;
   }
@@ -187,25 +179,42 @@ const getQuerySettings = () => {
   }
 
   // default (preselected) values
-  if (queryParams.hasValid("time_range", TYPE_OPTION(TIMESPAN_OPTIONS))) {
-    settings.defaultTimespan = queryParams.get("time_range");
+  // if (queryParams.hasValid("time_range", TYPE_OPTION(TIMESPAN_OPTIONS))) {
+  //   settings.defaultTimespan = queryParams.get("time_range");
+  //
+  //   const customFrom = queryParams.hasValid("from", TYPE_DATE)
+  //       ? queryParams.get("from")
+  //       : undefined;
+  //   const customTo = queryParams.hasValid("to", TYPE_DATE)
+  //       ? queryParams.get("to")
+  //       : undefined;
+  //
+  //   const { from, to } = getTimespanBounds(
+  //     settings.defaultTimespan,
+  //     customFrom,
+  //     customTo
+  //   );
+  //
+  //   settings.defaultFrom = from;
+  //   settings.defaultTo = to;
+  // }
 
-    const customFrom = queryParams.hasValid("from", TYPE_DATE)
+  // get time parameters from/to
+  if (queryParams.hasValid("from", TYPE_DATE)) {
+    settings.defaultFrom = queryParams.hasValid("from", TYPE_DATE)
         ? queryParams.get("from")
         : undefined;
-    const customTo = queryParams.hasValid("to", TYPE_DATE)
+  } else {
+    settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
+  }
+  if (queryParams.hasValid("to", TYPE_DATE)) {
+    settings.defaultTo = queryParams.hasValid("to", TYPE_DATE)
         ? queryParams.get("to")
         : undefined;
-
-    const { from, to } = getTimespanBounds(
-      settings.defaultTimespan,
-      customFrom,
-      customTo
-    );
-
-    settings.defaultFrom = from;
-    settings.defaultTo = to;
+  } else {
+    settings.defaultTo = DEFAULT_SETTINGS.defaultTo;
   }
+
   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("document_types[]");
   }
@@ -217,11 +226,11 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("lang_id[]", TYPE_LANGTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("lang_id[]");
   }
-  if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
-    settings.defaultLang = queryParams.get("lang_id");
-  } else {
-    settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
-  }
+  // if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
+  //   settings.defaultLang = queryParams.get("lang_id");
+  // } else {
+  //   settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
+  // }
   // refactor correctly work with services param
   if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
     settings.defaultService = queryParams.get("service");

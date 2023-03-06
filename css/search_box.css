@@ -274,20 +274,22 @@ body.iframed {
     display: flex;
     flex-direction: column;
     /*gap: 10px;*/
-    gap: 15px;
+    /*gap: 15px;*/
+    gap: 20px;
 }
 
 .basic_options {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
+    /*gap: 15px;*/
     /*gap: 5px;*/
 
 }
 
 .options_timespan {
-  display: flex;
-  gap: 12px;
+    display: flex;
+    gap: 15px;
 }
 
 .options_timespan input {
@@ -491,7 +493,8 @@ input[type=checkbox] {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    /*gap: 10px;*/
+    gap: 15px;
 }
 
 .time-range-container > div {
@@ -499,16 +502,41 @@ input[type=checkbox] {
     flex-direction: row;
     /* between */
     justify-content: space-between;
-    gap: 10px;
+    /*gap: 10px;*/
+    gap: 15px;
 }
 
 
 .date-field {
     height: 50px;
     padding-left: 5px;
-    width: 85%;
+    width: 100%;
     border: 1px solid #818181;
     border-radius: 14px;
     font-size: 14px;
     font-weight: 400;
 }
+
+/* change icon in input type date */
+
+input[type="date"] {
+    position: relative;
+    padding: 10px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: transparent;
+    background: none;
+    z-index: 1;
+}
+
+/*input[type="date"]:before {*/
+/*    color: transparent;*/
+/*    background: none;*/
+/*    display: block;*/
+/*    font-family: 'FontAwesome';*/
+/*    content: '\f073';*/
+/*    !* This is the calendar icon in FontAwesome *!*/
+/*}*/
+
+

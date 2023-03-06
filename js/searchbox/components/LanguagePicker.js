@@ -102,9 +102,6 @@ const LanguagePicker = ({values, setValues}) => {
                     e("i", {
                         style: {marginLeft: 5, fontSize: 22},
                         className: "fa fa-angle-down custom-icons",
-                        onClick: () => {
-                            clearSelectedValues()
-                        }
                     }),
                 ),
             ),
@@ -206,8 +203,6 @@ export default LanguagePicker;
 
 const getLabel = (selectedValues) => {
 
-    console.log(selectedValues)
-
     // if (selectedValues.length === 0) {
     if (!selectedValues.length || selectedValues.length === LANG_OPTIONS.length) {
         // return "No language(s) selected";
@@ -218,9 +213,9 @@ const getLabel = (selectedValues) => {
         let text = '';
 
         selectedValues.forEach((value) => {
-            text += LANG_OPTIONS.find((o) => o.id === value).label + (selectedValues.length > 1 ? ', ' : '');
+            text += LANG_OPTIONS.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });
-        return `${cutString(text, 40)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
+        return `${cutString(text, 30)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
     }
 
     return `${selectedValues.length} languages`;
@@ -230,7 +225,7 @@ const getLabel = (selectedValues) => {
 // cut string to length and add '...' at the end
 function cutString(str, length) {
     if (str.length > length) {
-        return str.substring(0, length) + '...';
+        return str.substring(0, length) + '... ';
     }
     return str;
 }
