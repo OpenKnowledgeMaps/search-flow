@@ -1,6 +1,6 @@
 "use strict";
 
-import {DEFAULT_FROM, DEFAULT_TO,} from "./options/timespan.js";
+import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "./options/timespan.js";
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
@@ -207,7 +207,9 @@ const getQuerySettings = () => {
         ? queryParams.get("from")
         : undefined;
   } else {
-    settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
+    settings.defaultService === 'pubmed'
+        ? settings.defaultFrom = PUBMED_DEFAULT_FROM
+        : settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
   }
   if (queryParams.hasValid("to", TYPE_DATE)) {
     settings.defaultTo = queryParams.hasValid("to", TYPE_DATE)
@@ -238,6 +240,7 @@ const getQuerySettings = () => {
     settings.defaultService = queryParams.get("service");
     if (settings.defaultService === 'base') {
       settings.defaultDocTypes = ['121'];
+      settings.defaultFrom = DEFAULT_FROM
     } else if (settings.defaultService === 'pubmed') {
       const pubMedDefaultId = []
       PUBMED_DOCTYPES_OPTIONS.forEach((option) => {
@@ -246,6 +249,7 @@ const getQuerySettings = () => {
         }
       });
       settings.defaultDocTypes = pubMedDefaultId
+      settings.defaultFrom = PUBMED_DEFAULT_FROM
     }
 
   } else {

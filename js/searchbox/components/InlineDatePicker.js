@@ -1,15 +1,17 @@
 "use strict";
 
 
-import {DEFAULT_FROM, DEFAULT_TO} from "../options/timespan.js";
+import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "../options/timespan.js";
 
 const e = React.createElement;
 
-const InlineDatePicker = ({name, label, value, setValue, defaultValue}) => {
+const InlineDatePicker = ({service, name, label, value, setValue}) => {
 
     function clearValue(name) {
         if (name === "from") {
-            setValue(DEFAULT_FROM)
+            service === "pubmed"
+                ? setValue(PUBMED_DEFAULT_FROM)
+                : setValue(DEFAULT_FROM)
         }
         if (name === "to") {
             setValue(DEFAULT_TO)

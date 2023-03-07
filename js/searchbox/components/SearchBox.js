@@ -18,7 +18,7 @@ import VisType from "./VisType.js";
 import MetadataQuality from "./MetadataQuality.js";
 import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import LanguagePicker from "./LanguagePicker.js";
-import {DEFAULT_FROM, DEFAULT_TO} from "../options/timespan.js";
+import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "../options/timespan.js";
 // import {getTimespanBounds} from "../../../js_old/searchbox/options/timespan";
 import {getServiceBounds} from "../options/service_bounds.js";
 
@@ -157,20 +157,26 @@ class SearchBox extends React.Component {
 
   updateService(newValue) {
     let docTypesType = []
+    let from = ''
     if (newValue === 'base') {
       docTypesType = this.state.settings.defaultDocTypes
+      from = DEFAULT_FROM
     } else if (newValue === 'pubmed') {
       docTypesType = pubMedDefaultId
+      from = PUBMED_DEFAULT_FROM
     }
 
     // const {docTypesType} = getServiceBounds(newValue);
-    
+
     this.setState({
       ...this.state,
       formData: {
         ...this.state.formData,
         service: newValue,
         doctypes: docTypesType,
+        timespan: {
+          from: from,
+        }
       },
     });
   }
@@ -281,7 +287,7 @@ class SearchBox extends React.Component {
       }
     });
 
-    queryParams.append("service", "base");
+    queryParams.append("service", this.state.formData.service);
     queryParams.append("embed", "true");
 
     const queryString = queryParams.toString();
@@ -308,13 +314,13 @@ class SearchBox extends React.Component {
     // const showExtraTimePickers =
     //     showTimeRange && this.state.formData.timespan.type === "custom-range";
 
-    function deleteFromDate() {
-      document.getElementById("from-date").value = DEFAULT_FROM;
-    }
-
-    function deleteToDate() {
-      document.getElementById("to-date").value = DEFAULT_TO;
-    }
+    // function deleteFromDate() {
+    //   document.getElementById("from-date").value = DEFAULT_FROM;
+    // }
+    //
+    // function deleteToDate() {
+    //   document.getElementById("to-date").value = DEFAULT_TO;
+    // }
 
     // if (this.state.formData.service === 'pubmed') {
     //   this.state.formData.doctypes = pubMedDefaultId
@@ -382,17 +388,19 @@ class SearchBox extends React.Component {
                               className: "time-range-container",
                             },
                             e(InlineDatePicker, {
+                              service: this.state.formData.service,
                               name: "from",
                               label: "From",
                               value: this.state.formData.timespan.from,
-                              defaultValue: this.state.settings.defaultFrom,
+                              // defaultValue: this.state.settings.defaultFrom,
                               setValue: this.updateTimespanFrom.bind(this),
                             }),
                             e(InlineDatePicker, {
+                              service: this.state.formData.service,
                               name: "to",
                               label: "To",
                               value: this.state.formData.timespan.to,
-                              defaultValue: this.state.settings.defaultTo,
+                              // defaultValue: this.state.settings.defaultTo,
                               setValue: this.updateTimespanTo.bind(this)
                             })
                         ),
