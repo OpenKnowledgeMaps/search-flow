@@ -237,9 +237,9 @@ class SearchBox extends React.Component {
       entries.push({name: "service", value: this.state.formData.service});
     }
 
-    if (showVisType) {
-      entries.push({name: "vis_type", value: this.state.formData.visType});
-    }
+    // if (showVisType) {
+    //   entries.push({name: "vis_type", value: this.state.formData.visType});
+    // }
 
     // const {minDescriptionSize, contentProvider} = this.state.settings;
     const {contentProvider} = this.state.settings;
@@ -252,9 +252,9 @@ class SearchBox extends React.Component {
     //   entries.push({name: "min_descsize", value: minDescriptionSize});
     // }
 
-    if (showMinDesksize) {
-      entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
-    }
+    // if (showMinDesksize) {
+    //   entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
+    // }
 
     if (contentProvider) {
       entries.push({name: "repo", value: contentProvider});
