@@ -247,7 +247,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
 export default DoctypesPicker;
 
 const getLabel = (selectedValues, service) => {
-
+    
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
 
     if (selectedValues.length === 0) {

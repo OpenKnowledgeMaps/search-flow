@@ -19,6 +19,8 @@ import MetadataQuality from "./MetadataQuality.js";
 import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import LanguagePicker from "./LanguagePicker.js";
 import {DEFAULT_FROM, DEFAULT_TO} from "../options/timespan.js";
+// import {getTimespanBounds} from "../../../js_old/searchbox/options/timespan";
+import {getServiceBounds} from "../options/service_bounds.js";
 
 
 const e = React.createElement;
@@ -49,8 +51,7 @@ class SearchBox extends React.Component {
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes, // this value only for service='base'
-        // doctypes: settings.service === 'base' ? settings.defaultDocTypes : pubMedDefaultId,
-        doctypesPubmedConstraint: 'retracted publication', // this value only for service='pubmed'
+        doctypesPubmed: pubMedDefaultId, // this value only for service='pubmed'
         lang_id: settings.defaultLang,
         // data source
         service: settings.defaultService,
@@ -161,6 +162,9 @@ class SearchBox extends React.Component {
     } else if (newValue === 'pubmed') {
       docTypesType = pubMedDefaultId
     }
+
+    // const {docTypesType} = getServiceBounds(newValue);
+    
     this.setState({
       ...this.state,
       formData: {
@@ -312,11 +316,11 @@ class SearchBox extends React.Component {
       document.getElementById("to-date").value = DEFAULT_TO;
     }
 
-    if (this.state.formData.service === 'pubmed') {
-      this.state.formData.doctypes = pubMedDefaultId
-    } else {
-      this.state.formData.doctypes = this.state.settings.defaultDocTypes
-    }
+    // if (this.state.formData.service === 'pubmed') {
+    //   this.state.formData.doctypes = pubMedDefaultId
+    // } else {
+    //   this.state.formData.doctypes = this.state.settings.defaultDocTypes
+    // }
 
     return e(
         "div",

@@ -7,6 +7,7 @@ import SORTING_OPTIONS from "./options/sorting.js";
 import LANG_OPTIONS from "./options/lang.js";
 import SERVICES_OPTIONS from "./options/services.js";
 import DESK_SIZE_OPTIONS from "./options/desk_size.js";
+import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
 
 
 // const pubmed_doctypes = PUBMED_DOCTYPES_OPTIONS.filter((option) => option.id !== 'retracted publication');
@@ -115,6 +116,7 @@ const getConfigSettings = (outerSettings = {}) => {
   // }
   if (typeof outerSettings.service === "string") {
     settings.defaultService = outerSettings.service;
+
   }
 
   // hidden values
@@ -234,6 +236,18 @@ const getQuerySettings = () => {
   // refactor correctly work with services param
   if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
     settings.defaultService = queryParams.get("service");
+    if (settings.defaultService === 'base') {
+      settings.defaultDocTypes = ['121'];
+    } else if (settings.defaultService === 'pubmed') {
+      const pubMedDefaultId = []
+      PUBMED_DOCTYPES_OPTIONS.forEach((option) => {
+        if (option.id !== 'retracted publication') {
+          pubMedDefaultId.push(option.id)
+        }
+      });
+      settings.defaultDocTypes = pubMedDefaultId
+    }
+
   } else {
     settings.defaultService = DEFAULT_SETTINGS.defaultService;
   }
@@ -242,6 +256,18 @@ const getQuerySettings = () => {
   } else {
     settings.minDescriptionSize = DEFAULT_SETTINGS.minDescriptionSize;
   }
+
+  // if (settings.defaultService === 'base') {
+  //   settings.defaultDocTypes = ['121'];
+  // } else if (settings.defaultService === 'pubmed') {
+  //   const pubMedDefaultId = []
+  //   PUBMED_DOCTYPES_OPTIONS.forEach((option) => {
+  //     if (option.id !== 'retracted publication') {
+  //       pubMedDefaultId.push(option.id)
+  //     }
+  //   });
+  //   settings.defaultDocTypes = pubMedDefaultId
+  // }
 
   // hidden values
   if (queryParams.hasValid("vis_type", TYPE_OPTION(VIS_TYPE_OPTIONS))) {
