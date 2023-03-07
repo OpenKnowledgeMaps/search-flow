@@ -136,7 +136,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                             tabIndex: 0,
                             className: "multiselect-all",
                             onKeyDown: (e) => {
-                                console.log(e.key)
                                 if (e.key === 'Enter') {
                                     if (!values.length) {
                                         setValues([]);
@@ -247,7 +246,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
 export default DoctypesPicker;
 
 const getLabel = (selectedValues, service) => {
-    
+
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
 
     if (selectedValues.length === 0) {

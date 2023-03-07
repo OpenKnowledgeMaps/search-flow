@@ -34,7 +34,7 @@ const InlineDatePicker = ({name, label, value, setValue, defaultValue}) => {
                     },
                 },
             ),
-            // (value !== defaultValue && value) &&
+            // (value !== defaultValue) &&
             e("i", {
                 id: `${name}-clear-date`,
                 style: {fontSize: 14, position: "absolute", left: 100, top: 18},

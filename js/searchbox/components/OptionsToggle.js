@@ -10,7 +10,12 @@ const OptionsToggle = ({label, icon, onClick}) => {
       {
           className: "refine-search",
           tabIndex: 0,
-          onClick: onClick
+          onClick: onClick,
+          onKeyDown: (e) => {
+              if (e.key === 'Enter') {
+                  onClick()
+              }
+          },
       },
       label,
       " ",
