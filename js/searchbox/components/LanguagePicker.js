@@ -8,6 +8,10 @@ const {useState, useRef, createElement: e} = React;
 
 
 const LanguagePicker = ({values, setValues}) => {
+    
+    if (values.length === 0) {
+        values.push("all-lang")
+    }
 
     // variable to store the current document types
     let docTypes = LANG_OPTIONS
