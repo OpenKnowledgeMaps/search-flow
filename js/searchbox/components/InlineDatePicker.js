@@ -23,7 +23,7 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
         {
             className: "inline_date_picker filter-label",
         },
-        e("strong", {style: {width: 50}}, label),
+        e("div", {className: "time-labels"}, label),
         e("div", {style: {position: "relative", width: "100%", right: 0}},
             e("input", {
                     id: `${name}-date-field`,
