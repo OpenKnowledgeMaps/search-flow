@@ -221,7 +221,22 @@ class SearchBox extends React.Component {
     }
 
     if (!this.state.showOptions || !showSorting) {
+      entries.push({name: "sorting", value: this.state.settings.defaultSorting});
+    } else {
       entries.push({name: "sorting", value: this.state.formData.sorting});
+    }
+    if (this.state.formData.service === 'base') {
+      if (!this.state.showOptions || !showVisType) {
+        entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
+      } else {
+        entries.push({name: "vis_type", value: this.state.formData.visType});
+      }
+    }
+    if (this.state.formData.service === 'base') {
+      if (!this.state.showOptions || !showMinDesksize) {
+        entries.push({name: "min_descsize", value: this.state.settings.minDescriptionSize});
+      }
+      entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
     }
     if (!this.state.showOptions || !showDocTypes) {
       this.state.formData.doctypes.forEach((value) => {
@@ -229,8 +244,12 @@ class SearchBox extends React.Component {
       });
     }
     if (!this.state.showOptions || !showLang) {
-      entries.push({name: "lang_id", value: this.state.formData.lang_id});
+      this.state.formData.lang_id.forEach((value) => {
+        entries.push({name: "lang_id[]", value});
+      });
     }
+
+
     if (!showService) {
       entries.push({name: "service", value: this.state.settings.defaultService});
     } else {
@@ -311,22 +330,6 @@ class SearchBox extends React.Component {
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
-    // const showExtraTimePickers =
-    //     showTimeRange && this.state.formData.timespan.type === "custom-range";
-
-    // function deleteFromDate() {
-    //   document.getElementById("from-date").value = DEFAULT_FROM;
-    // }
-    //
-    // function deleteToDate() {
-    //   document.getElementById("to-date").value = DEFAULT_TO;
-    // }
-
-    // if (this.state.formData.service === 'pubmed') {
-    //   this.state.formData.doctypes = pubMedDefaultId
-    // } else {
-    //   this.state.formData.doctypes = this.state.settings.defaultDocTypes
-    // }
 
     return e(
         "div",
@@ -381,7 +384,6 @@ class SearchBox extends React.Component {
                     e("div", null,
                         e("div", {
                           className: 'filter-label',
-                          tabIndex: 0
                         }, `Select time range`),
                         e("div",
                             {
@@ -392,7 +394,6 @@ class SearchBox extends React.Component {
                               name: "from",
                               label: "From",
                               value: this.state.formData.timespan.from,
-                              // defaultValue: this.state.settings.defaultFrom,
                               setValue: this.updateTimespanFrom.bind(this),
                             }),
                             e(InlineDatePicker, {
@@ -400,86 +401,10 @@ class SearchBox extends React.Component {
                               name: "to",
                               label: "To",
                               value: this.state.formData.timespan.to,
-                              // defaultValue: this.state.settings.defaultTo,
                               setValue: this.updateTimespanTo.bind(this)
                             })
                         ),
                     ),
-
-
-                    //                 <div>
-                    //                   <label htmlFor="from-date">From:</label>
-                    //                   <input type="date" id="from-date" name="from-date">
-                    //                     <button onClick="deleteFromDate()">Delete</button>
-                    //                 </div>
-                    // <div>
-                    //   <label htmlFor="to-date">To:</label>
-                    //   <input type="date" id="to-date" name="to-date">
-                    //     <button onClick="deleteToDate()">Delete</button>
-                    // </div>
-                    // e("div", null,
-                    //     e("label", null, "From:"),
-                    //     e("input", {
-                    //           type: "date",
-                    //           id: "from-date",
-                    //           name: "from",
-                    //           value: this.state.formData.timespan.from,
-                    //           onChange: (e) => {
-                    //             this.updateTimespanFrom(e.target.value);
-                    //           }
-                    //         }
-                    //     ),
-                    //     e("i", {
-                    //       style: {fontSize: 14,},
-                    //       className: "fa fa-times-circle custom-icons",
-                    //       onClick: () => {
-                    //         deleteFromDate();
-                    //       }
-                    //     }),
-                    // ),
-                    // e("div", null,
-                    //     e("label", null, "To:"),
-                    //     e("input", {
-                    //           type: "date",
-                    //           id: "to-date",
-                    //           name: "from",
-                    //           value: this.state.formData.timespan.to,
-                    //           onChange: (e) => {
-                    //             this.updateTimespanTo(e.target.value);
-                    //           }
-                    //         }
-                    //     ),
-                    //     (this.state.formData.timespan.to !== DEFAULT_TO) &&
-                    //     e("button", {
-                    //       type: "button",
-                    //       style: {fontSize: 14,},
-                    //       className: "fa fa-times-circle custom-icons",
-                    //       onClick: () => {
-                    //         deleteToDate();
-                    //       }
-                    //     }),
-                    // ),
-
-
-                    // showTimeRange &&
-                    // e(
-                    //     AdvancedOptions,
-                    //     null,
-                    //     e(
-                    //         "div",
-                    //         {className: "options_timespan"},
-                    //         e(InlineDatePicker, {
-                    //           label: "From",
-                    //           value: this.state.formData.timespan.from,
-                    //           setValue: this.updateTimespanFrom.bind(this),
-                    //         }),
-                    //         e(InlineDatePicker, {
-                    //           label: "To",
-                    //           value: this.state.formData.timespan.to,
-                    //           setValue: this.updateTimespanTo.bind(this),
-                    //         })
-                    //     )
-                    // ),
                     (showMinDesksize && this.state.formData.service === "base") &&
                     e(MetadataQuality, {
                       value: this.state.formData.minDescriptionSize,

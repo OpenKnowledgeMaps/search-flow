@@ -10,8 +10,6 @@ import DESK_SIZE_OPTIONS from "./options/desk_size.js";
 import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
 
 
-// const pubmed_doctypes = PUBMED_DOCTYPES_OPTIONS.filter((option) => option.id !== 'retracted publication');
-
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -21,17 +19,20 @@ export const DEFAULT_SETTINGS = {
   showDocTypes: true,
   showSorting: true,
   showLang: true,
+  showService: true,
+  showVisType: true,
+  showMinDesksize: true,
+
   // default (preselected) values
   defaultQuery: "",
-  defaultDocTypes: ["121"], // deafult value for service='base'
+  defaultDocTypes: ["121"], // deafult value for service='base' it changes if service='pubmed'
   defaultSorting: "most-relevant",
-  defaultFrom: DEFAULT_FROM,
+  defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
   defaultTo: DEFAULT_TO,
   defaultLang: ["all-lang"],
   // defaultLang: "all-lang",
 
   defaultVisType: VIS_TYPE_OPTIONS[0].id,
-  // minDescriptionSize: undefined,
   minDescriptionSize: DESK_SIZE_OPTIONS[0].id,
   contentProvider: undefined,
   collection: undefined,
@@ -40,10 +41,7 @@ export const DEFAULT_SETTINGS = {
   keywordsExpansion: "",
   q_advanced: "",
   // Data Source (new param)
-  defaultService: SERVICES_OPTIONS[0].id,
-  showService: true,
-  showVisType: true,
-  showMinDesksize: true,
+  defaultService: SERVICES_OPTIONS[0].id,  // by default chosen service is 'base'
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -116,11 +114,9 @@ const getConfigSettings = (outerSettings = {}) => {
   // }
   if (typeof outerSettings.service === "string") {
     settings.defaultService = outerSettings.service;
-
   }
 
   // hidden values
-  // TODO: check this vis_type param
   if (typeof outerSettings.vis_type === "string") {
     // TODO move to preselected once we implement the toggle
     settings.defaultVisType = outerSettings.vis_type;
@@ -207,7 +203,7 @@ const getQuerySettings = () => {
         ? queryParams.get("from")
         : undefined;
   } else {
-    settings.defaultService === 'pubmed'
+    (settings.defaultService === 'pubmed')
         ? settings.defaultFrom = PUBMED_DEFAULT_FROM
         : settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
   }
@@ -230,12 +226,14 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("lang_id[]", TYPE_LANGTYPES)) {
     settings.defaultDocTypes = queryParams.getAll("lang_id[]");
   }
+  //  // Old implementation where lang_id was a single value instead of an array
+
   // if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
   //   settings.defaultLang = queryParams.get("lang_id");
   // } else {
   //   settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
   // }
-  // refactor correctly work with services param
+
   if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
     settings.defaultService = queryParams.get("service");
     if (settings.defaultService === 'base') {
@@ -256,10 +254,16 @@ const getQuerySettings = () => {
     settings.defaultService = DEFAULT_SETTINGS.defaultService;
   }
   if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESK_SIZE_OPTIONS))) {
+    // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
   } else {
     settings.minDescriptionSize = DEFAULT_SETTINGS.minDescriptionSize;
   }
+
+
+  // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
+  //   settings.minDescriptionSize = queryParams.get("min_descsize");
+  // }
 
   // if (settings.defaultService === 'base') {
   //   settings.defaultDocTypes = ['121'];
@@ -279,9 +283,6 @@ const getQuerySettings = () => {
   } else {
     settings.defaultVisType = DEFAULT_SETTINGS.defaultVisType;
   }
-  // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
-  //   settings.minDescriptionSize = queryParams.get("min_descsize");
-  // }
 
   if (queryParams.hasValid("repo", TYPE_SINGLE)) {
     settings.contentProvider = queryParams.get("repo");

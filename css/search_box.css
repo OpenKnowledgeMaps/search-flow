@@ -173,34 +173,34 @@ body.iframed {
     width: 100vw;
     height: 100vh;
     margin: 0;
-    font-family: "Open Sans", Helvetica;
+    font-family: "Open Sans", Helvetica, serif;
     font-weight: 400;
-    /*overflow: hidden;*/
-    overflow: auto;
     background-color: transparent !important;
     position: relative;
 }
 
 #search_box_container {
-    position: absolute;
-    top: 50%; /*  relative to nearest positioned ancestor or body element */
-    transform: translate(0, -50%); /* relative to element's height & width */
+    /*position: absolute;*/
+    /*top: 50%; !*  relative to nearest positioned ancestor or body element *!*/
+    /*transform: translate(0, -50%); !* relative to element's height & width *!*/
     box-sizing: border-box;
-    width: 490px;
+    width: 390px;
     /*padding: 30px 50px 40px;*/
     padding: 30px;
     background-color: white;
-    border-radius: 20px;
-    /*overflow: auto;*/
+    border-radius: 15px;
+
 }
 
 #search_box_container.iframed {
-    overflow: auto;
+    /*overflow: auto;*/
+    /*overflow-x: hidden;*/
+    overflow: hidden;
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -36%);
     /*transform: translate(-50%, -50%);*/
-    transform: translate(-50%, -40%);
 }
 
 #search_box_container * {
@@ -214,42 +214,7 @@ body.iframed {
 }
 
 
-/* Use a media query to target screens with a maximum width of 767px */
-/*@media (max-width: 450px) {*/
-/*@media only screen and (max-width: 480px) {*/
-@media (max-width: 480px) {
 
-    body.iframed {
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-        font-family: "Open Sans", Helvetica;
-        font-weight: 400;
-        /*overflow: hidden;*/
-        overflow: auto;
-        background-color: transparent !important;
-        position: relative;
-    }
-
-    #search_box_container {
-        position: absolute;
-        top: 50%; /*  relative to nearest positioned ancestor or body element */
-        transform: translate(0, -50%); /* relative to element's height & width */
-        box-sizing: border-box;
-        width: 100%;
-        padding: 30px;
-        background-color: white;
-        border-radius: 20px;
-        /*overflow: auto;*/
-    }
-
-    #search_box_container.iframed {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -40%);
-    }
-}
 
 .refine-search {
     font-size: 14px;
@@ -272,7 +237,7 @@ body.iframed {
 }
 
 .submit-btn {
-    margin-top: 10px;
+    margin-top: 20px;
     background-color: #333333;
     color: white;
     font-weight: 800;
@@ -289,12 +254,9 @@ body.iframed {
 }
 
 .options {
-    /*margin-bottom: 10px;*/
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    /*gap: 10px;*/
-    /*gap: 15px;*/
     gap: 20px;
 }
 
@@ -500,12 +462,13 @@ input[type="radio"]:checked + label {
 /*}*/
 
 .info-title {
+    color: #818181;
     margin-left: 5px;
     cursor: pointer;
     text-decoration: underline;
 }
 
-span.info-title:hover {
+div.info-title:hover {
     text-decoration: none;
     color: #333333;
 }
@@ -611,12 +574,116 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
-@media only screen and (min-width: 899px) {
+/* popover */
+
+.popover__wrapper {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+
+}
+
+.popover__content {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: calc(50% + 10px);
+    top: calc(50% - 50px);
+    background-color: white;
+    padding: 8px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    width: 180px;
+}
+
+.popover__content:before {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    left: -12px;
+    top: 41px;
+    border-style: solid;
+    /*border-width: 0 10px 10px 10px;*/
+    border-width: 0 10px 20px 10px;
+    border-color: transparent transparent white transparent;
+    transform: rotate(-90deg);
+}
+
+.popover__wrapper:hover .popover__content {
+    z-index: 10;
+    opacity: 1;
+    visibility: visible;
+}
+
+.popover__title {
+    color: #818181;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 3px;
+}
+
+.popover__message {
+    color: #818181;
+    text-align: left;
+    font-size: 12px;
+}
+
+
+/* Use a media query to target screens with a maximum width of 767px */
+/*@media only screen and (max-width: 480px) {*/
+@media (max-width: 480px) {
+
+    body.iframed {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        /*overflow: hidden;*/
+        overflow: auto;
+        background-color: transparent !important;
+        position: relative;
+    }
 
     #search_box_container {
+        /*position: absolute;*/
+        /*top: 50%; !*  relative to nearest positioned ancestor or body element *!*/
+        /*transform: translate(0, -50%); !* relative to element's height & width *!*/
+        box-sizing: border-box;
+        /*width: 100%;*/
+        width: 340px;
+        padding: 30px;
+        background-color: white;
+        border-radius: 20px;
+        /*overflow: auto;*/
+    }
+
+    #search_box_container.iframed {
+        overflow-x: hidden;
         position: absolute;
-        top: 50%; /*  relative to nearest positioned ancestor or body element */
-        transform: translate(0, -50%); /* relative to element's height & width */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+    }
+}
+
+@media only screen and (min-width: 899px) {
+    #search_box_container.iframed {
+        /*overflow: hidden;*/
+        /*overflow: auto;*/
+        /*overflow-x: hidden;*/
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -45%);
+        /*transform: translate(-50%, -50%);*/
+    }
+
+    #search_box_container {
+        /*position: absolute;*/
+        /*top: 50%; !*  relative to nearest positioned ancestor or body element *!*/
+        /*transform: translate(0, -50%); !* relative to element's height & width *!*/
         box-sizing: border-box;
         width: 490px;
         padding: 30px 40px;
