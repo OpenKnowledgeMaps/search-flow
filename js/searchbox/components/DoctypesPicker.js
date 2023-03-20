@@ -82,7 +82,8 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     style: {
                         color: !values.length ? 'red' : "#818181",
                     },
-                }, btnLabel),
+                }, `${cutString(btnLabel, 30)} ${values.length > 1 ? "(" + values.length + ")" : ""}`),
+                // }, btnLabel),
 
                 e("div", {style: {display: 'flex', flexDirection: 'row', alignItems: 'center'}},
 
@@ -157,6 +158,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                             },
                             e("input", {
                                 name: "multiselect_all",
+                                form: 'none',
                                 type: "checkbox",
                                 checked: values.length === docTypes.length,
                                 onChange: (e) => {
@@ -253,24 +255,21 @@ const getLabel = (selectedValues, service) => {
         return "No type(s) selected";
     }
 
-    if (service === 'pubmed' && selectedValues.length === 91 && !selectedValues.includes('retracted publication')) {
-        return " 91 types of 92 are preselected";
-    }
-
-    if (docTypes.length > selectedValues.length > 0) {
+    // if (docTypes.length > selectedValues.length > 0) {
+    if (docTypes.length >= selectedValues.length > 0) {
         let text = '';
 
         selectedValues.forEach((value) => {
             text += docTypes.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });
-        return `${cutString(text, 30)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
+        return text;
     }
 
-    if (selectedValues.length === docTypes.length) {
-        return `All document types selected (${docTypes.length})`;
-    }
+    // if (selectedValues.length === docTypes.length) {
+    //     return `All document types selected (${docTypes.length})`;
+    // }
 
-    return `${selectedValues.length} document types`;
+    // return `${selectedValues.length} document types`;
 };
 
 

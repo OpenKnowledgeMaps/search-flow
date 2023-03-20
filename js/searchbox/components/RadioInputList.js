@@ -22,7 +22,6 @@ function RadioInputList({label, options, name, value, setValue}) {
         },
         e("div", {
             className: 'filter-label',
-            // tabIndex: 0
         }, `${label}`),
         e("div", {
                 className: "items-flex-container",
@@ -38,10 +37,9 @@ function RadioInputList({label, options, name, value, setValue}) {
                         e(
                             "div",
                             {
-                                // role: "radiogroup",
-                                "aria-label": `${name}`,
+                                'aria-label': `${name}`,
                                 className: "filter-value",
-                                tabIndex: 0,
+                                // tabIndex: 0,
                             },
                             e("input", {
                                 type: "radio",
@@ -55,21 +53,33 @@ function RadioInputList({label, options, name, value, setValue}) {
                                 },
 
                             }),
-                            o.label,
+                            // o.label,
+                            e("label", {
+                                htmlFor: o.id,
+                                // className: "radio-label",
+                                style: {
+                                    fontSize: 14,
+                                    fontWeight: 400,
+                                    color: '#818181',
+                                    cursor: 'pointer', // add cursor pointer
+                                    userSelect: 'none', // disable text selection
+                                },
+                                onClick: () => setValue(o.id), // add click handler
+                            }, o.label)
                         ),
                         e('div', {className: 'popover__wrapper'},
                             e('div', {
                                     className: 'info-title',
-                                    // onMouseEnter: handlePopover,
-                                    // onMouseLeave: handlePopover
                                 }, `(${o.infoTitle}`,
                                 e("i", {
                                     style: {marginLeft: 5},
                                     className: "fa fa-info-circle",
                                 }),
                                 ")"),
-                            // showPopover &&
-                            e('div', {className: 'popover__content'},
+                            e('div', {
+                                    className: 'popover__content'
+                                    // className: (options.indexOf(o) === (options.length - 1)) ? 'popover__content_left' : 'popover__content',
+                                },
                                 e('div', {className: "popover__title"}, ['BASE', 'PubMed'].includes(o.infoTitle) ? o.infoTitle : ""),
                                 e('div', {className: "popover__message"}, o.infoContent),
                             )

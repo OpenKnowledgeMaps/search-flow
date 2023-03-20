@@ -8,7 +8,7 @@ const {useState, useRef, createElement: e} = React;
 
 
 const LanguagePicker = ({values, setValues}) => {
-    
+
     if (values.length === 0) {
         values.push("all-lang")
     }
@@ -91,7 +91,7 @@ const LanguagePicker = ({values, setValues}) => {
                     style: {
                         color: "#818181",
                     },
-                }, btnLabel),
+                }, `${cutString(btnLabel, 30)} ${values.length > 1 ? "(" + values.length + ")" : ""}`),
 
                 e("div", {style: {display: 'flex', flexDirection: 'row', alignItems: 'center'}},
 
@@ -213,16 +213,17 @@ const getLabel = (selectedValues) => {
         return `All languages`;
     }
 
-    if (LANG_OPTIONS.length > selectedValues.length > 0) {
+    if (LANG_OPTIONS.length >= selectedValues.length > 0) {
         let text = '';
 
         selectedValues.forEach((value) => {
             text += LANG_OPTIONS.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });
-        return `${cutString(text, 30)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
+        return text
+        // return `${cutString(text, 30)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
     }
 
-    return `${selectedValues.length} languages`;
+    // return `${selectedValues.length} languages`;
 };
 
 
