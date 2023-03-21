@@ -50,7 +50,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                 )
             }
             // Split the string into 3 parts iw word in the middle
-
             return e(
                 "span", {}, text.slice(0, index), e("span", {style: {fontWeight: 800}}, text.slice(index, index + word.length)), text.slice(index + word.length)
             )
@@ -83,7 +82,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         color: !values.length ? 'red' : "#818181",
                     },
                 }, `${cutString(btnLabel, 30)} ${values.length > 1 ? "(" + values.length + ")" : ""}`),
-                // }, btnLabel),
 
                 e("div", {style: {display: 'flex', flexDirection: 'row', alignItems: 'center'}},
 
@@ -101,12 +99,8 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     }),
                 ),
             ),
-            e(
-                "ul",
-                {
-                    className: "multiselect-container dropdown-menu custom-ul",
-                },
-                e("div", {style: {position: "relative"}},
+            e("div", {className: "multiselect-container dropdown-menu custom-div"},
+                e("div", {style: {position: "relative", paddingRight: 20}},
                     e(
                         "input",
                         {
@@ -127,109 +121,117 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     }),
                 ),
                 e(
-                    "li",
+                    "ul",
                     {
-                        className: values.length === docTypes.length ? "active" : "",
+                        // className: "multiselect-container dropdown-menu custom-ul",
+                        className: "custom-ul",
                     },
-                    e(
-                        "a",
-                        {
-                            tabIndex: 0,
-                            className: "multiselect-all",
-                            onKeyDown: (e) => {
-                                if (e.key === 'Enter') {
-                                    if (!values.length) {
-                                        setValues([]);
-                                    } else {
-                                        setValues(docTypes.map((o) => o.id));
-                                    }
-                                }
-                            },
-                        },
-                        !search.length &&
-                        e(
-                            "label",
-                            {
-                                className: "checkbox",
-                                style: {
-                                    color: '#818181',
-                                    fontWeight: values.length === docTypes.length ? 800 : 400
-                                }
-                            },
-                            e("input", {
-                                name: "multiselect_all",
-                                form: 'none',
-                                type: "checkbox",
-                                checked: values.length === docTypes.length,
-                                onChange: (e) => {
-                                    if (!e.target.checked) {
-                                        setValues([]);
-                                    } else {
-                                        setValues(docTypes.map((o) => o.id));
-                                    }
-                                },
-                            }),
-                            values.length === docTypes.length &&
-                            e("i", {
-                                className: "fa fa-check custom-icons",
-                                style: {position: "absolute", left: 20, top: 13, marginRight: 10}
-                            }),
-                            "Select all"
-                        )
-                    )
-                ),
-                ...docTypes.map((o) =>
+
                     e(
                         "li",
                         {
-                            className: values.includes(o.id) ? "active" : "",
+                            className: values.length === docTypes.length ? "active" : "",
                         },
                         e(
                             "a",
                             {
-                                role: "menuitem",
                                 tabIndex: 0,
+                                className: "multiselect-all",
                                 onKeyDown: (e) => {
-                                    console.log(e.key)
                                     if (e.key === 'Enter') {
-                                        if (values.includes(o.id)) {
-                                            setValues(values.filter((v) => v !== o.id));
+                                        if (values.length === docTypes.length) {
+                                            setValues([]);
                                         } else {
-                                            setValues([...values, o.id]);
+                                            setValues(docTypes.map((o) => o.id));
                                         }
-                                        console.log('key down')
                                     }
                                 },
                             },
+                            !search.length &&
                             e(
                                 "label",
                                 {
                                     className: "checkbox",
-                                    style: {color: "#818181", fontWeight: values.includes(o.id) ? 800 : 400}
+                                    style: {
+                                        color: '#818181',
+                                        fontWeight: values.length === docTypes.length ? 800 : 400
+                                    }
                                 },
                                 e("input", {
-                                    tabIndex: 0,
+                                    name: "multiselect_all",
+                                    form: 'none',
                                     type: "checkbox",
-                                    value: o.id,
-                                    checked: values.includes(o.id),
-                                    // onClick: (e) => {
+                                    checked: values.length === docTypes.length,
                                     onChange: (e) => {
-                                        if (e.key !== 'Enter') {
-                                            if (!e.target.checked) {
-                                                setValues(values.filter((v) => v !== o.id));
-                                            } else {
-                                                setValues([...values, o.id]);
-                                            }
+                                        if (!e.target.checked) {
+                                            setValues([]);
+                                        } else {
+                                            setValues(docTypes.map((o) => o.id));
                                         }
                                     },
                                 }),
-                                values.includes(o.id) &&
+                                values.length === docTypes.length &&
                                 e("i", {
                                     className: "fa fa-check custom-icons",
                                     style: {position: "absolute", left: 20, top: 13, marginRight: 10}
                                 }),
-                                // o.label
-                                highlightWord(o.label, search)
+                                "Select all"
+                            )
+                        )
+                    ),
+                    ...docTypes.map((o) =>
+                        e(
+                            "li",
+                            {
+                                className: values.includes(o.id) ? "active" : "",
+                            },
+                            e(
+                                "a",
+                                {
+                                    role: "menuitem",
+                                    tabIndex: 0,
+                                    onKeyDown: (e) => {
+                                        console.log(e.key)
+                                        if (e.key === 'Enter') {
+                                            if (values.includes(o.id)) {
+                                                setValues(values.filter((v) => v !== o.id));
+                                            } else {
+                                                setValues([...values, o.id]);
+                                            }
+                                            console.log('key down')
+                                        }
+                                    },
+                                },
+                                e(
+                                    "label",
+                                    {
+                                        className: "checkbox",
+                                        style: {color: "#818181", fontWeight: values.includes(o.id) ? 800 : 400}
+                                    },
+                                    e("input", {
+                                        tabIndex: 0,
+                                        type: "checkbox",
+                                        value: o.id,
+                                        checked: values.includes(o.id),
+                                        // onClick: (e) => {
+                                        onChange: (e) => {
+                                            if (e.key !== 'Enter') {
+                                                if (!e.target.checked) {
+                                                    setValues(values.filter((v) => v !== o.id));
+                                                } else {
+                                                    setValues([...values, o.id]);
+                                                }
+                                            }
+                                        },
+                                    }),
+                                    values.includes(o.id) &&
+                                    e("i", {
+                                        className: "fa fa-check custom-icons",
+                                        style: {position: "absolute", left: 20, top: 13, marginRight: 10}
+                                    }),
+                                    // o.label
+                                    highlightWord(o.label, search)
+                                )
                             )
                         )
                     )
