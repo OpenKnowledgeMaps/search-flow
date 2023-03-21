@@ -4,6 +4,8 @@ import Hiddens from "./Hiddens.js";
 import DOCTYPES_OPTIONS from "../options/doctypes.js";
 import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import useOutsideClick from "../hooks/useOutsideClick.js";
+import highlightWorld, {cutString} from "../hooks/helpers.js";
+
 
 const {useState, useRef, createElement: e} = React;
 
@@ -30,31 +32,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
         const filtered = docTypes.filter((o) => o.label.toString().toLowerCase()
             .includes(search.toString().toLowerCase()));
         docTypes = filtered
-    }
-
-
-    function highlightWord(text, word) {
-        if (search.length > 0 && text.toString().toLowerCase().includes(word.toString().toLowerCase())) {
-            // Find the index of the first occurrence of the word
-            const index = text.toLowerCase().indexOf(word.toLowerCase());
-
-            // If the word is not found, return the original string in an array
-            if (index === -1) {
-                return text;
-            }
-
-            // If the word is at the beginning of the string, return two parts
-            if (index === 0) {
-                return e(
-                    "span", {}, e("span", {style: {fontWeight: 800}}, text.slice(0, word.length)), text.slice(word.length)
-                )
-            }
-            // Split the string into 3 parts iw word in the middle
-            return e(
-                "span", {}, text.slice(0, index), e("span", {style: {fontWeight: 800}}, text.slice(index, index + word.length)), text.slice(index + word.length)
-            )
-        }
-        return text;
     }
 
     return e('div', {style: {display: 'flex', flexDirection: "column"}},
@@ -230,7 +207,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                         style: {position: "absolute", left: 20, top: 13, marginRight: 10}
                                     }),
                                     // o.label
-                                    highlightWord(o.label, search)
+                                    highlightWorld(o.label, search)
                                 )
                             )
                         )
@@ -257,7 +234,6 @@ const getLabel = (selectedValues, service) => {
         return "No type(s) selected";
     }
 
-    // if (docTypes.length > selectedValues.length > 0) {
     if (docTypes.length >= selectedValues.length > 0) {
         let text = '';
 
@@ -266,22 +242,7 @@ const getLabel = (selectedValues, service) => {
         });
         return text;
     }
-
-    // if (selectedValues.length === docTypes.length) {
-    //     return `All document types selected (${docTypes.length})`;
-    // }
-
-    // return `${selectedValues.length} document types`;
 };
-
-
-// cut string to length and add '...' at the end
-function cutString(str, length) {
-    if (str.length > length) {
-        return str.substring(0, length) + '...';
-    }
-    return str;
-}
 
 // clear all selected values
 function clearSelectedValues(values) {
