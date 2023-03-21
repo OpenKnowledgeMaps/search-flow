@@ -57,8 +57,8 @@ const LanguagePicker = ({values, setValues}) => {
                     "span", {}, e("span", {style: {fontWeight: 800}}, text.slice(0, word.length)), text.slice(word.length)
                 )
             }
-            // Split the string into 3 parts iw word in the middle
 
+            // Split the string into 3 parts iw word in the middle
             return e(
                 "span", {}, text.slice(0, index), e("span", {style: {fontWeight: 800}}, text.slice(index, index + word.length)),
                 text.slice(index + word.length)
@@ -110,19 +110,16 @@ const LanguagePicker = ({values, setValues}) => {
                 ),
             ),
 
-            e(
-                "ul",
-                {
-                    className: "multiselect-container dropdown-menu custom-ul",
-                },
-                e("div", {style: {position: "relative"}},
+            e("div", {className: "multiselect-container dropdown-menu custom-div"},
+                e("div", {style: {position: "relative", paddingRight: 20}},
+
                     e(
                         "input",
                         {
                             form: 'none',
                             className: "text-field",
                             type: "text",
-                            placeholder: "Enter document type",
+                            placeholder: "Enter language",
                             style: {width: "100%", position: "relative", height: '36px', paddingLeft: 30},
                             onChange: (e => {
                                 setSearch(e.target.value)
@@ -134,43 +131,25 @@ const LanguagePicker = ({values, setValues}) => {
                         style: {position: 'absolute', left: 10, top: 12}
                     }),
                 ),
-                ...docTypes.map((o) =>
-                    o.id !== "all-lang" &&
-                    e(
-                        "li",
-                        {
-                            className: values.includes(o.id) ? "active" : "",
-                        },
+                e(
+                    "ul",
+                    {
+                        className: "custom-ul",
+                    },
+                    ...docTypes.map((o) =>
+                        o.id !== "all-lang" &&
                         e(
-                            "a",
+                            "li",
                             {
-                                tabIndex: 0,
-                                onKeyDown: (e) => {
-                                    if (e.key === 'Enter') {
-                                        if (values.includes(o.id)) {
-                                            setValues(values.filter((v) => v !== o.id));
-                                        } else {
-                                            if (values.includes("all-lang")) {
-                                                values = []
-                                            }
-                                            setValues([...values, o.id]);
-                                        }
-                                    }
-                                },
+                                className: values.includes(o.id) ? "active" : "",
                             },
                             e(
-                                "label",
+                                "a",
                                 {
-                                    className: "checkbox",
-                                    style: {color: "#818181", fontWeight: values.includes(o.id) ? 800 : 400}
-                                },
-                                e("input", {
-                                    type: "checkbox",
-                                    value: o.id,
-                                    checked: values.includes(o.id),
-                                    onChange: (e) => {
-                                        if (e.key !== 'Enter') {
-                                            if (!e.target.checked) {
+                                    tabIndex: 0,
+                                    onKeyDown: (e) => {
+                                        if (e.key === 'Enter') {
+                                            if (values.includes(o.id)) {
                                                 setValues(values.filter((v) => v !== o.id));
                                             } else {
                                                 if (values.includes("all-lang")) {
@@ -180,14 +159,37 @@ const LanguagePicker = ({values, setValues}) => {
                                             }
                                         }
                                     },
-                                }),
-                                values.includes(o.id) &&
-                                e("i", {
-                                    className: "fa fa-check custom-icons",
-                                    style: {position: "absolute", left: 20, top: 13, marginRight: 10}
-                                }),
-                                // o.label
-                                highlightWord(o.label, search)
+                                },
+                                e(
+                                    "label",
+                                    {
+                                        className: "checkbox",
+                                        style: {color: "#818181", fontWeight: values.includes(o.id) ? 800 : 400}
+                                    },
+                                    e("input", {
+                                        type: "checkbox",
+                                        value: o.id,
+                                        checked: values.includes(o.id),
+                                        onChange: (e) => {
+                                            if (e.key !== 'Enter') {
+                                                if (!e.target.checked) {
+                                                    setValues(values.filter((v) => v !== o.id));
+                                                } else {
+                                                    if (values.includes("all-lang")) {
+                                                        values = []
+                                                    }
+                                                    setValues([...values, o.id]);
+                                                }
+                                            }
+                                        },
+                                    }),
+                                    values.includes(o.id) &&
+                                    e("i", {
+                                        className: "fa fa-check custom-icons",
+                                        style: {position: "absolute", left: 20, top: 13, marginRight: 10}
+                                    }),
+                                    highlightWord(o.label, search)
+                                )
                             )
                         )
                     )
@@ -207,9 +209,7 @@ export default LanguagePicker;
 
 const getLabel = (selectedValues) => {
 
-    // if (selectedValues.length === 0) {
-    if (!selectedValues.length || selectedValues.length === LANG_OPTIONS.length) {
-        // return "No language(s) selected";
+    if (selectedValues.length === 0 || selectedValues.length === LANG_OPTIONS.length) {
         return `All languages`;
     }
 
@@ -220,10 +220,7 @@ const getLabel = (selectedValues) => {
             text += LANG_OPTIONS.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });
         return text
-        // return `${cutString(text, 30)} ${selectedValues.length > 1 ? "(" + selectedValues.length + ")" : ""}`;
     }
-
-    // return `${selectedValues.length} languages`;
 };
 
 
