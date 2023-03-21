@@ -1,6 +1,5 @@
 "use strict";
 
-// const e = React.createElement;
 const {useState, useRef, createElement: e} = React;
 
 const OptionsToggle = ({label, icon, onClick}) => {

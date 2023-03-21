@@ -1,6 +1,6 @@
 "use strict";
 
-import AdvancedOptions from "./AdvancedOptions.js";
+// import AdvancedOptions from "./AdvancedOptions.js";
 import BasicOptions from "./BasicOptions.js";
 import DoctypesPicker from "./DoctypesPicker.js";
 import InlineDatePicker from "./InlineDatePicker.js";
@@ -19,8 +19,7 @@ import MetadataQuality from "./MetadataQuality.js";
 import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import LanguagePicker from "./LanguagePicker.js";
 import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "../options/timespan.js";
-// import {getTimespanBounds} from "../../../js_old/searchbox/options/timespan";
-import {getServiceBounds} from "../options/service_bounds.js";
+// import {getServiceBounds} from "../options/service_bounds.js";
 
 
 const e = React.createElement;
@@ -158,6 +157,7 @@ class SearchBox extends React.Component {
   updateService(newValue) {
     let docTypesType = []
     let from = ''
+    let to = DEFAULT_TO
     if (newValue === 'base') {
       docTypesType = this.state.settings.defaultDocTypes
       from = DEFAULT_FROM
@@ -176,6 +176,7 @@ class SearchBox extends React.Component {
         doctypes: docTypesType,
         timespan: {
           from: from,
+          to: to,
         }
       },
     });

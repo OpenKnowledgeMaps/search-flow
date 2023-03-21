@@ -53,7 +53,6 @@ function RadioInputList({label, options, name, value, setValue}) {
                                 },
 
                             }),
-                            // o.label,
                             e("label", {
                                 htmlFor: o.id,
                                 // className: "radio-label",
@@ -78,7 +77,6 @@ function RadioInputList({label, options, name, value, setValue}) {
                                 ")"),
                             e('div', {
                                     className: 'popover__content'
-                                    // className: (options.indexOf(o) === (options.length - 1)) ? 'popover__content_left' : 'popover__content',
                                 },
                                 e('div', {className: "popover__title"}, ['BASE', 'PubMed'].includes(o.infoTitle) ? o.infoTitle : ""),
                                 e('div', {className: "popover__message"}, o.infoContent),

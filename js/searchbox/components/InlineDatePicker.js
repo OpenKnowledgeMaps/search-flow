@@ -29,6 +29,8 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
                     id: `${name}-date-field`,
                     name: name,
                     className: "date-field",
+                    // 'dateformat': "YYYY-MM-DD",
+                    // 'data-date-format': "YYYY MMMM DD",
                     type: "date",
                     value: value,
                     onChange: (e) => {
@@ -49,19 +51,10 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
             e("i", {
                 style: {fontSize: 14, position: "absolute", right: 15, top: 18},
                 className: "fa fa-calendar custom-icons",
+                // className: "fa-regular fa-calendar-days custom-icons",
             }),
         ),
     );
-//     return e(
-//         "span",
-//         {className: "inline_date_picker"},
-//         e("strong", null, label + ": "),
-//         e("input", {
-//             type: "date",
-//             value,
-//             onChange: (e) => setValue(e.target.value),
-//         })
-//     );
 };
 
 export default InlineDatePicker;
