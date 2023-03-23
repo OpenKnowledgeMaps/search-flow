@@ -47,7 +47,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
         titleLength = titleLengths.smallScreen;
     }
 
-    if (screenWidth < 576) {
+    if (screenWidth < 450) {
         titleLength = titleLengths.extraSmallScreen;
     }
 

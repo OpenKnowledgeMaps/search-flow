@@ -55,7 +55,7 @@ const LanguagePicker = ({values, setValues}) => {
         titleLength = titleLengths.smallScreen;
     }
 
-    if (screenWidth < 576) {
+    if (screenWidth < 450) {
         titleLength = titleLengths.extraSmallScreen;
     }
 
