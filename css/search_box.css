@@ -579,6 +579,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     border-radius: 10px;
     width: 180px;
+    /* add transition properties */
+    z-index: 1000;
+    transition-property: opacity, visibility, z-index;
+    transition-duration: 0.3s;
+    transition-delay: 0.3s; /* set a delay of 0.3 seconds */
 }
 
 .popover__content:before {
@@ -597,6 +602,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 10;
     opacity: 1;
     visibility: visible;
+    transition-delay: 0s; /* remove the delay on hover */
 }
 
 .popover__title {

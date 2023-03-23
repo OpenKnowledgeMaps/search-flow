@@ -34,6 +34,24 @@ const DoctypesPicker = ({values, setValues, service}) => {
         docTypes = filtered
     }
 
+    // cut string to needed length according to screen width
+    const titleLengths = {
+        default: 30,
+        smallScreen: 25,
+        extraSmallScreen: 20
+    };
+    const screenWidth = document.documentElement.clientWidth;
+    let titleLength = titleLengths.default;
+
+    if (screenWidth < 768) {
+        titleLength = titleLengths.smallScreen;
+    }
+
+    if (screenWidth < 576) {
+        titleLength = titleLengths.extraSmallScreen;
+    }
+
+
     return e('div', {style: {display: 'flex', flexDirection: "column"}},
         e("label", {
             className: 'filter-label',
@@ -54,11 +72,13 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     onClick: () => setOpen((prev) => !prev),
                 },
                 e("div", {
-                    className: "multiselect-selected-text",
-                    style: {
-                        color: !values.length ? 'red' : "#818181",
+                        className: "multiselect-selected-text",
+                        style: {
+                            color: !values.length ? 'red' : "#818181",
+                        },
                     },
-                }, `${cutString(btnLabel, 30)} ${values.length > 1 ? "(" + values.length + ")" : ""}`),
+                    `${cutString(btnLabel, titleLength)} ${values.length > 1 ? "(" + values.length + ")" : ""}`
+                ),
 
                 e("div", {style: {display: 'flex', flexDirection: 'row', alignItems: 'center'}},
 
