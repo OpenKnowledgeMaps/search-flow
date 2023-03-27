@@ -221,12 +221,13 @@ body.iframed {
 
 .text-field {
     height: 50px;
-    padding-left: 5px;
+    padding-left: 15px;
     width: 100%;
     border: 1px solid #818181;
     border-radius: 14px;
     font-size: 14px;
     font-weight: 400;
+    color: #818181;
 }
 
 .submit-btn {
@@ -583,7 +584,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 1000;
     transition-property: opacity, visibility, z-index;
     transition-duration: 0.3s;
-    transition-delay: 0.3s; /* set a delay of 0.3 seconds */
+    /*transition-delay: 0.3s; !* set a delay of 0.3 seconds *!*/
 }
 
 .popover__content:before {

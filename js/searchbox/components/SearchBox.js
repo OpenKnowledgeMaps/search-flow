@@ -19,6 +19,7 @@ import MetadataQuality from "./MetadataQuality.js";
 import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import LanguagePicker from "./LanguagePicker.js";
 import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "../options/timespan.js";
+import AdvancedSearchField from "./AdvancedSearchField.js";
 // import {getServiceBounds} from "../options/service_bounds.js";
 
 
@@ -54,7 +55,8 @@ class SearchBox extends React.Component {
         lang_id: settings.defaultLang,
         // data source
         service: settings.defaultService,
-        minDescriptionSize: settings.minDescriptionSize
+        minDescriptionSize: settings.minDescriptionSize,
+        q_advanced: settings.q_advanced,
       },
       settings,
       showOptionsLabel: "Show advanced search options",
@@ -85,6 +87,16 @@ class SearchBox extends React.Component {
       formData: {
         ...this.state.formData,
         query: newValue,
+      },
+    });
+  }
+
+  updateAdvancedQuery(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        q_advanced: newValue,
       },
     });
   }
@@ -213,7 +225,8 @@ class SearchBox extends React.Component {
       showLang,
       showService,
       showVisType,
-      showMinDesksize
+      showMinDesksize,
+      showQadvanced
     } = this.state.settings;
 
     if (!this.state.showOptions || !showTimeRange) {
@@ -236,8 +249,10 @@ class SearchBox extends React.Component {
     if (this.state.formData.service === 'base') {
       if (!this.state.showOptions || !showMinDesksize) {
         entries.push({name: "min_descsize", value: this.state.settings.minDescriptionSize});
+      } else {
+        entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
       }
-      entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
+
     }
     if (!this.state.showOptions || !showDocTypes) {
       this.state.formData.doctypes.forEach((value) => {
@@ -249,8 +264,7 @@ class SearchBox extends React.Component {
         entries.push({name: "lang_id[]", value});
       });
     }
-
-
+    
     if (!showService) {
       entries.push({name: "service", value: this.state.settings.defaultService});
     } else {
@@ -265,7 +279,7 @@ class SearchBox extends React.Component {
     const {contentProvider} = this.state.settings;
     const {titleExpansion, abstractExpansion} = this.state.settings;
     const {keywordsExpansion, collection} = this.state.settings;
-    const {q_advanced} = this.state.settings;
+    // const {q_advanced} = this.state.settings;
 
 
     // if (minDescriptionSize) {
@@ -286,14 +300,14 @@ class SearchBox extends React.Component {
       entries.push({name: "title", value: titleExpansion});
     }
     if (abstractExpansion) {
-      entries.push({ name: "abstract", value: abstractExpansion });
+      entries.push({name: "abstract", value: abstractExpansion});
     }
     if (keywordsExpansion) {
-      entries.push({ name: "keywords", value: keywordsExpansion });
+      entries.push({name: "keywords", value: keywordsExpansion});
     }
-    if (q_advanced) {
-      entries.push({ name: "q_advanced", value: q_advanced })
-    }
+    // if (q_advanced) {
+    //   entries.push({ name: "q_advanced", value: q_advanced })
+    // }
 
     return entries;
   }
@@ -324,7 +338,8 @@ class SearchBox extends React.Component {
       showLang,
       showService,
       showVisType,
-      showMinDesksize
+      showMinDesksize,
+      showQadvanced
     } = this.state.settings;
     const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDesksize;
 
@@ -413,9 +428,17 @@ class SearchBox extends React.Component {
                     }),
                 ),
             ),
+            ((showQadvanced && this.state.formData.service === "base") &&
+                e(AdvancedSearchField, {
+                  value: this.state.formData.q_advanced,
+                  setValue: this.updateAdvancedQuery.bind(this),
+                })
+            ),
+
             e(SearchField, {
               value: this.state.formData.query,
               setValue: this.updateQuery.bind(this),
+              required: (!(this.state.formData.service === "base" && showQadvanced)),
             }),
             e(Hiddens, {entries: hiddenEntries}),
             e(SearchButton)
