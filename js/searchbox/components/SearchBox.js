@@ -259,10 +259,16 @@ class SearchBox extends React.Component {
         entries.push({name: "document_types[]", value});
       });
     }
-    if (!this.state.showOptions || !showLang) {
-      this.state.formData.lang_id.forEach((value) => {
-        entries.push({name: "lang_id[]", value});
-      });
+    if (this.state.formData.service === 'base') {
+      if (!this.state.showOptions || !showLang) {
+        this.state.formData.lang_id.forEach((value) => {
+          entries.push({name: "lang_id[]", value});
+        });
+      } else {
+        this.state.formData.lang_id.forEach((value) => {
+          entries.push({name: "lang_id[]", value});
+        });
+      }
     }
 
     if (!showService) {
