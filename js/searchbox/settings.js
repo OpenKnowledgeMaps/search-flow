@@ -22,8 +22,8 @@ export const DEFAULT_SETTINGS = {
   showService: true,
   showVisType: true,
   showMinDesksize: true,
-  showQadvanced: false,
-  // showQadvanced: true,
+  // showQadvanced: false,
+  showQadvanced: true,
 
   // default (preselected) values
   defaultQuery: "",
@@ -41,8 +41,8 @@ export const DEFAULT_SETTINGS = {
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
-  // q_advanced: "",
-  q_advanced: "dcorcid:0000-0002-1894-5040",
+  q_advanced: "",
+  // q_advanced: "dcorcid:0000-0002-1894-5040",
   // Data Source (new param)
   defaultService: SERVICES_OPTIONS[0].id,  // by default chosen service is 'base'
 };
