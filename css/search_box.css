@@ -550,15 +550,36 @@ input[type=checkbox] {
 /* change icon in input type date */
 
 input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     position: relative;
     padding: 10px;
 }
 
+/*input[type="date"]::-webkit-calendar-picker-indicator {*/
+/*    color: transparent;*/
+/*    background: transparent;*/
+/*    z-index: 1;*/
+/*}*/
+
+
 input[type="date"]::-webkit-calendar-picker-indicator {
-    color: transparent;
-    background: none;
-    z-index: 1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    filter: invert(1);
+    opacity: 0;
+    z-index: 1
 }
+
+/*input[type="date"]::-moz-calendar-picker-indicator,*/
+/*input[type="date"]::-ms-calendar-picker-indicator,*/
+/*input[type="date"]::-o-calendar-picker-indicator {*/
+/*    filter: invert(1);*/
+/*    opacity: 0;*/
+/*    display: none;*/
+/*}*/
 
 
 /* popover */

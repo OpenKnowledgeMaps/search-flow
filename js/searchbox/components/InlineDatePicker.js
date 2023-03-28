@@ -28,6 +28,7 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
             e("input", {
                     id: `${name}-date-field`,
                     name: name,
+                    required: true,
                     className: "date-field",
                     // 'dateformat': "YYYY-MM-DD",
                     // 'data-date-format': "YYYY MMMM DD",
@@ -41,7 +42,7 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
             // (value !== defaultValue) &&
             e("i", {
                 id: `${name}-clear-date`,
-                style: {fontSize: 14, position: "absolute", left: 100, top: 18},
+                style: {fontSize: 14, position: "absolute", left: 115, top: 18},
                 className: "fa fa-times-circle custom-icons",
                 onClick: () => {
                     clearValue(name)
