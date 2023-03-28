@@ -391,7 +391,7 @@ class SearchBox extends React.Component {
                       setValues: this.updateDoctypes.bind(this),
                       service: this.state.formData.service,
                     }),
-                    showLang &&
+                    (showLang && this.state.formData.service === "base") &&
                     e(LanguagePicker, {
                       values: this.state.formData.lang_id,
                       setValues: this.updateLang.bind(this),

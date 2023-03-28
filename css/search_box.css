@@ -563,6 +563,14 @@ input[type="date"] {
 /*    z-index: 1;*/
 /*}*/
 
+/*input[type="date"]::-moz-calendar-picker-indicator,*/
+/*input[type="date"]::-ms-calendar-picker-indicator,*/
+/*input[type="date"]::-o-calendar-picker-indicator {*/
+/*    filter: invert(1);*/
+/*    opacity: 0;*/
+/*    display: none;*/
+/*}*/
+
 
 input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
@@ -573,13 +581,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 1
 }
 
-/*input[type="date"]::-moz-calendar-picker-indicator,*/
-/*input[type="date"]::-ms-calendar-picker-indicator,*/
-/*input[type="date"]::-o-calendar-picker-indicator {*/
-/*    filter: invert(1);*/
-/*    opacity: 0;*/
-/*    display: none;*/
-/*}*/
+input[type="date"]:invalid {
+    color: red;
+}
 
 
 /* popover */
