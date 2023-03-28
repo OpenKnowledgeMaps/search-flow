@@ -181,6 +181,7 @@ body.iframed {
 
 #search_box_container {
     box-sizing: border-box;
+    /*width: 390px;*/
     width: 390px;
     padding: 30px;
     background-color: white;
@@ -221,12 +222,13 @@ body.iframed {
 
 .text-field {
     height: 50px;
-    padding-left: 5px;
+    padding-left: 15px;
     width: 100%;
     border: 1px solid #818181;
     border-radius: 14px;
     font-size: 14px;
     font-weight: 400;
+    color: #818181;
 }
 
 .submit-btn {
@@ -583,7 +585,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 1000;
     transition-property: opacity, visibility, z-index;
     transition-duration: 0.3s;
-    transition-delay: 0.3s; /* set a delay of 0.3 seconds */
+    /*transition-delay: 0.3s; !* set a delay of 0.3 seconds *!*/
 }
 
 .popover__content:before {
@@ -604,6 +606,49 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     visibility: visible;
     transition-delay: 0s; /* remove the delay on hover */
 }
+
+
+.popover__content__left {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: auto;
+    /*right: calc(100% - 24px);*/
+    right: calc(100% - 10px);
+    top: calc(50% - 53px);
+    background-color: white;
+    padding: 8px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    width: 180px;
+    /* add transition properties */
+    z-index: 1000;
+    transition-property: opacity, visibility, z-index;
+    transition-duration: 0.3s;
+    transform: translateX(0);
+    /*transition-delay: 0.3s; !* set a delay of 0.3 seconds *!*/
+}
+
+.popover__content__left:before {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    left: auto;
+    right: -12px;
+    top: 41px;
+    border-style: solid;
+    border-width: 0 10px 20px 10px;
+    border-color: transparent transparent white transparent;
+    transform: rotate(90deg);
+}
+
+.popover__wrapper:hover .popover__content__left {
+    z-index: 10;
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s; /* remove the delay on hover */
+}
+
 
 .popover__title {
     color: #818181;
@@ -638,7 +683,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     #search_box_container {
         box-sizing: border-box;
-        width: 340px;
+        /*width: 340px;*/
+        /*width: 390px;*/
+        width: 100%;
         padding: 30px;
         background-color: white;
         border-radius: 20px;
@@ -718,5 +765,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         border-width: 0 10px 20px 10px;
         border-color: transparent transparent white transparent;
         transform: rotate(90deg);
+    }
+
+    /*popover left in lg screens become right*/
+    .popover__wrapper > .popover__content__left {
+        right: auto;
+        left: calc(100% - 24px);
+        top: calc(50% - 53px);
+        transform: translateX(0);
+    }
+
+    .popover__wrapper > .popover__content__left:before {
+        right: auto;
+        left: -12px;
+        border-width: 0 10px 20px 10px;
+        border-color: transparent transparent white transparent;
+        transform: rotate(-90deg);
     }
 }

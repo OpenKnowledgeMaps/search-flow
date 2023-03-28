@@ -2,11 +2,11 @@
 
 const e = React.createElement;
 
-const SearchField = ({ value, setValue }) => {
+const SearchField = ({value, setValue, required}) => {
     return e("div", {style: {marginBottom: 10}},
         e("label", {htmlFor: "searchterm", className: "filter-label"}, "Enter search query (e.g. digital education)"),
         e("input", {
-            required: true,
+            required: required,
             autoFocus: true,
             type: "text",
             name: "q",
