@@ -49,11 +49,11 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
                 }
             }),
 
-            e("i", {
-                style: {fontSize: 14, position: "absolute", right: 15, top: 18},
-                className: "fa fa-calendar custom-icons",
-                // className: "fa-regular fa-calendar-days custom-icons",
-            }),
+            // e("i", {
+            //     style: {fontSize: 14, position: "absolute", right: 15, top: 18},
+            //     className: "fa fa-calendar custom-icons",
+            //     // className: "fa-regular fa-calendar-days custom-icons",
+            // }),
         ),
     );
 };

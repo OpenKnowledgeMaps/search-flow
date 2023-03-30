@@ -550,18 +550,26 @@ input[type=checkbox] {
 /* change icon in input type date */
 
 input[type="date"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    /*-webkit-appearance: none;*/
+    /*-moz-appearance: none;*/
+    /*appearance: none;*/
     position: relative;
     padding: 10px;
 }
 
-/*input[type="date"]::-webkit-calendar-picker-indicator {*/
-/*    color: transparent;*/
-/*    background: transparent;*/
-/*    z-index: 1;*/
+
+/*input::-webkit-inner-spin-button,*/
+/*input::-webkit-clear-button {*/
+/*    display: block;*/
 /*}*/
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    /*color: transparent;*/
+    /*background: transparent;*/
+    color: #818181;
+    z-index: 1;
+}
 
 /*input[type="date"]::-moz-calendar-picker-indicator,*/
 /*input[type="date"]::-ms-calendar-picker-indicator,*/
@@ -572,18 +580,18 @@ input[type="date"] {
 /*}*/
 
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    filter: invert(1);
-    opacity: 0;
-    z-index: 1
-}
+/*input[type="date"]::-webkit-calendar-picker-indicator {*/
+/*    -webkit-appearance: none;*/
+/*    -moz-appearance: none;*/
+/*    appearance: none;*/
+/*    filter: invert(1);*/
+/*    opacity: 0;*/
+/*    z-index: 1*/
+/*}*/
 
-input[type="date"]:invalid {
-    color: red;
-}
+/*input[type="date"]:invalid {*/
+/*    color: red;*/
+/*}*/
 
 
 /* popover */
