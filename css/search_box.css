@@ -192,9 +192,12 @@ body.iframed {
 #search_box_container.iframed {
     overflow: hidden;
     position: absolute;
-    top: 50%;
+    top: 5%;
     left: 50%;
-    transform: translate(-50%, -36%);
+    transform: translate(-50%);
+    /*top: 50%;*/
+    /*transform: translate(-50%, -36%);*/
+
 }
 
 #search_box_container * {
@@ -736,18 +739,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     #search_box_container.iframed {
         overflow-x: hidden;
         position: absolute;
-        top: 50%;
+        top: 5%;
         left: 50%;
-        transform: translate(-50%, -40%);
+        transform: translate(-50%);
+        /*top: 50%;*/
+        /*left: 50%;*/
+        /*transform: translate(-50%, -40%);*/
     }
 }
 
 @media only screen and (min-width: 899px) {
     #search_box_container.iframed {
         position: absolute;
-        top: 50%;
+        top: 5%;
         left: 50%;
-        transform: translate(-50%, -45%);
+        transform: translate(-50%);
+        /*top: 50%;*/
+        /*left: 50%;*/
+        /*transform: translate(-50%, -45%);*/
     }
 
     #search_box_container {
