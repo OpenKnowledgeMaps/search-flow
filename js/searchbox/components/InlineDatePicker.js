@@ -5,8 +5,10 @@ import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "../options/timespan
 
 const e = React.createElement;
 
+
 const InlineDatePicker = ({service, name, label, value, setValue}) => {
 
+    // for now not using this function but keeping it here for future use
     function clearValue(name) {
         if (name === "from") {
             service === "pubmed"
@@ -39,16 +41,19 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
                     },
                 },
             ),
-            // (value !== defaultValue) &&
-            e("i", {
-                id: `${name}-clear-date`,
-                style: {fontSize: 14, position: "absolute", left: 115, top: 18},
-                className: "fa fa-times-circle custom-icons",
-                onClick: () => {
-                    clearValue(name)
-                }
-            }),
 
+            // hiding clear date for now, but keeping it here for future use
+
+            // e("i", {
+            //     id: `${name}-clear-date`,
+            //     style: {fontSize: 14, position: "absolute", left: 115, top: 18},
+            //     className: "fa fa-times-circle custom-icons",
+            //     onClick: () => {
+            //         clearValue(name)
+            //     }
+            // }),
+
+            // hide calendar icon for now because it's not working for Firefox, Mozilla, Safari
             // e("i", {
             //     style: {fontSize: 14, position: "absolute", right: 15, top: 18},
             //     className: "fa fa-calendar custom-icons",

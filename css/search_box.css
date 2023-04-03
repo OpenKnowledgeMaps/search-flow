@@ -310,6 +310,11 @@ body.iframed {
     align-items: center;
 }
 
+/* add hover to .btn*/
+.btn:hover {
+    background: #f4f4f4;
+}
+
 
 /* New SB */
 
@@ -564,9 +569,13 @@ input[type="date"] {
 /*}*/
 
 
+/*input[type="date"]::-moz-calendar-picker-indicator,*/
+/*input[type="date"]::-ms-calendar-picker-indicator,*/
+/*input[type="date"]::-o-calendar-picker-indicator,*/
 input[type="date"]::-webkit-calendar-picker-indicator {
     /*color: transparent;*/
     /*background: transparent;*/
+    cursor: pointer;
     color: #818181;
     z-index: 1;
 }
