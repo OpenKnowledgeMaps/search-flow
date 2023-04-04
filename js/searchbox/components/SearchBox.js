@@ -264,11 +264,12 @@ class SearchBox extends React.Component {
         this.state.formData.lang_id.forEach((value) => {
           entries.push({name: "lang_id[]", value});
         });
-      } else {
-        this.state.formData.lang_id.forEach((value) => {
-          entries.push({name: "lang_id[]", value});
-        });
       }
+      // else {
+      //   this.state.formData.lang_id.forEach((value) => {
+      //     entries.push({name: "lang_id[]", value});
+      //   });
+      // }
     }
 
     if (!showService) {
