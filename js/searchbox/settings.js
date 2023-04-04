@@ -60,7 +60,7 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_lang",
   "show_service",
   "show_vis_type",
-  "show_min_desksize",
+  "show_min_descsize",
   "show_q_advanced",
   "show_coll",
 ]);
@@ -177,8 +177,8 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("show_vis_type", TYPE_BOOL)) {
     settings.showVisType = queryParams.get("show_vis_type") === "true";
   }
-  if (queryParams.hasValid("show_min_desksize", TYPE_BOOL)) {
-    settings.showMinDesksize = queryParams.get("show_min_desksize") === "true";
+  if (queryParams.hasValid("show_min_descsize", TYPE_BOOL)) {
+    settings.showMinDesksize = queryParams.get("show_min_descsize") === "true";
   }
   if (queryParams.hasValid("show_q_advanced", TYPE_BOOL)) {
     settings.showQadvanced = queryParams.get("show_q_advanced") === "true";
