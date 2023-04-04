@@ -96,3 +96,15 @@ enable_get_requests = true
 docker_internal = true
 
 ```
+
+#### Swagger documentations
+
+In `docs`:
+
+* Copy the `swagger-searchbox.yml.template` and `swagger.yml.template` files to `swagger-searchbox.yml` and `swagger.yml.template`
+* In the .yml-files: Replace `- url: http://localhost` with `- url: http://localhost:8085/`
+
+In `docs/swagger`:
+
+* Copy the `index.html.template` and `searchbox-configurator.html.template` files to ``index.html` and `searchbox-configurator.html`
+* In the .html-files: Replace `url: "http://localhost/search-flow/docs/swagger.yml"` with `url: "http://localhost:8085/search-flow/docs/swagger.yml",`

@@ -12,13 +12,15 @@ $enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "gene
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
 
-function console_log($data) {
-    $console = $data;
-    if (is_array($console))
-    $console = implode(',', $console);
-   
-    echo "<script>console.log('Console: " . $console . "' );</script>";
-   }
+// Log to the browser console
+function logToConsole($data) {
+    $output = $data;
+    if (is_array($output)) {
+        // $output = implode(',', $output);
+        $output = http_build_query($output,'',', ');
+    }    
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 
 // This fixes a bug in iOS Safari where an inactive tab would forget the post 
 // parameters - usually when the user opens a different tab while waiting for
@@ -196,29 +198,24 @@ if($has_sufficient_data) {
                 }
             }
         }
-
         $params_json = packParamsJSON($params_array, $post_array);
-        if(!empty($query) && empty($get_q_advanced)) {
+        if(!empty($query)) {
             $unique_id = createID(array($query, $params_json));
         }
-        if(empty($query) && !empty($get_q_advanced)) {
-            $unique_id = createID(array($get_q_advanced, $params_json));
+        if(empty($query)) {
+            $unique_id = createID(array($params_json));
         }
-        if(!empty($query) && !empty($get_q_advanced)) {
-            $unique_id = createID(array($query, $get_q_advanced, $params_json));
+        if($service=="openaire") {
+            $query = addslashes(trim(strip_tags($dirty_query)));
+            $unique_id = createID(array($query, $params_json));
         }
-	if($service=="openaire") {
-	    $query = addslashes(trim(strip_tags($dirty_query)));
-	    $unique_id = createID(array($query, $params_json));
-        }
-
         $post_array["q"] = $query;
         $post_array["unique_id"] = $unique_id;
         $_SESSION['post'][$unique_id] = $post_array;
     } else {
         $unique_id = $post_array["unique_id"];
     }
-    
+
     $post_array["service"] = $service;
     $post_array["optradio"] = $service;
     $post_array["embed"] = $is_embed;
