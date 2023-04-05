@@ -316,6 +316,19 @@ body.iframed {
     background: #f4f4f4;
 }
 
+/*button when list open */
+.open > .dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default:hover {
+    background-color: #f4f4f4;
+    /*border-color: #f4f4f4;*/
+    /*color: #333333;*/
+}
+
+
+/*!*set btn background after click*!*/
+/*.btn:active {*/
+/*    background: #f4f4f4;*/
+/*}*/
+
 
 /* New SB */
 
@@ -397,6 +410,12 @@ input[type="radio"]:checked + label {
     color: #4d88f9;
 }
 
+input[type="radio"]:focus {
+    /* add padding outline */
+    outline: #015fcc solid 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
 .radio-label {
     font-size: 14px;
     font-weight: 400;
@@ -406,10 +425,15 @@ input[type="radio"]:checked + label {
     text-decoration: none;
 }
 
+/* add radio class for hover button */
+.radio-label:hover {
+    color: #4d88f9;
+    text-decoration: none;
+}
 
 .info-title {
-    fontSize: 14px;
-    fontWeight: 400px;
+    font-size: 14px;
+    font-weight: 400;
     color: #818181;
     margin-left: 5px;
     cursor: pointer;
@@ -614,8 +638,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .popover__content {
-    opacity: 0;
-    visibility: hidden;
+    opacity: 1;
+    /*visibility: visible;*/
     position: absolute;
     left: calc(50% + 10px);
     top: calc(50% - 53px);
@@ -627,7 +651,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     /* add transition properties */
     z-index: 1000;
     transition-property: opacity, visibility, z-index;
-    transition-duration: 0.3s;
+    /*transition-duration: 0.3s;*/
     /*transition-delay: 0.3s; !* set a delay of 0.3 seconds *!*/
 }
 
@@ -643,17 +667,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transform: rotate(-90deg);
 }
 
-.popover__wrapper:hover .popover__content {
-    z-index: 10;
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0s; /* remove the delay on hover */
-}
+/*.popover__wrapper:hover .popover__content {*/
+/*    z-index: 10;*/
+/*    opacity: 1;*/
+/*    visibility: visible;*/
+/*    transition-delay: 0s; !* remove the delay on hover *!*/
+/*}*/
 
 
 .popover__content__left {
-    opacity: 0;
-    visibility: hidden;
+    opacity: 1;
+    /*visibility: visible;*/
     position: absolute;
     left: auto;
     /*right: calc(100% - 24px);*/
@@ -667,8 +691,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     /* add transition properties */
     z-index: 1000;
     transition-property: opacity, visibility, z-index;
-    transition-duration: 0.3s;
-    transform: translateX(0);
+    /*transition-duration: 0.3s;*/
+    /*transform: translateX(0);*/
     /*transition-delay: 0.3s; !* set a delay of 0.3 seconds *!*/
 }
 
@@ -685,12 +709,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transform: rotate(90deg);
 }
 
-.popover__wrapper:hover .popover__content__left {
-    z-index: 10;
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0s; /* remove the delay on hover */
-}
+/*.popover__wrapper:hover .popover__content__left {*/
+/*    z-index: 10;*/
+/*    opacity: 1;*/
+/*    visibility: visible;*/
+/*}*/
 
 
 .popover__title {
