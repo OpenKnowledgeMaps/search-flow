@@ -389,20 +389,38 @@ input[type="radio"]:checked {
     background-color: white;
 }
 
+/* badly works centering of small ring in Firefox, Mozilla*/
+/*!* Add a ring inside the radio button when it is checked *!*/
+/*input[type="radio"]:checked::before {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    background-color: #4d88f9;*/
+/*    border-radius: 50%;*/
+/*    width: 10px;*/
+/*    height: 10px;*/
+/*    border: 2px solid #4d88f9;*/
+/*}*/
+
 
 /* Add a ring inside the radio button when it is checked */
 input[type="radio"]:checked::before {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #4d88f9;
     border-radius: 50%;
     width: 10px;
     height: 10px;
     border: 2px solid #4d88f9;
+    transform: translate(3px, 3px);
 }
+
+
 
 
 /* Set the label color when radio button is selected */
@@ -411,9 +429,11 @@ input[type="radio"]:checked + label {
 }
 
 input[type="radio"]:focus {
-    /* add padding outline */
-    outline: #015fcc solid 3px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    /* add box-shadow with color #4d88f9 */
+    box-shadow: 0 0 5px rgba(77, 136, 249, 0.8);
+    outline: #4d88f9 solid 3px;
+    /*outline: #015fcc solid 3px;*/
+    /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
 }
 
 .radio-label {
