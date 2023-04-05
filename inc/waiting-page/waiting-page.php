@@ -138,8 +138,13 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     
     // Check for params from search form
     if(isset($search_flow_config["optional_get_params"][$service])) {
-        foreach($search_flow_config["optional_get_params"][$service] as $optional_param) {
-            $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        foreach($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
+            if ($optional_param_type === "array") {
+                // force string to array conversion for backward compatibility of GET-API
+                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FORCE_ARRAY);
+            } else {
+                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+            }
             if($param_get !== false) {
                 $ret_array[$optional_param] = $param_get;
                 $search_flow_config["params_arrays"][$service][] = $optional_param;
