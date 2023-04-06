@@ -4,13 +4,17 @@ import Hiddens from "./Hiddens.js";
 import DOCTYPES_OPTIONS from "../options/doctypes.js";
 import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import useOutsideClick from "../hooks/useOutsideClick.js";
-import highlightWorld, {cutString} from "../hooks/helpers.js";
+import highlightWorld from "../hooks/helpers.js";
 
 
 const {useState, useRef, createElement: e} = React;
 
 
 const DoctypesPicker = ({values, setValues, service}) => {
+
+    // set optional docs values instead empty array
+    const optionalDocs = service === 'base' ? ['121'] : PUBMED_DOCTYPES_OPTIONS.filter(option => option.id !== 'retracted publication').map(option => option.id)
+
 
     // variable to store the current document types
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
@@ -34,27 +38,27 @@ const DoctypesPicker = ({values, setValues, service}) => {
         docTypes = filtered
     }
 
-    // cut string to needed length according to screen width
-    const titleLengths = {
-        default: 30,
-        smallScreen: 25,
-        extraSmallScreen: 20
-    };
-    const screenWidth = document.documentElement.clientWidth;
-    let titleLength = titleLengths.default;
+    function clearSelectedValues(values) {
+        // values.length = 0;
 
-    if (screenWidth < 768) {
-        titleLength = titleLengths.smallScreen;
+        // set optional docs values instead empty array
+        setValues(optionalDocs);
     }
 
-    if (screenWidth < 450) {
-        titleLength = titleLengths.extraSmallScreen;
+    function isEqual(array1, array2) {
+        return !(array1.length === array2.length && array1.every((value, index) => value === array2[index]));
     }
 
 
-    return e('div', {style: {display: 'flex', flexDirection: "column"}},
+    return e('div', {
+            style: {display: 'flex', flexDirection: "column"},
+            role: "combobox",
+            "aria-expanded": open,
+            "aria-haspopup": 'listbox',
+        },
         e("label", {
             className: 'filter-label',
+            htmlFor: 'multiselect-dropdown-doctypes',
         }, `select doctype(s)`),
         e(
             "div",
@@ -66,9 +70,12 @@ const DoctypesPicker = ({values, setValues, service}) => {
             e(
                 "button",
                 {
+                    id: "multiselect-dropdown",
                     type: "button",
                     className: "multiselect dropdown-toggle btn btn-default",
                     title: btnLabel,
+                    "aria-haspopup": "listbox",
+                    "aria-expanded": open,
                     onClick: () => setOpen((prev) => !prev),
                 },
                 e("div", {
@@ -76,18 +83,36 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         style: {
                             color: !values.length ? 'red' : "#818181",
                         },
+                        'aria-label': `${btnLabel}`,
                     },
-                    `${cutString(btnLabel, titleLength)} ${values.length > 1 ? "(" + values.length + ")" : ""}`
+                    e('span', null, btnLabel),
+                ),
+                e("span", {className: 'multiselect-selected-text-count'},
+                    `${values.length > 1 ? "(" + values.length + ")" : ""}`
                 ),
 
-                e("div", {style: {display: 'flex', flexDirection: 'row', alignItems: 'center'}},
+                e("div", {
+                        style: {display: 'flex', flexDirection: 'row', alignItems: 'center'},
+                        'aria-hidden': true,
+                    },
 
-                    values.length > 0 &&
+                    // values.length > 0 &&
+                    // values !== optionalBaseDocs || values !== optionalPubmedDocs &&
+                    isEqual(values, optionalDocs) &&
                     e("i", {
+                        tabIndex: 0,
+                        role: 'button',
                         style: {marginRight: 25},
+                        "aria-label": "clear all selected types",
                         className: "fa fa-times-circle custom-icons",
                         onClick: () => {
                             clearSelectedValues(values)
+                        },
+                        onKeyDown: (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault()
+                                clearSelectedValues(values)
+                            }
                         }
                     }),
                     e("i", {
@@ -96,7 +121,10 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     }),
                 ),
             ),
-            e("div", {className: "multiselect-container dropdown-menu custom-div"},
+            e("div", {
+                    className: "multiselect-container dropdown-menu custom-div",
+                    'aria-labelledby': 'multiselect-dropdown-doctypes'
+                },
                 e("div", {style: {position: "relative", paddingRight: 20}},
                     e(
                         "input",
@@ -120,97 +148,124 @@ const DoctypesPicker = ({values, setValues, service}) => {
                 e(
                     "ul",
                     {
-                        // className: "multiselect-container dropdown-menu custom-ul",
+                        id: 'custom-ul-doctypes',
                         className: "custom-ul",
+                        role: 'listbox',
+                        tabIndex: 0,
+                        title: 'Doctypes list',
+                        "aria-labelledby": "doctypes-heading",
+                        "aria-multiselectable": true,
+                        "aria-live": "polite",
+                        "aria-controls": "doctypes-selector"
                     },
-
-                    e(
-                        "li",
-                        {
-                            className: values.length === docTypes.length ? "active" : "",
-                        },
-                        e(
-                            "a",
-                            {
-                                tabIndex: 0,
-                                className: "multiselect-all",
-                                onKeyDown: (e) => {
-                                    if (e.key === 'Enter') {
-                                        if (values.length === docTypes.length) {
-                                            setValues([]);
-                                        } else {
-                                            setValues(docTypes.map((o) => o.id));
-                                        }
-                                    }
-                                },
-                            },
-                            !search.length &&
-                            e(
-                                "label",
-                                {
-                                    className: "checkbox",
-                                    style: {
-                                        color: '#818181',
-                                        fontWeight: values.length === docTypes.length ? 800 : 400
-                                    }
-                                },
-                                e("input", {
-                                    name: "multiselect_all",
-                                    form: 'none',
-                                    type: "checkbox",
-                                    checked: values.length === docTypes.length,
-                                    onChange: (e) => {
-                                        if (!e.target.checked) {
-                                            setValues([]);
-                                        } else {
-                                            setValues(docTypes.map((o) => o.id));
-                                        }
-                                    },
-                                }),
-                                values.length === docTypes.length &&
-                                e("i", {
-                                    className: "fa fa-check custom-icons",
-                                    style: {position: "absolute", left: 20, top: 13, marginRight: 10}
-                                }),
-                                "Select all"
-                            )
-                        )
-                    ),
+                    //  Save for future use if needed to add "select all" option !!!!!
+                    // e(
+                    //     "li",
+                    //     {
+                    //         className: values.length === docTypes.length ? "active" : "",
+                    //     },
+                    //     e(
+                    //         "a",
+                    //         {
+                    //             tabIndex: 0,
+                    //             className: "multiselect-all",
+                    //             onKeyDown: (e) => {
+                    //                 if (e.key === 'Enter') {
+                    //                     if (values.length === docTypes.length) {
+                    //                         setValues([]);
+                    //                     } else {
+                    //                         setValues(docTypes.map((o) => o.id));
+                    //                     }
+                    //                 }
+                    //             },
+                    //         },
+                    //         !search.length &&
+                    //         e(
+                    //             "label",
+                    //             {
+                    //                 className: "checkbox",
+                    //                 style: {
+                    //                     color: '#818181',
+                    //                     fontWeight: values.length === docTypes.length ? 800 : 400
+                    //                 }
+                    //             },
+                    //             e("input", {
+                    //                 name: "multiselect_all",
+                    //                 form: 'none',
+                    //                 type: "checkbox",
+                    //                 checked: values.length === docTypes.length,
+                    //                 onChange: (e) => {
+                    //                     if (!e.target.checked) {
+                    //                         setValues([]);
+                    //                     } else {
+                    //                         setValues(docTypes.map((o) => o.id));
+                    //                     }
+                    //                 },
+                    //             }),
+                    //             values.length === docTypes.length &&
+                    //             e("i", {
+                    //                 className: "fa fa-check custom-icons",
+                    //                 style: {position: "absolute", left: 20, top: 13, marginRight: 10}
+                    //             }),
+                    //             "Select all"
+                    //         )
+                    //     )
+                    // ),
                     ...docTypes.map((o) =>
                         e(
                             "li",
                             {
                                 className: values.includes(o.id) ? "active" : "",
+                                id: `doctypes-${o.id}`, // add the id attribute
+                                role: 'option',
+                                tabIndex: 0,
+                                'aria-selected': values.includes(o.id),
+                                onKeyDown: (e) => {
+                                    if (e.key === 'Escape') {
+                                        e.preventDefault();
+                                        document.getElementById('custom-ul-doctypes').focus();
+                                    }
+                                    if (e.key === ' ' || e.key === 'Enter') {
+                                        e.preventDefault();
+                                        if (values.includes(o.id)) {
+                                            setValues(values.filter((v) => v !== o.id));
+                                        } else {
+                                            setValues([...values, o.id]);
+                                        }
+                                    }
+                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                                        e.preventDefault();
+                                        let index = docTypes.findIndex((v) => v.id === o.id);
+                                        const nextIndex = index === docTypes.length - 1 ? 0 : index + 1;
+                                        const nextLi = document.getElementById(`doctypes-${docTypes[nextIndex].id}`);
+                                        nextLi.focus();
+                                    }
+                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                        e.preventDefault();
+                                        let index = docTypes.findIndex((v) => v.id === o.id);
+                                        const prevIndex = index === 0 ? docTypes.length - 1 : index - 1;
+                                        const prevLi = document.getElementById(`doctypes-${docTypes[prevIndex].id}`);
+                                        prevLi.focus();
+                                    }
+                                }
                             },
                             e(
-                                "a",
-                                {
-                                    role: "menuitem",
-                                    tabIndex: 0,
-                                    onKeyDown: (e) => {
-                                        console.log(e.key)
-                                        if (e.key === 'Enter') {
-                                            if (values.includes(o.id)) {
-                                                setValues(values.filter((v) => v !== o.id));
-                                            } else {
-                                                setValues([...values, o.id]);
-                                            }
-                                            console.log('key down')
-                                        }
-                                    },
-                                },
+                                "a", null,
                                 e(
                                     "label",
                                     {
                                         className: "checkbox",
-                                        style: {color: "#818181", fontWeight: values.includes(o.id) ? 800 : 400}
+                                        style: {color: "#818181", fontWeight: values.includes(o.id) ? 800 : 400},
+                                        'aria-hidden': false,
+                                        id: `${o.id}-label-doctypes`,
                                     },
                                     e("input", {
                                         tabIndex: 0,
                                         type: "checkbox",
                                         value: o.id,
                                         checked: values.includes(o.id),
-                                        // onClick: (e) => {
+                                        'aria-checked': values.includes(o.id) ? "true" : "false",
+                                        'aria-labelledby': `${o.id}-label-doctypes`,
                                         onChange: (e) => {
                                             if (e.key !== 'Enter') {
                                                 if (!e.target.checked) {
@@ -226,7 +281,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                         className: "fa fa-check custom-icons",
                                         style: {position: "absolute", left: 20, top: 13, marginRight: 10}
                                     }),
-                                    // o.label
                                     highlightWorld(o.label, search)
                                 )
                             )
@@ -250,9 +304,11 @@ const getLabel = (selectedValues, service) => {
 
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
 
-    if (selectedValues.length === 0) {
-        return "No type(s) selected";
-    }
+    // // for future use if needed to set empty values string !!!!!
+    // if (selectedValues.length === 0) {
+    //     return "No type(s) selected";
+    // }
+
 
     if (docTypes.length >= selectedValues.length > 0) {
         let text = '';
@@ -263,8 +319,3 @@ const getLabel = (selectedValues, service) => {
         return text;
     }
 };
-
-// clear all selected values
-function clearSelectedValues(values) {
-    values.length = 0;
-}

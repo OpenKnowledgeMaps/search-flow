@@ -95,7 +95,8 @@ const LanguagePicker = ({values, setValues}) => {
                             clearSelectedValues()
                         },
                         onKeyDown: (e) => {
-                            if (e.key === 'Enter') {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault()
                                 clearSelectedValues()
                             }
                         }
@@ -176,22 +177,14 @@ const LanguagePicker = ({values, setValues}) => {
                                     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        // console.log(index);
                                         const nextIndex = index === languagesList.length - 1 ? 1 : index + 1;
-                                        // console.log('nextIndex');
-                                        // console.log(nextIndex);
                                         const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
-                                        // console.log('nextLi');
-                                        // console.log(nextLi);
                                         nextLi.focus();
                                     }
                                     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        // console.log(index);
                                         const prevIndex = index === 1 ? languagesList.length - 1 : index - 1;
-                                        // console.log('prevIndex');
-                                        // console.log(prevIndex);
                                         const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
                                         prevLi.focus();
                                     }

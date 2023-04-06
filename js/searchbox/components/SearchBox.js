@@ -353,6 +353,7 @@ class SearchBox extends React.Component {
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
+    console.log("hiddenEntries", hiddenEntries);
 
     return e(
         "div",
