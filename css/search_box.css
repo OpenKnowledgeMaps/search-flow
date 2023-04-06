@@ -324,6 +324,22 @@ body.iframed {
 }
 
 
+/* button label text */
+
+.multiselect-selected-text {
+    color: #818181;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 60%;
+    padding-left: inherit;
+    text-align: left;
+}
+
+.multiselect-selected-text-count {
+    color: #818181;
+}
+
 /*!*set btn background after click*!*/
 /*.btn:active {*/
 /*    background: #f4f4f4;*/

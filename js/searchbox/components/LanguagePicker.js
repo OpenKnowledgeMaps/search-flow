@@ -3,7 +3,7 @@
 import Hiddens from "./Hiddens.js";
 import LANG_OPTIONS from "../options/lang.js";
 import useOutsideClick from "../hooks/useOutsideClick.js";
-import highlightWorld, {cutString} from "../hooks/helpers.js";
+import highlightWorld from "../hooks/helpers.js";
 
 const {useState, useRef, createElement: e} = React;
 
@@ -42,23 +42,6 @@ const LanguagePicker = ({values, setValues}) => {
         setValues(...values, ["all-lang"]);
     }
 
-    // cut string to needed length according to screen width
-    const titleLengths = {
-        default: 30,
-        smallScreen: 25,
-        extraSmallScreen: 20
-    };
-    const screenWidth = document.documentElement.clientWidth;
-    let titleLength = titleLengths.default;
-
-    if (screenWidth < 768) {
-        titleLength = titleLengths.smallScreen;
-    }
-
-    if (screenWidth < 450) {
-        titleLength = titleLengths.extraSmallScreen;
-    }
-
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
             role: "combobox",
@@ -88,13 +71,14 @@ const LanguagePicker = ({values, setValues}) => {
                     onClick: () => setOpen((prev) => !prev),
                 },
                 e("div", {
-                    className: "multiselect-selected-text",
-                    style: {
-                        color: "#818181",
+                        className: "multiselect-selected-text",
+                        'aria-label': `${btnLabel}`,
                     },
-                    'aria-label': `${cutString(btnLabel, titleLength)} ${values.length > 1 ? `(${values.length})` : ''}`,
-                }, `${cutString(btnLabel, titleLength)} ${values.length > 1 ? "(" + values.length + ")" : ""}`),
-
+                    e('span', null, btnLabel),
+                ),
+                e("span", {className: 'multiselect-selected-text-count'},
+                    `${values.length > 1 ? "(" + values.length + ")" : ""}`
+                ),
                 e("div", {
                         style: {display: 'flex', flexDirection: 'row', alignItems: 'center'},
                         'aria-hidden': 'true',
