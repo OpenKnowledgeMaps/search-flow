@@ -141,76 +141,64 @@ const LanguagePicker = ({values, setValues}) => {
                         className: "custom-ul",
                         role: 'listbox',
                         tabIndex: 0,
-                        "aria-labelledby": "doc-types-heading",
+                        title: 'Languages list',
+                        "aria-labelledby": "language-heading",
+                        "aria-multiselectable": true,
+                        "aria-live": "polite",
+                        "aria-controls": "language-selector"
                     },
                     ...languagesList.map((o) =>
                         o.id !== "all-lang" &&
                         e(
                             "li",
                             {
+                                id: `language-${o.id}`, // add the id attribute
                                 className: values.includes(o.id) ? "active" : "",
                                 role: 'option',
+                                tabIndex: 0,
                                 'aria-selected': values.includes(o.id),
                                 onKeyDown: (e) => {
-                                    //     Sets visual tab focus on the whole ul
                                     if (e.key === 'Escape') {
-                                        e.preventDefault() // Prevents scrolling down the page
-                                        document.getElementById('custom-ul').focus()
-                                    } else if (e.key === ' ' || e.key === 'Spacebar') {
-                                        //    Prevents scrolling down the page
                                         e.preventDefault();
+                                        document.getElementById('custom-ul').focus();
+                                    }
+                                    if (e.key === ' ' || e.key === 'Enter') {
+                                        e.preventDefault();
+                                        if (values.includes(o.id)) {
+                                            setValues(values.filter((v) => v !== o.id));
+                                        } else {
+                                            if (values.includes("all-lang")) {
+                                                values = [];
+                                            }
+                                            setValues([...values, o.id]);
+                                        }
+                                    }
+                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                                        e.preventDefault();
+                                        let index = languagesList.findIndex((v) => v.id === o.id);
+                                        // console.log(index);
+                                        const nextIndex = index === languagesList.length - 1 ? 1 : index + 1;
+                                        // console.log('nextIndex');
+                                        // console.log(nextIndex);
+                                        const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
+                                        // console.log('nextLi');
+                                        // console.log(nextLi);
+                                        nextLi.focus();
+                                    }
+                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                        e.preventDefault();
+                                        let index = languagesList.findIndex((v) => v.id === o.id);
+                                        // console.log(index);
+                                        const prevIndex = index === 1 ? languagesList.length - 1 : index - 1;
+                                        // console.log('prevIndex');
+                                        // console.log(prevIndex);
+                                        const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
+                                        prevLi.focus();
                                     }
                                 }
                             },
                             e(
-                                "a",
-                                {
-                                    tabIndex: 0,
-                                    "aria-label": o.label,
-                                    "aria-describedby": `${o.id}-desc`,
-
-                                    onKeyDown: (e) => {
-                                        if (e.key === 'Enter' || e.key === ' ') {
-                                            e.preventDefault();
-                                            if (values.includes(o.id)) {
-                                                setValues(values.filter((v) => v !== o.id));
-                                            } else {
-                                                if (values.includes("all-lang")) {
-                                                    values = []
-                                                }
-                                                setValues([...values, o.id]);
-                                            }
-                                        } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                                            e.preventDefault();
-                                            const nextLi = e.target.parentNode.nextElementSibling;
-                                            if (nextLi) {
-                                                nextLi.querySelector('a').focus();
-                                            } else {
-                                                const firstLi = e.target.parentNode.parentNode.firstChild;
-                                                firstLi.querySelector('a').focus();
-                                            }
-                                        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                                            e.preventDefault();
-                                            const prevLi = e.target.parentNode.previousElementSibling;
-                                            if (prevLi) {
-                                                prevLi.querySelector('a').focus();
-                                            } else {
-                                                const lastLi = e.target.parentNode.parentNode.lastChild;
-                                                lastLi.querySelector('a').focus();
-                                            }
-                                        } else if (e.key === ' ') {
-                                            e.preventDefault();
-                                            if (values.includes(o.id)) {
-                                                setValues(values.filter((v) => v !== o.id));
-                                            } else {
-                                                if (values.includes("all-lang")) {
-                                                    values = []
-                                                }
-                                                setValues([...values, o.id]);
-                                            }
-                                        }
-                                    }
-                                },
+                                "a", null,
                                 e(
                                     "label",
                                     {
@@ -221,7 +209,8 @@ const LanguagePicker = ({values, setValues}) => {
                                     },
                                     e("input", {
                                         type: "checkbox",
-                                        value: o.id,
+                                        // value: o.id,
+                                        defaultValue: o.id,
                                         checked: values.includes(o.id),
                                         'aria-checked': values.includes(o.id) ? "true" : "false",
                                         onChange: (e) => {
