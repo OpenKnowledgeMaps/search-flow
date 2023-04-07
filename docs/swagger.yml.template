@@ -171,6 +171,13 @@ paths:
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
+        - in: query
+          name: custom_title
+          required: false
+          description: |
+            Overrides the title of the visualisation.
+          schema:
+            type: string
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
