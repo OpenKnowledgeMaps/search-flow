@@ -42,6 +42,19 @@ const LanguagePicker = ({values, setValues}) => {
         setValues(...values, ["all-lang"]);
     }
 
+    //  add event listener if ul is focused and user press escape to close the dropdown
+    document.getElementById('custom-ul')?.addEventListener('keydown', (e) => {
+        // check if this element is focused
+        if (document.activeElement.id === 'custom-ul') {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                document.getElementById('multiselect-dropdown-lang').focus();
+                setOpen(false)
+            }
+        }
+    });
+
+
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
             role: "combobox",
@@ -119,7 +132,6 @@ const LanguagePicker = ({values, setValues}) => {
                     className: "multiselect-container dropdown-menu custom-div",
                     'aria-labelledby': 'multiselect-dropdown',
                     role: 'listbox',
-
                 },
                 e("div", {style: {position: "relative", paddingRight: 20}},
 
@@ -162,13 +174,6 @@ const LanguagePicker = ({values, setValues}) => {
                         "aria-multiselectable": true,
                         "aria-live": "polite",
                         "aria-controls": "language-selector",
-                        onKeyDown: (e) => {
-                            if (e.key === 'Escape') {
-                                e.preventDefault();
-                                document.getElementById('multiselect-dropdown-lang').focus();
-                                setOpen(false)
-                            }
-                        }
                     },
                     ...languagesList.map((o) =>
                         o.id !== "all-lang" &&

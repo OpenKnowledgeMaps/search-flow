@@ -49,6 +49,17 @@ const DoctypesPicker = ({values, setValues, service}) => {
         return !(array1.length === array2.length && array1.every((value, index) => value === array2[index]));
     }
 
+    //  add event listener if ul is focused and user press escape to close the dropdown
+    document.getElementById('custom-ul-doctypes')?.addEventListener('keydown', (e) => {
+        // check if this element is focused
+        if (document.activeElement.id === 'custom-ul-doctypes') {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                document.getElementById('multiselect-dropdown-doc').focus();
+                setOpen(false)
+            }
+        }
+    });
 
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
@@ -171,13 +182,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         "aria-multiselectable": true,
                         "aria-live": "polite",
                         "aria-controls": "doctypes-selector",
-                        onKeyDown: (e) => {
-                            if (e.key === 'Escape') {
-                                e.preventDefault();
-                                document.getElementById('multiselect-dropdown-doc').focus();
-                                setOpen(false)
-                            }
-                        }
                     },
                     //  Save for future use if needed to add "select all" option !!!!!
                     // e(
