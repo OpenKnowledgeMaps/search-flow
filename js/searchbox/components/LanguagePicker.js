@@ -63,12 +63,19 @@ const LanguagePicker = ({values, setValues}) => {
                 "button",
                 {
                     type: "button",
-                    id: "multiselect-dropdown",
+                    id: "multiselect-dropdown-lang",
                     className: "multiselect dropdown-toggle btn btn-default",
                     title: btnLabel,
                     "aria-haspopup": "listbox",
                     "aria-expanded": open,
                     onClick: () => setOpen((prev) => !prev),
+                    onKeyDown: (e) => {
+                        if (e.key === 'Escape') {
+                            e.preventDefault();
+                            document.getElementById('multiselect-dropdown-lang').focus();
+                            setOpen(false)
+                        }
+                    }
                 },
                 e("div", {
                         className: "multiselect-selected-text",
@@ -112,6 +119,7 @@ const LanguagePicker = ({values, setValues}) => {
                     className: "multiselect-container dropdown-menu custom-div",
                     'aria-labelledby': 'multiselect-dropdown',
                     role: 'listbox',
+
                 },
                 e("div", {style: {position: "relative", paddingRight: 20}},
 
@@ -127,6 +135,13 @@ const LanguagePicker = ({values, setValues}) => {
                             onChange: (e => {
                                 setSearch(e.target.value)
                             }),
+                            onKeyDown: (e) => {
+                                if (e.key === 'Escape') {
+                                    e.preventDefault();
+                                    document.getElementById('multiselect-dropdown-lang').focus();
+                                    setOpen(false)
+                                }
+                            }
                         },
                     ),
                     e("i", {
@@ -146,7 +161,14 @@ const LanguagePicker = ({values, setValues}) => {
                         "aria-labelledby": "language-heading",
                         "aria-multiselectable": true,
                         "aria-live": "polite",
-                        "aria-controls": "language-selector"
+                        "aria-controls": "language-selector",
+                        onKeyDown: (e) => {
+                            if (e.key === 'Escape') {
+                                e.preventDefault();
+                                document.getElementById('multiselect-dropdown-lang').focus();
+                                setOpen(false)
+                            }
+                        }
                     },
                     ...languagesList.map((o) =>
                         o.id !== "all-lang" &&

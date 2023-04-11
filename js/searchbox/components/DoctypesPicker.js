@@ -70,13 +70,20 @@ const DoctypesPicker = ({values, setValues, service}) => {
             e(
                 "button",
                 {
-                    id: "multiselect-dropdown",
+                    id: "multiselect-dropdown-doc",
                     type: "button",
                     className: "multiselect dropdown-toggle btn btn-default",
                     title: btnLabel,
                     "aria-haspopup": "listbox",
                     "aria-expanded": open,
                     onClick: () => setOpen((prev) => !prev),
+                    onKeyDown: (e) => {
+                        if (e.key === 'Escape') {
+                            e.preventDefault();
+                            document.getElementById('multiselect-dropdown-doc').focus();
+                            setOpen(false)
+                        }
+                    }
                 },
                 e("div", {
                         className: "multiselect-selected-text",
@@ -137,7 +144,14 @@ const DoctypesPicker = ({values, setValues, service}) => {
                             style: {width: "100%", position: "relative", height: '36px', paddingLeft: 30},
                             onChange: (e => {
                                 setSearch(e.target.value)
-                            })
+                            }),
+                            onKeyDown: (e) => {
+                                if (e.key === 'Escape') {
+                                    e.preventDefault();
+                                    document.getElementById('multiselect-dropdown-doc').focus();
+                                    setOpen(false)
+                                }
+                            }
                         },
                     ),
                     e("i", {
@@ -156,7 +170,14 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         "aria-labelledby": "doctypes-heading",
                         "aria-multiselectable": true,
                         "aria-live": "polite",
-                        "aria-controls": "doctypes-selector"
+                        "aria-controls": "doctypes-selector",
+                        onKeyDown: (e) => {
+                            if (e.key === 'Escape') {
+                                e.preventDefault();
+                                document.getElementById('multiselect-dropdown-doc').focus();
+                                setOpen(false)
+                            }
+                        }
                     },
                     //  Save for future use if needed to add "select all" option !!!!!
                     // e(
