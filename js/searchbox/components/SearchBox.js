@@ -286,7 +286,7 @@ class SearchBox extends React.Component {
     const {contentProvider} = this.state.settings;
     const {titleExpansion, abstractExpansion} = this.state.settings;
     const {keywordsExpansion, collection} = this.state.settings;
-    const {q_advanced} = this.state.settings;
+    // const {q_advanced} = this.state.settings;
 
 
     // if (minDescriptionSize) {
@@ -312,9 +312,19 @@ class SearchBox extends React.Component {
     if (keywordsExpansion) {
       entries.push({name: "keywords", value: keywordsExpansion});
     }
-    if (!showQadvanced && q_advanced) {
-      entries.push({name: "q_advanced", value: q_advanced})
+    // if (!showQadvanced && q_advanced) {
+    //   entries.push({name: "q_advanced", value: q_advanced})
+    // }
+    // if (q_advanced) {
+    //   entries.push({name: "q_advanced", value: q_advanced})
+    // }
+
+    if (this.state.settings.q_advanced) {
+      entries.push({name: "q_advanced", value: this.state.settings.q_advanced})
     }
+    // if (!showQadvanced) {
+    //   entries.push({name: "q_advanced", value: q_advanced})
+    // }
 
     return entries;
   }
