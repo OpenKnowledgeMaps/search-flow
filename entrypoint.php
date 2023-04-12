@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+    <meta name="referrer" content="origin-when-cross-origin"/>
     <title>Open Knowledge Maps Search Box</title>
 
     <link rel="stylesheet" href="search-flow/lib/bootstrap.min.css">
@@ -12,11 +15,6 @@
     <link rel="stylesheet" href="search-flow/css/search_box.css">
 
     <script type="module" src="search-flow/js/searchbox/runner.js"></script>
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <meta name="referrer" content="origin-when-cross-origin"/>
 </head>
 
 <body class="iframed">
