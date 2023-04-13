@@ -71,8 +71,12 @@ const AdvancedSearchField = ({value, setValue}) => {
                 ")"),
             (popoverId === `q-advanced-popover` && showPopover) &&
             e('div', {
-                style: {visible: showPopover ? 'visible' : 'hidden'},
-                className: 'popover__content__left',
+                style: {
+                    visible: showPopover ? 'visible' : 'hidden',
+                    marginTop: 5,
+                    marginLeft: 4,
+                },
+                className: 'popover__content',
                 role: 'dialog',
                 'aria-labelledby': 'info-title',
                 onKeyDown: (e) => {

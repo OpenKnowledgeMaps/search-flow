@@ -4,7 +4,7 @@ import Hiddens from "./Hiddens.js";
 import useOutsideClick from "../hooks/useOutsideClick.js";
 
 
-const {useState, useRef, createElement: e} = React;
+const {useState, useRef, useEffect, createElement: e} = React;
 
 
 function RadioInputList({label, options, name, value, setValue}) {
@@ -12,18 +12,35 @@ function RadioInputList({label, options, name, value, setValue}) {
     const [showPopover, setShowPopover] = useState(false);
     const [popoverId, setPopoverId] = useState('');
 
+    // for useOutsideClick hook but not working with popover in first item in list...
     const handleOutsideClick = () => {
         setShowPopover(false);
         setPopoverId('');
     };
 
     const containerRef = useRef(null);
+
     useOutsideClick(containerRef, handleOutsideClick);
 
+    const popoverRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (popoverRef.current && !popoverRef.current.contains(e.target)) {
+                setShowPopover(false);
+                setPopoverId('');
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [popoverRef]);
 
     return e(
         "fieldset",
-        // "div",
         {
             className: "radio-menu",
             role: "radiogroup",
@@ -42,7 +59,7 @@ function RadioInputList({label, options, name, value, setValue}) {
                     e(
                         "div",
                         {
-                            key: `${o.id}-${o.label}-option`,
+                            key: `${o.id}-${o.label}-${options.indexOf(o)}-option`,
                             className: o.id === value ? "active" : "",
                             style: {display: 'flex', flexDirection: "row"},
                         },
@@ -53,14 +70,6 @@ function RadioInputList({label, options, name, value, setValue}) {
                                 id: `${o.id}-radio`,
                                 'aria-label': `${o.label}`,
                                 className: "filter-value",
-                                // tabIndex: 0,
-                                // onClick: () => setValue(o.id),
-                                // onKeyDown: (e) => {
-                                //     if (e.key === 'Enter') {
-                                //         setValue(o.id);
-                                //     }
-                                // },
-                                // "aria-checked": o.id === value
                             },
                             e("input", {
                                 type: "radio",
@@ -90,17 +99,17 @@ function RadioInputList({label, options, name, value, setValue}) {
                         ),
 
                         e('div', {
-                            key: `${o.id}-popover`,
-                            id: `${o.label}-popover`,
+                            key: `${o.label}-${o.infoTitle}-popover`,
+                            id: `${o.label}-${o.infoTitle}-popover`,
                             className: 'popover__wrapper',
+                            // ref: containerRef,
                         }, [
                             e('div', {
-                                    key: `${o.id}-info-title`,
+                                    key: `${o.id}-${o.label}-${options.indexOf(o)}-info-title`,
                                     className: 'info-title',
                                     role: 'button',
                                     tabIndex: 0,
                                     'aria-label': 'Information',
-                                    // ref: containerRef,
                                     onKeyDown: (e) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
                                             setShowPopover(!showPopover);
@@ -111,12 +120,13 @@ function RadioInputList({label, options, name, value, setValue}) {
                                         }
                                     },
                                     onClick: () => {
+                                        if (!popoverId || popoverId !== o.label) {
+                                            setPopoverId(o.label);
+                                            setShowPopover(true);
+                                        }
                                         if (popoverId === o.label) {
                                             setShowPopover(false);
                                             setPopoverId('');
-                                        } else {
-                                            setShowPopover(true);
-                                            setPopoverId(o.label);
                                         }
                                     },
                                 }, `(${o.infoTitle}`,
@@ -146,8 +156,9 @@ function RadioInputList({label, options, name, value, setValue}) {
                                     id: 'popover-message'
                                 }, o.infoContent),
                             ]),
-                        ])
+                        ]),
                     ),
+
                 e(Hiddens, {entries: [{name, value}]})
             ),
         ),
