@@ -26,13 +26,10 @@ import AdvancedSearchField from "./AdvancedSearchField.js";
 const e = React.createElement;
 
 
-const pubMedDefaultId = []
+const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS
+    .filter(option => option.id !== 'retracted publication')
+    .map(option => option.id);
 
-PUBMED_DOCTYPES_OPTIONS.forEach((option) => {
-  if (option.id !== 'retracted publication') {
-    pubMedDefaultId.push(option.id)
-  }
-});
 
 class SearchBox extends React.Component {
   constructor(props) {
@@ -51,7 +48,8 @@ class SearchBox extends React.Component {
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes, // this value only for service='base'
-        doctypesPubmed: pubMedDefaultId, // this value only for service='pubmed'
+        // doctypes: ['121'], // this value only for service='base'
+        // doctypesPubmed: pubMedDefaultId, // this value only for service='pubmed'
         lang_id: settings.defaultLang,
         // data source
         service: settings.defaultService,
@@ -172,13 +170,12 @@ class SearchBox extends React.Component {
     let to = DEFAULT_TO
     if (newValue === 'base') {
       docTypesType = this.state.settings.defaultDocTypes
+      // docTypesType = ['121']
       from = DEFAULT_FROM
     } else if (newValue === 'pubmed') {
       docTypesType = pubMedDefaultId
       from = PUBMED_DEFAULT_FROM
     }
-
-    // const {docTypesType} = getServiceBounds(newValue);
 
     this.setState({
       ...this.state,
@@ -207,16 +204,7 @@ class SearchBox extends React.Component {
 
 
   getHiddenEntries() {
-    const entries = [
-      // probably required by backend, otherwise useless - same val as "service"
-      // {name: "optradio", value: "base"},
-    ];
-
-    // no needed form has fields from/to
-    // // time range
-    // const {type: rangeType, from, to} = this.state.formData.timespan;
-    // entries.push({name: "from", value: from});
-    // entries.push({name: "to", value: to});
+    const entries = [];
 
     const {
       showTimeRange,
@@ -239,13 +227,28 @@ class SearchBox extends React.Component {
     } else {
       entries.push({name: "sorting", value: this.state.formData.sorting});
     }
-    if (this.state.formData.service === 'base') {
-      if (!this.state.showOptions || !showVisType) {
-        entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
-      } else {
-        entries.push({name: "vis_type", value: this.state.formData.visType});
-      }
+    //
+    // if (this.state.formData.service === 'base') {
+    //   if (!this.state.showOptions || !showVisType) {
+    //     entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
+    //   } else {
+    //     entries.push({name: "vis_type", value: this.state.formData.visType});
+    //   }
+    // }
+
+    // if (showVisType) {
+    //   entries.push({name: "vis_type", value: this.state.formData.visType});
+    // }
+
+
+    if (showVisType) {
+      entries.push({name: "vis_type", value: this.state.formData.visType});
+
+    } else {
+      entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
     }
+
+
     if (this.state.formData.service === 'base') {
       if (!this.state.showOptions || !showMinDesksize) {
         entries.push({name: "min_descsize", value: this.state.settings.minDescriptionSize});
@@ -259,17 +262,13 @@ class SearchBox extends React.Component {
         entries.push({name: "document_types[]", value});
       });
     }
+
     if (this.state.formData.service === 'base') {
       if (!this.state.showOptions || !showLang) {
         this.state.formData.lang_id.forEach((value) => {
           entries.push({name: "lang_id[]", value});
         });
       }
-      // else {
-      //   this.state.formData.lang_id.forEach((value) => {
-      //     entries.push({name: "lang_id[]", value});
-      //   });
-      // }
     }
 
     if (!showService) {
@@ -278,15 +277,11 @@ class SearchBox extends React.Component {
       entries.push({name: "service", value: this.state.formData.service});
     }
 
-    // if (showVisType) {
-    //   entries.push({name: "vis_type", value: this.state.formData.visType});
-    // }
-
     // const {minDescriptionSize, contentProvider} = this.state.settings;
     const {contentProvider} = this.state.settings;
     const {titleExpansion, abstractExpansion} = this.state.settings;
     const {keywordsExpansion, collection} = this.state.settings;
-    // const {q_advanced} = this.state.settings;
+    const {q_advanced} = this.state.settings;
 
 
     // if (minDescriptionSize) {
@@ -315,16 +310,18 @@ class SearchBox extends React.Component {
     // if (!showQadvanced && q_advanced) {
     //   entries.push({name: "q_advanced", value: q_advanced})
     // }
-    // if (q_advanced) {
-    //   entries.push({name: "q_advanced", value: q_advanced})
-    // }
-
-    if (this.state.settings.q_advanced) {
-      entries.push({name: "q_advanced", value: this.state.settings.q_advanced})
+    if (q_advanced) {
+      entries.push({name: "q_advanced", value: q_advanced})
     }
+
     // if (!showQadvanced) {
     //   entries.push({name: "q_advanced", value: q_advanced})
     // }
+
+    // if (this.state.settings.q_advanced) {
+    //   entries.push({name: "q_advanced", value: this.state.settings.q_advanced})
+    // }
+
 
     return entries;
   }
@@ -358,7 +355,7 @@ class SearchBox extends React.Component {
       showMinDesksize,
       showQadvanced
     } = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDesksize;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDesksize || showQadvanced;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();

@@ -8,8 +8,12 @@ import LANG_OPTIONS from "./options/lang.js";
 import SERVICES_OPTIONS from "./options/services.js";
 import DESK_SIZE_OPTIONS from "./options/desk_size.js";
 import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
+import services from "./options/services.js";
 
 
+const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS
+    .filter(option => option.id !== 'retracted publication')
+    .map(option => option.id);
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -27,7 +31,10 @@ export const DEFAULT_SETTINGS = {
 
   // default (preselected) values
   defaultQuery: "",
-  defaultDocTypes: ["121"], // deafult value for service='base' it changes if service='pubmed'
+  // defaultDocTypes: services.defaultService === 'pubmed' ? pubMedDefaultId : ["121"],
+  defaultDocTypes: ["121"], // deafult value for service='base'
+  defaultDocTypesPubmed: pubMedDefaultId, // deafult value for service='pubmed'
+
   defaultSorting: "most-relevant",
   defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
   defaultTo: DEFAULT_TO,
@@ -42,7 +49,6 @@ export const DEFAULT_SETTINGS = {
   abstractExpansion: "",
   keywordsExpansion: "",
   q_advanced: "",
-  // q_advanced: "dcorcid:0000-0002-1894-5040",
   // Data Source (new param)
   defaultService: SERVICES_OPTIONS[0].id,  // by default chosen service is 'base'
 };
@@ -94,9 +100,7 @@ const getConfigSettings = (outerSettings = {}) => {
     // the value is also in outerSettings.query, but it's somewhat escaped
     settings.defaultQuery = outerSettings.q.replace(/\\/g, "");
   }
-  // if (typeof outerSettings.time_range === "string") {
-  //   settings.defaultTimespan = outerSettings.time_range;
-  // }
+
   if (typeof outerSettings.from === "string") {
     settings.defaultFrom = outerSettings.from;
   }
@@ -113,9 +117,7 @@ const getConfigSettings = (outerSettings = {}) => {
   if (Array.isArray(outerSettings.lang_id)) {
     settings.defaultLang = outerSettings.lang_id;
   }
-  // else if (typeof outerSettings.lang_id === "string") {
-  //   settings.defaultLang = outerSettings.lang_id;
-  // }
+
   if (typeof outerSettings.service === "string") {
     settings.defaultService = outerSettings.service;
   }
@@ -183,79 +185,56 @@ const getQuerySettings = () => {
     settings.showQadvanced = queryParams.get("show_q_advanced") === "true";
   }
 
-  // default (preselected) values
-  // if (queryParams.hasValid("time_range", TYPE_OPTION(TIMESPAN_OPTIONS))) {
-  //   settings.defaultTimespan = queryParams.get("time_range");
-  //
-  //   const customFrom = queryParams.hasValid("from", TYPE_DATE)
-  //       ? queryParams.get("from")
-  //       : undefined;
-  //   const customTo = queryParams.hasValid("to", TYPE_DATE)
-  //       ? queryParams.get("to")
-  //       : undefined;
-  //
-  //   const { from, to } = getTimespanBounds(
-  //     settings.defaultTimespan,
-  //     customFrom,
-  //     customTo
-  //   );
-  //
-  //   settings.defaultFrom = from;
-  //   settings.defaultTo = to;
-  // }
-
-  // get time parameters from/to
-  if (queryParams.hasValid("from", TYPE_DATE)) {
-    settings.defaultFrom = queryParams.hasValid("from", TYPE_DATE)
-        ? queryParams.get("from")
-        : undefined;
-  } else {
-    (settings.defaultService === 'pubmed')
-        ? settings.defaultFrom = PUBMED_DEFAULT_FROM
-        : settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
-  }
-  if (queryParams.hasValid("to", TYPE_DATE)) {
-    settings.defaultTo = queryParams.hasValid("to", TYPE_DATE)
-        ? queryParams.get("to")
-        : undefined;
-  } else {
-    settings.defaultTo = DEFAULT_SETTINGS.defaultTo;
+  if (queryParams.has("from")) {
+    if (queryParams.hasValid("from", TYPE_DATE)) {
+      settings.defaultFrom = queryParams.hasValid("from", TYPE_DATE)
+          ? queryParams.get("from")
+          : undefined;
+    } else {
+      (queryParams.get('service') === 'pubmed')
+          ? settings.defaultFrom = PUBMED_DEFAULT_FROM
+          : settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
+    }
   }
 
-  if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
-    settings.defaultDocTypes = queryParams.getAll("document_types[]");
+  if (queryParams.has("to")) {
+    if (queryParams.hasValid("to", TYPE_DATE)) {
+      settings.defaultTo = queryParams.hasValid("to", TYPE_DATE)
+          ? queryParams.get("to")
+          : undefined;
+    } else {
+      settings.defaultTo = DEFAULT_SETTINGS.defaultTo;
+    }
   }
+
+
+  if (queryParams.has("document_types[]")) {
+    if (queryParams.get('service') === 'base') {
+      if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
+        settings.defaultDocTypes = queryParams.getAll("document_types[]");
+      } else {
+        settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
+      }
+    } else if (queryParams.get('service') === 'pubmed') {
+      if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES_PUBMED)) {
+        settings.defaultDocTypes = queryParams.getAll("document_types[]");
+      } else {
+        settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypesPubmed;
+      }
+    }
+  }
+
+
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
-  } else {
-    settings.defaultSorting = DEFAULT_SETTINGS.defaultSorting;
   }
-  if (queryParams.hasValid("lang_id[]", TYPE_LANGTYPES)) {
-    settings.defaultDocTypes = queryParams.getAll("lang_id[]");
-  }
-  //  // Old implementation where lang_id was a single value instead of an array
 
-  // if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
-  //   settings.defaultLang = queryParams.get("lang_id");
-  // } else {
-  //   settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
-  // }
+  if (queryParams.hasValid("lang_id[]", TYPE_LANGTYPES)) {
+    settings.defaultLang = queryParams.getAll("lang_id[]");
+  }
 
   if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
     settings.defaultService = queryParams.get("service");
-    if (settings.defaultService === 'base') {
-      settings.defaultDocTypes = ['121'];
-      settings.defaultFrom = DEFAULT_FROM
-    } else if (settings.defaultService === 'pubmed') {
-      const pubMedDefaultId = []
-      PUBMED_DOCTYPES_OPTIONS.forEach((option) => {
-        if (option.id !== 'retracted publication') {
-          pubMedDefaultId.push(option.id)
-        }
-      });
-      settings.defaultDocTypes = pubMedDefaultId
-      settings.defaultFrom = PUBMED_DEFAULT_FROM
-    }
 
   } else {
     settings.defaultService = DEFAULT_SETTINGS.defaultService;
@@ -263,32 +242,12 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESK_SIZE_OPTIONS))) {
     // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
-  } else {
-    settings.minDescriptionSize = DEFAULT_SETTINGS.minDescriptionSize;
   }
 
-
-  // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
-  //   settings.minDescriptionSize = queryParams.get("min_descsize");
-  // }
-
-  // if (settings.defaultService === 'base') {
-  //   settings.defaultDocTypes = ['121'];
-  // } else if (settings.defaultService === 'pubmed') {
-  //   const pubMedDefaultId = []
-  //   PUBMED_DOCTYPES_OPTIONS.forEach((option) => {
-  //     if (option.id !== 'retracted publication') {
-  //       pubMedDefaultId.push(option.id)
-  //     }
-  //   });
-  //   settings.defaultDocTypes = pubMedDefaultId
-  // }
 
   // hidden values
   if (queryParams.hasValid("vis_type", TYPE_OPTION(VIS_TYPE_OPTIONS))) {
     settings.defaultVisType = queryParams.get("vis_type");
-  } else {
-    settings.defaultVisType = DEFAULT_SETTINGS.defaultVisType;
   }
 
   if (queryParams.hasValid("repo", TYPE_SINGLE)) {
@@ -322,6 +281,13 @@ const TYPE_DOCTYPES = {
   validator: (values) =>
       !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
   description: "Only the BASE document ids (codes) are allowed.",
+};
+
+const TYPE_DOCTYPES_PUBMED = {
+  validator: (values) =>
+      !values.some((value) => !PUBMED_DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
+  description: "Only the PUBMED document ids (codes) are allowed.",
+
 };
 
 const TYPE_LANGTYPES = {
