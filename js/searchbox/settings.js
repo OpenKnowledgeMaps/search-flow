@@ -224,6 +224,10 @@ const getQuerySettings = () => {
     }
   }
 
+  // if (queryParams.get('service') === 'pubmed' && !queryParams.has("document_types[]")) {
+  //   settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypesPubmed;
+  // }
+
 
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");

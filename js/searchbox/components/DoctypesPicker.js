@@ -326,14 +326,12 @@ const DoctypesPicker = ({values, setValues, service}) => {
 export default DoctypesPicker;
 
 const getLabel = (selectedValues, service) => {
-
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
 
     // // for future use if needed to set empty values string !!!!!
     // if (selectedValues.length === 0) {
     //     return "No type(s) selected";
     // }
-
 
     if (docTypes.length >= selectedValues.length > 0) {
         let text = '';

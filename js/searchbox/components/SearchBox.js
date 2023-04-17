@@ -360,7 +360,12 @@ class SearchBox extends React.Component {
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
-    // console.log("hiddenEntries", hiddenEntries);
+
+    //  exist error with pubmed documents handling from link params it doesn't want to switch to default value from base
+    // this is a temporary solution
+    if (this.state.formData.service === "pubmed" && this.state.formData.doctypes.includes('121')) {
+      this.state.formData.doctypes = pubMedDefaultId
+    }
 
     return e(
         "div",
