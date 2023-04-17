@@ -198,7 +198,7 @@ if($has_sufficient_data) {
         $params_array = $search_flow_config["params_arrays"][$service];
         if(isset($search_flow_config["optional_get_params"][$service])) {
             foreach($search_flow_config["optional_get_params"][$service] as $optional_param) {
-                if(array_key_exists($optional_param, $post_array) && !in_array($optional_param, $params_array)) {
+                foreach($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
                     $params_array[] = $optional_param;
                 }
             }
