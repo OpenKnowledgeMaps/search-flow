@@ -20,7 +20,7 @@ import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import LanguagePicker from "./LanguagePicker.js";
 import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "../options/timespan.js";
 import AdvancedSearchField from "./AdvancedSearchField.js";
-// import {getServiceBounds} from "../options/service_bounds.js";
+import CollectionPicker from "./CollectionPicker.js";
 
 
 const e = React.createElement;
@@ -55,6 +55,7 @@ class SearchBox extends React.Component {
         service: settings.defaultService,
         minDescriptionSize: settings.minDescriptionSize,
         q_advanced: settings.q_advanced,
+        collection: settings.collection,
       },
       settings,
       showOptionsLabel: "Show advanced search options",
@@ -163,14 +164,12 @@ class SearchBox extends React.Component {
     });
   }
 
-
   updateService(newValue) {
     let docTypesType = []
     let from = ''
     let to = DEFAULT_TO
     if (newValue === 'base') {
       docTypesType = this.state.settings.defaultDocTypes
-      // docTypesType = ['121']
       from = DEFAULT_FROM
     } else if (newValue === 'pubmed') {
       docTypesType = pubMedDefaultId
@@ -201,6 +200,15 @@ class SearchBox extends React.Component {
     });
   }
 
+  updateColl(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        collection: newValue,
+      },
+    });
+  }
 
 
   getHiddenEntries() {
@@ -214,7 +222,8 @@ class SearchBox extends React.Component {
       showService,
       showVisType,
       showMinDesksize,
-      showQadvanced
+      showQadvanced,
+      showCollection,
     } = this.state.settings;
 
     if (!this.state.showOptions || !showTimeRange) {
@@ -271,6 +280,7 @@ class SearchBox extends React.Component {
       }
     }
 
+
     if (!showService) {
       entries.push({name: "service", value: this.state.settings.defaultService});
     } else {
@@ -280,8 +290,9 @@ class SearchBox extends React.Component {
     // const {minDescriptionSize, contentProvider} = this.state.settings;
     const {contentProvider} = this.state.settings;
     const {titleExpansion, abstractExpansion} = this.state.settings;
-    const {keywordsExpansion, collection} = this.state.settings;
+    const {keywordsExpansion} = this.state.settings;
     const {q_advanced} = this.state.settings;
+    const {collection} = this.state.settings;
 
 
     // if (minDescriptionSize) {
@@ -295,9 +306,20 @@ class SearchBox extends React.Component {
     if (contentProvider) {
       entries.push({name: "repo", value: contentProvider});
     }
+    //
+    // if (this.state.formData.service === 'base') {
+    //   if (showCollection) {
+    //     entries.push({name: "coll", value: this.state.formData.collection})
+    //   } else {
+    //     entries.push({name: "coll", value: this.state.settings.collection});
+    //   }
+    // }
+
     if (collection) {
       entries.push({name: "coll", value: collection});
     }
+
+
     if (titleExpansion) {
       entries.push({name: "title", value: titleExpansion});
     }
@@ -353,9 +375,10 @@ class SearchBox extends React.Component {
       showService,
       showVisType,
       showMinDesksize,
-      showQadvanced
+      showQadvanced,
+      showCollection
     } = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDesksize || showQadvanced;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDesksize || showQadvanced || showCollection;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
@@ -441,6 +464,13 @@ class SearchBox extends React.Component {
                             })
                         ),
                     ),
+                    (showCollection && this.state.formData.service === "base") &&
+                    e(CollectionPicker,
+                        {
+                          values: this.state.formData.collection,
+                          setValues: this.updateColl.bind(this)
+                        },),
+
                     (showMinDesksize && this.state.formData.service === "base") &&
                     e(MetadataQuality, {
                       value: this.state.formData.minDescriptionSize,

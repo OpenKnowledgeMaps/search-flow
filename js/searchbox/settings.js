@@ -27,7 +27,7 @@ export const DEFAULT_SETTINGS = {
   showVisType: true,
   showMinDesksize: true,
   showQadvanced: false,
-  // showQadvanced: true,
+  showCollection: false,
 
   // default (preselected) values
   defaultQuery: "",
@@ -44,7 +44,8 @@ export const DEFAULT_SETTINGS = {
   defaultVisType: VIS_TYPE_OPTIONS[0].id,
   minDescriptionSize: DESK_SIZE_OPTIONS[0].id,
   contentProvider: undefined,
-  collection: undefined,
+  // collection: undefined,
+  collection: 'worldwide',
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
@@ -64,6 +65,7 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_vis_type",
   "show_min_desksize",
   "show_q_advanced",
+  "show_coll",
 ]);
 
 /**
@@ -183,6 +185,10 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("show_q_advanced", TYPE_BOOL)) {
     settings.showQadvanced = queryParams.get("show_q_advanced") === "true";
+  }
+
+  if (queryParams.hasValid("show_coll", TYPE_BOOL)) {
+    settings.showCollection = queryParams.get("show_coll") === "true";
   }
 
   if (queryParams.has("from")) {
