@@ -236,19 +236,6 @@ class SearchBox extends React.Component {
     } else {
       entries.push({name: "sorting", value: this.state.formData.sorting});
     }
-    //
-    // if (this.state.formData.service === 'base') {
-    //   if (!this.state.showOptions || !showVisType) {
-    //     entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
-    //   } else {
-    //     entries.push({name: "vis_type", value: this.state.formData.visType});
-    //   }
-    // }
-
-    // if (showVisType) {
-    //   entries.push({name: "vis_type", value: this.state.formData.visType});
-    // }
-
 
     if (showVisType) {
       entries.push({name: "vis_type", value: this.state.formData.visType});
@@ -280,7 +267,6 @@ class SearchBox extends React.Component {
       }
     }
 
-
     if (!showService) {
       entries.push({name: "service", value: this.state.settings.defaultService});
     } else {
@@ -292,7 +278,7 @@ class SearchBox extends React.Component {
     const {titleExpansion, abstractExpansion} = this.state.settings;
     const {keywordsExpansion} = this.state.settings;
     const {q_advanced} = this.state.settings;
-    const {collection} = this.state.settings;
+    const collection = this.state.settings.collection;
 
 
     // if (minDescriptionSize) {
@@ -306,17 +292,19 @@ class SearchBox extends React.Component {
     if (contentProvider) {
       entries.push({name: "repo", value: contentProvider});
     }
-    //
-    // if (this.state.formData.service === 'base') {
-    //   if (showCollection) {
-    //     entries.push({name: "coll", value: this.state.formData.collection})
-    //   } else {
-    //     entries.push({name: "coll", value: this.state.settings.collection});
-    //   }
+
+    // optional condition
+    // if (collection) {
+    //   entries.push({name: "coll", value: collection});
     // }
 
-    if (collection) {
-      entries.push({name: "coll", value: collection});
+    if (!this.state.showOptions || !showCollection) {
+      // console.log('collection', collection)
+      // console.log(collection === 'cn')
+      // console.log('collection.length', collection.length)
+      if (collection && collection.length <= 3) {
+        entries.push({name: "coll", value: collection});
+      }
     }
 
 
@@ -382,6 +370,8 @@ class SearchBox extends React.Component {
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
+
+    console.log('hiddenEntries', hiddenEntries)
 
 
     //  exist error with pubmed documents handling from link params it doesn't want to switch to default value from base

@@ -10,6 +10,15 @@ const {useState, useRef, createElement: e} = React;
 
 const CollectionPicker = ({values, setValues}) => {
 
+    console.log('CollectionPicker 1: values', values)
+
+    if (!values) {
+        values = 'worldwide';
+    }
+
+    console.log('CollectionPicker 2: values', values)
+
+
     // variable to store the current document types
     let collOptionsList = COLL_OPTIONS
 
@@ -147,85 +156,82 @@ const CollectionPicker = ({values, setValues}) => {
                         "aria-controls": "language-selector",
                     },
                     ...collOptionsList.map((o) =>
-                            o.id !== "all-lang" &&
-                            e(
-                                "li",
-                                {
-                                    id: `language-${o.id}`, // add the id attribute
-                                    className: values === o.id ? "active" : "",
-                                    role: 'option',
-                                    tabIndex: 0,
-                                    'aria-selected': values === o.id,
-                                    onKeyDown: (e) => {
-                                        if (e.key === 'Escape') {
-                                            e.preventDefault();
-                                            document.getElementById('custom-ul-coll').focus();
-                                        }
-                                        if (e.key === ' ' || e.key === 'Enter') {
-                                            e.preventDefault();
-                                            setValues(o.id);
-                                            // if (values === o.id) {
-                                            //     setValues(o.id);
-                                            // } else {
-                                            //     setValues(o.id);
-                                            // }
-                                        }
-                                        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                                            e.preventDefault();
-                                            let index = collOptionsList.findIndex((v) => v.id === o.id);
-                                            const nextIndex = index === collOptionsList.length - 1 ? 1 : index + 1;
-                                            const nextLi = document.getElementById(`language-${collOptionsList[nextIndex].id}`);
-                                            nextLi.focus();
-                                        }
-                                        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                                            e.preventDefault();
-                                            let index = collOptionsList.findIndex((v) => v.id === o.id);
-                                            const prevIndex = index === 1 ? collOptionsList.length - 1 : index - 1;
-                                            const prevLi = document.getElementById(`language-${collOptionsList[prevIndex].id}`);
-                                            prevLi.focus();
-                                        }
+                        o.id !== "all-lang" &&
+                        e(
+                            "li",
+                            {
+                                id: `language-${o.id}`, // add the id attribute
+                                className: values === o.id ? "active" : "",
+                                role: 'option',
+                                tabIndex: 0,
+                                'aria-selected': values === o.id,
+                                onKeyDown: (e) => {
+                                    if (e.key === 'Escape') {
+                                        e.preventDefault();
+                                        document.getElementById('custom-ul-coll').focus();
                                     }
-                                },
+                                    if (e.key === ' ' || e.key === 'Enter') {
+                                        e.preventDefault();
+                                        setValues(o.id);
+                                    }
+                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                                        e.preventDefault();
+                                        let index = collOptionsList.findIndex((v) => v.id === o.id);
+                                        const nextIndex = index === collOptionsList.length - 1 ? 1 : index + 1;
+                                        const nextLi = document.getElementById(`language-${collOptionsList[nextIndex].id}`);
+                                        nextLi.focus();
+                                    }
+                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                        e.preventDefault();
+                                        let index = collOptionsList.findIndex((v) => v.id === o.id);
+                                        const prevIndex = index === 1 ? collOptionsList.length - 1 : index - 1;
+                                        const prevLi = document.getElementById(`language-${collOptionsList[prevIndex].id}`);
+                                        prevLi.focus();
+                                    }
+                                }
+                            },
+                            e(
+                                "a", null,
                                 e(
-                                    "a", null,
-                                    e(
-                                        "label",
-                                        {
-                                            className: "checkbox",
-                                            style: {color: "#818181", fontWeight: values === o.id ? 800 : 400},
-                                            'aria-hidden': false,
-                                            id: `${o.id}-desc`
+                                    "label",
+                                    {
+                                        className: "checkbox",
+                                        style: {color: "#818181", fontWeight: values === o.id ? 800 : 400},
+                                        'aria-hidden': false,
+                                        id: `${o.id}-desc`
+                                    },
+                                    e("input", {
+                                        type: "checkbox",
+                                        defaultValue: o.id,
+                                        checked: values === o.id,
+                                        'aria-checked': values === o.id ? "true" : "false",
+                                        onChange: (e) => {
+                                            if (e.key !== 'Enter' || e.key !== ' ') {
+                                                setValues(o.id);
+                                            }
                                         },
-                                        e("input", {
-                                            type: "checkbox",
-                                            defaultValue: o.id,
-                                            checked: values === o.id,
-                                            'aria-checked': values === o.id ? "true" : "false",
-                                            onChange: (e) => {
-                                                if (e.key !== 'Enter' || e.key !== ' ') {
-                                                    setValues(o.id);
-                                                    // if (!e.target.checked) {
-                                                    //     setValues(o.id);
-                                                    // } else {
-                                                    //     setValues(o.id);
-                                                    // }
-                                                }
-                                            },
-                                        }),
-                                        values === o.id &&
-                                        e("i", {
-                                            className: "fa fa-circle custom-icons",
-                                            style: {position: "absolute", left: 20, top: 15, marginRight: 10, fontSize: 10}
-                                        }),
-                                        highlightWorld(o.label, search)
-                                    )
+                                    }),
+                                    values === o.id &&
+                                    e("i", {
+                                        className: "fa fa-circle custom-icons",
+                                        style: {
+                                            position: "absolute",
+                                            left: 20,
+                                            top: 15,
+                                            marginRight: 10,
+                                            fontSize: 10
+                                        }
+                                    }),
+                                    highlightWorld(o.label, search)
                                 )
-                            ),
-                        e(Hiddens, {entries: [{name: 'coll', value: values}]})
+                            )
+                        )
                     )
                 )
             )
         ),
+        !values.includes('worldwide') &&
+        e(Hiddens, {entries: [{name: 'coll', value: values}]})
     );
 };
 
