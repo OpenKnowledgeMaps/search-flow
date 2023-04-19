@@ -93,6 +93,16 @@ paths:
           schema:
             type: boolean
         - in: query
+          name: show_coll
+          description: |
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Display or hide the Continent/Country selection field in the search box options.
+
+            The Continent/Country selection field is not displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
           name: service
           required: false
           description: |

@@ -10,13 +10,13 @@ const {useState, useRef, createElement: e} = React;
 
 const CollectionPicker = ({values, setValues}) => {
 
-    console.log('CollectionPicker 1: values', values)
+    // console.log('CollectionPicker 1: values', values)
 
     if (!values) {
         values = 'worldwide';
     }
 
-    console.log('CollectionPicker 2: values', values)
+    // console.log('CollectionPicker 2: values', values)
 
 
     // variable to store the current document types
