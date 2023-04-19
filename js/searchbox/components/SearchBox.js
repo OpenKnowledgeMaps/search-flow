@@ -298,10 +298,7 @@ class SearchBox extends React.Component {
     //   entries.push({name: "coll", value: collection});
     // }
 
-    if (!this.state.showOptions || !showCollection) {
-      // console.log('collection', collection)
-      // console.log(collection === 'cn')
-      // console.log('collection.length', collection.length)
+    if (this.state.formData.service === 'base' && (!this.state.showOptions || !showCollection)) {
       if (collection && collection.length <= 3) {
         entries.push({name: "coll", value: collection});
       }
