@@ -281,19 +281,11 @@ class SearchBox extends React.Component {
     const collection = this.state.settings.collection;
 
 
-    // if (minDescriptionSize) {
-    //   entries.push({name: "min_descsize", value: minDescriptionSize});
-    // }
-
-    // if (showMinDesksize) {
-    //   entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
-    // }
-
     if (contentProvider) {
       entries.push({name: "repo", value: contentProvider});
     }
 
-    // optional condition
+    // old optional condition
     // if (collection) {
     //   entries.push({name: "coll", value: collection});
     // }
@@ -314,21 +306,10 @@ class SearchBox extends React.Component {
     if (keywordsExpansion) {
       entries.push({name: "keywords", value: keywordsExpansion});
     }
-    // if (!showQadvanced && q_advanced) {
-    //   entries.push({name: "q_advanced", value: q_advanced})
-    // }
+
     if (q_advanced) {
       entries.push({name: "q_advanced", value: q_advanced})
     }
-
-    // if (!showQadvanced) {
-    //   entries.push({name: "q_advanced", value: q_advanced})
-    // }
-
-    // if (this.state.settings.q_advanced) {
-    //   entries.push({name: "q_advanced", value: this.state.settings.q_advanced})
-    // }
-
 
     return entries;
   }

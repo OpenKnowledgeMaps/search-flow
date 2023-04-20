@@ -8,17 +8,69 @@ const e = React.createElement;
 
 const InlineDatePicker = ({service, name, label, value, setValue}) => {
 
+
+    console.log("enter value", value);
+    console.log("enter service", service);
+    const [stabValue, setStabValue] = React.useState(value);
+    const [stabService, setStabService] = React.useState(service);
+
+
     // for now not using this function but keeping it here for future use
-    function clearValue(name) {
-        if (name === "from") {
-            service === "pubmed"
-                ? setValue(PUBMED_DEFAULT_FROM)
-                : setValue(DEFAULT_FROM)
-        }
+    // if (stabService !== service) {
+    //     if (name === "from") {
+    //         if (service === "pubmed") {
+    //             setValue(PUBMED_DEFAULT_FROM)
+    //             setStabValue(PUBMED_DEFAULT_FROM)
+    //         } else if (service === "base") {
+    //             setValue(DEFAULT_FROM)
+    //             setStabValue(DEFAULT_FROM)
+    //         }
+    //     }
+    //     setStabService(service)
+    // }
+
+    // for now not using this function but keeping it here for future use
+    // function clearValue(name) {
+    //     if (name === "from") {
+    //         if (service === "pubmed") {
+    //             setValue(PUBMED_DEFAULT_FROM)
+    //             setStabValue(PUBMED_DEFAULT_FROM)
+    //         } else if (service === "base") {
+    //             setValue(DEFAULT_FROM)
+    //             setStabValue(DEFAULT_FROM)
+    //
+    //         }
+    //     }
+    //     if (name === "to") {
+    //         setValue(DEFAULT_TO)
+    //         setStabValue(DEFAULT_TO)
+    //     }
+    // }
+
+    // for now not using this function but keeping it here for future use
+    // for determining whether to show the clear date icon
+
+    function isEqual(name, stabValue) {
+        console.log("stabValue", stabValue);
         if (name === "to") {
-            setValue(DEFAULT_TO)
+            if (stabValue === DEFAULT_TO) {
+                return true;
+            }
         }
+        if (name === "from") {
+            if (service === "pubmed") {
+                if (stabValue === PUBMED_DEFAULT_FROM) {
+                    return true;
+                }
+            } else if (service === "base") {
+                if (stabValue === DEFAULT_FROM) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
+
 
     return e(
         "div",
@@ -36,14 +88,17 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
                     // 'data-date-format': "YYYY MMMM DD",
                     type: "date",
                     value: value,
+                // value: stabValue,
                     onChange: (e) => {
                         setValue(e.target.value)
+                        // setStabValue(e.target.value)
                     },
                 },
             ),
 
             // hiding clear date for now, but keeping it here for future use
 
+            // !isEqual(name, stabValue) &&
             // e("i", {
             //     id: `${name}-clear-date`,
             //     style: {fontSize: 14, position: "absolute", left: 115, top: 18},
@@ -51,13 +106,6 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
             //     onClick: () => {
             //         clearValue(name)
             //     }
-            // }),
-
-            // hide calendar icon for now because it's not working for Firefox, Mozilla, Safari
-            // e("i", {
-            //     style: {fontSize: 14, position: "absolute", right: 15, top: 18},
-            //     className: "fa fa-calendar custom-icons",
-            //     // className: "fa-regular fa-calendar-days custom-icons",
             // }),
         ),
     );

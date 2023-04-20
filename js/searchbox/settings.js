@@ -8,7 +8,6 @@ import LANG_OPTIONS from "./options/lang.js";
 import SERVICES_OPTIONS from "./options/services.js";
 import DESK_SIZE_OPTIONS from "./options/desk_size.js";
 import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
-import services from "./options/services.js";
 
 
 const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS
@@ -31,7 +30,6 @@ export const DEFAULT_SETTINGS = {
 
   // default (preselected) values
   defaultQuery: "",
-  // defaultDocTypes: services.defaultService === 'pubmed' ? pubMedDefaultId : ["121"],
   defaultDocTypes: ["121"], // deafult value for service='base'
   defaultDocTypesPubmed: pubMedDefaultId, // deafult value for service='pubmed'
 
@@ -39,7 +37,6 @@ export const DEFAULT_SETTINGS = {
   defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
   defaultTo: DEFAULT_TO,
   defaultLang: ["all-lang"],
-  // defaultLang: "all-lang",
 
   defaultVisType: VIS_TYPE_OPTIONS[0].id,
   minDescriptionSize: DESK_SIZE_OPTIONS[0].id,
@@ -213,7 +210,6 @@ const getQuerySettings = () => {
     }
   }
 
-
   if (queryParams.has("document_types[]")) {
     if (queryParams.get('service') === 'base') {
       if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
@@ -230,11 +226,6 @@ const getQuerySettings = () => {
     }
   }
 
-  // if (queryParams.get('service') === 'pubmed' && !queryParams.has("document_types[]")) {
-  //   settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypesPubmed;
-  // }
-
-
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
   }
@@ -250,10 +241,8 @@ const getQuerySettings = () => {
     settings.defaultService = DEFAULT_SETTINGS.defaultService;
   }
   if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESK_SIZE_OPTIONS))) {
-    // if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
   }
-
 
   // hidden values
   if (queryParams.hasValid("vis_type", TYPE_OPTION(VIS_TYPE_OPTIONS))) {

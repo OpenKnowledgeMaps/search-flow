@@ -193,9 +193,6 @@ body.iframed {
     top: 5%;
     left: 50%;
     transform: translate(-50%);
-    /*top: 50%;*/
-    /*transform: translate(-50%, -36%);*/
-
 }
 
 #search_box_container * {
@@ -207,8 +204,6 @@ body.iframed {
     width: 100%;
     height: 100%;
 }
-
-
 
 
 .refine-search {
@@ -319,8 +314,6 @@ body.iframed {
 /*button when list open */
 .open > .dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default:hover {
     background-color: #f4f4f4;
-    /*border-color: #f4f4f4;*/
-    /*color: #333333;*/
 }
 
 
@@ -339,12 +332,6 @@ body.iframed {
 .multiselect-selected-text-count {
     color: #818181;
 }
-
-/*!*set btn background after click*!*/
-/*.btn:active {*/
-/*    background: #f4f4f4;*/
-/*}*/
-
 
 /* New SB */
 
@@ -405,21 +392,6 @@ input[type="radio"]:checked {
     background-color: white;
 }
 
-/* badly works centering of small ring in Firefox, Mozilla*/
-/*!* Add a ring inside the radio button when it is checked *!*/
-/*input[type="radio"]:checked::before {*/
-/*    content: "";*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    left: 50%;*/
-/*    transform: translate(-50%, -50%);*/
-/*    background-color: #4d88f9;*/
-/*    border-radius: 50%;*/
-/*    width: 10px;*/
-/*    height: 10px;*/
-/*    border: 2px solid #4d88f9;*/
-/*}*/
-
 
 /* Add a ring inside the radio button when it is checked */
 input[type="radio"]:checked::before {
@@ -435,8 +407,6 @@ input[type="radio"]:checked::before {
     border: 2px solid #4d88f9;
     transform: translate(3px, 3px);
 }
-
-
 
 
 /* Set the label color when radio button is selected */
@@ -623,45 +593,12 @@ input[type="date"] {
     padding: 10px;
 }
 
-
-/*input::-webkit-inner-spin-button,*/
-/*input::-webkit-clear-button {*/
-/*    display: block;*/
-/*}*/
-
-
-/*input[type="date"]::-moz-calendar-picker-indicator,*/
-/*input[type="date"]::-ms-calendar-picker-indicator,*/
-/*input[type="date"]::-o-calendar-picker-indicator,*/
 input[type="date"]::-webkit-calendar-picker-indicator {
-    /*color: transparent;*/
-    /*background: transparent;*/
     cursor: pointer;
     color: #818181;
     z-index: 1;
 }
 
-/*input[type="date"]::-moz-calendar-picker-indicator,*/
-/*input[type="date"]::-ms-calendar-picker-indicator,*/
-/*input[type="date"]::-o-calendar-picker-indicator {*/
-/*    filter: invert(1);*/
-/*    opacity: 0;*/
-/*    display: none;*/
-/*}*/
-
-
-/*input[type="date"]::-webkit-calendar-picker-indicator {*/
-/*    -webkit-appearance: none;*/
-/*    -moz-appearance: none;*/
-/*    appearance: none;*/
-/*    filter: invert(1);*/
-/*    opacity: 0;*/
-/*    z-index: 1*/
-/*}*/
-
-/*input[type="date"]:invalid {*/
-/*    color: red;*/
-/*}*/
 
 /* popover bottom*/
 .popover__wrapper {
@@ -704,7 +641,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); !* new value *!*/
 }
 
-
+/* another view of popover leave for now if needed to use*/
 /* popover  left-right */
 
 /*.popover__wrapper {*/
@@ -841,65 +778,62 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         top: 5%;
         left: 50%;
         transform: translate(-50%);
-        /*top: 50%;*/
-        /*left: 50%;*/
-        /*transform: translate(-50%, -40%);*/
     }
 }
 
+/* one more toltop option can be deleted no used */
+/*!*tooltip*!*/
+/*.tooltip {*/
+/*    position: relative;*/
+/*    display: inline-flex;*/
+/*    justify-content: center;*/
+/*    cursor: pointer;*/
+/*    border-bottom: 1px dashed #000;*/
+/*}*/
 
-/*tooltip*/
-.tooltip {
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
-    cursor: pointer;
-    border-bottom: 1px dashed #000;
-}
+/*.tooltip:hover {*/
+/*    border-bottom: none;*/
+/*}*/
 
-.tooltip:hover {
-    border-bottom: none;
-}
+/*.tooltip:hover .tooltiptext {*/
+/*    visibility: visible;*/
+/*    opacity: 1;*/
 
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+/*}*/
 
-}
+/*.tooltip .tooltiptext {*/
+/*    visibility: hidden;*/
+/*    opacity: 0;*/
+/*    position: absolute;*/
+/*    width: 240px;*/
+/*    top: 100%;*/
+/*    margin: 12px 0 0 0;*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*    padding: 8px;*/
+/*    background: blue;*/
+/*    color: #fff;*/
+/*    text-align: center;*/
+/*    border-radius: 4px;*/
+/*    z-index: 1;*/
+/*}*/
 
-.tooltip .tooltiptext {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    width: 240px;
-    top: 100%;
-    margin: 12px 0 0 0;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 8px;
-    background: blue;
-    color: #fff;
-    text-align: center;
-    border-radius: 4px;
-    z-index: 1;
-}
+/*.tooltip .tooltiptext::after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    top: -20px;*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*    border-width: 10px;*/
+/*    border-style: solid;*/
+/*    border-color: transparent transparent blue transparent;*/
+/*}*/
 
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px;
-    border-style: solid;
-    border-color: transparent transparent blue transparent;
-}
-
-@media (max-width: 768px) {
-    .tooltip .tooltiptext {
-        max-width: 150px;
-    }
-}
+/*@media (max-width: 768px) {*/
+/*    .tooltip .tooltiptext {*/
+/*        max-width: 150px;*/
+/*    }*/
+/*}*/
 
 
 @media only screen and (min-width: 899px) {
@@ -908,9 +842,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         top: 5%;
         left: 50%;
         transform: translate(-50%);
-        /*top: 50%;*/
-        /*left: 50%;*/
-        /*transform: translate(-50%, -45%);*/
     }
 
     #search_box_container {
@@ -956,6 +887,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         gap: 10px;
     }
 
+    /* delete if no need it one of view option of popover in large screens */
     /*!*popover*!*/
     /*.items-flex-container > div:last-child > .popover__wrapper > .popover__content {*/
     /*    left: auto;*/

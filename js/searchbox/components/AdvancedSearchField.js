@@ -14,25 +14,6 @@ const AdvancedSearchField = ({value, setValue}) => {
 
     return e("div", {style: {marginBottom: 20}},
         e("label", {htmlFor: "searchterm", className: "filter-label"}, "Enter advanced query - optional"),
-        // e('div', {className: 'popover__wrapper'},
-        //     e('div', {
-        //             className: 'info-title',
-        //             style: {fontWeight: 800, fontSize: 10, cursor: 'pointer'},
-        //         }, '(MORE',
-        //         e("i", {
-        //             style: {marginLeft: 5},
-        //             className: "fa fa-info-circle",
-        //         }),
-        //         ")"),
-        //     e('div', {
-        //             // className: 'popover__content',
-        //             className: 'popover__content__left',
-        //             style: {marginTop: 1}
-        //         },
-        //         e('div', {className: "popover__title"},),
-        //         e('div', {className: "popover__message"}, infoMessage),
-        //     )
-        // ),
         e('div', {
             key: `q-advanced-popover`,
             id: `q-advanced-popover`,
