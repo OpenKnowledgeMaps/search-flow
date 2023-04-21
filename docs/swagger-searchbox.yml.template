@@ -2,14 +2,364 @@ openapi: 3.0.0
 info:
   title: Open Knowledge Maps Search Box Configuration Service
   description: |
-    This is a tool to configure the customizable search box component. This search box serves as an entry point for defining the visualisation parameters and generating the visualisation in a user-friendly interface.
+    This is a tool to configure the customizable search box component. The search box serves as an entry point for defining the visualisation parameters and generating the visualisation in a user-friendly interface.
+
+    A link representing the search box and its settings can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). The link is then intended to be used in an iframe. 
+
+    The path to the component is /embedded_searchbox. By default the search box displays a query field and a set of options with preselected values. To control which options are shown please use the URL query parameters with the show_ prefix.
+    
+    In addition you can override the default values of each option by using the respective URL query parameter under the option name.
+
+    Once the component link is generated, the validity of the configuration can be tested by opening the browser console at the component link page. In case a parameter has an invalid value, a warning message is displayed in the console stating the parameter name and its allowed values.
+
+    The three endpoints below describe three main integration scenarios:
+    * A search box pre-configured for the BASE data source, with BASE-only related options and defaults.
+    * A search box pre-configured for the PubMed data source, with PubMed-only related options and defaults.
+    * A generic search box where both data sources and all possible options are available.
+
+
   version: dev
 
 servers:
-  - url: http://localhost
+  - url: http://localhost:8085
     description: Internal server for testing
 
 paths:
+
+  /embedded_searchbox?service=base&show_service=false:
+    get:
+      summary: Configure the Custom Services Search Box, preconfigured for BASE
+      description: |
+        This endpoint creates a variant of the search box that is preconfigured for the BASE integration.
+
+        Please note that in this variant it will not be possible for users to switch to a different data source.
+
+      parameters:
+        - in: query
+          name: show_vis_type
+          description: |
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Display or hide the visualisation type radio buttons selection in the search box options.
+
+            The radio button selection is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_sorting
+          description: |
+            Display or hide the documents sorting (most relevant/most recent) dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_doc_types
+          description: |
+            Display or hide the document types dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_lang
+          description: |
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Display or hide the language filter dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_time_range
+          description: |
+            Display or hide the time range dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_coll
+          description: |
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Display or hide the Continent/Country selection field in the search box options.
+
+            The Continent/Country selection field is not displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_min_descsize
+          description: |
+            Display or hide the metadata quality radio buttons selection in the search box options.
+
+            The radio button selection is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_q_advanced
+          description: |
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Display or hide the advanced query field  in the search box options.
+
+            The advanced query field is not displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: vis_type
+          required: false
+          description: |
+            Select the visualisation type value that will be preselected in the search box options.
+
+            * For Knowledge Maps select `overview`.
+            * For Streamgraphs select `timeline`.
+
+            If the parameter is not provided, it defaults to overview.
+
+          schema:
+            type: string
+            enum: [ overview, timeline ]
+        - in: query
+          name: sorting
+          required: false
+          description: |
+            Select the sorting value that will be preselected in the search box options.
+
+            Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
+
+            To determine the `most-relevant` documents, we use the relevance ranking provided by BASE. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information.
+
+            The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
+
+            If the parameter is not provided, it defaults to `most-relevant`.
+
+          schema:
+            type: string
+            enum: [most-relevant, most-recent]
+        - in: query
+          name: document_types[]
+          required: false
+          description: |
+            Specify the BASE-internal document types that will be preselected in the search box options, e.g. `121`, `14` or `15`. More information on available document types can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
+
+            To add an additional document type code, click on "Add item" below the input field.
+
+            If the parameter is not provided, it defaults to `121` (Journal/newspaper article).
+
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+          style: form
+          explode: true
+        - in: query
+          name: lang_id[]
+          required: false
+          description: |
+
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Specify one language ID that will be preselected in the search box options, e.g. `spa` (=Spanish).
+
+            Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
+
+            To add an additional document type code, click on "Add item" below the input field.
+
+            If the parameter is not provided or if you enter a wrong parameter, it defaults to `all-lang`, which means that no language filter will be applied to the search results.
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+          style: form
+          explode: true
+        - in: query
+          name: from
+          required: false
+          description: |
+            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          required: false
+          description: |
+            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: coll
+          required: false
+          description: |
+            Specify a collection available within BASE that your search will be restricted to.
+
+            This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`.
+            
+            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+          schema:
+            type: string
+        - in: query
+          name: min_descsize
+          required: false
+          description: |
+            Specify the minimum abstract length in characters. Documents with an abstract length below that value will not be included in the search results.
+
+            To activate the filter, the value has to be larger than 0. We recommend this setting if your repository contains mostly documents with an abstract. Our internal research has shown that a value of ≥300 increases the quality of visualisations for most repositories. Values larger than 1.000 are less likely to produce results for the majority of repositories.
+
+            To deactivate the filter, the value has to be `0`. We recommend this setting if your repository contains mostly documents without an abstract. **Please note that low metadata quality may significantly reduce the quality of your visualisations.**
+
+            If the parameter is not provided, it defaults to a value of `300`.
+          schema:
+            type: integer
+            example: 300
+        - in: query
+          name: q_advanced
+          required: false
+          description: |
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Enter your search query, e.g. `“dcorcid:0000-0002-1894-5040”` or `“dcrelation:"https://zenodo.org/communities/biosyslit"”`.
+
+            If the parameter is empty the link can be generated.
+          schema:
+            type: string
+          allowReserved: true
+        - in: query
+          name: repo
+          required: false
+          description: |
+            Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
+
+            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
+            2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
+            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
+            <br><br>
+            <img src="../BASE_coll_param.png" />
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: Returns the search box page.
+
+  /embedded_searchbox?service=pubmed&show_service=false:
+    get:
+      summary: Configure the Custom Services Search Box, preconfigured for PubMed
+      description: |
+        A link representing the search box and its settings can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). The link is then intended to be used in an iframe.
+
+        The path to the component is /embedded_searchbox. By default the search box displays a query field and a set of option dropdowns with preselected values. Those dropdowns can be customised using URL query parameters.
+        You can customise some of the options by overriding their default values. In addition you can also decide whether to show/hide the option to your end users.
+
+        Once the component link is generated, the used parameters can be further validated by the Custom Services integrators by opening the browser console at the component link page. In case a parameter has an invalid value, a warning message is displayed in the console stating the parameter name and its allowed values.
+
+      parameters:
+        - in: query
+          name: show_time_range
+          description: |
+            Display or hide the time range dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_doc_types
+          description: |
+            Display or hide the document types dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_sorting
+          description: |
+            Display or hide the documents sorting (most relevant/most recent) dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: show_lang
+          description: |
+            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+
+            Display or hide the language filter dropdown in the search box options.
+
+            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+          schema:
+            type: boolean
+        - in: query
+          name: service
+          required: false
+          description: |
+            Select the data source value that will be preselected in the search box options.
+
+            The `base` data source is means an all disciplines from BASE.
+
+            The `pubmed` data source is means a life science from PubMed.
+
+            If the parameter is not provided, it defaults to `base`.
+
+          schema:
+            type: string
+            enum: [ base, pubmed ]
+          example: pubmed
+        - in: query
+          name: from
+          required: false
+          description: |
+            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          required: false
+          description: |
+            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: article_types[]
+          required: false
+          description: |
+            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
+            To add an additional article type, click on "Add item" below the input field. 
+            If the parameter is not specified, it defaults to all article types.
+          schema:
+            type: array
+            items:
+              type: string
+            default: []
+          style: form
+          explode: true
+        - in: query
+          name: sorting
+          required: false
+          description: |
+            Select the sorting value that will be preselected in the search box options.
+
+            Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
+
+            To determine the `most-relevant` documents, we use the relevance ranking provided by BASE. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information.
+
+            The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
+
+            If the parameter is not provided, it defaults to `most-relevant`.
+
+          schema:
+            type: string
+            enum: [most-relevant, most-recent]
+      responses:
+        "200": # status code
+          description: Returns the search box (https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html
+
   /embedded_searchbox:
     get:
       summary: Configure the Custom Services Search Box
@@ -250,364 +600,6 @@ paths:
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
-      responses:
-        "200": # status code
-          description: Returns the search box page.
-
-  /embedded_searchbox?service=base:
-    get:
-      summary: Configure the Custom Services Search Box, preconfigured for BASE
-      description: |
-        A link representing the search box and its settings can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). The link is then intended to be used in an iframe.
-
-        The path to the component is /embedded_searchbox. By default the search box displays a query field and a set of option dropdowns with preselected values. Those dropdowns can be customised using URL query parameters.
-        You can customise some of the options by overriding their default values. In addition you can also decide whether to show/hide the option to your end users.
-
-        Once the component link is generated, the used parameters can be further validated by the Custom Services integrators by opening the browser console at the component link page. In case a parameter has an invalid value, a warning message is displayed in the console stating the parameter name and its allowed values.
-
-      parameters:
-        - in: query
-          name: show_service
-          description: |
-            Display or hide the data source radio buttons selection in the search box options.
-
-            The radio button selection is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-          example: false
-        - in: query
-          name: show_time_range
-          description: |
-            Display or hide the time range dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_doc_types
-          description: |
-            Display or hide the document types dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_sorting
-          description: |
-            Display or hide the documents sorting (most relevant/most recent) dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_lang
-          description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
-
-            Display or hide the language filter dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_vis_type
-          description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
-
-            Display or hide the visualisation type radio buttons selection in the search box options.
-
-            The radio button selection is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_min_descsize
-          description: |
-            Display or hide the metadata quality radio buttons selection in the search box options.
-
-            The radio button selection is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_q_advanced
-          description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
-
-            Display or hide the advanced query field  in the search box options.
-
-            The advanced query field is not displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: service
-          required: false
-          description: |
-            Select the data source value that will be preselected in the search box options.
-
-            The `base` data source is means an all disciplines from BASE.
-
-            The `pubmed` data source is means a life science from PubMed.
-
-            If the parameter is not provided, it defaults to `base`.
-
-          schema:
-            type: string
-            enum: [ base, pubmed ]
-          example: base
-        - in: query
-          name: lang_id[]
-          required: false
-          description: |
-
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
-
-            Specify one language ID that will be preselected in the search box options, e.g. `spa` (=Spanish).
-
-            Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
-
-            To add an additional document type code, click on "Add string item" below the input field.
-
-            If the parameter is not provided or if you enter a wrong parameter, it defaults to `all-lang`, which means that no language filter will be applied to the search results.
-          schema:
-            type: array
-            items:
-              type: string
-        - in: query
-          name: from
-          required: false
-          description: |
-            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: to
-          required: false
-          description: |
-            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: document_types[]
-          required: false
-          description: |
-            Specify the BASE-internal document types that will be preselected in the search box options, e.g. `121`, `14` or `15`. More information on available document types can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 3. Document types.
-
-            To add an additional document type code, click on "Add item" below the input field.
-
-            If the parameter is not provided, it defaults to `121` (Journal/newspaper article).
-
-          schema:
-            type: array
-            items:
-              oneOf:
-                - type: string
-                - type: integer
-          style: form
-          explode: true
-        - in: query
-          name: sorting
-          required: false
-          description: |
-            Select the sorting value that will be preselected in the search box options.
-
-            Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
-
-            To determine the `most-relevant` documents, we use the relevance ranking provided by BASE. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information.
-
-            The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
-
-            If the parameter is not provided, it defaults to `most-relevant`.
-
-          schema:
-            type: string
-            enum: [most-relevant, most-recent]
-        - in: query
-          name: vis_type
-          required: false
-          description: |
-            Select the visualisation type value that will be preselected in the search box options.
-
-            The `overview` visualisation is means a Knowledge Map.
-
-            The `timeline` visualisation is means an OKMaps Streamgraph.
-
-            If the parameter is not provided, it defaults to `overview`.
-
-          schema:
-            type: string
-            enum: [ overview, timeline ]
-        - in: query
-          name: min_descsize
-          required: false
-          description: |
-            Specify the minimum abstract length in characters. Documents with an abstract length below that value will not be included in the search results.
-
-            To activate the filter, the value has to be larger than 0. We recommend this setting if your repository contains mostly documents with an abstract. Our internal research has shown that a value of ≥300 increases the quality of visualisations for most repositories. Values larger than 1.000 are less likely to produce results for the majority of repositories.
-
-            To deactivate the filter, the value has to be `0`. We recommend this setting if your repository contains mostly documents without an abstract. **Please note that low metadata quality may significantly reduce the quality of your visualisations.**
-
-            If the parameter is not provided, it defaults to a value of `300`.
-          schema:
-            type: integer
-            example: 300
-        - in: query
-          name: q_advanced
-          required: false
-          description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
-
-            Enter your search query, e.g. `“dcorcid:0000-0002-1894-5040”` or `“dcrelation:"https://zenodo.org/communities/biosyslit"”`.
-
-            If the parameter is empty the link can be generated.
-          schema:
-            type: string
-          example: dcrelation:"https://zenodo.org/communities/biosyslit"
-          allowReserved: true
-        - in: query
-          name: repo
-          required: false
-          description: |
-            Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
-
-            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
-            2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
-            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
-            <br><br>
-            <img src="../BASE_coll_param.png" />
-          schema:
-            type: string
-        - in: query
-          name: coll
-          required: false
-          description: |
-            Specify a collection available within BASE that your search will be restricted to.
-
-            This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
-          schema:
-            type: string
-      responses:
-        "200": # status code
-          description: Returns the search box page.
-
-  /embedded_searchbox?service=pubmed:
-    get:
-      summary: Configure the Custom Services Search Box, preconfigured for PubMed
-      description: |
-        A link representing the search box and its settings can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). The link is then intended to be used in an iframe.
-
-        The path to the component is /embedded_searchbox. By default the search box displays a query field and a set of option dropdowns with preselected values. Those dropdowns can be customised using URL query parameters.
-        You can customise some of the options by overriding their default values. In addition you can also decide whether to show/hide the option to your end users.
-
-        Once the component link is generated, the used parameters can be further validated by the Custom Services integrators by opening the browser console at the component link page. In case a parameter has an invalid value, a warning message is displayed in the console stating the parameter name and its allowed values.
-
-      parameters:
-        - in: query
-          name: show_service
-          description: |
-            Display or hide the data source radio buttons selection in the search box options.
-
-            The radio button selection is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-          example: false
-        - in: query
-          name: show_time_range
-          description: |
-            Display or hide the time range dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_doc_types
-          description: |
-            Display or hide the document types dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_sorting
-          description: |
-            Display or hide the documents sorting (most relevant/most recent) dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: show_lang
-          description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
-
-            Display or hide the language filter dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: service
-          required: false
-          description: |
-            Select the data source value that will be preselected in the search box options.
-
-            The `base` data source is means an all disciplines from BASE.
-
-            The `pubmed` data source is means a life science from PubMed.
-
-            If the parameter is not provided, it defaults to `base`.
-
-          schema:
-            type: string
-            enum: [ base, pubmed ]
-          example: pubmed
-        - in: query
-          name: from
-          required: false
-          description: |
-            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: to
-          required: false
-          description: |
-            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: article_types[]
-          required: false
-          description: |
-            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
-            To add an additional article type, click on "Add item" below the input field. 
-            If the parameter is not specified, it defaults to all article types.
-          schema:
-            type: array
-            items:
-              type: string
-            default: []
-          style: form
-          explode: true
-        - in: query
-          name: sorting
-          required: false
-          description: |
-            Select the sorting value that will be preselected in the search box options.
-
-            Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
-
-            To determine the `most-relevant` documents, we use the relevance ranking provided by BASE. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information.
-
-            The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
-
-            If the parameter is not provided, it defaults to `most-relevant`.
-
-          schema:
-            type: string
-            enum: [most-relevant, most-recent]
       responses:
         "200": # status code
           description: Returns the search box page.
