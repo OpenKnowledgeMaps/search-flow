@@ -9,10 +9,10 @@ const e = React.createElement;
 const InlineDatePicker = ({service, name, label, value, setValue}) => {
 
 
-    console.log("enter value", value);
-    console.log("enter service", service);
-    const [stabValue, setStabValue] = React.useState(value);
-    const [stabService, setStabService] = React.useState(service);
+    // console.log("enter value", value);
+    // console.log("enter service", service);
+    // const [stabValue, setStabValue] = React.useState(value);
+    // const [stabService, setStabService] = React.useState(service);
 
 
     // for now not using this function but keeping it here for future use
