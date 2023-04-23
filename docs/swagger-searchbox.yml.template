@@ -21,7 +21,7 @@ info:
   version: dev
 
 servers:
-  - url: http://localhost:8085
+  - url: http://localhost
     description: Internal server for testing
 
 paths:
@@ -251,18 +251,15 @@ paths:
     get:
       summary: Configure the Custom Services Search Box, preconfigured for PubMed
       description: |
-        A link representing the search box and its settings can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). The link is then intended to be used in an iframe.
+        This endpoint creates a variant of the search box that is preconfigured for the PubMed integration.
 
-        The path to the component is /embedded_searchbox. By default the search box displays a query field and a set of option dropdowns with preselected values. Those dropdowns can be customised using URL query parameters.
-        You can customise some of the options by overriding their default values. In addition you can also decide whether to show/hide the option to your end users.
-
-        Once the component link is generated, the used parameters can be further validated by the Custom Services integrators by opening the browser console at the component link page. In case a parameter has an invalid value, a warning message is displayed in the console stating the parameter name and its allowed values.
+        Please note that in this variant it will not be possible for users to switch to a different data source.
 
       parameters:
         - in: query
-          name: show_time_range
+          name: show_sorting
           description: |
-            Display or hide the time range dropdown in the search box options.
+            Display or hide the documents sorting (most relevant/most recent) dropdown in the search box options.
 
             The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
@@ -276,69 +273,13 @@ paths:
           schema:
             type: boolean
         - in: query
-          name: show_sorting
+          name: show_time_range
           description: |
-            Display or hide the documents sorting (most relevant/most recent) dropdown in the search box options.
+            Display or hide the time range dropdown in the search box options.
 
             The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
-        - in: query
-          name: show_lang
-          description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
-
-            Display or hide the language filter dropdown in the search box options.
-
-            The dropdown is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
-          schema:
-            type: boolean
-        - in: query
-          name: service
-          required: false
-          description: |
-            Select the data source value that will be preselected in the search box options.
-
-            The `base` data source is means an all disciplines from BASE.
-
-            The `pubmed` data source is means a life science from PubMed.
-
-            If the parameter is not provided, it defaults to `base`.
-
-          schema:
-            type: string
-            enum: [ base, pubmed ]
-          example: pubmed
-        - in: query
-          name: from
-          required: false
-          description: |
-            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: to
-          required: false
-          description: |
-            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: article_types[]
-          required: false
-          description: |
-            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
-            To add an additional article type, click on "Add item" below the input field. 
-            If the parameter is not specified, it defaults to all article types.
-          schema:
-            type: array
-            items:
-              type: string
-            default: []
-          style: form
-          explode: true
         - in: query
           name: sorting
           required: false
@@ -356,9 +297,43 @@ paths:
           schema:
             type: string
             enum: [most-relevant, most-recent]
+        - in: query
+          name: article_types[]
+          required: false
+          description: |
+            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
+            
+            To add an additional article type, click on "Add item" below the input field. 
+            
+            If the parameter is not specified, it defaults to all article types.
+
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+          style: form
+          explode: true
+        - in: query
+          name: from
+          required: false
+          description: |
+            Select a start date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          required: false
+          description: |
+            Select an end date for the search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
+          schema:
+            type: string
+            format: date
       responses:
         "200": # status code
-          description: Returns the search box (https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html
+          description: Returns the search box page.
 
   /embedded_searchbox:
     get:
