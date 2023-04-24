@@ -782,16 +782,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .date-field {
         height: 50px;
         padding-left: 5px;
-        width: 100%;
+        /*width: 100%;*/
+        width: 276px;
+        /*max-width: 276px;*/
+        /*min-width: 276px;*/
         text-align: center;
         border: 1px solid #818181;
         border-radius: 14px;
         font-size: 14px;
         font-weight: 400;
         background-color: white;
-
-        box-sizing: border-box; /* Ensure padding and border don't add to width */
-        display: block; /* Make input field a block element */
     }
 }
 
