@@ -782,7 +782,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .date-field {
         height: 50px;
         padding-left: 5px;
-        /*width: 100%;*/
         width: 200px;
         max-width: 100%;
         min-width: 100%;
