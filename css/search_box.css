@@ -784,8 +784,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         padding-left: 5px;
         /*width: 100%;*/
         width: 200px;
-        /*max-width: 276px;*/
-        /*min-width: 276px;*/
+        max-width: 100%;
+        min-width: 100%;
         text-align: center;
         border: 1px solid #818181;
         border-radius: 14px;
