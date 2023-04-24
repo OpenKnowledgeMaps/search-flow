@@ -1,6 +1,6 @@
 "use strict";
 
-const DESK_SIZE_OPTIONS = [
+const DESC_SIZE_OPTIONS = [
   {
     id: '300',
     label: "High quality",
@@ -17,4 +17,4 @@ const DESK_SIZE_OPTIONS = [
   },
 ];
 
-export default DESK_SIZE_OPTIONS;
+export default DESC_SIZE_OPTIONS;

@@ -6,7 +6,7 @@ import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
 import LANG_OPTIONS from "./options/lang.js";
 import SERVICES_OPTIONS from "./options/services.js";
-import DESK_SIZE_OPTIONS from "./options/desk_size.js";
+import DESC_SIZE_OPTIONS from "./options/desc_size.js";
 import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
 
 
@@ -24,7 +24,7 @@ export const DEFAULT_SETTINGS = {
   showLang: true,
   showService: true,
   showVisType: true,
-  showMinDesksize: true,
+  showMinDescsize: true,
   showQadvanced: false,
   showCollection: false,
 
@@ -39,7 +39,7 @@ export const DEFAULT_SETTINGS = {
   defaultLang: ["all-lang"],
 
   defaultVisType: VIS_TYPE_OPTIONS[0].id,
-  minDescriptionSize: DESK_SIZE_OPTIONS[0].id,
+  minDescriptionSize: DESC_SIZE_OPTIONS[0].id,
   contentProvider: undefined,
   collection: undefined,
   // collection: 'worldwide',
@@ -178,7 +178,7 @@ const getQuerySettings = () => {
     settings.showVisType = queryParams.get("show_vis_type") === "true";
   }
   if (queryParams.hasValid("show_min_descsize", TYPE_BOOL)) {
-    settings.showMinDesksize = queryParams.get("show_min_descsize") === "true";
+    settings.showMinDescsize = queryParams.get("show_min_descsize") === "true";
   }
   if (queryParams.hasValid("show_q_advanced", TYPE_BOOL)) {
     settings.showQadvanced = queryParams.get("show_q_advanced") === "true";
@@ -240,7 +240,7 @@ const getQuerySettings = () => {
   } else {
     settings.defaultService = DEFAULT_SETTINGS.defaultService;
   }
-  if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESK_SIZE_OPTIONS))) {
+  if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESC_SIZE_OPTIONS))) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
   }
 

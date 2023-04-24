@@ -190,7 +190,7 @@ class SearchBox extends React.Component {
     });
   }
 
-  updateMinDesksize(newValue) {
+  updateMinDescsize(newValue) {
     this.setState({
       ...this.state,
       formData: {
@@ -221,7 +221,7 @@ class SearchBox extends React.Component {
       showLang,
       showService,
       showVisType,
-      showMinDesksize,
+      showMinDescsize,
       showQadvanced,
       showCollection,
     } = this.state.settings;
@@ -246,7 +246,7 @@ class SearchBox extends React.Component {
 
 
     if (this.state.formData.service === 'base') {
-      if (!this.state.showOptions || !showMinDesksize) {
+      if (!this.state.showOptions || !showMinDescsize) {
         entries.push({name: "min_descsize", value: this.state.settings.minDescriptionSize});
       } else {
         entries.push({name: "min_descsize", value: this.state.formData.minDescriptionSize});
@@ -340,11 +340,11 @@ class SearchBox extends React.Component {
       showLang,
       showService,
       showVisType,
-      showMinDesksize,
+      showMinDescsize,
       showQadvanced,
       showCollection
     } = this.state.settings;
-    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDesksize || showQadvanced || showCollection;
+    const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDescsize || showQadvanced || showCollection;
 
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
@@ -439,10 +439,10 @@ class SearchBox extends React.Component {
                           setValues: this.updateColl.bind(this)
                         },),
 
-                    (showMinDesksize && this.state.formData.service === "base") &&
+                    (showMinDescsize && this.state.formData.service === "base") &&
                     e(MetadataQuality, {
                       value: this.state.formData.minDescriptionSize,
-                      setValue: this.updateMinDesksize.bind(this),
+                      setValue: this.updateMinDescsize.bind(this),
                     }),
                 ),
             ),
