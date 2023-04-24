@@ -782,7 +782,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .date-field {
         height: 50px;
         padding-left: 5px;
+        max-width: 276px;
         width: 100%;
+        text-align: center;
         border: 1px solid #818181;
         border-radius: 14px;
         font-size: 14px;
