@@ -779,6 +779,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         left: 50%;
         transform: translate(-50%);
     }
+
+    .date-field {
+        height: 50px;
+        padding-left: 5px;
+        width: 100%;
+        border: 1px solid #818181;
+        border-radius: 14px;
+        font-size: 14px;
+        font-weight: 400;
+        background: white;
+    }
 }
 
 /* one more toltop option can be deleted no used */
