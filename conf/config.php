@@ -181,7 +181,7 @@ if(isset($search_flow_config_local)) {
             , vis_page_additional_params: [
             ]
             //Default API error reason
-            , default_api_error: "not_enough_results"
+            , default_api_error: "timeout"
             //Additional API errors and their related texts
             , additional_api_errors: {
                 "API error: timeout": "timeout"
