@@ -339,7 +339,7 @@ paths:
     get:
       summary: Configure the Custom Services Search Box
       description: |
-        
+        This endpoint is a generic version of the search box that includes options for BASE and PubMed, as well as the show_service and service parameters.
       parameters:
         - in: query
           name: show_service
@@ -472,6 +472,24 @@ paths:
             To add an additional document type code, click on "Add item" below the input field.
 
             If the parameter is not provided, it defaults to `121` (Journal/newspaper article).
+
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+          style: form
+          explode: true
+        - in: query
+          name: article_types[]
+          required: false
+          description: |
+            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
+            
+            To add an additional article type, click on "Add item" below the input field. 
+            
+            If the parameter is not specified, it defaults to all article types.
 
           schema:
             type: array
