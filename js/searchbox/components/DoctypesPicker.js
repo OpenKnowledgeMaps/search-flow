@@ -12,6 +12,8 @@ const {useState, useRef, createElement: e} = React;
 
 const DoctypesPicker = ({values, setValues, service}) => {
 
+    let hiddenEntriesName = service === 'base' ? "document_types[]" : 'article_types[]'
+
     // set optional docs values instead empty array
     const optionalDocs = service === 'base' ? ['121'] : PUBMED_DOCTYPES_OPTIONS.filter(option => option.id !== 'retracted publication').map(option => option.id)
 
@@ -316,7 +318,8 @@ const DoctypesPicker = ({values, setValues, service}) => {
         ),
         e(Hiddens, {
             entries: values.map((value) => ({
-                name: "document_types[]",
+                // name: "document_types[]",
+                name: hiddenEntriesName,
                 value,
             })),
         })

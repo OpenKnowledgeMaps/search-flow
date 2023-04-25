@@ -48,8 +48,7 @@ class SearchBox extends React.Component {
         },
         sorting: settings.defaultSorting,
         doctypes: settings.defaultDocTypes, // this value only for service='base'
-        // doctypes: ['121'], // this value only for service='base'
-        // doctypesPubmed: pubMedDefaultId, // this value only for service='pubmed'
+        articleTypes: settings.defaultArticleTypes, // this value only for service='pubmed'
         lang_id: settings.defaultLang,
         // data source
         service: settings.defaultService,
@@ -253,10 +252,18 @@ class SearchBox extends React.Component {
       }
 
     }
+
     if (!this.state.showOptions || !showDocTypes) {
-      this.state.formData.doctypes.forEach((value) => {
-        entries.push({name: "document_types[]", value});
-      });
+      if (this.state.formData.service === 'base') {
+        this.state.formData.doctypes.forEach((value) => {
+          entries.push({name: "document_types[]", value});
+        });
+      } else if (this.state.formData.service === 'pubmed') {
+
+        this.state.formData.doctypes.forEach((value) => {
+          entries.push({name: "article_types[]", value});
+        });
+      }
     }
 
     if (this.state.formData.service === 'base') {
