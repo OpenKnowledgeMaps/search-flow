@@ -222,13 +222,24 @@ paths:
           name: q_advanced
           required: false
           description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+            **This feature is a prototype! Some queries may not work as expected.**
+            
+            Enter your advanced search query, e.g. `dcorcid:0000-0002-1894-5040`. 
 
-            Enter your search query, e.g. `“dcorcid:0000-0002-1894-5040”` or `“dcrelation:"https://zenodo.org/communities/biosyslit"”`.
+            It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
 
-            If the parameter is empty the link can be generated.
+            * `dcorcid:0000-0002-1894-5040`
+            * `dcrelation:"https://zenodo.org/communities/biosyslit"`
+            * `dccreator:"Lastname Firstname"`
+
+            This parameter can either be used instead of `q` or in conjunction with `q`.
+
+            Experimental use of advanced queries involving Boolean operators such as `AND`, `OR`, and `NOT` (described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
+
+            **Warning: Do not** use the same query in the q and q_advanced field, this can lead to an error during the request.
+
           schema:
-            type: string
+            type : string
           allowReserved: true
         - in: query
           name: repo
@@ -565,13 +576,24 @@ paths:
           name: q_advanced
           required: false
           description: |
-            **Please note** this parameter can only be applied if the `service` value is set to `base`.
+            **This feature is a prototype! Some queries may not work as expected.**
+            
+            Enter your advanced search query, e.g. `dcorcid:0000-0002-1894-5040`. 
 
-            Enter your search query, e.g. `“dcorcid:0000-0002-1894-5040”` or `“dcrelation:"https://zenodo.org/communities/biosyslit"”`.
+            It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
 
-            If the parameter is empty the link can be generated.
+            * `dcorcid:0000-0002-1894-5040`
+            * `dcrelation:"https://zenodo.org/communities/biosyslit"`
+            * `dccreator:"Lastname Firstname"`
+
+            This parameter can either be used instead of `q` or in conjunction with `q`.
+
+            Experimental use of advanced queries involving Boolean operators such as `AND`, `OR`, and `NOT` (described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
+
+            **Warning: Do not** use the same query in the q and q_advanced field, this can lead to an error during the request.
+
           schema:
-            type: string
+            type : string
           allowReserved: true
         - in: query
           name: repo
