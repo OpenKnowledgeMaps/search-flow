@@ -44,6 +44,7 @@ class SearchBox extends React.Component {
         visType: settings.defaultVisType,
         timespan: {
           from: settings.defaultFrom,
+          fromPubmed: settings.defaultFromPubmed,
           to: settings.defaultTo,
         },
         sorting: settings.defaultSorting,
@@ -163,31 +164,63 @@ class SearchBox extends React.Component {
     });
   }
 
-  updateService(newValue) {
-    let docTypesType = []
-    let from = ''
-    let to = DEFAULT_TO
-    if (newValue === 'base') {
-      docTypesType = this.state.settings.defaultDocTypes
-      from = DEFAULT_FROM
-    } else if (newValue === 'pubmed') {
-      docTypesType = pubMedDefaultId
-      from = PUBMED_DEFAULT_FROM
-    }
+  // updateService(newValue) {
+  //   let docTypesType = []
+  //   let from = ''
+  //   let to = DEFAULT_TO
+  //   if (newValue === 'base') {
+  //     docTypesType = this.state.settings.defaultDocTypes
+  //     from = DEFAULT_FROM
+  //   } else if (newValue === 'pubmed') {
+  //     docTypesType = pubMedDefaultId
+  //     from = PUBMED_DEFAULT_FROM
+  //   }
+  //
+  //   this.setState({
+  //     ...this.state,
+  //     formData: {
+  //       ...this.state.formData,
+  //       service: newValue,
+  //       doctypes: docTypesType,
+  //       timespan: {
+  //         from: from,
+  //         to: to,
+  //       }
+  //     },
+  //   });
+  // }
 
-    this.setState({
-      ...this.state,
-      formData: {
-        ...this.state.formData,
-        service: newValue,
-        doctypes: docTypesType,
-        timespan: {
-          from: from,
-          to: to,
-        }
-      },
-    });
+  updateService(newValue) {
+
+    if (newValue === 'base') {
+      this.setState({
+        ...this.state,
+        formData: {
+          ...this.state.formData,
+          service: newValue,
+          doctypes: this.state.settings.defaultDocTypes,
+          timespan: {
+            from: DEFAULT_FROM,
+            to: DEFAULT_TO,
+          }
+        },
+      });
+    } else if (newValue === 'pubmed') {
+      this.setState({
+        ...this.state,
+        formData: {
+          ...this.state.formData,
+          service: newValue,
+          doctypes: this.state.settings.defaultDocTypes,
+          timespan: {
+            fromPubmed: PUBMED_DEFAULT_FROM,
+            to: DEFAULT_TO,
+          }
+        },
+      });
+    }
   }
+
 
   updateMinDescsize(newValue) {
     this.setState({
@@ -225,8 +258,15 @@ class SearchBox extends React.Component {
       showCollection,
     } = this.state.settings;
 
+    // if (!this.state.showOptions || !showTimeRange) {
+    //   entries.push({name: "from", value: this.state.settings.defaultFrom});
+    //   entries.push({name: "to", value: this.state.settings.defaultTo});
+    // }
+
     if (!this.state.showOptions || !showTimeRange) {
-      entries.push({name: "from", value: this.state.settings.defaultFrom});
+      (this.state.service === 'pubmed' || this.state.formData.service === 'pubmed')
+          ? entries.push({name: "from", value: this.state.settings.defaultFromPubmed})
+          : entries.push({name: "from", value: this.state.settings.defaultFrom});
       entries.push({name: "to", value: this.state.settings.defaultTo});
     }
 
@@ -356,7 +396,7 @@ class SearchBox extends React.Component {
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
-    console.log('hiddenEntries', hiddenEntries)
+    // console.log('hiddenEntries', hiddenEntries)
 
 
     //  exist error with pubmed documents handling from link params it doesn't want to switch to default value from base
@@ -423,11 +463,18 @@ class SearchBox extends React.Component {
                             {
                               className: "time-range-container",
                             },
+                            // e(InlineDatePicker, {
+                            //   service: this.state.formData.service,
+                            //   name: "from",
+                            //   label: "From",
+                            //   value: this.state.formData.timespan.from,
+                            //   setValue: this.updateTimespanFrom.bind(this),
+                            // }),
                             e(InlineDatePicker, {
                               service: this.state.formData.service,
                               name: "from",
                               label: "From",
-                              value: this.state.formData.timespan.from,
+                              value: this.state.formData.service === "pubmed" ? this.state.formData.timespan.fromPubmed : this.state.formData.timespan.from,
                               setValue: this.updateTimespanFrom.bind(this),
                             }),
                             e(InlineDatePicker, {
