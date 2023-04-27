@@ -263,6 +263,11 @@ class SearchBox extends React.Component {
     //   entries.push({name: "to", value: this.state.settings.defaultTo});
     // }
 
+    this.state.showOptions
+        ? this.state.showOptionsLabel = "Hide advanced search options"
+        : this.state.showOptionsLabel = "Show advanced search options"
+
+
     if (!this.state.showOptions || !showTimeRange) {
       (this.state.service === 'pubmed' || this.state.formData.service === 'pubmed')
           ? entries.push({name: "from", value: this.state.settings.defaultFromPubmed})
