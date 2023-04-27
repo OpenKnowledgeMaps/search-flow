@@ -76,7 +76,8 @@ function RadioInputList({label, options, name, value, setValue}) {
                                 value: o.id,
                                 checked: o.id === value,
                                 tabIndex: 0,
-                                onClick: () => setValue(o.id),
+                                // onClick: () => setValue(o.id),
+                                onChange: () => setValue(o.id),
                                 onKeyDown: (e) => {
                                     if (e.key === 'Enter') {
                                         setValue(o.id);
