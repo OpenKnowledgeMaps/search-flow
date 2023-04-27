@@ -76,8 +76,6 @@ class SearchBox extends React.Component {
       showOptionsLabel: this.state.showOptions ? "Show advanced search options" : "Hide advanced search options",
       showOptionsIcon: this.state.showOptions ? "fa-angle-down" : "fa-angle-up",
     });
-
-
   }
 
   updateQuery(newValue) {
@@ -144,14 +142,34 @@ class SearchBox extends React.Component {
     });
   }
 
+  // updateDoctypes(newValue) {
+  //   this.setState({
+  //     ...this.state,
+  //     formData: {
+  //       ...this.state.formData,
+  //       doctypes: newValue,
+  //     },
+  //   });
+  // }
+
   updateDoctypes(newValue) {
-    this.setState({
-      ...this.state,
-      formData: {
-        ...this.state.formData,
-        doctypes: newValue,
-      },
-    });
+    if (this.state.service === 'base' || this.state.formData.service === 'base') {
+      this.setState({
+        ...this.state,
+        formData: {
+          ...this.state.formData,
+          doctypes: newValue,
+        },
+      });
+    } else if (this.state.service === 'pubmed' || this.state.formData.service === 'pubmed') {
+      this.setState({
+        ...this.state,
+        formData: {
+          ...this.state.formData,
+          articleTypes: newValue,
+        },
+      });
+    }
   }
 
   updateLang(newValue) {
@@ -299,13 +317,12 @@ class SearchBox extends React.Component {
     }
 
     if (!this.state.showOptions || !showDocTypes) {
-      if (this.state.formData.service === 'base') {
+      if (this.state.formData.service === 'base' || this.state.service === 'base') {
         this.state.formData.doctypes.forEach((value) => {
           entries.push({name: "document_types[]", value});
         });
-      } else if (this.state.formData.service === 'pubmed') {
-
-        this.state.formData.doctypes.forEach((value) => {
+      } else if (this.state.formData.service === 'pubmed' || this.state.service === 'pubmed') {
+        this.state.formData.articleTypes.forEach((value) => {
           entries.push({name: "article_types[]", value});
         });
       }
@@ -342,7 +359,7 @@ class SearchBox extends React.Component {
     //   entries.push({name: "coll", value: collection});
     // }
 
-    if (this.state.formData.service === 'base' && (!this.state.showOptions || !showCollection)) {
+    if ((this.state.formData.service === 'base' || this.state.service === 'base') && (!this.state.showOptions || !showCollection)) {
       if (collection && collection.length <= 3) {
         entries.push({name: "coll", value: collection});
       }
@@ -401,14 +418,14 @@ class SearchBox extends React.Component {
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
-    // console.log('hiddenEntries', hiddenEntries)
+    console.log('hiddenEntries', hiddenEntries)
 
 
     //  exist error with pubmed documents handling from link params it doesn't want to switch to default value from base
     // this is a temporary solution
-    if (this.state.formData.service === "pubmed" && this.state.formData.doctypes.includes('121')) {
-      this.state.formData.doctypes = pubMedDefaultId
-    }
+    // if (this.state.formData.service === "pubmed" && this.state.formData.doctypes.includes('121')) {
+    //   this.state.formData.doctypes = pubMedDefaultId
+    // }
 
     return e(
         "div",
@@ -449,8 +466,14 @@ class SearchBox extends React.Component {
                       setValue: this.updateSorting.bind(this),
                     }),
                     showDocTypes &&
+                    // e(DoctypesPicker, {
+                    //   values: this.state.formData.doctypes,
+                    //   setValues: this.updateDoctypes.bind(this),
+                    //   service: this.state.formData.service,
+                    // }),
                     e(DoctypesPicker, {
-                      values: this.state.formData.doctypes,
+                      // values: this.state.formData.doctypes,
+                      values: this.state.formData.service === "pubmed" ? this.state.formData.articleTypes : this.state.formData.doctypes,
                       setValues: this.updateDoctypes.bind(this),
                       service: this.state.formData.service,
                     }),

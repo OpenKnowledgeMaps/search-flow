@@ -31,7 +31,6 @@ export const DEFAULT_SETTINGS = {
   // default (preselected) values
   defaultQuery: "",
   defaultDocTypes: ["121"], // deafult value for service='base'
-  // defaultDocTypesPubmed: pubMedDefaultId,
   defaultArticleTypes: pubMedDefaultId, // default value for service='pubmed'
 
   defaultSorting: "most-relevant",
@@ -117,7 +116,7 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.defaultDocTypes = outerSettings.document_types;
   }
   if (Array.isArray(outerSettings.article_types)) {
-    settings.defaultDocTypes = outerSettings.article_types;
+    settings.defaultArticleTypes = outerSettings.article_types;
   }
   if (typeof outerSettings.sorting === "string") {
     settings.defaultSorting = outerSettings.sorting;
@@ -143,7 +142,7 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.contentProvider = outerSettings.repo;
   }
   if (typeof outerSettings.coll === "string") {
-    settings.collection = outerSettings.collection;
+    settings.collection = outerSettings.coll;
   }
   if (typeof outerSettings.title === "string") {
     settings.titleExpansion = outerSettings.title;
@@ -246,22 +245,14 @@ const getQuerySettings = () => {
       } else {
         settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
       }
-      // } else if (queryParams.get('service') === 'pubmed') {
-      //   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES_PUBMED)) {
-      //     settings.defaultDocTypes = queryParams.getAll("document_types[]");
-      //   } else {
-      //     settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypesPubmed;
-      //   }
-      // }
-    } else if (queryParams.has("article_types[]")) {
-      if (queryParams.get('service') === 'base') {
-        if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
-          // console.log('hasValid("article_types[]"');
-          settings.defaultDocTypes = queryParams.getAll("article_types[]");
-        } else {
-          // console.log('NOOO hasValid("article_types[]"');
-          settings.defaultDocTypes = DEFAULT_SETTINGS.defaultArticleTypes;
-        }
+    }
+  }
+  if (queryParams.has("article_types[]")) {
+    if (queryParams.get('service') === 'pubmed') {
+      if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
+        settings.defaultArticleTypes = queryParams.getAll("article_types[]");
+      } else {
+        settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
       }
     }
   }
