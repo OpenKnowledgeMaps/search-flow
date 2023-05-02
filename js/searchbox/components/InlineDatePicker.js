@@ -8,72 +8,58 @@ const e = React.createElement;
 
 const InlineDatePicker = ({service, name, label, value, setValue}) => {
 
+    // decision to use stabValue and stabService is made for show/hide normally the clear-date functionality:
+    const [stabValue, setStabValue] = React.useState(value);
+    const [stabService, setStabService] = React.useState(service);
 
-    // console.log("enter value", value);
-    // console.log("enter service", service);
-    // const [stabValue, setStabValue] = React.useState(value);
-    // const [stabService, setStabService] = React.useState(service);
+    function setDefaultFrom() {
+        if (service === "pubmed") {
+            setValue(PUBMED_DEFAULT_FROM)
+            setStabValue(PUBMED_DEFAULT_FROM)
+        } else if (service === "base") {
+            setValue(DEFAULT_FROM)
+            setStabValue(DEFAULT_FROM)
+        }
+    }
 
+    function setDefaultTo() {
+        setValue(DEFAULT_TO)
+        setStabValue(DEFAULT_TO)
+    }
 
-    // for now not using this function but keeping it here for future use
-    // if (stabService !== service) {
-    //     if (name === "from") {
-    //         if (service === "pubmed") {
-    //             setValue(PUBMED_DEFAULT_FROM)
-    //             setStabValue(PUBMED_DEFAULT_FROM)
-    //         } else if (service === "base") {
-    //             setValue(DEFAULT_FROM)
-    //             setStabValue(DEFAULT_FROM)
-    //         }
-    //     }
-    //     setStabService(service)
-    // }
-
-    // for now not using this function but keeping it here for future use
-    // function clearValue(name) {
-    //     if (name === "from") {
-    //         if (service === "pubmed") {
-    //             setValue(PUBMED_DEFAULT_FROM)
-    //             setStabValue(PUBMED_DEFAULT_FROM)
-    //         } else if (service === "base") {
-    //             setValue(DEFAULT_FROM)
-    //             setStabValue(DEFAULT_FROM)
-    //
-    //         }
-    //     }
-    //     if (name === "to") {
-    //         setValue(DEFAULT_TO)
-    //         setStabValue(DEFAULT_TO)
-    //     }
-    // }
+    if (stabService !== service) {
+        if (name === "from") {
+            setDefaultFrom()
+        } else if (name === "to") {
+            setDefaultTo()
+        }
+        setStabService(service)
+    }
 
     // for now not using this function but keeping it here for future use
+    function clearValue(name) {
+        if (name === "from") {
+            setDefaultFrom()
+        }
+        if (name === "to") {
+            setDefaultTo()
+        }
+    }
+
     // for determining whether to show the clear date icon
 
     function isEqual(name, stabValue) {
-        console.log("stabValue", stabValue);
-        if (name === "to") {
-            if (stabValue === DEFAULT_TO) {
-                return true;
-            }
+        switch (name) {
+            case "to":
+                return stabValue === DEFAULT_TO;
+            case "from":
+                return stabValue === (service === "pubmed" ? PUBMED_DEFAULT_FROM : DEFAULT_FROM);
+            default:
+                return false;
         }
-        if (name === "from") {
-            if (service === "pubmed") {
-                if (stabValue === PUBMED_DEFAULT_FROM) {
-                    return true;
-                }
-            } else if (service === "base") {
-                if (stabValue === DEFAULT_FROM) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
-
-
-    return e(
-        "div",
+    
+    return e("div",
         {
             className: "inline_date_picker filter-label",
         },
@@ -84,29 +70,32 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
                     name: name,
                     required: true,
                     className: "date-field",
-                    // 'dateformat': "YYYY-MM-DD",
-                    // 'data-date-format': "YYYY MMMM DD",
                     type: "date",
-                    value: value,
-                // value: stabValue,
+                    value: stabValue,
+                    "aria-label": label,
                     onChange: (e) => {
                         setValue(e.target.value)
-                        // setStabValue(e.target.value)
+                        setStabValue(e.target.value)
                     },
                 },
             ),
-
-            // hiding clear date for now, but keeping it here for future use
-
-            // !isEqual(name, stabValue) &&
-            // e("i", {
-            //     id: `${name}-clear-date`,
-            //     style: {fontSize: 14, position: "absolute", left: 115, top: 18},
-            //     className: "fa fa-times-circle custom-icons",
-            //     onClick: () => {
-            //         clearValue(name)
-            //     }
-            // }),
+            !isEqual(name, stabValue) &&
+            e("i", {
+                id: `${name}-clear-date`,
+                className: "fa fa-times-circle custom-icons clear-date-btn",
+                "aria-label": "Clear date",
+                tabIndex: "0",
+                role: "button",
+                onClick: () => {
+                    clearValue(name)
+                },
+                onKeyDown: (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        clearValue(name);
+                        e.preventDefault();
+                    }
+                },
+            }),
         ),
     );
 };
