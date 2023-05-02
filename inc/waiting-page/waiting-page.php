@@ -226,7 +226,7 @@ if($has_sufficient_data) {
 }
 ?>
 
-<script src="<?php echo $searchflow_path ?>js/search.js"></script>
+<script src="<?php echo $searchflow_path ?>js/search.js?v=2023-04-24"></script>
 <script>
 <?php
     if(isset($post_data)) {
