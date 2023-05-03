@@ -58,7 +58,7 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
                 return false;
         }
     }
-    
+
     return e("div",
         {
             className: "inline_date_picker filter-label",
@@ -73,6 +73,8 @@ const InlineDatePicker = ({service, name, label, value, setValue}) => {
                     type: "date",
                     value: stabValue,
                     "aria-label": label,
+                    min: (service === "pubmed" ? PUBMED_DEFAULT_FROM : DEFAULT_FROM),
+                    max: DEFAULT_TO,
                     onChange: (e) => {
                         setValue(e.target.value)
                         setStabValue(e.target.value)
