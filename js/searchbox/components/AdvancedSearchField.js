@@ -1,6 +1,8 @@
 "use strict";
 
-const {useState, useRef, createElement: e} = React;
+import useOutsideClick from "../hooks/useOutsideClick.js";
+
+const {useState, useRef, useEffect, createElement: e} = React;
 
 const AdvancedSearchField = ({value, setValue}) => {
     const [showPopover, setShowPopover] = useState(false);
@@ -9,9 +11,35 @@ const AdvancedSearchField = ({value, setValue}) => {
     // message for popover
     const infoMessage = `This optional search field enables you to search directly in individual metadata fields available in BASE. For example, to create a visualisation for an individual author you can search in the dcorcid field e.g. dcorcid:0000-0002-1894-5040. If you would like to restrict your search to a specific region please use the dccoverage field e.g. dccoverage:”Rocky Mountains”.`
 
+    // for useOutsideClick hook but not working with popover in first item in list...
+    const handleOutsideClick = () => {
+        setShowPopover(false);
+        setPopoverId('');
+    };
+
+    const containerRef = useRef(null);
+
+    useOutsideClick(containerRef, handleOutsideClick);
+
+    const popoverRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (popoverRef.current && !popoverRef.current.contains(e.target)) {
+                setShowPopover(false);
+                setPopoverId('');
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [popoverRef]);
+
     return e("div",
         null,
-        // {style: {marginBottom: 20}},
         e("label", {htmlFor: "searchterm", className: "filter-label"}, "Enter advanced query - optional"),
         e('div', {
             key: `q-advanced-popover`,
@@ -24,6 +52,7 @@ const AdvancedSearchField = ({value, setValue}) => {
                     className: 'info-title',
                     role: 'button',
                     tabIndex: 0,
+                    ref: containerRef,
                     'aria-label': 'Information',
                     onKeyDown: (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
