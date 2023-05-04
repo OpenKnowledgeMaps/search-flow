@@ -7,12 +7,11 @@ const AdvancedSearchField = ({value, setValue}) => {
     const [popoverId, setPopoverId] = useState('');
 
     // message for popover
-    const infoMessage = `This optional search field enables you to search directly in individual metadata fields " +
-        "available in BASE. For example, to create a visualisation for an individual author you can search in the " +
-        "dcorcid field e.g. dcorcid:0000-0002-1894-5040. If you would like to restrict your search to a specific " +
-        "region please use the dccoverage field e.g. dccoverage:”Rocky Mountains”.`
+    const infoMessage = `This optional search field enables you to search directly in individual metadata fields available in BASE. For example, to create a visualisation for an individual author you can search in the dcorcid field e.g. dcorcid:0000-0002-1894-5040. If you would like to restrict your search to a specific region please use the dccoverage field e.g. dccoverage:”Rocky Mountains”.`
 
-    return e("div", {style: {marginBottom: 20}},
+    return e("div",
+        null,
+        // {style: {marginBottom: 20}},
         e("label", {htmlFor: "searchterm", className: "filter-label"}, "Enter advanced query - optional"),
         e('div', {
             key: `q-advanced-popover`,

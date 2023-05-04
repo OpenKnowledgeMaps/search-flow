@@ -527,18 +527,17 @@ class SearchBox extends React.Component {
                       setValue: this.updateMinDescsize.bind(this),
                     }),
                 ),
+                ((showQadvanced && this.state.formData.service === "base") &&
+                    e(AdvancedSearchField, {
+                      value: this.state.formData.q_advanced,
+                      setValue: this.updateAdvancedQuery.bind(this),
+                    })
+                ),
             ),
-            ((showQadvanced && this.state.formData.service === "base") &&
-                e(AdvancedSearchField, {
-                  value: this.state.formData.q_advanced,
-                  setValue: this.updateAdvancedQuery.bind(this),
-                })
-            ),
-
             e(SearchField, {
               value: this.state.formData.query,
               setValue: this.updateQuery.bind(this),
-              required: (!(this.state.formData.service === "base" && showQadvanced)),
+              required: (!(this.state.formData.service === "base" && showQadvanced && this.state.formData.q_advanced.length > 0)),
             }),
             e(Hiddens, {entries: hiddenEntries}),
             e(SearchButton)
