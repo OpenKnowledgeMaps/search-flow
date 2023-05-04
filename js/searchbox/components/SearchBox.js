@@ -110,6 +110,18 @@ class SearchBox extends React.Component {
     });
   }
 
+  updateTimespanFromPubmed(newValue) {
+    this.setState({
+      ...this.state,
+      formData: {
+        ...this.state.formData,
+        timespan: {
+          fromPubmed: newValue,
+        },
+      },
+    });
+  }
+
   updateTimespanTo(newValue) {
     this.setState({
       ...this.state,
@@ -142,16 +154,6 @@ class SearchBox extends React.Component {
     });
   }
 
-  // updateDoctypes(newValue) {
-  //   this.setState({
-  //     ...this.state,
-  //     formData: {
-  //       ...this.state.formData,
-  //       doctypes: newValue,
-  //     },
-  //   });
-  // }
-
   updateDoctypes(newValue) {
     if (this.state.service === 'base' || this.state.formData.service === 'base') {
       this.setState({
@@ -182,31 +184,6 @@ class SearchBox extends React.Component {
     });
   }
 
-  // updateService(newValue) {
-  //   let docTypesType = []
-  //   let from = ''
-  //   let to = DEFAULT_TO
-  //   if (newValue === 'base') {
-  //     docTypesType = this.state.settings.defaultDocTypes
-  //     from = DEFAULT_FROM
-  //   } else if (newValue === 'pubmed') {
-  //     docTypesType = pubMedDefaultId
-  //     from = PUBMED_DEFAULT_FROM
-  //   }
-  //
-  //   this.setState({
-  //     ...this.state,
-  //     formData: {
-  //       ...this.state.formData,
-  //       service: newValue,
-  //       doctypes: docTypesType,
-  //       timespan: {
-  //         from: from,
-  //         to: to,
-  //       }
-  //     },
-  //   });
-  // }
 
   updateService(newValue) {
 
@@ -288,9 +265,9 @@ class SearchBox extends React.Component {
 
     if (!this.state.showOptions || !showTimeRange) {
       (this.state.service === 'pubmed' || this.state.formData.service === 'pubmed')
-          ? entries.push({name: "from", value: this.state.settings.defaultFromPubmed})
-          : entries.push({name: "from", value: this.state.settings.defaultFrom});
-      entries.push({name: "to", value: this.state.settings.defaultTo});
+          ? entries.push({name: "from", value: this.state.formData.timespan.fromPubmed})
+          : entries.push({name: "from", value: this.state.formData.timespan.from});
+      entries.push({name: "to", value: this.state.formData.timespan.to});
     }
 
     if (!this.state.showOptions || !showSorting) {
@@ -401,6 +378,7 @@ class SearchBox extends React.Component {
   }
 
 
+
   render() {
     const {
       showTimeRange,
@@ -418,14 +396,18 @@ class SearchBox extends React.Component {
     const actionUrl = this.getFormActionUrl();
     const hiddenEntries = this.getHiddenEntries();
 
-    // console.log('hiddenEntries', hiddenEntries)
+    // temporary decision to fix unpredictable behaviour of the date 'from' value
+    let dateFrom;
+    if (this.state.formData.service === 'pubmed') {
+      dateFrom = this.state.formData.timespan.fromPubmed ? this.state.formData.timespan.fromPubmed : this.state.settings.defaultFromPubmed;
+      // console.log('dateFromPubmed', this.state.formData.timespan.fromPubmed);
+    } else {
+      dateFrom = this.state.formData.timespan.from ? this.state.formData.timespan.from : this.state.settings.defaultFrom;
+      // console.log('dateFrom BASE', this.state.formData.timespan.from);
+    }
+    let dateTo = this.state.formData.timespan.to || this.state.settings.defaultTo;
+    // console.log('dateTo', this.state.formData.timespan.to)
 
-
-    //  exist error with pubmed documents handling from link params it doesn't want to switch to default value from base
-    // this is a temporary solution
-    // if (this.state.formData.service === "pubmed" && this.state.formData.doctypes.includes('121')) {
-    //   this.state.formData.doctypes = pubMedDefaultId
-    // }
 
     return e(
         "div",
@@ -466,13 +448,7 @@ class SearchBox extends React.Component {
                       setValue: this.updateSorting.bind(this),
                     }),
                     showDocTypes &&
-                    // e(DoctypesPicker, {
-                    //   values: this.state.formData.doctypes,
-                    //   setValues: this.updateDoctypes.bind(this),
-                    //   service: this.state.formData.service,
-                    // }),
                     e(DoctypesPicker, {
-                      // values: this.state.formData.doctypes,
                       values: this.state.formData.service === "pubmed" ? this.state.formData.articleTypes : this.state.formData.doctypes,
                       setValues: this.updateDoctypes.bind(this),
                       service: this.state.formData.service,
@@ -491,25 +467,18 @@ class SearchBox extends React.Component {
                             {
                               className: "time-range-container",
                             },
-                            // e(InlineDatePicker, {
-                            //   service: this.state.formData.service,
-                            //   name: "from",
-                            //   label: "From",
-                            //   value: this.state.formData.timespan.from,
-                            //   setValue: this.updateTimespanFrom.bind(this),
-                            // }),
                             e(InlineDatePicker, {
                               service: this.state.formData.service,
                               name: "from",
                               label: "From",
-                              value: this.state.formData.service === "pubmed" ? this.state.formData.timespan.fromPubmed : this.state.formData.timespan.from,
-                              setValue: this.updateTimespanFrom.bind(this),
+                              value: dateFrom,
+                              setValue: this.state.formData.service === "pubmed" ? this.updateTimespanFromPubmed.bind(this) : this.updateTimespanFrom.bind(this),
                             }),
                             e(InlineDatePicker, {
                               service: this.state.formData.service,
                               name: "to",
                               label: "To",
-                              value: this.state.formData.timespan.to,
+                              value: dateTo,
                               setValue: this.updateTimespanTo.bind(this)
                             })
                         ),
