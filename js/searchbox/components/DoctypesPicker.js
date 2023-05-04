@@ -186,58 +186,61 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         "aria-controls": "doctypes-selector",
                     },
                     //  Save for future use if needed to add "select all" option !!!!!
-                    // e(
-                    //     "li",
-                    //     {
-                    //         className: values.length === docTypes.length ? "active" : "",
-                    //     },
-                    //     e(
-                    //         "a",
-                    //         {
-                    //             tabIndex: 0,
-                    //             className: "multiselect-all",
-                    //             onKeyDown: (e) => {
-                    //                 if (e.key === 'Enter') {
-                    //                     if (values.length === docTypes.length) {
-                    //                         setValues([]);
-                    //                     } else {
-                    //                         setValues(docTypes.map((o) => o.id));
-                    //                     }
-                    //                 }
-                    //             },
-                    //         },
-                    //         !search.length &&
-                    //         e(
-                    //             "label",
-                    //             {
-                    //                 className: "checkbox",
-                    //                 style: {
-                    //                     color: '#818181',
-                    //                     fontWeight: values.length === docTypes.length ? 800 : 400
-                    //                 }
-                    //             },
-                    //             e("input", {
-                    //                 name: "multiselect_all",
-                    //                 form: 'none',
-                    //                 type: "checkbox",
-                    //                 checked: values.length === docTypes.length,
-                    //                 onChange: (e) => {
-                    //                     if (!e.target.checked) {
-                    //                         setValues([]);
-                    //                     } else {
-                    //                         setValues(docTypes.map((o) => o.id));
-                    //                     }
-                    //                 },
-                    //             }),
-                    //             values.length === docTypes.length &&
-                    //             e("i", {
-                    //                 className: "fa fa-check custom-icons",
-                    //                 style: {position: "absolute", left: 20, top: 13, marginRight: 10}
-                    //             }),
-                    //             "Select all"
-                    //         )
-                    //     )
-                    // ),
+                    // todo: refactor all accesibility after adding "select all" option
+                    e(
+                        "li",
+                        {
+                            className: values.length === docTypes.length ? "active" : "",
+                            role: 'option',
+                            tabIndex: 0,
+                        },
+                        e(
+                            "a",
+                            {
+                                tabIndex: 0,
+                                className: "multiselect-all",
+                                onKeyDown: (e) => {
+                                    if (e.key === 'Enter') {
+                                        if (values.length === docTypes.length) {
+                                            setValues([]);
+                                        } else {
+                                            setValues(docTypes.map((o) => o.id));
+                                        }
+                                    }
+                                },
+                            },
+                            !search.length &&
+                            e(
+                                "label",
+                                {
+                                    className: "checkbox",
+                                    style: {
+                                        color: '#818181',
+                                        fontWeight: values.length === docTypes.length ? 800 : 400
+                                    }
+                                },
+                                e("input", {
+                                    name: "multiselect_all",
+                                    form: 'none',
+                                    type: "checkbox",
+                                    checked: values.length === docTypes.length,
+                                    onChange: (e) => {
+                                        if (!e.target.checked) {
+                                            setValues([]);
+                                        } else {
+                                            setValues(docTypes.map((o) => o.id));
+                                        }
+                                    },
+                                }),
+                                values.length === docTypes.length &&
+                                e("i", {
+                                    className: "fa fa-check custom-icons",
+                                    style: {position: "absolute", left: 20, top: 13, marginRight: 10}
+                                }),
+                                "Select all"
+                            )
+                        )
+                    ),
                     ...docTypes.map((o) =>
                         e(
                             "li",
@@ -318,7 +321,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
         ),
         e(Hiddens, {
             entries: values.map((value) => ({
-                // name: "document_types[]",
                 name: hiddenEntriesName,
                 value,
             })),
@@ -332,9 +334,9 @@ const getLabel = (selectedValues, service) => {
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
 
     // // for future use if needed to set empty values string !!!!!
-    // if (selectedValues.length === 0) {
-    //     return "No type(s) selected";
-    // }
+    if (selectedValues.length === 0) {
+        return "No type(s) selected";
+    }
 
     if (docTypes.length >= selectedValues.length > 0) {
         let text = '';
