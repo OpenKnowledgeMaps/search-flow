@@ -34,8 +34,10 @@ export const DEFAULT_SETTINGS = {
   defaultArticleTypes: pubMedDefaultId, // default value for service='pubmed'
 
   defaultSorting: "most-relevant",
-  defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
-  defaultFromPubmed: PUBMED_DEFAULT_FROM, // deafult value for service='pubmed'
+  // defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
+  defaultFrom: "1665-01-01", // deafult value for service='base' it changes if service='pubmed'
+  // defaultFromPubmed: PUBMED_DEFAULT_FROM, // deafult value for service='pubmed'
+  defaultFromPubmed: "1809-01-01", // deafult value for service='pubmed'
   defaultTo: DEFAULT_TO,
   defaultLang: ["all-lang"],
 
@@ -265,10 +267,18 @@ const getQuerySettings = () => {
     settings.defaultLang = queryParams.getAll("lang_id[]");
   }
 
-  if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
-    settings.defaultService = queryParams.get("service");
-  } else {
-    settings.defaultService = DEFAULT_SETTINGS.defaultService;
+  // if (!queryParams.has("service")) {
+  //   console.log("settings.defaultFromPubmed", DEFAULT_SETTINGS.defaultFromPubmed)
+  //   console.log("settings.defaultFrom", DEFAULT_SETTINGS.defaultFrom)
+  //   console.log("settings.defaultTo", DEFAULT_SETTINGS.defaultTo)
+  // }
+
+  if (queryParams.has("service")) {
+    if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
+      settings.defaultService = queryParams.get("service");
+    } else {
+      settings.defaultService = DEFAULT_SETTINGS.defaultService;
+    }
   }
   if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESC_SIZE_OPTIONS))) {
     settings.minDescriptionSize = queryParams.get("min_descsize");
