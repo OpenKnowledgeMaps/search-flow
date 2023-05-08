@@ -277,10 +277,13 @@ class SearchBox extends React.Component {
     }
 
     if (showVisType) {
-      entries.push({name: "vis_type", value: this.state.formData.visType});
-
+      if (this.state.service === 'base' || this.state.formData.service === 'base') {
+        entries.push({name: "vis_type", value: this.state.formData.visType});
+      }
     } else {
-      entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
+      if (this.state.service === 'base' || this.state.formData.service === 'base') {
+        entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
+      }
     }
 
 
