@@ -116,8 +116,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         'aria-hidden': true,
                     },
 
-                    // values.length > 0 &&
-                    // values !== optionalBaseDocs || values !== optionalPubmedDocs &&
                     isEqual(values, optionalDocs) &&
                     e("i", {
                         tabIndex: 0,

@@ -11,7 +11,6 @@ const AdvancedSearchField = ({value, setValue}) => {
     // message for popover
     const infoMessage = `This optional search field enables you to search directly in individual metadata fields available in BASE. For example, to create a visualisation for an individual author you can search in the dcorcid field e.g. dcorcid:0000-0002-1894-5040. If you would like to restrict your search to a specific region please use the dccoverage field e.g. dccoverage:”Rocky Mountains”.`
 
-    // for useOutsideClick hook but not working with popover in first item in list...
     const handleOutsideClick = () => {
         setShowPopover(false);
         setPopoverId('');
@@ -107,7 +106,6 @@ const AdvancedSearchField = ({value, setValue}) => {
             size: "89",
             className: "text-field",
             id: "searchterm_advanced",
-            // placeholder: value,
             spellCheck: true,
             value,
             onChange: (e) => setValue(e.target.value),

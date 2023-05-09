@@ -10,21 +10,14 @@ const {useState, useRef, createElement: e} = React;
 
 const CollectionPicker = ({values, setValues}) => {
 
-    // console.log('CollectionPicker 1: values', values)
-
     if (!values) {
         values = 'worldwide';
     }
 
-    // console.log('CollectionPicker 2: values', values)
-
-
-    // variable to store the current document types
+    // variable to store the current collection types
     let collOptionsList = COLL_OPTIONS
 
-
     const [open, setOpen] = useState(false);
-
     const [search, setSearch] = useState('');
 
     const handleOutsideClick = () => {
@@ -37,9 +30,8 @@ const CollectionPicker = ({values, setValues}) => {
     const btnLabel = getLabel(values);
 
     if (search.length > 0) {
-        const filtered = collOptionsList.filter((o) => o.label.toString().toLowerCase()
-            .includes(search.toString().toLowerCase()));
-        collOptionsList = filtered
+        collOptionsList = collOptionsList.filter((o) => o.label.toString().toLowerCase()
+            .includes(search.toString().toLowerCase()))
     }
 
     //  add event listener if ul is focused and user press escape to close the dropdown
@@ -156,7 +148,6 @@ const CollectionPicker = ({values, setValues}) => {
                         "aria-controls": "language-selector",
                     },
                     ...collOptionsList.map((o) =>
-                        o.id !== "all-lang" &&
                         e(
                             "li",
                             {
@@ -166,6 +157,7 @@ const CollectionPicker = ({values, setValues}) => {
                                 tabIndex: 0,
                                 'aria-selected': values === o.id,
                                 onKeyDown: (e) => {
+                                    console.log(e.key)
                                     if (e.key === 'Escape') {
                                         e.preventDefault();
                                         document.getElementById('custom-ul-coll').focus();
@@ -174,17 +166,17 @@ const CollectionPicker = ({values, setValues}) => {
                                         e.preventDefault();
                                         setValues(o.id);
                                     }
-                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                         e.preventDefault();
                                         let index = collOptionsList.findIndex((v) => v.id === o.id);
-                                        const nextIndex = index === collOptionsList.length - 1 ? 1 : index + 1;
+                                        const nextIndex = index === collOptionsList.length - 1 ? 0 : index + 1;
                                         const nextLi = document.getElementById(`language-${collOptionsList[nextIndex].id}`);
                                         nextLi.focus();
                                     }
-                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = collOptionsList.findIndex((v) => v.id === o.id);
-                                        const prevIndex = index === 1 ? collOptionsList.length - 1 : index - 1;
+                                        const prevIndex = index === 0 ? collOptionsList.length - 1 : index - 1;
                                         const prevLi = document.getElementById(`language-${collOptionsList[prevIndex].id}`);
                                         prevLi.focus();
                                     }

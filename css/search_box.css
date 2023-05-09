@@ -180,7 +180,6 @@ body.iframed {
 
 #search_box_container {
     box-sizing: border-box;
-    /*width: 390px;*/
     width: 390px;
     padding: 30px;
     background-color: white;
@@ -416,11 +415,8 @@ input[type="radio"]:checked + label {
 }
 
 input[type="radio"]:focus {
-    /* add box-shadow with color #4d88f9 */
     box-shadow: 0 0 5px rgba(77, 136, 249, 0.8);
     outline: #4d88f9 solid 3px;
-    /*outline: #015fcc solid 3px;*/
-    /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
 }
 
 .radio-label {
@@ -606,14 +602,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     container: search_box_container;
     position: relative;
     display: inline-block;
-    /*max-width: 100%;*/
 }
 
 .popover__content {
     opacity: 1;
     visibility: visible;
     position: absolute;
-    /*left: calc(50% - 120px); !* updated value *!*/
     left: calc(50% - 113px); /* updated value */
     top: calc(100% + 2px); /* updated value */
     background-color: white;
@@ -630,106 +624,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;
     z-index: -1;
     content: "";
-    /*left: calc(50%); !* updated value *!*/
     left: 90px; /* updated value */
     top: -10px; /* updated value */
     border-style: solid;
     border-width: 10px 10px 0 10px; /* updated value */
     border-color: white transparent transparent transparent; /* updated value */
-    /*border-color: rgba(0, 0, 0, 0.2) transparent transparent transparent; !* updated value *!*/
-
     transform: rotate(180deg); /* updated value */
-    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); !* new value *!*/
 }
-
-/* another view of popover leave for now if needed to use*/
-/* popover  left-right */
-
-/*.popover__wrapper {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*    width: fit-content;*/
-
-/*}*/
-
-/*.popover__content {*/
-/*    opacity: 1;*/
-/*    !*visibility: visible;*!*/
-/*    position: absolute;*/
-/*    left: calc(50% + 10px);*/
-/*    top: calc(50% - 53px);*/
-/*    background-color: white;*/
-/*    padding: 8px;*/
-/*    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
-/*    border-radius: 10px;*/
-/*    width: 180px;*/
-/*    !* add transition properties *!*/
-/*    z-index: 1000;*/
-/*    transition-property: opacity, visibility, z-index;*/
-/*    !*transition-duration: 0.3s;*!*/
-/*    !*transition-delay: 0.3s; !* set a delay of 0.3 seconds *!*!*/
-/*}*/
-
-/*.popover__content:before {*/
-/*    position: absolute;*/
-/*    z-index: -1;*/
-/*    content: "";*/
-/*    left: -12px;*/
-/*    top: 41px;*/
-/*    border-style: solid;*/
-/*    border-width: 0 10px 20px 10px;*/
-/*    border-color: transparent transparent white transparent;*/
-/*    transform: rotate(-90deg);*/
-/*}*/
-
-/*.popover__wrapper:hover .popover__content {*/
-/*    z-index: 10;*/
-/*    opacity: 1;*/
-/*    visibility: visible;*/
-/*    transition-delay: 0s; !* remove the delay on hover *!*/
-/*}*/
-
-
-/*.popover__content__left {*/
-/*    opacity: 1;*/
-/*    !*visibility: visible;*!*/
-/*    position: absolute;*/
-/*    left: auto;*/
-/*    !*right: calc(100% - 24px);*!*/
-/*    right: calc(100% - 10px);*/
-/*    top: calc(50% - 53px);*/
-/*    background-color: white;*/
-/*    padding: 8px;*/
-/*    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
-/*    border-radius: 10px;*/
-/*    width: 180px;*/
-/*    !* add transition properties *!*/
-/*    z-index: 1000;*/
-/*    transition-property: opacity, visibility, z-index;*/
-/*    !*transition-duration: 0.3s;*!*/
-/*    !*transform: translateX(0);*!*/
-/*    !*transition-delay: 0.3s; !* set a delay of 0.3 seconds *!*!*/
-/*}*/
-
-/*.popover__content__left:before {*/
-/*    position: absolute;*/
-/*    z-index: -1;*/
-/*    content: "";*/
-/*    left: auto;*/
-/*    right: -12px;*/
-/*    top: 41px;*/
-/*    border-style: solid;*/
-/*    border-width: 0 10px 20px 10px;*/
-/*    border-color: transparent transparent white transparent;*/
-/*    transform: rotate(90deg);*/
-/*}*/
-
-/*.popover__wrapper:hover .popover__content__left {*/
-/*    z-index: 10;*/
-/*    opacity: 1;*/
-/*    visibility: visible;*/
-/*}*/
-
 
 .popover__title {
     color: #818181;
@@ -763,7 +664,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         margin: 0;
         font-family: "Open Sans", Helvetica;
         font-weight: 400;
-        /*overflow: hidden;*/
         overflow: auto;
         background-color: transparent !important;
         position: relative;
@@ -771,8 +671,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     #search_box_container {
         box-sizing: border-box;
-        /*width: 340px;*/
-        /*width: 390px;*/
         width: 100%;
         padding: 30px;
         background-color: white;
@@ -786,83 +684,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         left: 50%;
         transform: translate(-50%);
     }
-
-    /*.date-field {*/
-    /*    height: 50px;*/
-    /*    padding-left: 5px;*/
-    /*    width: 200px;*/
-    /*    max-width: 100%;*/
-    /*    min-width: 100%;*/
-    /*    text-align: center;*/
-    /*    border: 1px solid #818181;*/
-    /*    border-radius: 14px;*/
-    /*    font-size: 14px;*/
-    /*    font-weight: 400;*/
-    /*    background-color: white;*/
-    /*}*/
-    /*.clear-date-btn {*/
-    /*    font-size: 14px;*/
-    /*    position: absolute;*/
-    /*    left: 180px;*/
-    /*    top: 18px;*/
-    /*    cursor: pointer;*/
-    /*}*/
 }
-
-/* one more toltop option can be deleted no used */
-/*!*tooltip*!*/
-/*.tooltip {*/
-/*    position: relative;*/
-/*    display: inline-flex;*/
-/*    justify-content: center;*/
-/*    cursor: pointer;*/
-/*    border-bottom: 1px dashed #000;*/
-/*}*/
-
-/*.tooltip:hover {*/
-/*    border-bottom: none;*/
-/*}*/
-
-/*.tooltip:hover .tooltiptext {*/
-/*    visibility: visible;*/
-/*    opacity: 1;*/
-
-/*}*/
-
-/*.tooltip .tooltiptext {*/
-/*    visibility: hidden;*/
-/*    opacity: 0;*/
-/*    position: absolute;*/
-/*    width: 240px;*/
-/*    top: 100%;*/
-/*    margin: 12px 0 0 0;*/
-/*    left: 50%;*/
-/*    transform: translateX(-50%);*/
-/*    padding: 8px;*/
-/*    background: blue;*/
-/*    color: #fff;*/
-/*    text-align: center;*/
-/*    border-radius: 4px;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*.tooltip .tooltiptext::after {*/
-/*    content: "";*/
-/*    position: absolute;*/
-/*    top: -20px;*/
-/*    left: 50%;*/
-/*    transform: translateX(-50%);*/
-/*    border-width: 10px;*/
-/*    border-style: solid;*/
-/*    border-color: transparent transparent blue transparent;*/
-/*}*/
-
-/*@media (max-width: 768px) {*/
-/*    .tooltip .tooltiptext {*/
-/*        max-width: 150px;*/
-/*    }*/
-/*}*/
-
 
 @media only screen and (min-width: 899px) {
     #search_box_container.iframed {
@@ -914,34 +736,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         grid-template-columns: 1fr;
         gap: 10px;
     }
-
-    /* delete if no need it one of view option of popover in large screens */
-    /*!*popover*!*/
-    /*.items-flex-container > div:last-child > .popover__wrapper > .popover__content {*/
-    /*    left: auto;*/
-    /*    right: calc(100% - 24px);*/
-    /*    top: calc(50% - 53px);*/
-    /*    transform: translateX(0);*/
-    /*}*/
-    /*.items-flex-container > div:last-child > .popover__wrapper > .popover__content:before {*/
-    /*    left: auto;*/
-    /*    right: -12px;*/
-    /*    border-width: 0 10px 20px 10px;*/
-    /*    border-color: transparent transparent white transparent;*/
-    /*    transform: rotate(90deg);*/
-    /*}*/
-    /*!*popover left in lg screens become right*!*/
-    /*.popover__wrapper > .popover__content__left {*/
-    /*    right: auto;*/
-    /*    left: calc(100% - 24px);*/
-    /*    top: calc(50% - 53px);*/
-    /*    transform: translateX(0);*/
-    /*}*/
-    /*.popover__wrapper > .popover__content__left:before {*/
-    /*    right: auto;*/
-    /*    left: -12px;*/
-    /*    border-width: 0 10px 20px 10px;*/
-    /*    border-color: transparent transparent white transparent;*/
-    /*    transform: rotate(-90deg);*/
-    /*}*/
 }

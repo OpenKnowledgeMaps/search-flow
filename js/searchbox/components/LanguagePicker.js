@@ -15,7 +15,7 @@ const LanguagePicker = ({values, setValues}) => {
     }
 
     // variable to store the current document types
-    let languagesList = LANG_OPTIONS
+    let languagesList = LANG_OPTIONS.filter((lang) => lang.id !== "all-lang")
 
     const [open, setOpen] = useState(false);
 
@@ -31,9 +31,8 @@ const LanguagePicker = ({values, setValues}) => {
     const btnLabel = getLabel(values);
 
     if (search.length > 0) {
-        const filtered = languagesList.filter((o) => o.label.toString().toLowerCase()
-            .includes(search.toString().toLowerCase()));
-        languagesList = filtered
+        languagesList = languagesList.filter((o) => o.label.toString().toLowerCase()
+            .includes(search.toString().toLowerCase()))
     }
 
     // clear all selected values
@@ -176,7 +175,6 @@ const LanguagePicker = ({values, setValues}) => {
                         "aria-controls": "language-selector",
                     },
                     ...languagesList.map((o) =>
-                        o.id !== "all-lang" &&
                         e(
                             "li",
                             {
@@ -201,17 +199,19 @@ const LanguagePicker = ({values, setValues}) => {
                                             setValues([...values, o.id]);
                                         }
                                     }
-                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        const nextIndex = index === languagesList.length - 1 ? 1 : index + 1;
+                                        console.log('index', index)
+                                        const nextIndex = index === languagesList.length - 1 ? 0 : index + 1;
                                         const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
                                         nextLi.focus();
                                     }
-                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        const prevIndex = index === 1 ? languagesList.length - 1 : index - 1;
+                                        console.log('index', index)
+                                        const prevIndex = index === 0 ? languagesList.length - 1 : index - 1;
                                         const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
                                         prevLi.focus();
                                     }

@@ -8,7 +8,7 @@ function PopoverInfo({o, options}) {
     const [showPopover, setShowPopover] = useState(false);
     const [popoverId, setPopoverId] = useState();
 
-    // for useOutsideClick hook but not working with popover in first item in list...
+    // for useOutsideClick hook
     const handleOutsideClick = () => {
         setShowPopover(false);
         setPopoverId('');
