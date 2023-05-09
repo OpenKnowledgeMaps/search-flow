@@ -25,11 +25,6 @@ import InlineDatePickerTo from "./InlineDatePickerTo.js";
 const e = React.createElement;
 
 
-const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS
-    .filter(option => option.id !== 'retracted publication')
-    .map(option => option.id);
-
-
 class SearchBox extends React.Component {
   constructor(props) {
     super(props);
@@ -100,7 +95,6 @@ class SearchBox extends React.Component {
     }
 
     // updateTimespanFrom(newValue) {
-    //     console.log('updateTimespanFrom')
     //     this.setState({
     //         ...this.state,
     //         formData: {
@@ -113,7 +107,6 @@ class SearchBox extends React.Component {
     // }
     //
     // updateTimespanFromPubmed(newValue) {
-    //     console.log('updateTimespanFromPubmed')
     //     this.setState({
     //         ...this.state,
     //         formData: {
@@ -126,7 +119,6 @@ class SearchBox extends React.Component {
     // }
     //
     // updateTimespanTo(newValue) {
-    //     console.log('updateTimespanTo')
     //     this.setState({
     //         ...this.state,
     //         formData: {
@@ -379,7 +371,6 @@ class SearchBox extends React.Component {
 
       // handle event for changing timespan from/to without unpredictable behaviour
       const handleFromChange = (event) => {
-          console.log('event', event)
           if (this.state.formData.service === 'pubmed') {
               this.state.formData.timespan.fromPubmed = event
           }

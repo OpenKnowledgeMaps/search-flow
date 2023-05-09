@@ -184,30 +184,43 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         "aria-controls": "doctypes-selector",
                     },
                     //  Save for future use if needed to add "select all" option !!!!!
-                    // todo: refactor all accesibility after adding "select all" option
                     e(
                         "li",
                         {
                             className: values.length === docTypes.length ? "active" : "",
+                            id: `doctypes-all`,
                             role: 'option',
                             tabIndex: 0,
+                            'aria-selected': values,
+                            onKeyDown: (e) => {
+                                if (e.key === 'Escape') {
+                                    e.preventDefault();
+                                    document.getElementById('custom-ul-doctypes').focus();
+                                }
+                                if (e.key === ' ' || e.key === 'Enter') {
+                                    e.preventDefault();
+                                    if (values.length === docTypes.length) {
+                                        setValues([]);
+                                    } else {
+                                        setValues(docTypes.map((o) => o.id));
+                                    }
+                                }
+                                if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
+                                    e.preventDefault();
+                                    const nextLi = document.getElementById(`doctypes-${docTypes[0].id}`);
+                                    nextLi.focus();
+                                }
+                                if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
+                                    e.preventDefault();
+                                    const prevLi = document.getElementById(`doctypes-${docTypes[docTypes.length - 1].id}`);
+                                    prevLi.focus();
+                                }
+                            },
                         },
                         e(
-                            "a",
-                            {
-                                tabIndex: 0,
-                                className: "multiselect-all",
-                                onKeyDown: (e) => {
-                                    if (e.key === 'Enter') {
-                                        if (values.length === docTypes.length) {
-                                            setValues([]);
-                                        } else {
-                                            setValues(docTypes.map((o) => o.id));
-                                        }
-                                    }
-                                },
-                            },
-                            !search.length &&
+                            "a", null,
+                            // !search.length &&
+                            docTypes.length > 0 &&
                             e(
                                 "label",
                                 {
@@ -261,19 +274,27 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                             setValues([...values, o.id]);
                                         }
                                     }
-                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                         e.preventDefault();
                                         let index = docTypes.findIndex((v) => v.id === o.id);
-                                        const nextIndex = index === docTypes.length - 1 ? 0 : index + 1;
-                                        const nextLi = document.getElementById(`doctypes-${docTypes[nextIndex].id}`);
-                                        nextLi.focus();
+                                        if (index === docTypes.length - 1) {
+                                            document.getElementById(`doctypes-all`).focus()
+                                        } else {
+                                            const nextIndex = index === docTypes.length - 1 ? 0 : index + 1;
+                                            const nextLi = document.getElementById(`doctypes-${docTypes[nextIndex].id}`);
+                                            nextLi.focus();
+                                        }
                                     }
-                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = docTypes.findIndex((v) => v.id === o.id);
-                                        const prevIndex = index === 0 ? docTypes.length - 1 : index - 1;
-                                        const prevLi = document.getElementById(`doctypes-${docTypes[prevIndex].id}`);
-                                        prevLi.focus();
+                                        if (index === 0) {
+                                            document.getElementById(`doctypes-all`).focus()
+                                        } else {
+                                            const prevIndex = index === 0 ? docTypes.length - 1 : index - 1;
+                                            const prevLi = document.getElementById(`doctypes-${docTypes[prevIndex].id}`);
+                                            prevLi.focus();
+                                        }
                                     }
                                 }
                             },

@@ -202,7 +202,6 @@ const LanguagePicker = ({values, setValues}) => {
                                     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        console.log('index', index)
                                         const nextIndex = index === languagesList.length - 1 ? 0 : index + 1;
                                         const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
                                         nextLi.focus();
@@ -210,7 +209,6 @@ const LanguagePicker = ({values, setValues}) => {
                                     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        console.log('index', index)
                                         const prevIndex = index === 0 ? languagesList.length - 1 : index - 1;
                                         const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
                                         prevLi.focus();

@@ -157,7 +157,6 @@ const CollectionPicker = ({values, setValues}) => {
                                 tabIndex: 0,
                                 'aria-selected': values === o.id,
                                 onKeyDown: (e) => {
-                                    console.log(e.key)
                                     if (e.key === 'Escape') {
                                         e.preventDefault();
                                         document.getElementById('custom-ul-coll').focus();

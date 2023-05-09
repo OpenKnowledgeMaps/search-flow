@@ -33,9 +33,11 @@ function PopoverInfo({o, options}) {
                 'aria-label': 'Information',
                 onKeyDown: (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
                         setShowPopover(!showPopover);
                         setPopoverId(o.label);
                     } else if (e.key === 'Escape') {
+                        e.preventDefault();
                         setShowPopover(false);
                         setPopoverId('');
                     }
