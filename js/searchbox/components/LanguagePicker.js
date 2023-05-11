@@ -105,6 +105,7 @@ const LanguagePicker = ({values, setValues}) => {
 
                     (values.length > 0 && !values.includes("all-lang")) &&
                     e("i", {
+                        id: "lang-clear-all-btn",
                         tabIndex: 0,
                         role: 'button',
                         "aria-label": "clear all selected values",
@@ -117,6 +118,7 @@ const LanguagePicker = ({values, setValues}) => {
                             if (e.key === 'Enter' || e.key === ' ') {
                                 e.preventDefault()
                                 clearSelectedValues()
+                                document.getElementById('multiselect-dropdown-lang').focus();
                             }
                         }
                     }),
@@ -157,9 +159,17 @@ const LanguagePicker = ({values, setValues}) => {
                                     e.preventDefault();
                                     document.getElementById(`language-${languagesList[0].id}`).focus()
                                 }
-                                if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
+                                if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
                                     e.preventDefault();
                                     document.getElementById(`language-${languagesList[languagesList.length - 1].id}`).focus()
+                                }
+                                if (e.shiftKey && e.key === 'Tab') {
+                                    if (document.getElementById(`lang-clear-all-btn`)) {
+                                        document.getElementById(`lang-clear-all-btn`).focus()
+                                    } else {
+                                        document.getElementById('multiselect-dropdown-lang').focus();
+                                    }
+
                                 }
                             }
                         },
