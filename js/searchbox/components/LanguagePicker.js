@@ -41,17 +41,17 @@ const LanguagePicker = ({values, setValues}) => {
         setValues(...values, ["all-lang"]);
     }
 
-    //  add event listener if ul is focused and user press escape to close the dropdown
-    document.getElementById('custom-ul')?.addEventListener('keydown', (e) => {
-        // check if this element is focused
-        if (document.activeElement.id === 'custom-ul') {
-            if (e.key === 'Escape') {
-                e.preventDefault();
-                document.getElementById('multiselect-dropdown-lang').focus();
-                setOpen(false)
-            }
-        }
-    });
+    // //  add event listener if ul is focused and user press escape to close the dropdown !!! no need function !!!
+    // document.getElementById('custom-ul')?.addEventListener('keydown', (e) => {
+    //     // check if this element is focused
+    //     if (document.activeElement.id === 'custom-ul') {
+    //         if (e.key === 'Escape') {
+    //             e.preventDefault();
+    //             document.getElementById('multiselect-dropdown-lang').focus();
+    //             setOpen(false)
+    //         }
+    //     }
+    // });
 
 
     return e('div', {
