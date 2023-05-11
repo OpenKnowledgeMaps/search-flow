@@ -137,6 +137,7 @@ const LanguagePicker = ({values, setValues}) => {
                     e(
                         "input",
                         {
+                            id: 'lang-search-input',
                             'aria-label': 'Enter language',
                             form: 'none',
                             className: "text-field",
@@ -151,6 +152,14 @@ const LanguagePicker = ({values, setValues}) => {
                                     e.preventDefault();
                                     document.getElementById('multiselect-dropdown-lang').focus();
                                     setOpen(false)
+                                }
+                                if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
+                                    e.preventDefault();
+                                    document.getElementById(`language-${languagesList[0].id}`).focus()
+                                }
+                                if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
+                                    e.preventDefault();
+                                    document.getElementById(`language-${languagesList[languagesList.length - 1].id}`).focus()
                                 }
                             }
                         },
@@ -167,7 +176,7 @@ const LanguagePicker = ({values, setValues}) => {
                         id: 'custom-ul',
                         className: "custom-ul",
                         role: 'listbox',
-                        tabIndex: 0,
+                        // tabIndex: 0,
                         title: 'Languages list',
                         "aria-labelledby": "language-heading",
                         "aria-multiselectable": true,
@@ -186,7 +195,8 @@ const LanguagePicker = ({values, setValues}) => {
                                 onKeyDown: (e) => {
                                     if (e.key === 'Escape') {
                                         e.preventDefault();
-                                        document.getElementById('custom-ul').focus();
+                                        // document.getElementById('custom-ul').focus();
+                                        document.getElementById('lang-search-input').focus();
                                     }
                                     if (e.key === ' ' || e.key === 'Enter') {
                                         e.preventDefault();
@@ -202,16 +212,36 @@ const LanguagePicker = ({values, setValues}) => {
                                     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        const nextIndex = index === languagesList.length - 1 ? 0 : index + 1;
-                                        const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
-                                        nextLi.focus();
+                                        // // Old functionality can be deleted
+                                        // const nextIndex = index === languagesList.length - 1 ? 0 : index + 1;
+                                        // const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
+                                        // nextLi.focus();
+
+                                        if (index === languagesList.length - 1) {
+                                            document.getElementById('lang-search-input').focus();
+                                        } else {
+                                            document.getElementById(`language-${languagesList[index + 1].id}`).focus();
+                                            // const nextIndex = index + 1;
+                                            // const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
+                                            // nextLi.focus();
+                                        }
+
                                     }
                                     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        const prevIndex = index === 0 ? languagesList.length - 1 : index - 1;
-                                        const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
-                                        prevLi.focus();
+                                        // // Old functionality can be deleted
+                                        // const prevIndex = index === 0 ? languagesList.length - 1 : index - 1;
+                                        // const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
+                                        // prevLi.focus();
+                                        if (index === 0) {
+                                            document.getElementById('lang-search-input').focus();
+                                        } else {
+                                            document.getElementById(`language-${languagesList[index - 1].id}`).focus()
+                                            // const prevIndex = index - 1;
+                                            // const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
+                                            // prevLi.focus();
+                                        }
                                     }
                                 }
                             },
@@ -278,7 +308,8 @@ const getLabel = (selectedValues) => {
         let text = '';
 
         selectedValues.forEach((value) => {
-            text += LANG_OPTIONS.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
+            text += LANG_OPTIONS.find((o) => o.id === value).label + (selectedValues.length > 1
+                ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });
         return text
     }
