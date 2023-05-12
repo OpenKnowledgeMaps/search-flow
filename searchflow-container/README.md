@@ -97,6 +97,22 @@ docker_internal = true
 
 ```
 
+* To connect with locally running backends, append this to the docker-compose.yml, where name is the network in which the backend is running:
+
+```
+
+networks:
+  default:
+    external:
+      name: dev_headstart
+```
+
+After that, change api_url in preprocessing/conf/config_local.ini to the IP where the proxy is running, which can be found by e.g. `docker network inspect dev_headstart`
+
+```
+api_url = "http://172.dd.dd.dd/"
+```
+
 #### Swagger documentations
 
 In `docs`:
