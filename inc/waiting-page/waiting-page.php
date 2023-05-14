@@ -263,14 +263,12 @@ if($has_sufficient_data) {
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php 
-                if (array_key_exists("q_advanced", $post_array)) {                    
-                } elseif ($service == "openaire") {
+                if ($service == "openaire") {
                 } else { ?>
                     <h3 id="try-again-title" class="waiting-title"></h3>
             <?php    } ?>
             <?php
-                if (array_key_exists("q_advanced", $post_array)) {                    
-                } elseif ($service == "openaire") {
+                if ($service == "openaire") {
                 } else {
                     $default_lib = $service;
                     $search_query = htmlspecialchars(stripslashes($dirty_query));
@@ -289,8 +287,7 @@ if($has_sufficient_data) {
 
         <p id="error-contact"></p>
         <?php
-            if (array_key_exists("q_advanced", $post_array)) {                    
-            } elseif ($service == "openaire") {
+            if ($service == "openaire") {
             } else { ?>
                 <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
                     <a id="error-resolution-link" class="basic-button nodisplay"></a>
