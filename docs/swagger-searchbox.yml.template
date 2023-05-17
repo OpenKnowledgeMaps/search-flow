@@ -427,6 +427,24 @@ paths:
           style: form
           explode: true
         - in: query
+          name: article_types[]
+          required: false
+          description: |
+            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
+            
+            To add an additional article type, click on "Add item" below the input field. 
+            
+            If the parameter is not specified, it defaults to all article types.
+
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+          style: form
+          explode: true
+        - in: query
           name: show_doc_types
           description: |
             Display or hide the document types option in the search box.
