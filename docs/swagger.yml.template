@@ -22,6 +22,19 @@ paths:
         This is an entry point into the automatic pipeline that leads users directly to a visualisation based on BASE data. 
       parameters:
         - in: query
+          name: repo
+          required: false
+          description: |
+            Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
+
+            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
+            2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
+            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
+            <br><br>
+            <img src="../BASE_coll_param.png" />
+          schema:
+            type: string
+        - in: query
           name: vis_type
           required: false
           description: |
@@ -60,7 +73,9 @@ paths:
             It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
 
             * `dcorcid:0000-0002-1894-5040`
+
             * `dcrelation:"https://zenodo.org/communities/biosyslit"`
+
             * `dccreator:"Lastname Firstname"`
 
             This parameter can either be used instead of `q` or in conjunction with `q`.
@@ -72,39 +87,6 @@ paths:
           schema:
             type : string
           allowReserved: true
-        - in: query
-          name: lang_id[]
-          required: false
-          description: |
-            Specify a list of language IDs that your search will be restricted to. A list of length one is valid as well.
-
-            Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
-
-            If the parameter is not provided or if you enter a wrong parameter, it defaults to `all-lang`, which means that no language filter will be applied to the search results.
-          schema:
-            type: array
-            items:
-              oneOf:
-                - type: string
-            default: [all-lang]
-          style: form
-          explode: true
-        - in: query
-          name: from
-          required: false
-          description: |
-            Specify a start date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`. **Please note** this is the earliest date available for journal articles, other document types may have even earlier publication dates.
-          schema:
-            type: string
-            format: date
-            example: "1665-01-01"
-        - in: query
-          name: to
-          required: false
-          description: Specify an end date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
-          schema:
-            type: string
-            format: date
         - in: query
           name: sorting
           required: false
@@ -142,6 +124,52 @@ paths:
           style: form
           explode: true
         - in: query
+          name: lang_id[]
+          required: false
+          description: |
+            Specify language ID(s) that that your search will be restricted to, e.g. `spa` (=Spanish).
+
+            Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
+
+            If the parameter is not provided or if you enter a wrong parameter, it defaults to `all-lang`, which means that no language filter will be applied to the search results.
+          schema:
+            type: array
+            items:
+              oneOf:
+                - type: string
+            default: [all-lang]
+          style: form
+          explode: true
+        - in: query
+          name: from
+          required: false
+          description: |
+            Specify a start date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to `1665-01-01`. **Please note** this is the earliest date available for journal articles, other document types may have even earlier publication dates.
+          schema:
+            type: string
+            format: date
+            example: "1665-01-01"
+        - in: query
+          name: to
+          required: false
+          description: Specify an end date for your search in the format `YYYY-MM-DD`. If the parameter is not provided, it defaults to the current day.
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: coll
+          required: false
+          description: |
+            Specify a collection available within BASE that your search will be restricted to. 
+
+            This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. For countries, please use a lower case two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2), for example `at` or `de`. For continents, please use a lower case three letter code according to the BASE Interface guide, e.g. `caf` for Africa, `ceu` for Europe or `cna` for North America.
+
+            If the parameter is not provided, it defaults to _worldwide_.
+            
+            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+          schema:
+            type: string
+        - in: query
           name: min_descsize
           required: false
           description: |
@@ -155,31 +183,10 @@ paths:
           schema:
             type: integer
             example: 300
-        - in: query
-          name: repo
-          required: false
-          description: |
-            Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
-
-            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
-            2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
-            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
-            <br><br>
-            <img src="../BASE_coll_param.png" />
-          schema:
-            type: string
-        - in: query
-          name: coll
-          required: false
-          description: |
-            Specify a collection available within BASE that your search will be restricted to. 
-
-            This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
-          schema:
-            type: string
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
+
   /search?type=get&service=pubmed:
     get:
       summary: |
@@ -255,7 +262,7 @@ paths:
   /search?type=get&service=openaire:
     get:
       summary: |
-        Configure searches and create visualisations (Data source: OpenAIRE)
+        Configure searches and create visualisations for research projects (Data source: OpenAIRE) 
       description: |
         This is an entry point into the automatic pipeline that leads users directly to a visualisation based on OpenAIRE data.
       parameters:
