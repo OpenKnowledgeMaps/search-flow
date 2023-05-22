@@ -40,20 +40,7 @@ const LanguagePicker = ({values, setValues}) => {
         values.length = 0;
         setValues(...values, ["all-lang"]);
     }
-
-    // //  add event listener if ul is focused and user press escape to close the dropdown !!! no need function !!!
-    // document.getElementById('custom-ul')?.addEventListener('keydown', (e) => {
-    //     // check if this element is focused
-    //     if (document.activeElement.id === 'custom-ul') {
-    //         if (e.key === 'Escape') {
-    //             e.preventDefault();
-    //             document.getElementById('multiselect-dropdown-lang').focus();
-    //             setOpen(false)
-    //         }
-    //     }
-    // });
-
-
+    
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
             role: "combobox",
@@ -186,7 +173,6 @@ const LanguagePicker = ({values, setValues}) => {
                         id: 'custom-ul',
                         className: "custom-ul",
                         role: 'listbox',
-                        // tabIndex: 0,
                         title: 'Languages list',
                         "aria-labelledby": "language-heading",
                         "aria-multiselectable": true,
@@ -197,7 +183,7 @@ const LanguagePicker = ({values, setValues}) => {
                         e(
                             "li",
                             {
-                                id: `language-${o.id}`, // add the id attribute
+                                id: `language-${o.id}`,
                                 className: values.includes(o.id) ? "active" : "",
                                 role: 'option',
                                 tabIndex: 0,
@@ -205,7 +191,6 @@ const LanguagePicker = ({values, setValues}) => {
                                 onKeyDown: (e) => {
                                     if (e.key === 'Escape') {
                                         e.preventDefault();
-                                        // document.getElementById('custom-ul').focus();
                                         document.getElementById('lang-search-input').focus();
                                     }
                                     if (e.key === ' ' || e.key === 'Enter') {
@@ -222,35 +207,21 @@ const LanguagePicker = ({values, setValues}) => {
                                     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        // // Old functionality can be deleted
-                                        // const nextIndex = index === languagesList.length - 1 ? 0 : index + 1;
-                                        // const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
-                                        // nextLi.focus();
 
                                         if (index === languagesList.length - 1) {
                                             document.getElementById('lang-search-input').focus();
                                         } else {
                                             document.getElementById(`language-${languagesList[index + 1].id}`).focus();
-                                            // const nextIndex = index + 1;
-                                            // const nextLi = document.getElementById(`language-${languagesList[nextIndex].id}`);
-                                            // nextLi.focus();
                                         }
 
                                     }
                                     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = languagesList.findIndex((v) => v.id === o.id);
-                                        // // Old functionality can be deleted
-                                        // const prevIndex = index === 0 ? languagesList.length - 1 : index - 1;
-                                        // const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
-                                        // prevLi.focus();
                                         if (index === 0) {
                                             document.getElementById('lang-search-input').focus();
                                         } else {
                                             document.getElementById(`language-${languagesList[index - 1].id}`).focus()
-                                            // const prevIndex = index - 1;
-                                            // const prevLi = document.getElementById(`language-${languagesList[prevIndex].id}`);
-                                            // prevLi.focus();
                                         }
                                     }
                                 }

@@ -33,19 +33,7 @@ const CollectionPicker = ({values, setValues}) => {
         collOptionsList = collOptionsList.filter((o) => o.label.toString().toLowerCase()
             .includes(search.toString().toLowerCase()))
     }
-
-    //  add event listener if ul is focused and user press escape to close the dropdown
-    document.getElementById('custom-ul-coll')?.addEventListener('keydown', (e) => {
-        // check if this element is focused
-        if (document.activeElement.id === 'custom-ul-coll') {
-            if (e.key === 'Escape') {
-                e.preventDefault();
-                document.getElementById('multiselect-dropdown-coll').focus();
-                setOpen(false)
-            }
-        }
-    });
-
+    
 
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
@@ -110,6 +98,7 @@ const CollectionPicker = ({values, setValues}) => {
                     e(
                         "input",
                         {
+                            id: "coll-search-input",
                             'aria-label': 'Enter continent or country',
                             form: 'none',
                             className: "text-field",
@@ -124,6 +113,17 @@ const CollectionPicker = ({values, setValues}) => {
                                     e.preventDefault();
                                     document.getElementById('multiselect-dropdown-coll').focus();
                                     setOpen(false)
+                                }
+                                if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
+                                    e.preventDefault();
+                                    document.getElementById(`coll-${collOptionsList[0].id}`).focus()
+                                }
+                                if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                    e.preventDefault();
+                                    document.getElementById(`coll-${collOptionsList[collOptionsList.length - 1].id}`).focus()
+                                }
+                                if (e.shiftKey && e.key === 'Tab') {
+                                    document.getElementById('multiselect-dropdown-coll').focus();
                                 }
                             }
                         },
@@ -140,18 +140,17 @@ const CollectionPicker = ({values, setValues}) => {
                         id: 'custom-ul-coll',
                         className: "custom-ul",
                         role: 'listbox',
-                        tabIndex: 0,
-                        title: 'Languages list',
-                        "aria-labelledby": "language-heading",
+                        title: 'Collections list',
+                        "aria-labelledby": "Collection-heading",
                         "aria-multiselectable": true,
                         "aria-live": "polite",
-                        "aria-controls": "language-selector",
+                        "aria-controls": "Coll-selector",
                     },
                     ...collOptionsList.map((o) =>
                         e(
                             "li",
                             {
-                                id: `language-${o.id}`, // add the id attribute
+                                id: `coll-${o.id}`,
                                 className: values === o.id ? "active" : "",
                                 role: 'option',
                                 tabIndex: 0,
@@ -159,7 +158,7 @@ const CollectionPicker = ({values, setValues}) => {
                                 onKeyDown: (e) => {
                                     if (e.key === 'Escape') {
                                         e.preventDefault();
-                                        document.getElementById('custom-ul-coll').focus();
+                                        document.getElementById('coll-search-input').focus();
                                     }
                                     if (e.key === ' ' || e.key === 'Enter') {
                                         e.preventDefault();
@@ -168,16 +167,20 @@ const CollectionPicker = ({values, setValues}) => {
                                     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                         e.preventDefault();
                                         let index = collOptionsList.findIndex((v) => v.id === o.id);
-                                        const nextIndex = index === collOptionsList.length - 1 ? 0 : index + 1;
-                                        const nextLi = document.getElementById(`language-${collOptionsList[nextIndex].id}`);
-                                        nextLi.focus();
+                                        if (index === collOptionsList.length - 1) {
+                                            document.getElementById('coll-search-input').focus();
+                                        } else {
+                                            document.getElementById(`coll-${collOptionsList[index + 1].id}`).focus();
+                                        }
                                     }
                                     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = collOptionsList.findIndex((v) => v.id === o.id);
-                                        const prevIndex = index === 0 ? collOptionsList.length - 1 : index - 1;
-                                        const prevLi = document.getElementById(`language-${collOptionsList[prevIndex].id}`);
-                                        prevLi.focus();
+                                        if (index === 0) {
+                                            document.getElementById('coll-search-input').focus();
+                                        } else {
+                                            document.getElementById(`coll-${collOptionsList[index - 1].id}`).focus()
+                                        }
                                     }
                                 }
                             },

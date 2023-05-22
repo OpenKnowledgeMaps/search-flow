@@ -41,8 +41,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
     }
 
     function clearSelectedValues(values) {
-        // values.length = 0;
-
         // set optional docs values instead empty array
         setValues(optionalDocs);
     }
@@ -50,18 +48,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
     function isEqual(array1, array2) {
         return !(array1.length === array2.length && array1.every((value, index) => value === array2[index]));
     }
-
-    //  add event listener if ul is focused and user press escape to close the dropdown
-    document.getElementById('custom-ul-doctypes')?.addEventListener('keydown', (e) => {
-        // check if this element is focused
-        if (document.activeElement.id === 'custom-ul-doctypes') {
-            if (e.key === 'Escape') {
-                e.preventDefault();
-                document.getElementById('multiselect-dropdown-doc').focus();
-                setOpen(false)
-            }
-        }
-    });
 
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
@@ -118,6 +104,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
 
                     isEqual(values, optionalDocs) &&
                     e("i", {
+                        id: "doc-clear-all-btn",
                         tabIndex: 0,
                         role: 'button',
                         style: {marginRight: 25},
@@ -130,6 +117,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                             if (e.key === 'Enter' || e.key === ' ') {
                                 e.preventDefault()
                                 clearSelectedValues(values)
+                                document.getElementById('multiselect-dropdown-doc').focus();
                             }
                         }
                     }),
@@ -147,6 +135,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                     e(
                         "input",
                         {
+                            id: "doc-search-input",
                             form: 'none',
                             name: "notSent",
                             className: "text-field",
@@ -162,6 +151,22 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                     document.getElementById('multiselect-dropdown-doc').focus();
                                     setOpen(false)
                                 }
+                                if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
+                                    e.preventDefault();
+                                    document.getElementById("doctypes-all").focus()
+                                }
+                                if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                                    e.preventDefault();
+                                    document.getElementById(`doctypes-${docTypes[docTypes.length - 1].id}`).focus()
+                                }
+                                if (e.shiftKey && e.key === 'Tab') {
+                                    if (document.getElementById(`doc-clear-all-btn`)) {
+                                        document.getElementById(`doc-clear-all-btn`).focus()
+                                    } else {
+                                        document.getElementById('multiselect-dropdown-doc').focus();
+                                    }
+
+                                }
                             }
                         },
                     ),
@@ -176,14 +181,12 @@ const DoctypesPicker = ({values, setValues, service}) => {
                         id: 'custom-ul-doctypes',
                         className: "custom-ul",
                         role: 'listbox',
-                        tabIndex: 0,
                         title: 'Doctypes list',
                         "aria-labelledby": "doctypes-heading",
                         "aria-multiselectable": true,
                         "aria-live": "polite",
                         "aria-controls": "doctypes-selector",
                     },
-                    //  Save for future use if needed to add "select all" option !!!!!
                     e(
                         "li",
                         {
@@ -195,7 +198,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                             onKeyDown: (e) => {
                                 if (e.key === 'Escape') {
                                     e.preventDefault();
-                                    document.getElementById('custom-ul-doctypes').focus();
+                                    document.getElementById('doc-search-input').focus();
                                 }
                                 if (e.key === ' ' || e.key === 'Enter') {
                                     e.preventDefault();
@@ -207,19 +210,16 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                 }
                                 if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === "Tab") {
                                     e.preventDefault();
-                                    const nextLi = document.getElementById(`doctypes-${docTypes[0].id}`);
-                                    nextLi.focus();
+                                    document.getElementById(`doctypes-${docTypes[0].id}`).focus();
                                 }
                                 if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                     e.preventDefault();
-                                    const prevLi = document.getElementById(`doctypes-${docTypes[docTypes.length - 1].id}`);
-                                    prevLi.focus();
+                                    document.getElementById('doc-search-input').focus();
                                 }
                             },
                         },
                         e(
                             "a", null,
-                            // !search.length &&
                             docTypes.length > 0 &&
                             e(
                                 "label",
@@ -264,7 +264,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                 onKeyDown: (e) => {
                                     if (e.key === 'Escape') {
                                         e.preventDefault();
-                                        document.getElementById('custom-ul-doctypes').focus();
+                                        document.getElementById('doc-search-input').focus();
                                     }
                                     if (e.key === ' ' || e.key === 'Enter') {
                                         e.preventDefault();
@@ -278,22 +278,20 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                         e.preventDefault();
                                         let index = docTypes.findIndex((v) => v.id === o.id);
                                         if (index === docTypes.length - 1) {
-                                            document.getElementById(`doctypes-all`).focus()
+                                            document.getElementById('doc-search-input').focus();
                                         } else {
                                             const nextIndex = index === docTypes.length - 1 ? 0 : index + 1;
-                                            const nextLi = document.getElementById(`doctypes-${docTypes[nextIndex].id}`);
-                                            nextLi.focus();
+                                            document.getElementById(`doctypes-${docTypes[nextIndex].id}`).focus();
                                         }
                                     }
                                     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || (e.shiftKey && e.key === 'Tab')) {
                                         e.preventDefault();
                                         let index = docTypes.findIndex((v) => v.id === o.id);
                                         if (index === 0) {
-                                            document.getElementById(`doctypes-all`).focus()
+                                            document.getElementById('doc-search-input').focus();
                                         } else {
                                             const prevIndex = index === 0 ? docTypes.length - 1 : index - 1;
-                                            const prevLi = document.getElementById(`doctypes-${docTypes[prevIndex].id}`);
-                                            prevLi.focus();
+                                            document.getElementById(`doctypes-${docTypes[prevIndex].id}`).focus();
                                         }
                                     }
                                 }
@@ -352,7 +350,6 @@ export default DoctypesPicker;
 const getLabel = (selectedValues, service) => {
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
 
-    // // for future use if needed to set empty values string !!!!!
     if (selectedValues.length === 0) {
         return "No type(s) selected";
     }
