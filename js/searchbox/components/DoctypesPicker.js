@@ -49,6 +49,11 @@ const DoctypesPicker = ({values, setValues, service}) => {
         return !(array1.length === array2.length && array1.every((value, index) => value === array2[index]));
     }
 
+    // compare values and docTypes to set checked or not to select all doctypes
+    function compare() {
+        return values.length === docTypes.length && values.every((value, index) => value === docTypes[index].id)
+    }
+
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
             role: "combobox",
@@ -227,14 +232,16 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                     className: "checkbox",
                                     style: {
                                         color: '#818181',
-                                        fontWeight: values.length === docTypes.length ? 800 : 400
+                                        // fontWeight: values.length === docTypes.length ? 800 : 400
+                                        fontWeight: compare() ? 800 : 400
                                     }
                                 },
                                 e("input", {
                                     name: "multiselect_all",
                                     form: 'none',
                                     type: "checkbox",
-                                    checked: values.length === docTypes.length,
+                                    // checked: values.length === docTypes.length,
+                                    checked: compare(),
                                     onChange: (e) => {
                                         if (!e.target.checked) {
                                             setValues([]);
@@ -243,7 +250,8 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                         }
                                     },
                                 }),
-                                values.length === docTypes.length &&
+                                // values.length === docTypes.length &&
+                                compare() &&
                                 e("i", {
                                     className: "fa fa-check custom-icons",
                                     style: {position: "absolute", left: 20, top: 13, marginRight: 10}
