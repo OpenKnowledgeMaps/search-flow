@@ -94,42 +94,6 @@ class SearchBox extends React.Component {
         });
     }
 
-    // updateTimespanFrom(newValue) {
-    //     this.setState({
-    //         ...this.state,
-    //         formData: {
-    //             ...this.state.formData,
-    //             timespan: {
-    //                 from: newValue,
-    //             },
-    //         },
-    //     });
-    // }
-    //
-    // updateTimespanFromPubmed(newValue) {
-    //     this.setState({
-    //         ...this.state,
-    //         formData: {
-    //             ...this.state.formData,
-    //             timespan: {
-    //                 fromPubmed: newValue,
-    //             },
-    //         },
-    //     });
-    // }
-    //
-    // updateTimespanTo(newValue) {
-    //     this.setState({
-    //         ...this.state,
-    //         formData: {
-    //             ...this.state.formData,
-    //             timespan: {
-    //                 to: newValue,
-    //             },
-    //         },
-    //     });
-    // }
-
     updateSorting(newValue) {
         this.setState({
             ...this.state,
@@ -381,6 +345,19 @@ class SearchBox extends React.Component {
 
       const handleToChange = (event) => {
           this.state.formData.timespan.to = event
+      }
+
+      // check if service is pubmed and if so, remove vis_type and min_descsize from hiddenEntries, this filters for base only
+      if (this.state.formData.service === 'pubmed') {
+          // check if hiddenEntries contains vis_type, min_descsize and remove if it has
+          hiddenEntries.forEach((entry, index) => {
+              if (entry.name === 'vis_type') {
+                  hiddenEntries.splice(index, 1)
+              }
+              if (entry.name === 'min_descsize') {
+                  hiddenEntries.splice(index, 1)
+              }
+          })
       }
 
       return e(
