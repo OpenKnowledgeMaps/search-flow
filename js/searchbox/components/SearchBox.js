@@ -14,7 +14,6 @@ import {trackMatomoEvent} from "../hooks/useMatomo.js";
 import DataSource from "./DataSource.js";
 import VisType from "./VisType.js";
 import MetadataQuality from "./MetadataQuality.js";
-import PUBMED_DOCTYPES_OPTIONS from "../options/doctypes_pubmed.js";
 import LanguagePicker from "./LanguagePicker.js";
 import AdvancedSearchField from "./AdvancedSearchField.js";
 import CollectionPicker from "./CollectionPicker.js";
