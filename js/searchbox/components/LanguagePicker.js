@@ -18,7 +18,6 @@ const LanguagePicker = ({values, setValues}) => {
     let languagesList = LANG_OPTIONS.filter((lang) => lang.id !== "all-lang")
 
     const [open, setOpen] = useState(false);
-
     const [search, setSearch] = useState('');
 
     const handleOutsideClick = () => {
@@ -40,7 +39,7 @@ const LanguagePicker = ({values, setValues}) => {
         values.length = 0;
         setValues(...values, ["all-lang"]);
     }
-    
+
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
             role: "combobox",
@@ -238,7 +237,6 @@ const LanguagePicker = ({values, setValues}) => {
                                     },
                                     e("input", {
                                         type: "checkbox",
-                                        // value: o.id,
                                         defaultValue: o.id,
                                         checked: values.includes(o.id),
                                         'aria-checked': values.includes(o.id) ? "true" : "false",

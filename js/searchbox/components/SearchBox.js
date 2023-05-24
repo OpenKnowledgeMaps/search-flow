@@ -271,7 +271,7 @@ class SearchBox extends React.Component {
             entries.push({name: "repo", value: contentProvider});
         }
 
-        // old optional condition
+        // old optional condition can be deleted after testing
         // if (collection) {
         //   entries.push({name: "coll", value: collection});
         // }
@@ -281,7 +281,6 @@ class SearchBox extends React.Component {
                 entries.push({name: "coll", value: collection});
             }
         }
-
 
         if (titleExpansion) {
             entries.push({name: "title", value: titleExpansion});
@@ -356,7 +355,6 @@ class SearchBox extends React.Component {
               if (entry.name === 'vis_type') {
                   // set new "vis_type" value to “overview” for pubmed
                   hiddenEntries[index].value = 'overview'
-                  // hiddenEntries.splice(index, 1)
               }
               if (entry.name === 'min_descsize') {
                   // remove min_descsize from hiddenEntries

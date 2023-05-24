@@ -109,7 +109,6 @@ const getConfigSettings = (outerSettings = {}) => {
     } else {
       settings.defaultFrom = outerSettings.from;
     }
-    // settings.defaultFrom = outerSettings.from;
   }
   if (typeof outerSettings.to === "string") {
     settings.defaultTo = outerSettings.to;
@@ -199,18 +198,6 @@ const getQuerySettings = () => {
     settings.showCollection = queryParams.get("show_coll") === "true";
   }
 
-  // if (queryParams.has("from")) {
-  //   if (queryParams.hasValid("from", TYPE_DATE)) {
-  //     settings.defaultFrom = queryParams.hasValid("from", TYPE_DATE)
-  //         ? queryParams.get("from")
-  //         : undefined;
-  //   } else {
-  //     (queryParams.get('service') === 'pubmed')
-  //         ? settings.defaultFrom = PUBMED_DEFAULT_FROM
-  //         : settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
-  //   }
-  // }
-
   if (queryParams.has("from")) {
     if (queryParams.hasValid("from", TYPE_DATE)) {
       if (queryParams.get('service') === 'base') {
@@ -266,12 +253,6 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("lang_id[]", TYPE_LANGTYPES)) {
     settings.defaultLang = queryParams.getAll("lang_id[]");
   }
-
-  // if (!queryParams.has("service")) {
-  //   console.log("settings.defaultFromPubmed", DEFAULT_SETTINGS.defaultFromPubmed)
-  //   console.log("settings.defaultFrom", DEFAULT_SETTINGS.defaultFrom)
-  //   console.log("settings.defaultTo", DEFAULT_SETTINGS.defaultTo)
-  // }
 
   if (queryParams.has("service")) {
     if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {

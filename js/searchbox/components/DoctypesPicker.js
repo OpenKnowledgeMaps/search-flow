@@ -17,27 +17,25 @@ const DoctypesPicker = ({values, setValues, service}) => {
     // set optional docs values instead empty array
     const optionalDocs = service === 'base' ? ['121'] : PUBMED_DOCTYPES_OPTIONS.filter(option => option.id !== 'retracted publication').map(option => option.id)
 
-
     // variable to store the current document types
     let docTypes = service === 'base' ? DOCTYPES_OPTIONS : PUBMED_DOCTYPES_OPTIONS
 
     const [open, setOpen] = useState(false);
-
     const [search, setSearch] = useState('');
 
     const handleOutsideClick = () => {
         setOpen(false);
     };
 
+    // for closing dropdown on outside click
     const containerRef = useRef(null);
     useOutsideClick(containerRef, handleOutsideClick);
 
     const btnLabel = getLabel(values, service);
 
     if (search.length > 0) {
-        const filtered = docTypes.filter((o) => o.label.toString().toLowerCase()
-            .includes(search.toString().toLowerCase()));
-        docTypes = filtered
+        docTypes = docTypes.filter((o) => o.label.toString().toLowerCase()
+            .includes(search.toString().toLowerCase()))
     }
 
     function clearSelectedValues(values) {
@@ -232,7 +230,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                     className: "checkbox",
                                     style: {
                                         color: '#818181',
-                                        // fontWeight: values.length === docTypes.length ? 800 : 400
                                         fontWeight: compare() ? 800 : 400
                                     }
                                 },
@@ -240,7 +237,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                     name: "multiselect_all",
                                     form: 'none',
                                     type: "checkbox",
-                                    // checked: values.length === docTypes.length,
                                     checked: compare(),
                                     onChange: (e) => {
                                         if (!e.target.checked) {
@@ -250,7 +246,6 @@ const DoctypesPicker = ({values, setValues, service}) => {
                                         }
                                     },
                                 }),
-                                // values.length === docTypes.length &&
                                 compare() &&
                                 e("i", {
                                     className: "fa fa-check custom-icons",
@@ -364,7 +359,6 @@ const getLabel = (selectedValues, service) => {
 
     if (docTypes.length >= selectedValues.length > 0) {
         let text = '';
-
         selectedValues.forEach((value) => {
             text += docTypes.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });

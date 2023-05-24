@@ -5,7 +5,7 @@ import useOutsideClick from "../hooks/useOutsideClick.js";
 import PopoverInfo from "./PopoverInfo.js";
 
 
-const {useState, useRef, useEffect, createElement: e} = React;
+const {createElement: e} = React;
 
 
 function RadioInputList({label, options, name, value, setValue}) {
@@ -47,7 +47,6 @@ function RadioInputList({label, options, name, value, setValue}) {
                                 value: o.id,
                                 checked: o.id === value,
                                 tabIndex: 0,
-                                // onClick: () => setValue(o.id),
                                 onChange: () => setValue(o.id),
                                 onKeyDown: (e) => {
                                     if (e.key === 'Enter') {
@@ -63,8 +62,8 @@ function RadioInputList({label, options, name, value, setValue}) {
                                     fontSize: 14,
                                     fontWeight: 400,
                                     color: '#818181',
-                                    cursor: 'pointer', // add cursor pointer
-                                    userSelect: 'none', // disable text selection
+                                    cursor: 'pointer',
+                                    userSelect: 'none',
                                 },
                                 onClick: () => setValue(o.id), // add click handler
                             }, o.label)
