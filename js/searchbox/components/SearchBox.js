@@ -218,6 +218,9 @@ class SearchBox extends React.Component {
             if (this.state.settings.defaultService === 'base' || this.state.formData.service === 'base') {
                 entries.push({name: "vis_type", value: this.state.settings.defaultVisType});
             }
+            if (this.state.settings.defaultService === 'pubmed' || this.state.formData.service === 'pubmed') {
+                entries.push({name: "vis_type", value: "overview"});
+            }
         }
 
 
@@ -348,12 +351,15 @@ class SearchBox extends React.Component {
 
       // check if service is pubmed and if so, remove vis_type and min_descsize from hiddenEntries, this filters for base only
       if (this.state.formData.service === 'pubmed') {
-          // check if hiddenEntries contains vis_type, min_descsize and remove if it has
+          // check if hiddenEntries contains vis_type, min_descsize
           hiddenEntries.forEach((entry, index) => {
               if (entry.name === 'vis_type') {
-                  hiddenEntries.splice(index, 1)
+                  // set new "vis_type" value to “overview” for pubmed
+                  hiddenEntries[index].value = 'overview'
+                  // hiddenEntries.splice(index, 1)
               }
               if (entry.name === 'min_descsize') {
+                  // remove min_descsize from hiddenEntries
                   hiddenEntries.splice(index, 1)
               }
           })
