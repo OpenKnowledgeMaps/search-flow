@@ -57,6 +57,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
             role: "combobox",
             "aria-expanded": open,
             "aria-haspopup": 'listbox',
+            "aria-label": "Select doctype(s) filter",
         },
         e("label", {
             className: 'filter-label',

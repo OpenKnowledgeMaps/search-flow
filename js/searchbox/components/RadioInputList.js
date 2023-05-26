@@ -53,8 +53,8 @@ function RadioInputList({label, options, name, value, setValue}) {
                                         setValue(o.id);
                                     }
                                 },
-                                "aria-checked": o.id === value
-
+                                "aria-checked": o.id === value,
+                                "aria-label": `Option "${o.label}" for "${label}" filter`,
                             }),
                             e("label", {
                                 htmlFor: o.id,

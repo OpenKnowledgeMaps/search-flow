@@ -58,6 +58,7 @@ function PopoverInfo({o, options}) {
                 className: 'popover__content',
                 role: 'dialog',
                 'aria-labelledby': 'info-title',
+                'aria-label': 'Information content',
                 onKeyDown: (e) => {
                     if (e.key === 'Escape') {
                         setShowPopover(false);

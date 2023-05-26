@@ -45,6 +45,7 @@ const LanguagePicker = ({values, setValues}) => {
             role: "combobox",
             "aria-expanded": open,
             "aria-haspopup": 'listbox',
+            "aria-label": "Select language(s) filter",
         },
         e("label", {
             className: 'filter-label',

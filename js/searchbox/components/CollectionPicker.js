@@ -33,13 +33,14 @@ const CollectionPicker = ({values, setValues}) => {
         collOptionsList = collOptionsList.filter((o) => o.label.toString().toLowerCase()
             .includes(search.toString().toLowerCase()))
     }
-    
+
 
     return e('div', {
             style: {display: 'flex', flexDirection: "column"},
             role: "combobox",
             "aria-expanded": open,
             "aria-haspopup": 'listbox',
+            "aria-label": "Select continent or country filter",
         },
         e("label", {
             className: 'filter-label',
