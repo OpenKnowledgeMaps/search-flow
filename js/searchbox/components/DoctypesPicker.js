@@ -62,7 +62,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
         e("label", {
             className: 'filter-label',
             htmlFor: 'multiselect-dropdown-doctypes',
-        }, `select doctype(s)`),
+        }, `select document type(s)`),
         e(
             "div",
             {
