@@ -365,13 +365,17 @@ class SearchBox extends React.Component {
 
       return e(
           "div",
-          {className: "search_box"},
+          {
+              className: "search_box",
+              "aria-label": "Open Knowledge Maps Search Box",
+          },
           e(
               "form",
               {
                   action: actionUrl,
                   method: "POST",
                   target: "_self",
+                  "aria-label": "Open Knowledge Maps Search Box form",
               },
               showService &&
               e(DataSource, {
