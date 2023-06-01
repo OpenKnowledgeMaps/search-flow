@@ -365,12 +365,13 @@ paths:
           name: vis_type
           required: false
           description: |
-            Select the visualisation type value that will be preselected in the search box options.
-
-            * For Knowledge Maps select `overview`.
-            * For Streamgraphs select `timeline`.
-
-            If the parameter is not provided, it defaults to `overview`.
+            Select the visualisation type value that will be preselected in the search box options. There are two types available: 1) Knowledge Map = `overview` and 2) Streamgraph = `timeline`. 
+            
+            A Knowledge Map presents you with a topical overview for your search query based on the 100 most relevant documents matching your query. 
+            
+            A Streamgraph presents you with an overview of the main keywords over time based on up to 1000 documents matching your query. Please note the streamgraph is a prototype and may be rough around the edges.
+            
+            If the parameter is not provided, it defaults to `overview` (=Knowledge Map).
 
           schema:
             type: string
@@ -524,7 +525,7 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -574,7 +575,7 @@ paths:
           description: |
             Display or hide the advanced query text field in the search box.
 
-            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
       responses:
