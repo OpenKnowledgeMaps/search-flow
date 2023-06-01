@@ -227,9 +227,11 @@ paths:
           name: q_advanced
           required: false
           description: |
-            **This feature is a prototype! Some queries may not work as expected. **
+            **This feature is a prototype! Some queries may not work as expected.**
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dcorcid:0000-0002-1894-5040`.
+
+            If q_advanced is used while the option is not displayed (`show_q_advanced=false`), the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
             * `dcorcid:0000-0002-1894-5040`
@@ -554,9 +556,11 @@ paths:
           name: q_advanced
           required: false
           description: |
-            **This feature is a prototype! Some queries may not work as expected. **
+            **This feature is a prototype! Some queries may not work as expected.**
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dcorcid:0000-0002-1894-5040`.
+
+            If q_advanced is used while the option is not displayed (`show_q_advanced=false`), the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
             * `dcorcid:0000-0002-1894-5040`
