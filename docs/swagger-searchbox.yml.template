@@ -12,10 +12,10 @@ info:
 
     Once the component link is generated, the configuration can be tested by opening the link in your browser. A warning message is displayed in the browser console for parameters with an invalid value. The message states the parameter name and its allowed values.
 
-    The three endpoints below describe three main integration scenarios:
-    * A search box pre-configured for the BASE data source, with BASE related options and recommended defaults.
-    * A search box pre-configured for the PubMed data source, with PubMed related options and recommended defaults.
-    * A search box pre-configured for both data sources, their related options and recommended defaults.
+    The three endpoints below enable:
+      * A search box pre-configured for the BASE data source, with BASE related options and recommended defaults (endpoint `/embedded_searchbox?service=base&show_service=false`).
+      * A search box pre-configured for the PubMed data source, with PubMed related options and recommended defaults (endpoint `/embedded_searchbox?service=pubmed&show_service=false`).
+      * A search box pre-configured for both data sources, their related options and recommended defaults (endpoint `/embedded_searchbox`).
 
 
   version: dev
@@ -39,7 +39,9 @@ paths:
           name: repo
           required: false
           description: |
-            Specify a content provider available within BASE that your search box will be restricted to. Please note that this parameter is currently hidden from the end user. 
+            Specify a content provider available within BASE that your search box will be restricted to.
+            
+            **Please note** that this parameter is currently hidden from the end user. 
 
             The shorthand for a content provider can be identified as follows:
             
@@ -54,12 +56,13 @@ paths:
           name: vis_type
           required: false
           description: |
-            Select the visualisation type value that will be preselected in the search box options.
-
-            * For Knowledge Maps select `overview`.
-            * For Streamgraphs select `timeline`.
-
-            If the parameter is not provided, it defaults to `overview`.
+            Select the visualisation type value that will be preselected in the search box options. There are two types available: 1) Knowledge Map = `overview` and 2) Streamgraph = `timeline`. 
+            
+            A Knowledge Map presents you with a topical overview for your search query based on the 100 most relevant documents matching your query. 
+            
+            A Streamgraph presents you with an overview of the main keywords over time based on up to 1000 documents matching your query. Please note the streamgraph is a prototype and may be rough around the edges.
+            
+            If the parameter is not provided, it defaults to `overview` (=Knowledge Map).
 
           schema:
             type: string
@@ -69,7 +72,7 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -185,9 +188,9 @@ paths:
 
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. For countries, please use a lower case two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2), for example `at` or `de`. For continents, please use a lower case three letter code according to the BASE Interface guide, e.g. `caf` for Africa, `ceu` for Europe or `cna` for North America.
 
-            If the parameter is not provided, it defaults to worldwide.
+            If the parameter is not provided, it defaults _to worldwide_.
             
-            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+            `Please note`` that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query
@@ -195,7 +198,7 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -217,7 +220,7 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The metadata quality radio buttons are **not displayed by default** by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -228,12 +231,11 @@ paths:
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dcorcid:0000-0002-1894-5040`.
 
+            If q_advanced is used while the option is not displayed (`show_q_advanced=false`), the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
+
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
-
             * `dcorcid:0000-0002-1894-5040`
-
             * `dcrelation:"https://zenodo.org/communities/biosyslit"`
-
             * `dccreator:"Lastname Firstname"`
 
             This parameter can either be used instead of q or in conjunction with q.
@@ -248,7 +250,7 @@ paths:
           description: |
             Display or hide the advanced query text field in the search box.
 
-            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
       responses:
@@ -365,12 +367,13 @@ paths:
           name: vis_type
           required: false
           description: |
-            Select the visualisation type value that will be preselected in the search box options.
-
-            * For Knowledge Maps select `overview`.
-            * For Streamgraphs select `timeline`.
-
-            If the parameter is not provided, it defaults to `overview`.
+            Select the visualisation type value that will be preselected in the search box options. There are two types available: 1) Knowledge Map = `overview` and 2) Streamgraph = `timeline`. 
+            
+            A Knowledge Map presents you with a topical overview for your search query based on the 100 most relevant documents matching your query. 
+            
+            A Streamgraph presents you with an overview of the main keywords over time based on up to 1000 documents matching your query. Please note the streamgraph is a prototype and may be rough around the edges.
+            
+            If the parameter is not provided, it defaults to `overview` (=Knowledge Map).
 
           schema:
             type: string
@@ -380,7 +383,7 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -524,7 +527,7 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -546,7 +549,7 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The metadata quality radio buttons are **not displayed by default** by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -557,12 +560,11 @@ paths:
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dcorcid:0000-0002-1894-5040`.
 
+            If q_advanced is used while the option is not displayed (`show_q_advanced=false`), the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
+
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
-
             * `dcorcid:0000-0002-1894-5040`
-
             * `dcrelation:"https://zenodo.org/communities/biosyslit"`
-
             * `dccreator:"Lastname Firstname"`
 
             This parameter can either be used instead of q or in conjunction with q.
@@ -577,9 +579,13 @@ paths:
           description: |
             Display or hide the advanced query text field in the search box.
 
-            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
       responses:
         "200": # status code
           description: Returns the search box page.
+
+
+components:
+  parameters:

@@ -23,8 +23,8 @@ export const DEFAULT_SETTINGS = {
   showSorting: true,
   showLang: true,
   showService: true,
-  showVisType: true,
-  showMinDescsize: true,
+  showVisType: false,
+  showMinDescsize: false,
   showQadvanced: false,
   showCollection: false,
 
