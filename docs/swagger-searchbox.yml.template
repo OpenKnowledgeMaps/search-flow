@@ -383,7 +383,7 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -549,7 +549,7 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The metadata quality radio buttons are **not displayed by default** by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
