@@ -131,6 +131,8 @@ paths:
 
             Valid parameters are the three-letter codes of [ISO 639-2/B](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).
 
+            To add an additional language ID code, click on "Add string item" below the input field.
+
             If the parameter is not provided or if you enter a wrong parameter, it defaults to `all-lang`, which means that no language filter will be applied to the search results.
           schema:
             type: array
