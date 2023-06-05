@@ -41,7 +41,7 @@ paths:
           description: |
             Specify a content provider available within BASE that your search box will be restricted to.
             
-            **Please note** that this parameter is currently hidden from the end user. 
+            **Please note** that this parameter is currently hidden from the end user. If repo is used, it will be applied to every search, and users will not be able to change the parameter.
 
             The shorthand for a content provider can be identified as follows:
             
@@ -351,6 +351,23 @@ paths:
       summary: Configure the Custom Services Search Box for both data sources.
       description: |
         This endpoint creates a search box for both integrations: PubMed & BASE. A variety of PubMed and BASE specific search options are available. 
+
+        The following parameters apply to both data sources:
+        * sorting & show_sorting
+        * show_doc_types
+        * from, to & show_time_range
+
+        The following parameters are unique to BASE:
+        * vis_type & show_vis_type
+        * document_types[]
+        * lang_id[] & show_lang
+        * coll & show_coll
+        * min_descsize & show_min_descsize
+        * q_advanced & show_q_advanced
+        
+        The following parameters are unique to PubMed:
+        * article_types[]
+
       parameters:
         - in: query
           name: service
@@ -487,7 +504,9 @@ paths:
           description: |
             Specify a start date that will be preselected in the search box options. Please use the format `YYYY-MM-DD`. 
 
-            If the parameter is not provided, it defaults to `1665-01-01`. Please note `1665-01-01` is the earliest date available for journal articles, other document types may have even earlier publication dates.
+            If the parameter is not provided, it defaults to `1809-01-01` for PubMed, and to `1809-01-01` for BASE.
+            
+            **Please note** that in BASE `1665-01-01` is the earliest date available for journal articles, other document types may have even earlier publication dates.
           schema:
             type: string
             format: date
