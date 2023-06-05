@@ -190,7 +190,7 @@ paths:
 
             If the parameter is not provided, it defaults _to worldwide_.
             
-            `Please note`` that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query
