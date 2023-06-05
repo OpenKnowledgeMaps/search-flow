@@ -32,7 +32,7 @@ paths:
       description: |
         This endpoint creates a search box for the BASE integration. A variety of BASE specific search options are available. 
 
-        **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint (all)_ for this purpose.
+        **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
 
       parameters:
         - in: query
@@ -72,7 +72,7 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The radio buttons is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -264,7 +264,7 @@ paths:
       description: |
         This endpoint creates a search box for the PubMed integration. A variety of PubMed specific search options are available. 
 
-        Please note that this search box does not allow users to switch between different data sources. Please use the _endpoint (all)_ for this purpose.
+        Please note that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
 
       parameters:
         - in: query
@@ -383,7 +383,7 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The radio buttons is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -549,7 +549,7 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are **not displayed by default** by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The metadata quality radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
