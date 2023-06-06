@@ -217,7 +217,7 @@ paths:
           schema:
             type: string
             format: date
-            example: "1665-01-01"
+            example: "1809-01-01"
         - in: query
           name: to
           required: false
@@ -225,7 +225,6 @@ paths:
           schema:
             type: string
             format: date
-            example: "2022-01-01"
         - in: query
           name: sorting
           required: false
