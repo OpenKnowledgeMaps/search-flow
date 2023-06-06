@@ -188,9 +188,9 @@ paths:
 
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. For countries, please use a lower case two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2), for example `at` or `de`. For continents, please use a lower case three letter code according to the BASE Interface guide, e.g. `caf` for Africa, `ceu` for Europe or `cna` for North America.
 
-            If the parameter is not provided, it defaults _to worldwide_.
+            If the parameter is not provided, it defaults to _worldwide_.
             
-            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+            **Warning:** The coll parameter can **not** be used in conjunction with the _repo_ parameter. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query
@@ -198,7 +198,7 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -245,7 +245,7 @@ paths:
 
             * `dccoverage:"Rocky Mountains"`
 
-            Experimental use of advanced queries involving Boolean operators such as AND, OR, and NOT (described in the BASE Interface Guide, Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
+            Experimental use of advanced queries involving Boolean operators such as `AND`, `OR`, and `NOT` (described in the BASE Interface Guide, Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
 
           type: string
           allowReserved: true
@@ -415,7 +415,7 @@ paths:
 
             Sorting here means the way the documents are prioritised by the data source before the visualisation is created.
 
-            To determine the `most-relevant` documents, we use the relevance ranking provided by each data source. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information. PubMed mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://pubmed.ncbi.nlm.nih.gov/help/#best-match-algorithm) for more information.
+            To determine the `most-relevant` documents, we use the relevance ranking provided by each data source. BASE and PubMed mainly use text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information about BASE, and [consult this page](https://pubmed.ncbi.nlm.nih.gov/help/#best-match-algorithm) for more information about PubMed.
 
             The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
 
@@ -538,9 +538,9 @@ paths:
 
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. For countries, please use a lower case two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2), for example `at` or `de`. For continents, please use a lower case three letter code according to the BASE Interface guide, e.g. `caf` for Africa, `ceu` for Europe or `cna` for North America.
 
-            If the parameter is not provided, it defaults to worldwide.
+            If the parameter is not provided, it defaults to _worldwide_.
             
-            **Warning:** The coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+            **Warning:** The coll parameter can **not** be used in conjunction with the _repo_ parameter. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query
@@ -592,10 +592,10 @@ paths:
             * `dcrelation:"https://zenodo.org/communities/biosyslit"`
 
             * `dccreator:"Lastname Firstname"`
-            
+
             * `dccoverage:"Rocky Mountains"`
 
-            Experimental use of advanced queries involving Boolean operators such as AND, OR, and NOT (described in the BASE Interface Guide, Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
+            Experimental use of advanced queries involving Boolean operators such as `AND`, `OR`, and `NOT` (described in the BASE Interface Guide, Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
 
           type: string
           allowReserved: true
