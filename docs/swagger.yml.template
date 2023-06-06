@@ -56,7 +56,7 @@ paths:
 
             We apply the verbatim search mode to improve visualisation quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
             
-            This parameter can be used on its own or in conjunction with q_advanced. If you decide to leave it empty please make sure you fill in `q_advanced` instead otherwise a working link can’t be generated.
+            This parameter can be used on its own or in conjunction with q_advanced. If you decide to leave it empty please make sure you fill in `q_advanced` instead otherwise a working link can’t be generated. **Warning: Do not** use an advanced query designed for the q_advanced field in the q field, this can lead to an error during the request.
 
           schema:
             type : string
@@ -70,6 +70,8 @@ paths:
             
             Enter your advanced search query, e.g. `dcorcid:0000-0002-1894-5040`. 
 
+            This parameter can either be used instead of `q` or in conjunction with `q`.
+
             It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
 
             * `dcorcid:0000-0002-1894-5040`
@@ -78,11 +80,9 @@ paths:
 
             * `dccreator:"Lastname Firstname"`
 
-            This parameter can either be used instead of `q` or in conjunction with `q`.
+            * `dccoverage:"Rocky Mountains"`
 
             Experimental use of advanced queries involving Boolean operators such as `AND`, `OR`, and `NOT` (described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
-
-            **Warning: Do not** use the same query in the q and q_advanced field, this can lead to an error during the request.
 
           schema:
             type : string
@@ -168,7 +168,7 @@ paths:
 
             If the parameter is not provided, it defaults to _worldwide_.
             
-            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+            **Warning:** The coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query
@@ -234,7 +234,7 @@ paths:
 
             Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
 
-            To determine the `most-relevant` documents, we use the relevance ranking provided by PubMed. PubMed mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://www.ncbi.nlm.nih.gov/books/NBK3827/#pubmedhelp.Computation_of_Weighted_Relev) for more information.
+            To determine the `most-relevant` documents, we use the relevance ranking provided by PubMed. PubMed mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://pubmed.ncbi.nlm.nih.gov/help/#best-match-algorithm) for more information.
 
             The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
 
@@ -313,7 +313,7 @@ paths:
             `UKRI` - UK Research and Innovation  
             `WT` - Wellcome Trust  
           
-            Please note that this list may not be complete. More information on funder IDs can be found in the [OpenAIRE API documentation](https://graph.openaire.eu/develop/api.html).
+            **Please note** that this list may not be complete. More information on funder IDs can be found in the [OpenAIRE API documentation](https://graph.openaire.eu/develop/api.html).
 
           schema:
             type: string
