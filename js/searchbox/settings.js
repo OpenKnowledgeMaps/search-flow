@@ -227,28 +227,8 @@ const getQuerySettings = () => {
     }
   }
 
-  // if (queryParams.has("document_types[]")) {
-  //   // if (queryParams.get('service') === 'base') {
-  //   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
-  //     settings.defaultDocTypes = queryParams.getAll("document_types[]");
-  //   } else {
-  //     settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
-  //   }
-  //   // }
-  // }
-  // if (queryParams.has("article_types[]")) {
-  //   // if (queryParams.get('service') === 'pubmed') {
-  //   if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
-  //     settings.defaultArticleTypes = queryParams.getAll("article_types[]");
-  //   } else {
-  //     settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
-  //   }
-  //   // }
-  // }
-
-
   if (queryParams.has("document_types[]")) {
-    if (queryParams.has("service")) {
+    if (queryParams.has('service')) {
       if (queryParams.get('service') === 'base') {
         if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
           settings.defaultDocTypes = queryParams.getAll("document_types[]");
@@ -265,33 +245,22 @@ const getQuerySettings = () => {
     }
   }
 
-  if (queryParams.get('service') === 'base') {
-    if (queryParams.has("service")) {
-      if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
-        settings.defaultDocTypes = queryParams.getAll("document_types[]");
-      } else {
-        settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
-      }
-    } else {
-      if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
-        settings.defaultDocTypes = queryParams.getAll("document_types[]");
-      } else {
-        settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
-      }
-    }
-  }
-
-
   if (queryParams.has("article_types[]")) {
-    if (queryParams.get('service') === 'pubmed') {
-      if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
-        settings.defaultArticleTypes = queryParams.getAll("article_types[]");
-      } else {
-        settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
+    if (queryParams.has('service')) {
+      if (queryParams.get('service') === 'pubmed') {
+        if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
+          settings.defaultArticleTypes = queryParams.getAll("article_types[]");
+        } else {
+          settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
+        }
       }
     }
+    if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
+      settings.defaultArticleTypes = queryParams.getAll("article_types[]");
+    } else {
+      settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
+    }
   }
-
 
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
