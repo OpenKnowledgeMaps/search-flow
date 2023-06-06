@@ -56,7 +56,7 @@ paths:
 
             We apply the verbatim search mode to improve visualisation quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
             
-            This parameter can be used on its own or in conjunction with q_advanced. If you decide to leave it empty please make sure you fill in `q_advanced` instead otherwise a working link can’t be generated. **Warning: Do not** use an advanced query designed for the q_advanced field in the q field, this can lead to an error during the request.
+            This parameter can be used on its own or in conjunction with q_advanced. If you decide to leave it empty please make sure you fill in `q_advanced` instead otherwise a working link can’t be generated. **Warning: Do not** use an advanced query designed for the _q_advanced_ field in the _q_ field, this can lead to an error during the request.
 
           schema:
             type : string
@@ -217,7 +217,7 @@ paths:
           schema:
             type: string
             format: date
-            example: "1665-01-01"
+            example: "1809-01-01"
         - in: query
           name: to
           required: false
@@ -225,7 +225,6 @@ paths:
           schema:
             type: string
             format: date
-            example: "2022-01-01"
         - in: query
           name: sorting
           required: false
