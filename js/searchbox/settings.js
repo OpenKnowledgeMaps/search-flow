@@ -228,22 +228,22 @@ const getQuerySettings = () => {
   }
 
   // if (queryParams.has("document_types[]")) {
-  //   if (queryParams.get('service') === 'base') {
-  //     if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
-  //       settings.defaultDocTypes = queryParams.getAll("document_types[]");
-  //     } else {
-  //       settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
-  //     }
+  //   // if (queryParams.get('service') === 'base') {
+  //   if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
+  //     settings.defaultDocTypes = queryParams.getAll("document_types[]");
+  //   } else {
+  //     settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
   //   }
+  //   // }
   // }
   // if (queryParams.has("article_types[]")) {
-  //   if (queryParams.get('service') === 'pubmed') {
-  //     if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
-  //       settings.defaultArticleTypes = queryParams.getAll("article_types[]");
-  //     } else {
-  //       settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
-  //     }
+  //   // if (queryParams.get('service') === 'pubmed') {
+  //   if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
+  //     settings.defaultArticleTypes = queryParams.getAll("article_types[]");
+  //   } else {
+  //     settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
   //   }
+  //   // }
   // }
 
 
@@ -257,8 +257,11 @@ const getQuerySettings = () => {
         }
       }
     } else {
-      settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
-      settings.defaultService = DEFAULT_SETTINGS.defaultService;
+      if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
+        settings.defaultDocTypes = queryParams.getAll("document_types[]");
+      } else {
+        settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
+      }
     }
   }
 
@@ -270,8 +273,11 @@ const getQuerySettings = () => {
         settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
       }
     } else {
-      settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
-      settings.defaultService = DEFAULT_SETTINGS.defaultService;
+      if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
+        settings.defaultDocTypes = queryParams.getAll("document_types[]");
+      } else {
+        settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
+      }
     }
   }
 
