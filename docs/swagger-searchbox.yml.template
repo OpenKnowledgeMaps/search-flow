@@ -12,7 +12,7 @@ info:
 
     Once the component link is generated, the configuration can be tested by opening the link in your browser. A warning message is displayed in the browser console for parameters with an invalid value. The message states the parameter name and its allowed values.
 
-    The three endpoints below enable:
+    The three endpoints below enable:    
       * A search box pre-configured for the BASE data source, with BASE related options and recommended defaults (endpoint `/embedded_searchbox?service=base&show_service=false`).
       * A search box pre-configured for the PubMed data source, with PubMed related options and recommended defaults (endpoint `/embedded_searchbox?service=pubmed&show_service=false`).
       * A search box pre-configured for both data sources, their related options and recommended defaults (endpoint `/embedded_searchbox`).
@@ -41,13 +41,13 @@ paths:
           description: |
             Specify a content provider available within BASE that your search box will be restricted to.
             
-            **Please note** that this parameter is currently hidden from the end user. If repo is used, it will be applied to every search, and users will not be able to change the parameter.
+            **Please note** that this parameter is currently hidden from the end user. If _repo_ is used, it will be applied to every search, and users will not be able to change the parameter.
 
             The shorthand for a content provider can be identified as follows:
             
             1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
             2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
-            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
+            3. Look up the _dccoll_ parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
             <br><br>
             <img src="../BASE_coll_param.png" />
           schema:
@@ -158,7 +158,7 @@ paths:
           description: |
             Specify a start date that will be preselected in the search box options. Please use the format `YYYY-MM-DD`. 
 
-            If the parameter is not provided, it defaults to `1665-01-01`. Please note `1665-01-01` is the earliest date available for journal articles, other document types may have even earlier publication dates.
+            If the parameter is not provided, it defaults to `1665-01-01`.
           schema:
             type: string
             format: date
@@ -190,7 +190,7 @@ paths:
 
             If the parameter is not provided, it defaults _to worldwide_.
             
-            `Please note`` that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query
@@ -220,7 +220,7 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are **not displayed by default** by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The metadata quality radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -231,18 +231,22 @@ paths:
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dcorcid:0000-0002-1894-5040`.
 
-            If q_advanced is used while the option is not displayed (`show_q_advanced=false`), the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
+            This parameter can either be used instead of q or in conjunction with q.
+
+            If q_advanced is used AND the option is not displayed to end users (`show_q_advanced=false`), please note the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
+
             * `dcorcid:0000-0002-1894-5040`
+
             * `dcrelation:"https://zenodo.org/communities/biosyslit"`
+
             * `dccreator:"Lastname Firstname"`
 
-            This parameter can either be used instead of q or in conjunction with q.
+            * `dccoverage:"Rocky Mountains"`
 
             Experimental use of advanced queries involving Boolean operators such as AND, OR, and NOT (described in the BASE Interface Guide, Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
 
-            Warning: Do not use an advanced query designed for the q_advanced field in the q field, this can lead to an error during the request.
           type: string
           allowReserved: true
         - in: query
@@ -275,7 +279,7 @@ paths:
 
             Sorting here means the way the documents are prioritised by the data source before the visualisation is created.
 
-            To determine the `most-relevant` documents, we use the relevance ranking provided by PubMed. PubMed mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://www.ncbi.nlm.nih.gov/books/NBK3827/#pubmedhelp.Computation_of_Weighted_Relev) for more information.
+            To determine the `most-relevant` documents, we use the relevance ranking provided by PubMed. PubMed mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://pubmed.ncbi.nlm.nih.gov/help/#best-match-algorithm) for more information.
 
             The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
 
@@ -296,7 +300,7 @@ paths:
           name: article_types[]
           required: false
           description: |
-            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
+            Specify the article type(s) that will be preselected in the search box options, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
             
             To add an additional article type, click on "Add item" below the input field. 
             
@@ -348,7 +352,7 @@ paths:
 
   /embedded_searchbox:
     get:
-      summary: Configure the Custom Services Search Box for both data sources.
+      summary: Configure your Custom Services Search Box for both data sources.
       description: |
         This endpoint creates a search box for both integrations: PubMed & BASE. A variety of PubMed and BASE specific search options are available. 
 
@@ -411,7 +415,7 @@ paths:
 
             Sorting here means the way the documents are prioritised by the data source before the visualisation is created.
 
-            To determine the `most-relevant` documents, we use the relevance ranking provided by BASE. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information.
+            To determine the `most-relevant` documents, we use the relevance ranking provided by each data source. BASE mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://lucene.apache.org/core/6_4_2/core/org/apache/lucene/search/package-summary.html#scoring) for more information. PubMed mainly uses text similarity between your query and the article metadata to determine the relevance ranking. Please [consult this page](https://pubmed.ncbi.nlm.nih.gov/help/#best-match-algorithm) for more information.
 
             The `most-recent` option ranks documents according to their recency, with the most recent documents appearing first.
 
@@ -450,7 +454,7 @@ paths:
           name: article_types[]
           required: false
           description: |
-            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
+            Specify the article type(s) that will be preselected in the search box options, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
             
             To add an additional article type, click on "Add item" below the input field. 
             
@@ -504,9 +508,7 @@ paths:
           description: |
             Specify a start date that will be preselected in the search box options. Please use the format `YYYY-MM-DD`. 
 
-            If the parameter is not provided, it defaults to `1809-01-01` for PubMed, and to `1809-01-01` for BASE.
-            
-            **Please note** that in BASE `1665-01-01` is the earliest date available for journal articles, other document types may have even earlier publication dates.
+            If the parameter is not provided, it defaults to `1809-01-01` for PubMed, and to `1665-01-01` for BASE.
           schema:
             type: string
             format: date
@@ -538,7 +540,7 @@ paths:
 
             If the parameter is not provided, it defaults to worldwide.
             
-            **Please note** that if a content provider has already been specified under repo parameter, the coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
+            **Warning:** The coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
         - in: query
@@ -546,7 +548,7 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            The combined filter and dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -568,7 +570,7 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            The metadata quality radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
         - in: query
@@ -579,18 +581,22 @@ paths:
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dcorcid:0000-0002-1894-5040`.
 
-            If q_advanced is used while the option is not displayed (`show_q_advanced=false`), the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
+            This parameter can either be used instead of q or in conjunction with q.
+
+            If q_advanced is used AND the option is not displayed to end users (`show_q_advanced=false`), please note the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
-            * `dcorcid:0000-0002-1894-5040`
-            * `dcrelation:"https://zenodo.org/communities/biosyslit"`
-            * `dccreator:"Lastname Firstname"`
 
-            This parameter can either be used instead of q or in conjunction with q.
+            * `dcorcid:0000-0002-1894-5040`
+
+            * `dcrelation:"https://zenodo.org/communities/biosyslit"`
+
+            * `dccreator:"Lastname Firstname"`
+            
+            * `dccoverage:"Rocky Mountains"`
 
             Experimental use of advanced queries involving Boolean operators such as AND, OR, and NOT (described in the BASE Interface Guide, Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
 
-            Warning: Do not use an advanced query designed for the q_advanced field in the q field, this can lead to an error during the request.
           type: string
           allowReserved: true
         - in: query
