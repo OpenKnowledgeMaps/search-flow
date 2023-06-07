@@ -207,7 +207,7 @@ paths:
             If the parameter is empty the link can’t be generated. 
           schema:
             type : string
-          example: digital education
+          example: climate change
           allowReserved: true
         - in: query
           name: from
