@@ -160,7 +160,7 @@ button {
 }
 
 .div {
-    display: block; 
+    display: block;
 }
 
 .hidden {
@@ -193,7 +193,7 @@ button {
 
 .btn-group.open {
     background-color: #e55137;
-    color: white; 
+    color: white;
 }
 
 #download {
@@ -234,7 +234,7 @@ button {
     input {
         font-size: 12px;
     }
-    
+
     .center-div2 .text-field {
         margin-left: -5px;
         width: 99%;
