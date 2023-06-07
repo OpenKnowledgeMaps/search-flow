@@ -181,7 +181,7 @@ if(isset($search_flow_config_local)) {
             , vis_page_additional_params: [
             ]
             //Default API error reason
-            , default_api_error: "not_enough_results"
+            , default_api_error: "timeout"
             //Additional API errors and their related texts
             , additional_api_errors: {
                 "API error: timeout": "timeout"
@@ -203,7 +203,7 @@ if(isset($search_flow_config_local)) {
         }
         //Texts for the waiting page
         , waiting_page_texts: {
-            longer_than_expected_text: 'Creating your visualization takes longer than expected. Please stay tuned!'
+            longer_than_expected_text: 'We are currently experiencing high demand for our services. Therefore creating your visualisation takes longer than expected. Please stay tuned!'
             , waiting_title: 'Your <span class="vis_type_name">knowledge map</span> on <strong id="search_term"></strong> is being created!'
             , status_waiting: 'Please be patient, this takes around 20 seconds.<br>While you are waiting, find out how the <span class="vis_type_name">knowledge map</span> is being created below.'
             , try_again_title: 'Have another try!'
