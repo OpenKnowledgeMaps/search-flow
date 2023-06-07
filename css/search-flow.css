@@ -304,13 +304,13 @@ b, strong {
     }
 }
 
-@media screen and (min-width: 535px) {
-    #progressbar {
-        height: 10px;
-        max-width: 400px;
-        margin: 10px auto 50px;
-    }
-}
+/*@media screen and (min-width: 535px) {*/
+/*    #progressbar {*/
+/*        height: 10px;*/
+/*        max-width: 400px;*/
+/*        margin: 10px auto 50px;*/
+/*    }*/
+/*}*/
 
 @media screen and (min-width: 1230px) {
 
