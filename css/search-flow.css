@@ -287,6 +287,9 @@ p {
     border-top: 0px solid #cacfd3;
 }
 
+b, strong {
+    font-weight: 800;
+}
 
 @media only screen and (min-width: 470px) {
     #progress p {
