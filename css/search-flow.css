@@ -32,7 +32,7 @@
 }
 
 #home .search-box {
-    padding-left: 10px; 
+    padding-left: 10px;
     padding-right: 10px;
 }
 
@@ -60,7 +60,8 @@
 .search-waiting-page .center-div {
     margin: 0px auto;
     background-color: transparent;
-    padding: 112px 50px;
+    /*padding: 112px 50px;*/
+    padding: 20px 50px;
     -webkit-box-shadow: 0px 0px 0px 0px #cacfd3;
     -moz-box-shadow: 0px 0px 0px 0px #cacfd3;
     box-shadow: 0px 0px 0px 0px #cacfd3;
@@ -108,7 +109,7 @@
     font-weight: 100;
     vertical-align: top;
     display: block;
-    padding:5px 0 0px 20px; 
+    padding: 5px 0 0px 20px;
 }
 
 .radio-inline + .radio-inline {
@@ -137,8 +138,9 @@
 }
 
 #progress p {
-    font-size:18px;
+    font-size: 14px;
 }
+
 
 .search_active_state p {
     text-align: center;
@@ -166,7 +168,7 @@
 }
 
 .waiting-title {
-    font-size: 20px;
+    font-size: 14px;
     margin-bottom: 10px;
     text-transform: none;
     font-weight: 800;
@@ -185,10 +187,10 @@
 
 .basic-button {
     /*text-transform: uppercase;*/
-    text-align: center; 
+    text-align: center;
     max-width: 300px;
-    width:100%;
-    display: inline-block; 
+    width: 100%;
+    display: inline-block;
     border: 2px solid #2d3e52;
     background-color: #2d3e52;
     color: white;
@@ -196,7 +198,7 @@
     border-radius: 5px;
     -moz-border-radius: 5px;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 800;
     text-decoration: none !important;
 }
 
@@ -250,25 +252,25 @@ p {
 }
 
 .howitworks-div {
-    max-width:100%; 
-    text-align:center; 
-    margin-top:5%;
+    max-width: 100%;
+    text-align: center;
+    margin-top: 5%;
 }
 
 .howitworks-point {
-    width:22%; 
-    display: inline-block; 
-    padding: 0px 2% 2%; 
-    vertical-align:top; 
-    text-align:left;
+    width: 22%;
+    display: inline-block;
+    padding: 0px 2% 2%;
+    vertical-align: top;
+    text-align: left;
 }
 
 .howitworks-point p {
     font-size: 18px;
-}    
+}
 
 .number {
-    font-size:40px; 
+    font-size: 40px;
     color: #2c3e52;
     font-weight: 800;
     /*vertical-align: bottom;*/
@@ -277,15 +279,40 @@ p {
 
 .howimg {
     width: auto;
-    max-height: 60px; 
+    max-height: 60px;
     vertical-align: baseline;
 }
 
 .infohow {
-    border-top: 0px solid #cacfd3; 
+    border-top: 0px solid #cacfd3;
 }
 
-@media screen and (max-width: 1230px) {
+b, strong {
+    font-weight: 800;
+}
+
+@media only screen and (min-width: 470px) {
+    #progress p {
+        font-size: 18px;
+    }
+
+    .waiting-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        text-transform: none;
+        font-weight: 800;
+    }
+}
+
+/*@media screen and (min-width: 535px) {*/
+/*    #progressbar {*/
+/*        height: 10px;*/
+/*        max-width: 400px;*/
+/*        margin: 10px auto 50px;*/
+/*    }*/
+/*}*/
+
+@media screen and (min-width: 1230px) {
 
     .center-div, .center-div2 {
         width: 70%;
@@ -297,9 +324,9 @@ p {
     .center-div {
         margin: 50px auto 0;
     }
-    
+
     .search-waiting-page .center-div {
-        padding: 45px 0px 0px;
+        padding: 15px 0px 0px;
     }
 }
 
@@ -310,7 +337,7 @@ p {
 }
 
 @media screen and (max-width: 865px) {
-    
+
     .center-div, .center-div2 {
         width: initial;
     }
@@ -318,11 +345,11 @@ p {
     /*how it works section*/
     .howimg {
         width: auto;
-        max-height: 40px; 
+        max-height: 40px;
     }
 
     .number {
-        font-size:30px; 
+        font-size: 30px;
     }
 }
 
@@ -372,8 +399,9 @@ p {
         display: block;
         padding: 0;
     }
-    
+
     .background-lamp {
+        /*padding: 45px 20px 20px;*/
         padding: 45px 20px 20px;
     }
 
@@ -398,7 +426,7 @@ p {
     }
 
     .waiting-title, .waiting-title2 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     #progress p {

@@ -12,13 +12,15 @@ $enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "gene
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
 
-function console_log($data) {
-    $console = $data;
-    if (is_array($console))
-    $console = implode(',', $console);
-   
-    echo "<script>console.log('Console: " . $console . "' );</script>";
-   }
+// Log to the browser console
+function logToConsole($data) {
+    $output = $data;
+    if (is_array($output)) {
+        // $output = implode(',', $output);
+        $output = http_build_query($output,'',', ');
+    }    
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 
 // This fixes a bug in iOS Safari where an inactive tab would forget the post 
 // parameters - usually when the user opens a different tab while waiting for
@@ -136,8 +138,13 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     
     // Check for params from search form
     if(isset($search_flow_config["optional_get_params"][$service])) {
-        foreach($search_flow_config["optional_get_params"][$service] as $optional_param) {
-            $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+        foreach($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
+            if ($optional_param_type === "array") {
+                // force string to array conversion for backward compatibility of GET-API
+                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FORCE_ARRAY);
+            } else {
+                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+            }
             if($param_get !== false) {
                 $ret_array[$optional_param] = $param_get;
                 $search_flow_config["params_arrays"][$service][] = $optional_param;
@@ -191,34 +198,29 @@ if($has_sufficient_data) {
         $params_array = $search_flow_config["params_arrays"][$service];
         if(isset($search_flow_config["optional_get_params"][$service])) {
             foreach($search_flow_config["optional_get_params"][$service] as $optional_param) {
-                if(array_key_exists($optional_param, $post_array) && !in_array($optional_param, $params_array)) {
+                foreach($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
                     $params_array[] = $optional_param;
                 }
             }
         }
-
         $params_json = packParamsJSON($params_array, $post_array);
-        if(!empty($query) && empty($get_q_advanced)) {
+        if(!empty($query)) {
             $unique_id = createID(array($query, $params_json));
         }
-        if(empty($query) && !empty($get_q_advanced)) {
-            $unique_id = createID(array($get_q_advanced, $params_json));
+        if(empty($query)) {
+            $unique_id = createID(array($params_json));
         }
-        if(!empty($query) && !empty($get_q_advanced)) {
-            $unique_id = createID(array($query, $get_q_advanced, $params_json));
+        if($service=="openaire") {
+            $query = addslashes(trim(strip_tags($dirty_query)));
+            $unique_id = createID(array($query, $params_json));
         }
-	if($service=="openaire") {
-	    $query = addslashes(trim(strip_tags($dirty_query)));
-	    $unique_id = createID(array($query, $params_json));
-        }
-
         $post_array["q"] = $query;
         $post_array["unique_id"] = $unique_id;
         $_SESSION['post'][$unique_id] = $post_array;
     } else {
         $unique_id = $post_array["unique_id"];
     }
-    
+
     $post_array["service"] = $service;
     $post_array["optradio"] = $service;
     $post_array["embed"] = $is_embed;
@@ -261,14 +263,12 @@ if($has_sufficient_data) {
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php 
-                if (array_key_exists("q_advanced", $post_array)) {                    
-                } elseif ($service == "openaire") {
+                if ($service == "openaire") {
                 } else { ?>
                     <h3 id="try-again-title" class="waiting-title"></h3>
             <?php    } ?>
             <?php
-                if (array_key_exists("q_advanced", $post_array)) {                    
-                } elseif ($service == "openaire") {
+                if ($service == "openaire") {
                 } else {
                     $default_lib = $service;
                     $search_query = htmlspecialchars(stripslashes($dirty_query));
@@ -287,8 +287,7 @@ if($has_sufficient_data) {
 
         <p id="error-contact"></p>
         <?php
-            if (array_key_exists("q_advanced", $post_array)) {                    
-            } elseif ($service == "openaire") {
+            if ($service == "openaire") {
             } else { ?>
                 <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
                     <a id="error-resolution-link" class="basic-button nodisplay"></a>

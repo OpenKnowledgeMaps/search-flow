@@ -96,3 +96,31 @@ enable_get_requests = true
 docker_internal = true
 
 ```
+
+* To connect with locally running backends, append this to the docker-compose.yml, where name is the network in which the backend is running:
+
+```
+
+networks:
+  default:
+    external:
+      name: dev_headstart
+```
+
+After that, change api_url in preprocessing/conf/config_local.ini to the IP where the proxy is running, which can be found by e.g. `docker network inspect dev_headstart`
+
+```
+api_url = "http://172.dd.dd.dd/"
+```
+
+#### Swagger documentations
+
+In `docs`:
+
+* Copy the `swagger-searchbox.yml.template` and `swagger.yml.template` files to `swagger-searchbox.yml` and `swagger.yml.template`
+* In the .yml-files: Replace `- url: http://localhost` with `- url: http://localhost:8085/`
+
+In `docs/swagger`:
+
+* Copy the `index.html.template` and `searchbox-configurator.html.template` files to ``index.html` and `searchbox-configurator.html`
+* In the .html-files: Replace `url: "http://localhost/search-flow/docs/swagger.yml"` with `url: "http://localhost:8085/search-flow/docs/swagger.yml",`

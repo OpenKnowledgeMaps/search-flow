@@ -1,14 +1,18 @@
 "use strict";
 
-import TIMESPAN_OPTIONS, {
-  DEFAULT_FROM,
-  DEFAULT_TO,
-  getTimespanBounds,
-} from "./options/timespan.js";
+import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "./options/timespan.js";
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
 import LANG_OPTIONS from "./options/lang.js";
+import SERVICES_OPTIONS from "./options/services.js";
+import DESC_SIZE_OPTIONS from "./options/desc_size.js";
+import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
+
+
+const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS
+    .filter(option => option.id !== 'retracted publication')
+    .map(option => option.id);
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
@@ -17,26 +21,37 @@ export const DEFAULT_SETTINGS = {
   showTimeRange: true,
   showDocTypes: true,
   showSorting: true,
-  // show language filter
   showLang: true,
+  showService: true,
+  showVisType: false,
+  showMinDescsize: false,
+  showQadvanced: false,
+  showCollection: false,
+
   // default (preselected) values
   defaultQuery: "",
-  defaultDocTypes: ["121"],
+  defaultDocTypes: ["121"], // deafult value for service='base'
+  defaultArticleTypes: pubMedDefaultId, // default value for service='pubmed'
+
   defaultSorting: "most-relevant",
-  defaultTimespan: TIMESPAN_OPTIONS[0].id,
-  defaultFrom: DEFAULT_FROM,
+  // defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
+  defaultFrom: "1665-01-01", // deafult value for service='base' it changes if service='pubmed'
+  // defaultFromPubmed: PUBMED_DEFAULT_FROM, // deafult value for service='pubmed'
+  defaultFromPubmed: "1809-01-01", // deafult value for service='pubmed'
   defaultTo: DEFAULT_TO,
-  // language filter
-  defaultLang: "all-lang",
-  // hidden values
-  defaultVisType: VIS_TYPE_OPTIONS[0].id, // TODO move to preselected once we implement the toggle
-  minDescriptionSize: undefined,
+  defaultLang: ["all-lang"],
+
+  defaultVisType: VIS_TYPE_OPTIONS[0].id,
+  minDescriptionSize: DESC_SIZE_OPTIONS[0].id,
   contentProvider: undefined,
   collection: undefined,
+  // collection: 'worldwide',
   titleExpansion: "",
   abstractExpansion: "",
   keywordsExpansion: "",
-  q_advanced: ""
+  q_advanced: "",
+  // Data Source (new param)
+  defaultService: SERVICES_OPTIONS[0].id,  // by default chosen service is 'base'
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -46,6 +61,11 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_doc_types",
   "show_sorting",
   "show_lang",
+  "show_service",
+  "show_vis_type",
+  "show_min_descsize",
+  "show_q_advanced",
+  "show_coll",
 ]);
 
 /**
@@ -82,11 +102,13 @@ const getConfigSettings = (outerSettings = {}) => {
     // the value is also in outerSettings.query, but it's somewhat escaped
     settings.defaultQuery = outerSettings.q.replace(/\\/g, "");
   }
-  if (typeof outerSettings.time_range === "string") {
-    settings.defaultTimespan = outerSettings.time_range;
-  }
+
   if (typeof outerSettings.from === "string") {
-    settings.defaultFrom = outerSettings.from;
+    if (outerSettings.service === 'pubmed') {
+      settings.defaultFromPubmed = outerSettings.from;
+    } else {
+      settings.defaultFrom = outerSettings.from;
+    }
   }
   if (typeof outerSettings.to === "string") {
     settings.defaultTo = outerSettings.to;
@@ -94,12 +116,19 @@ const getConfigSettings = (outerSettings = {}) => {
   if (Array.isArray(outerSettings.document_types)) {
     settings.defaultDocTypes = outerSettings.document_types;
   }
+  if (Array.isArray(outerSettings.article_types)) {
+    settings.defaultArticleTypes = outerSettings.article_types;
+  }
   if (typeof outerSettings.sorting === "string") {
     settings.defaultSorting = outerSettings.sorting;
   }
 
-  if (typeof outerSettings.lang_id === "string") {
+  if (Array.isArray(outerSettings.lang_id)) {
     settings.defaultLang = outerSettings.lang_id;
+  }
+
+  if (typeof outerSettings.service === "string") {
+    settings.defaultService = outerSettings.service;
   }
 
   // hidden values
@@ -114,7 +143,7 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.contentProvider = outerSettings.repo;
   }
   if (typeof outerSettings.coll === "string") {
-    settings.collection = outerSettings.collection;
+    settings.collection = outerSettings.coll;
   }
   if (typeof outerSettings.title === "string") {
     settings.titleExpansion = outerSettings.title;
@@ -152,61 +181,111 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("show_lang", TYPE_BOOL)) {
     settings.showLang = queryParams.get("show_lang") === "true";
   }
-
-  // default (preselected) values
-  if (queryParams.hasValid("time_range", TYPE_OPTION(TIMESPAN_OPTIONS))) {
-    settings.defaultTimespan = queryParams.get("time_range");
-
-    const customFrom = queryParams.hasValid("from", TYPE_DATE)
-      ? queryParams.get("from")
-      : undefined;
-    const customTo = queryParams.hasValid("to", TYPE_DATE)
-      ? queryParams.get("to")
-      : undefined;
-
-    const { from, to } = getTimespanBounds(
-      settings.defaultTimespan,
-      customFrom,
-      customTo
-    );
-
-    settings.defaultFrom = from;
-    settings.defaultTo = to;
-
+  if (queryParams.hasValid("show_service", TYPE_BOOL)) {
+    settings.showService = queryParams.get("show_service") === "true";
   }
-  else if (!queryParams.hasValid("from", TYPE_DATE) && !queryParams.hasValid("to", TYPE_DATE) ){
-    settings.defaultFrom = DEFAULT_FROM;
-    settings.defaultTo = new Date().toISOString().slice(0, 10);
+  if (queryParams.hasValid("show_vis_type", TYPE_BOOL)) {
+    settings.showVisType = queryParams.get("show_vis_type") === "true";
   }
-  else if (!queryParams.hasValid("from", TYPE_DATE)){
-    settings.defaultFrom = DEFAULT_FROM;
+  if (queryParams.hasValid("show_min_descsize", TYPE_BOOL)) {
+    settings.showMinDescsize = queryParams.get("show_min_descsize") === "true";
   }
-  else if (!queryParams.hasValid("to", TYPE_DATE)){
-    settings.defaultTo = new Date().toISOString().slice(0, 10);
+  if (queryParams.hasValid("show_q_advanced", TYPE_BOOL)) {
+    settings.showQadvanced = queryParams.get("show_q_advanced") === "true";
   }
-  if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
-    settings.defaultDocTypes = queryParams.getAll("document_types[]");
+
+  if (queryParams.hasValid("show_coll", TYPE_BOOL)) {
+    settings.showCollection = queryParams.get("show_coll") === "true";
   }
+
+  if (queryParams.has("from")) {
+    if (queryParams.hasValid("from", TYPE_DATE)) {
+      if (queryParams.get('service') === 'base') {
+        settings.defaultFrom = queryParams.hasValid("from", TYPE_DATE)
+            ? queryParams.get("from")
+            : undefined;
+      }
+      if (queryParams.get('service') === 'pubmed') {
+        settings.defaultFromPubmed = queryParams.hasValid("from", TYPE_DATE)
+            ? queryParams.get("from")
+            : undefined;
+      }
+    } else {
+      (queryParams.get('service') === 'pubmed')
+          ? settings.defaultFromPubmed = PUBMED_DEFAULT_FROM
+          : settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
+    }
+  }
+
+  if (queryParams.has("to")) {
+    if (queryParams.hasValid("to", TYPE_DATE)) {
+      settings.defaultTo = queryParams.hasValid("to", TYPE_DATE)
+          ? queryParams.get("to")
+          : undefined;
+    } else {
+      settings.defaultTo = DEFAULT_SETTINGS.defaultTo;
+    }
+  }
+
+  if (queryParams.has("document_types[]")) {
+    if (queryParams.has('service')) {
+      if (queryParams.get('service') === 'base') {
+        if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
+          settings.defaultDocTypes = queryParams.getAll("document_types[]");
+        } else {
+          settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
+        }
+      }
+    } else {
+      if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
+        settings.defaultDocTypes = queryParams.getAll("document_types[]");
+      } else {
+        settings.defaultDocTypes = DEFAULT_SETTINGS.defaultDocTypes;
+      }
+    }
+  }
+
+  if (queryParams.has("article_types[]")) {
+    if (queryParams.has('service')) {
+      if (queryParams.get('service') === 'pubmed') {
+        if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
+          settings.defaultArticleTypes = queryParams.getAll("article_types[]");
+        } else {
+          settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
+        }
+      }
+    }
+    if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
+      settings.defaultArticleTypes = queryParams.getAll("article_types[]");
+    } else {
+      settings.defaultArticleTypes = DEFAULT_SETTINGS.defaultArticleTypes;
+    }
+  }
+
   if (queryParams.hasValid("sorting", TYPE_OPTION(SORTING_OPTIONS))) {
     settings.defaultSorting = queryParams.get("sorting");
   }
-  else{
-    settings.defaultSorting = DEFAULT_SETTINGS.defaultSorting;
+
+  if (queryParams.hasValid("lang_id[]", TYPE_LANGTYPES)) {
+    settings.defaultLang = queryParams.getAll("lang_id[]");
   }
-  if (queryParams.hasValid("lang_id", TYPE_OPTION(LANG_OPTIONS))) {
-    settings.defaultLang = queryParams.get("lang_id");
-  } else {
-    settings.defaultLang = DEFAULT_SETTINGS.defaultLang;
+
+  if (queryParams.has("service")) {
+    if (queryParams.hasValid("service", TYPE_OPTION(SERVICES_OPTIONS))) {
+      settings.defaultService = queryParams.get("service");
+    } else {
+      settings.defaultService = DEFAULT_SETTINGS.defaultService;
+    }
+  }
+  if (queryParams.hasValid("min_descsize", TYPE_OPTION(DESC_SIZE_OPTIONS))) {
+    settings.minDescriptionSize = queryParams.get("min_descsize");
   }
 
   // hidden values
   if (queryParams.hasValid("vis_type", TYPE_OPTION(VIS_TYPE_OPTIONS))) {
-    // TODO move to preselected once we implement the toggle
     settings.defaultVisType = queryParams.get("vis_type");
   }
-  if (queryParams.hasValid("min_descsize", TYPE_INT(0))) {
-    settings.minDescriptionSize = queryParams.get("min_descsize");
-  }
+
   if (queryParams.hasValid("repo", TYPE_SINGLE)) {
     settings.contentProvider = queryParams.get("repo");
   }
@@ -231,14 +310,28 @@ const getQuerySettings = () => {
 
 const TYPE_BOOL = {
   validator: (values) =>
-    values.length === 1 && ["true", "false"].includes(values[0]),
+      values.length === 1 && ["true", "false"].includes(values[0]),
   description: "Only the values 'true' and 'false' are allowed.",
 };
 const TYPE_DOCTYPES = {
   validator: (values) =>
-    !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
+      !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
   description: "Only the BASE document ids (codes) are allowed.",
 };
+
+const TYPE_DOCTYPES_PUBMED = {
+  validator: (values) =>
+      !values.some((value) => !PUBMED_DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
+  description: "Only the PUBMED document ids (codes) are allowed.",
+
+};
+
+const TYPE_LANGTYPES = {
+  validator: (values) =>
+      !values.some((value) => !LANG_OPTIONS.some((opt) => opt.id === value)),
+  description: "Only the BASE languages ids (codes) are allowed.",
+};
+
 const TYPE_INT = (from, to) => ({
   validator: (values) => {
     if (!values.length === 1) {
