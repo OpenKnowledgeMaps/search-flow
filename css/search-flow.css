@@ -60,8 +60,8 @@
 .search-waiting-page .center-div {
     margin: 0px auto;
     background-color: transparent;
-    /*padding: 112px 50px;*/
-    padding: 20px 50px;
+    padding: 112px 50px;
+    /*padding: 20px 50px;*/
     -webkit-box-shadow: 0px 0px 0px 0px #cacfd3;
     -moz-box-shadow: 0px 0px 0px 0px #cacfd3;
     box-shadow: 0px 0px 0px 0px #cacfd3;
@@ -422,7 +422,9 @@ b, strong {
 
     .search-waiting-page .center-div {
         width: 100%;
+        /*padding: 112px 0px;*/
         padding: 20px 0px;
+
     }
 
     .waiting-title, .waiting-title2 {
