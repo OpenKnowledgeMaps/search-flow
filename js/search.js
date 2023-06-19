@@ -191,6 +191,9 @@ function executeSearchRequest(
           error_texts[
             search_flow_config.waiting_page_options.default_api_error
           ];
+        if (not_enough_results_links) {
+          current_error_texts = error_texts["not_enough_results"];
+        }
 
         setErrorTitle(current_error_texts.title);
         setErrorReason(current_error_texts.reason);
