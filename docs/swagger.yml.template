@@ -70,7 +70,7 @@ paths:
             
             Enter your advanced search query, e.g. `dctitle:"open science"`. 
 
-            This parameter can either be used instead of `q` or in conjunction with `q`.
+            This parameter can either be used instead of `q` or in conjunction with `q`. If q_advanced is used in conjunction with q, e.g. `q=ethics` and `q_advanced=dctitle:"open science"`, the resulting knowledge map will contain documents that have “open science” in their title and the term ethics anywhere in their metadata.
 
             It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
 

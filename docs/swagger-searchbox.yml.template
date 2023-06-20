@@ -231,7 +231,7 @@ paths:
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dctitle:"open science"`.
 
-            This parameter can either be used instead of q or in conjunction with q.  If q_advanced is used in conjunction with q, e.g. `q=ethics` and `q_advanced=dctitle:"open science"`, the resulting knowledge map will contain documents that have “open science” in their title and the term ethics anywhere in their metadata.
+            This parameter can either be used instead of q or in conjunction with q. If q_advanced is used in conjunction with q, e.g. `q=ethics` and `q_advanced=dctitle:"open science"`, the resulting knowledge map will contain documents that have “open science” in their title and the term ethics anywhere in their metadata.
 
             If q_advanced is used AND the option is not displayed to end users (`show_q_advanced=false`), please note the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
 
@@ -587,7 +587,7 @@ paths:
 
             Specify the advanced search query that will be preconfigured in the search box options, e.g. `dctitle:"open science"`.
 
-            This parameter can either be used instead of q or in conjunction with q.  If q_advanced is used in conjunction with q, e.g. `q=ethics` and `q_advanced=dctitle:"open science"`, the resulting knowledge map will contain documents that have “open science” in their title and the term ethics anywhere in their metadata.
+            This parameter can either be used instead of q or in conjunction with q. If q_advanced is used in conjunction with q, e.g. `q=ethics` and `q_advanced=dctitle:"open science"`, the resulting knowledge map will contain documents that have “open science” in their title and the term ethics anywhere in their metadata.
 
             If q_advanced is used AND the option is not displayed to end users (`show_q_advanced=false`), please note the advanced query will be appended to every user search. In this configuration, users will not be able to change q_advanced.
 
