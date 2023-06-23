@@ -350,7 +350,7 @@ paths:
         "200": # status code
           description: Returns the search box page.
 
-  /embedded_searchbox:
+  /embedded_searchbox?show_service=true:
     get:
       summary: Configure your Custom Services Search Box for both data sources.
       description: |
