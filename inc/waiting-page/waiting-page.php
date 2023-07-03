@@ -147,7 +147,7 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
             }
 	     // prevent double string sanitization for q_advanced
             if($param_get !== false && $optional_param != "q_advanced") {
-                $search_flow_config["params_arrays"][$service][] = $optional_param;
+                $ret_array[$optional_param] = $param_get;
             }
         }
     }
