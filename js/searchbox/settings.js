@@ -22,7 +22,7 @@ export const DEFAULT_SETTINGS = {
   showDocTypes: true,
   showSorting: true,
   showLang: true,
-  showService: true,
+  showService: false,
   showVisType: false,
   showMinDescsize: false,
   showQadvanced: false,

@@ -68,19 +68,19 @@ paths:
           description: |
             **This feature is a prototype! Some queries may not work as expected.**
             
-            Enter your advanced search query, e.g. `dcorcid:0000-0002-1894-5040`. 
+            Enter your advanced search query, e.g. `dctitle:"open science"`. 
 
-            This parameter can either be used instead of `q` or in conjunction with `q`.
+            This parameter can either be used instead of `q` or in conjunction with `q`. If q_advanced is used in conjunction with q, e.g. `q=ethics` and `q_advanced=dctitle:"open science"`, the resulting knowledge map will contain documents that have “open science” in their title and the term ethics anywhere in their metadata.
 
             It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
 
-            * `dcorcid:0000-0002-1894-5040`
+            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCiD. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCiD profile can be retrieved. BASE is actively working on improving the coverage.
 
-            * `dcrelation:"https://zenodo.org/communities/biosyslit"`
+            * `dcrelation:"https://zenodo.org/communities/biosyslit"` This will create a knowledge map of documents with a specific Zenodo community mentioned in the relations field.
 
-            * `dccreator:"Lastname Firstname"`
+            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCiD, author names may not be unique.
 
-            * `dccoverage:"Rocky Mountains"`
+            * `dccoverage:"Rocky Mountains"` This will create a knowledge map of documents containing research about the Rocky Mountains.
 
             Experimental use of advanced queries involving Boolean operators such as `AND`, `OR`, and `NOT` (described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax) is possible. However, this functionality is still under development on our side, and may not always work as expected.
 
