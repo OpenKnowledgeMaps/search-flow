@@ -100,7 +100,7 @@ const AdvancedSearchField = ({value, setValue}) => {
         ]),
         e("input", {
             required: false,
-            autoFocus: true,
+            autoFocus: false,
             type: "text",
             name: "q_advanced",
             size: "89",
