@@ -504,7 +504,7 @@ paths:
           description: |
             Specify a start date that will be preselected in the search box options. Please use the format `YYYY-MM-DD`. 
 
-            If the parameter is not provided, it defaults to `1809-01-01` for PubMed, and to `1665-01-01` for BASE. **Please note** that 1665-01-01 is the earliest date available for journal articles in BASE, other document types may have even earlier publication dates.
+            If the parameter is not provided, it defaults to `1809-01-01` for PubMed, and to `1665-01-01` for BASE. **Please note** that `1665-01-01` is the earliest date available for journal articles in BASE, other document types may have even earlier publication dates.
           schema:
             type: string
             format: date
