@@ -1,7 +1,6 @@
 "use strict";
 
 
-// const e = React.createElement;
 const {useRef, useEffect, createElement: e} = React;
 
 const SearchField = ({value, setValue, required}) => {
@@ -11,11 +10,6 @@ const SearchField = ({value, setValue, required}) => {
     useEffect(() => {
         inputRef.current.focus();
     }, []);
-    
-    // document.onLoad = () => {
-    //     document.getElementById("searchterm").focus();
-    // }
-
 
     return e("div", {style: {marginBottom: 10}},
         e("label", {htmlFor: "searchterm", className: "filter-label"}, "Enter search query (e.g. digital education)"),
