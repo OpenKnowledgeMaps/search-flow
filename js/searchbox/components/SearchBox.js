@@ -259,7 +259,6 @@ class SearchBox extends React.Component {
             entries.push({name: "service", value: this.state.formData.service});
         }
 
-        // const {minDescriptionSize, contentProvider} = this.state.settings;
         const {contentProvider} = this.state.settings;
         const {titleExpansion, abstractExpansion} = this.state.settings;
         const {keywordsExpansion} = this.state.settings;
@@ -270,11 +269,6 @@ class SearchBox extends React.Component {
         if (contentProvider) {
             entries.push({name: "repo", value: contentProvider});
         }
-
-        // old optional condition can be deleted after testing
-        // if (collection) {
-        //   entries.push({name: "coll", value: collection});
-        // }
 
         if ((this.state.formData.service === 'base' || this.state.service === 'base') && (!this.state.showOptions || !showCollection)) {
             if (collection && collection.length <= 3) {
