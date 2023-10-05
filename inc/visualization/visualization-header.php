@@ -46,8 +46,8 @@ if($search_flow_config["vis_load_context"]) {
     $custom_title_from_context = setVariableFromContext($context, "custom_title");
 
     if ($custom_title_from_context !== null) {
-        $query = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
-        $query = preg_replace("/\\\'/", "&apos;", $custom_title_from_context);
+        $custom_title_from_context = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
+        $custom_title_from_context = preg_replace("/\\\'/", "&apos;", $custom_title_from_context);
         $custom_title = $custom_title_from_context;
         // Determine if $custom_title is not null
         $has_custom_title = (bool)$custom_title;
