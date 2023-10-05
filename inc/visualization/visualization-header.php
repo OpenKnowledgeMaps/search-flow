@@ -45,6 +45,9 @@ if($search_flow_config["vis_load_context"]) {
     // Set the $custom_title_from_context variable based on the context
     $custom_title_from_context = setVariableFromContext($context, "custom_title");
 
+    var_dump('$custom_title_from_context ');
+    var_dump('$custom_title_from_context = ', $custom_title_from_context);
+
     if ($custom_title_from_context !== null) {
         $custom_title_from_context = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
         $custom_title_from_context = preg_replace("/\\\'/", "&apos;", $custom_title_from_context);
