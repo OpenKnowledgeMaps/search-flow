@@ -42,10 +42,8 @@ if($search_flow_config["vis_load_context"]) {
         $service = "plos";
     }
 
-////    set parameter $custom_title to true if $context["custom_title"] is not null
-//    $has_custom_title = $context["custom_title"] !== null;
 ////    set parameter $custom_title to $context["custom_title"] if $context["custom_title"] is not null
-//    $custom_title = setVariableFromContext($context, "custom_title");
+    $custom_title = setVariableFromContext($context, "custom_title");
 
     $query = setVariableFromContext($context
                                         , "query"
