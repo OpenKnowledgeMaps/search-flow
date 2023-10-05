@@ -57,17 +57,11 @@ if($search_flow_config["vis_load_context"]) {
                                  : ("n.d.");
 
 
-    var_dump('$context');
-    var_dump($context);
-    var_dump(' $context->params = ', $context->params);
-
     // Decode the "params" JSON string to an associative array
     $params = json_decode($context->params, true);
 
     // Set the $custom_title_from_context variable based on the context
     $custom_title_from_context = $params["custom_title"];
-    var_dump('$custom_title_from_context = ', $custom_title_from_context);
-
 
     if ($custom_title_from_context !== null) {
         $custom_title_from_context = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
