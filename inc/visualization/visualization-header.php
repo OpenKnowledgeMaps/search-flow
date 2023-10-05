@@ -60,7 +60,7 @@ if($search_flow_config["vis_load_context"]) {
 //    $custom_title_from_context = $custom_title['custom_title'];
 
     // Decode the "params" JSON string to an associative array
-    $params = json_decode($context["params"], true);
+    $params = json_decode($context->params, true);
 
 // Access the "custom_title" from the decoded associative array
     $custom_title_from_context_22 = $params["custom_title"];
