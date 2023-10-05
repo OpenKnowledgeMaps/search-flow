@@ -42,12 +42,18 @@ if($search_flow_config["vis_load_context"]) {
         $service = "plos";
     }
 
-////    set parameter $custom_title to true if $context["custom_title"] is not null
-//
-////    set parameter $custom_title to $context["custom_title"] if $context["custom_title"] is not null
-    $custom_title = setVariableFromContext($context, "custom_title");
+    // Set the $custom_title_from_context variable based on the context
+    $custom_title_from_context = setVariableFromContext($context, "custom_title");
 
-    $has_custom_title = (bool)$custom_title;
+    if ($custom_title_from_context !== null) {
+        $query = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
+        $query = preg_replace("/\\\'/", "&apos;", $custom_title_from_context);
+        $custom_title = $custom_title_from_context;
+        // Determine if $custom_title is not null
+        $has_custom_title = (bool)$custom_title;
+    }
+
+
 
     $query = setVariableFromContext($context
                                         , "query"
