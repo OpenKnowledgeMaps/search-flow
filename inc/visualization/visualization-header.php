@@ -61,6 +61,7 @@ if($search_flow_config["vis_load_context"]) {
 
     var_dump('$context');
     var_dump($context);
+    var_dump($context->custom_title);
     var_dump('$custom_title_from_context ');
     var_dump('$custom_title_from_context = ', $custom_title_from_context);
 
