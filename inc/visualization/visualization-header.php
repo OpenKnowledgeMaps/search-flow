@@ -57,9 +57,10 @@ if($search_flow_config["vis_load_context"]) {
                                  : ("n.d.");
     // Set the $custom_title_from_context variable based on the context
     $custom_title_from_context = setVariableFromContext($context, "custom_title");
+//    $custom_title_from_context = $custom_title['custom_title'];
 
     var_dump('$context');
-    var_dump($context);
+    var_dump($custom_title['custom_title']);
     var_dump('$custom_title_from_context ');
     var_dump('$custom_title_from_context = ', $custom_title_from_context);
 
