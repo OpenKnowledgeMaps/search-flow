@@ -42,22 +42,6 @@ if($search_flow_config["vis_load_context"]) {
         $service = "plos";
     }
 
-    // Set the $custom_title_from_context variable based on the context
-    $custom_title_from_context = setVariableFromContext($context, "custom_title");
-
-    var_dump('$custom_title_from_context ');
-    var_dump('$custom_title_from_context = ', $custom_title_from_context);
-
-    if ($custom_title_from_context !== null) {
-        $custom_title_from_context = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
-        $custom_title_from_context = preg_replace("/\\\'/", "&apos;", $custom_title_from_context);
-        $custom_title = $custom_title_from_context;
-        // Determine if $custom_title is not null
-        $has_custom_title = (bool)$custom_title;
-    }
-
-
-
     $query = setVariableFromContext($context
                                         , "query"
                                         , $search_flow_config["enable_default_query"]
@@ -71,6 +55,22 @@ if($search_flow_config["vis_load_context"]) {
     $publication_year = ($timestamp !== null)
                                 ? ((new DateTime($timestamp))->format('Y'))
                                  : ("n.d.");
+    // Set the $custom_title_from_context variable based on the context
+    $custom_title_from_context = setVariableFromContext($context, "custom_title");
+
+    var_dump('$context');
+    var_dump($context);
+    var_dump('$custom_title_from_context ');
+    var_dump('$custom_title_from_context = ', $custom_title_from_context);
+
+    if ($custom_title_from_context !== null) {
+        $custom_title_from_context = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
+        $custom_title_from_context = preg_replace("/\\\'/", "&apos;", $custom_title_from_context);
+        $custom_title = $custom_title_from_context;
+        // Determine if $custom_title is not null
+        $has_custom_title = (bool)$custom_title;
+    }
+
 }
 
 function curl_get_contents($url) {
