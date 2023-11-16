@@ -186,28 +186,6 @@ paths:
             type: integer
             example: 300
         - in: query
-          name: repo
-          required: false
-          description: |
-            Specify a content provider available within BASE. This parameter is a shorthand for a single content provider that the search will be restricted to. The shorthand for a content provider can be identified as follows:
-
-            1. Search for the content provider within the list of content providers on the [BASE website](https://www.base-search.net/about/en/about_sources_date.php).
-            2. Once you have identified the content provider you want to use, click on the question mark next to the name of the content provider.
-            3. Look up the dccoll parameter as indicated in the screenshot, in this case `ftubbiepub`. This is the shorthand to be used here.
-            <br><br>
-            <img src="../BASE_coll_param.png" />
-          schema:
-            type: string
-        - in: query
-          name: coll
-          required: false
-          description: |
-            Specify a collection available within BASE that your search will be restricted to. 
-
-            This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. **Please note** that if a content provider has already been specified under repo parameter, the coll parameter will be ignored. More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
-          schema:
-            type: string
-        - in: query
           name: custom_title
           required: false
           description: |
