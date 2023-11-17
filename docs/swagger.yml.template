@@ -185,6 +185,25 @@ paths:
           schema:
             type: integer
             example: 300
+        - in: query
+          name: custom_title
+          required: false
+          description: |
+            Specify a custom title for your visualisation. The custom title will be displayed instead of the default title generated from the query string. We recommend using a custom title for individual knowledge maps that make use of long complex queries or q_advanced.
+
+            **Example**
+
+            Before `cancer or (cancer and immunotherapy) or (cancer and cell biology) or cancer care`:
+            <br>
+            <img src="../custom_title_before.png" />
+
+            After, with custom_title `cross-cutting research on cancer`:
+            <br>
+            <img src="../custom_title_after.png" />
+
+            **Please note**, titles that are longer than 77 characters will be abbreviated, however the full custom title will be displayed in the “More information” message and in the tooltip.
+          schema:
+            type: string
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
