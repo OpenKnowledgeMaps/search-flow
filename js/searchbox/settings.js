@@ -52,6 +52,7 @@ export const DEFAULT_SETTINGS = {
   q_advanced: "",
   // Data Source (new param)
   defaultService: SERVICES_OPTIONS[0].id,  // by default chosen service is 'base'
+  excludeDateFilters: false,
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -66,6 +67,7 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_min_descsize",
   "show_q_advanced",
   "show_coll",
+  "exclude_date_filters",
 ]);
 
 /**
@@ -158,6 +160,11 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.q_advanced = outerSettings.q_advanced;
   }
 
+  // //exclude_date_filters new param to exclude date filters from search box and dates from request
+  // if (typeof outerSettings.exclude_date_filters === "string") {
+  //   settings.excludeDateFilters = outerSettings.exclude_date_filters;
+  // }
+
   return settings;
 };
 
@@ -196,6 +203,10 @@ const getQuerySettings = () => {
 
   if (queryParams.hasValid("show_coll", TYPE_BOOL)) {
     settings.showCollection = queryParams.get("show_coll") === "true";
+  }
+
+  if (queryParams.hasValid("exclude_date_filters", TYPE_BOOL)) {
+    settings.excludeDateFilters = queryParams.get("exclude_date_filters") === "true";
   }
 
   if (queryParams.has("from")) {

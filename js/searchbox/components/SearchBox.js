@@ -50,6 +50,7 @@ class SearchBox extends React.Component {
         minDescriptionSize: settings.minDescriptionSize,
         q_advanced: settings.q_advanced,
         collection: settings.collection,
+          excludeDateFilters: settings.excludeDateFilters,
       },
       settings,
       showOptionsLabel: "Show advanced search options",
@@ -189,6 +190,7 @@ class SearchBox extends React.Component {
             showMinDescsize,
             showQadvanced,
             showCollection,
+            excludeDateFilters,
         } = this.state.settings;
 
         this.state.showOptions
@@ -288,6 +290,11 @@ class SearchBox extends React.Component {
 
         if (q_advanced) {
             entries.push({name: "q_advanced", value: q_advanced})
+
+            if (excludeDateFilters) {
+                console.log("excludeDateFilters", excludeDateFilters)
+                // entries.push({name: "exclude_date_filters", value: excludeDateFilters})
+            }
     }
 
     return entries;
@@ -321,9 +328,11 @@ class SearchBox extends React.Component {
         showVisType,
         showMinDescsize,
         showQadvanced,
-        showCollection
+        showCollection,
+        excludeDateFilters,
     } = this.state.settings;
-      const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDescsize || showQadvanced || showCollection;
+      const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDescsize
+          || showQadvanced || showCollection || excludeDateFilters;
 
       const actionUrl = this.getFormActionUrl();
       const hiddenEntries = this.getHiddenEntries();
@@ -410,7 +419,7 @@ class SearchBox extends React.Component {
                           values: this.state.formData.lang_id,
                           setValues: this.updateLang.bind(this),
                       }),
-                      showTimeRange &&
+                      (showTimeRange && !excludeDateFilters) &&
                       e("div", null,
                           e("div", {
                               className: 'filter-label',
