@@ -178,7 +178,7 @@ class SearchBox extends React.Component {
 
 
     getHiddenEntries() {
-        const entries = [];
+        let entries = [];
 
         const {
             showTimeRange,
@@ -294,7 +294,14 @@ class SearchBox extends React.Component {
             if (excludeDateFilters) {
                 console.log("excludeDateFilters", excludeDateFilters)
             }
-    }
+        }
+
+        // if excludeDateFilters is true, remove from and to from hiddenEntries
+        if (excludeDateFilters) {
+            const today = new Date().toISOString().slice(0, 10);
+            entries = entries.filter(entry => entry.name !== 'from' && entry.name !== 'to');
+            entries.push({name: 'today', value: today});
+        }
 
     return entries;
   }
@@ -364,20 +371,6 @@ class SearchBox extends React.Component {
               }
           })
       }
-
-      // if excludeDateFilters is true, remove from and to from hiddenEntries
-      if (excludeDateFilters === "true") {
-          // add "today" to hiddenEntries as default value for from and to
-          let today = new Date().toISOString().slice(0, 10)
-          hiddenEntries.push({name: "today", value: today})
-          hiddenEntries.forEach((entry, index) => {
-              if (entry.name === 'from' || entry.name === 'to') {
-                  hiddenEntries.splice(index, 1)
-              }
-          })
-      }
-
-      // console.log("hiddenEntries", hiddenEntries)
 
       return e(
           "div",
