@@ -300,6 +300,7 @@ class SearchBox extends React.Component {
         if (excludeDateFilters) {
             const today = new Date().toISOString().slice(0, 10);
             entries = entries.filter(entry => entry.name !== 'from' && entry.name !== 'to');
+            entries.push({name: "exclude_date_filters", value: excludeDateFilters})
             entries.push({name: 'today', value: today});
         }
 
