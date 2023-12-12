@@ -186,6 +186,13 @@ paths:
             type: integer
             example: 300
         - in: query
+          name: custom_clustering
+          required: false
+          description: |
+            to be added
+          schema:
+            type: string
+        - in: query
           name: custom_title
           required: false
           description: |
