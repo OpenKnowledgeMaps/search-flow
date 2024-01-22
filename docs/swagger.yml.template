@@ -224,7 +224,7 @@ paths:
             The annotation will be used for the clustering of the documents and the creation of area labels. 
 
             Annotations **must** be added to the metadata in the `dcsubject` field, with the following 
-            format `prefix:annotation` text, and the custom_clustering parameter must match the `prefix`. 
+            format `prefix:annotation text`, and the custom_clustering parameter must match the `prefix`. 
             If you add more than one annotation to a single document, 
             e.g. `theme:invasion impact` and `theme:invasion success`. Only the first entry will be considered 
             during data processing and is used to assign the document to a cluster on the map. 
