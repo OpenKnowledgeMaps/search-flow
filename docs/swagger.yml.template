@@ -210,59 +210,29 @@ paths:
           description: |
             **This feature is only available for Knowledge Maps! It is a prototype and some queries may not work as expected.**
 
-            Specify the metadata field you would like to use for the clustering of the documents and the creation of area labels. 
+            Specify an annotation you would like to use for the clustering of the documents and the creation of area labels. 
 
-            This parameter allows you to determine which metadata will be used to group the documents together, and to 
-            label each area in the knowledge map. Per default knowledge maps are clustered by co-word occurrence in the 
-            metadata and subject keywords are used to create the area titles (see our FAQs for more information). 
-            There are two options available to override this default:
+            This parameter allows you to determine which metadata will be used to group the documents together, 
+            and to label each area in the knowledge map. Per default knowledge maps are clustered by co-word 
+            occurrence in the metadata and subject keywords are used to create the area titles 
+            ([see our FAQs](https://openknowledgemaps.org/faq) for more information). 
+            You can override this default by doing the following:
 
-            **Option 1) Clustering by any metadata field**
-
-            You can choose any metadata field. The contents of this metadata field will be used for the clustering of the 
-            documents and the creation of area labels. **Please note** that the quality of knowledge maps very much depends 
-            on the quality and consistency of the original metadata.
-
-            So far following values had the best results in our tests:
-
-            | parameter value | metadata field in BASE | metadata content |
-            | ------ | ----- | ----- |
-            | `title` | dctitle | title of the document |
-            | `authors` | dccreator | author names |
-            | `subject` | dcsubject | subject keywords |
-            | `coverage` | dccoverage | spatial and temporal coverage, as defined by BASE |
-            | `resulttype` | dcformat | document type, as defined by BASE. For more information on available document types refer to the BASE Interface Guide, Appendix 3. Document types. |
-
-            **Please note:** We did not test individual repositories, this means you might find that other values also work well in your repository. 
-            
-            | parameter value | metadata field in BASE | metadata content |
-            | ------ | ----- | ----- |
-
-            **Option 2) Clustering by annotations in the subject field**
+            **Clustering by annotations in the subject field**
 
             You can choose a custom annotation in the `dcsubject` field, e.g. `theme:invasion impact`. 
             The annotation will be used for the clustering of the documents and the creation of area labels. 
 
-            Annotations must be added to the metadata in the `dcsubject` field, with the format 
-            `prefix:annotation text`, and the custom_clustering parameter must match the `prefix`. 
+            Annotations **must** be added to the metadata in the `dcsubject` field, with the following 
+            format `prefix:annotation` text, and the custom_clustering parameter must match the `prefix`. 
             If you add more than one annotation to a single document, 
-            e.g. theme: `theme:invasion impact` and `theme:invasion success`. Only the first entry 
-            will be considered during data processing and is used to assign the document to a cluster on the map. 
+            e.g. `theme:invasion impact` and `theme:invasion success`. Only the first entry will be considered 
+            during data processing and is used to assign the document to a cluster on the map. 
 
-            **Please note** the custom clustering only works if the annotations have been successfully indexed by BASE. 
-            Right now we recommend keeping the number of distinct annotations within the limit of 15. 
-            You can exceed this number, however the knowledge maps will likely contain 
-            more than 15 clusters and as a result become less readable. 
-
-            **Example**
-
-            Documents are annotated with one of the following keywords in the `dcsubject` 
-            field: `theme:invasion impact`, `theme:invasion success`, `theme:invasion pathway` or `theme:invasion management`, 
-            and the custom_clustering parameter is set to `theme`. This will produce a knowledge map 
-            (see screenshot below) with four clusters, in which documents are assigned to one of the 
-            following clusters: invasion impact, invasion pathway, invasion management or invasion success.
-
-            <img src="../custom_clustering.png" width="25%" height="25%" />
+            **Please note** the custom clustering only works if the annotations have been successfully 
+            indexed by BASE. Right now we recommend keeping the number of distinct annotations 
+            within the limit of 15. You can exceed this number, however the knowledge maps will 
+            likely contain more than 15 clusters and as a result become less readable. 
 
           schema:
             type: string
