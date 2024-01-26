@@ -60,7 +60,11 @@ if($search_flow_config["vis_load_context"]) {
     $params = json_decode($context->params, true);
 
     // Set the $custom_title_from_context variable based on the context
-    $custom_title_from_context = $params["custom_title"];
+    if (isset($params["custom_title"])) {
+        $custom_title_from_context = $params["custom_title"];
+    } else {
+        $custom_title_from_context = null;
+    }
 
     // If $custom_title_from_context and $has_custom_title are false set value $custom_title_from_context to $custom_title
     if ($custom_title_from_context !== null) {
