@@ -204,6 +204,38 @@ paths:
             **Please note**, titles that are longer than 77 characters will be abbreviated, however the full custom title will be displayed in the “More information” message and in the tooltip.
           schema:
             type: string
+        - in: query
+          name: custom_clustering
+          required: false
+          description: |
+            **This feature is only available for Knowledge Maps! It is a prototype and some queries may not work as expected.**
+
+            Specify an annotation you would like to use for the clustering of the documents and the creation of area labels. 
+
+            This parameter allows you to determine which metadata will be used to group the documents together, 
+            and to label each area in the knowledge map. Per default knowledge maps are clustered by co-word 
+            occurrence in the metadata and subject keywords are used to create the area titles 
+            ([see our FAQs](https://openknowledgemaps.org/faq) for more information). 
+            You can override this default by doing the following:
+
+            **Clustering by annotations in the subject field**
+
+            You can choose a custom annotation in the `dcsubject` field, e.g. `theme:invasion impact`. 
+            The annotation will be used for the clustering of the documents and the creation of area labels. 
+
+            Annotations **must** be added to the metadata in the `dcsubject` field, with the following 
+            format `prefix:annotation text`, and the custom_clustering parameter must match the `prefix`. 
+            If you add more than one annotation to a single document, 
+            e.g. `theme:invasion impact` and `theme:invasion success`. Only the first entry will be considered 
+            during data processing and is used to assign the document to a cluster on the map. 
+
+            **Please note** the custom clustering only works if the annotations have been successfully 
+            indexed by BASE. Right now we recommend keeping the number of distinct annotations 
+            within the limit of 15. You can exceed this number, however the knowledge maps will 
+            likely contain more than 15 clusters and as a result become less readable. 
+
+          schema:
+            type: string
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
