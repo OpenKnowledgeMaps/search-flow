@@ -20,8 +20,7 @@
                 <span class="number">2</span>
                 <img class="howimg" src="https://openknowledgemaps.org/img/howitworks/KM-text-similarity.png" alt=''>
             </p>
-            <p>We use text similarity to create the knowledge maps.
-                The algorithm groups those documents together that have many words in common.
+            <p>We operate an artificial intelligence (AI) pipeline to create the knowledge maps. The pipeline combines natural language processing methods to aggregate and display publications according to similarity in topics.
             </p>
 
         </div>
