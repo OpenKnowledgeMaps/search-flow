@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: OKMaps Parameterized Search and Visualisation Service
   description: |
-    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE or PubMed data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
+    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE, PubMed or OpenAIRE data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
 
     However, the service is not returning a raw data representation of a visualisation, but rather a web page that triggers the creation of the visualisation. Therefore, the service entry point does not conform to the strict definition of a HTTP-GET interface.
     
@@ -193,11 +193,11 @@ paths:
 
             **Example**
 
-            Before `cancer or (cancer and immunotherapy) or (cancer and cell biology) or cancer care`:
+            Before `education and dctitle:”open science”`:
             <br>
             <img src="../custom_title_before.png" />
 
-            After, with custom_title `cross-cutting research on cancer`:
+            After, with custom_title `education in open science`:
             <br>
             <img src="../custom_title_after.png" />
 
