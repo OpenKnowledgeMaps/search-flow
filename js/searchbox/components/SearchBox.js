@@ -285,10 +285,11 @@ class SearchBox extends React.Component {
         if (keywordsExpansion) {
             entries.push({name: "keywords", value: keywordsExpansion});
         }
-
-        if (q_advanced) {
-            entries.push({name: "q_advanced", value: q_advanced})
-    }
+        if (!this.state.showOptions || !showQadvanced) {
+            entries.push({name: "sorting", value: this.state.settings.q_advanced});
+        } else {
+            entries.push({name: "sorting", value: this.state.formData.q_advanced});
+        }
 
     return entries;
   }
