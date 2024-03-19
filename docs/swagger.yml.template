@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: OKMaps Parameterized Search and Visualisation Service
   description: |
-    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE or PubMed data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
+    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE, PubMed or OpenAIRE data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
 
     However, the service is not returning a raw data representation of a visualisation, but rather a web page that triggers the creation of the visualisation. Therefore, the service entry point does not conform to the strict definition of a HTTP-GET interface.
 
@@ -194,6 +194,57 @@ paths:
           schema:
             type: boolean
             example: false
+        - in: query
+          name: custom_title
+          required: false
+          description: |
+            Specify a custom title for your visualisation. The custom title will be displayed instead of the default title generated from the query string. We recommend using a custom title for individual knowledge maps that make use of long complex queries or q_advanced.
+
+            **Example**
+
+            Before `education and dctitle:”open science”`:
+            <br>
+            <img src="../custom_title_before.png" />
+
+            After, with custom_title `education in open science`:
+            <br>
+            <img src="../custom_title_after.png" />
+
+            **Please note**, titles that are longer than 77 characters will be abbreviated, however the full custom title will be displayed in the “More information” message and in the tooltip.
+          schema:
+            type: string
+        - in: query
+          name: custom_clustering
+          required: false
+          description: |
+            **This feature is only available for Knowledge Maps! It is a prototype and some queries may not work as expected.**
+
+            Specify an annotation you would like to use for the clustering of the documents and the creation of area labels. 
+
+            This parameter allows you to determine which metadata will be used to group the documents together, 
+            and to label each area in the knowledge map. Per default knowledge maps are clustered by co-word 
+            occurrence in the metadata and subject keywords are used to create the area titles 
+            ([see our FAQs](https://openknowledgemaps.org/faq) for more information). 
+            You can override this default by doing the following:
+
+            **Clustering by annotations in the subject field**
+
+            You can choose a custom annotation in the `dcsubject` field, e.g. `theme:invasion impact`. 
+            The annotation will be used for the clustering of the documents and the creation of area labels. 
+
+            Annotations **must** be added to the metadata in the `dcsubject` field, with the following 
+            format `prefix:annotation text`, and the custom_clustering parameter must match the `prefix`. 
+            If you add more than one annotation to a single document, 
+            e.g. `theme:invasion impact` and `theme:invasion success`. Only the first entry will be considered 
+            during data processing and is used to assign the document to a cluster on the map. 
+
+            **Please note** the custom clustering only works if the annotations have been successfully 
+            indexed by BASE. Right now we recommend keeping the number of distinct annotations 
+            within the limit of 15. You can exceed this number, however the knowledge maps will 
+            likely contain more than 15 clusters and as a result become less readable. 
+
+          schema:
+            type: string
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
