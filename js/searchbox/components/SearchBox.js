@@ -291,12 +291,7 @@ class SearchBox extends React.Component {
             entries.push({name: "sorting", value: this.state.settings.q_advanced});
         } else {
             entries.push({name: "sorting", value: this.state.formData.q_advanced});
-    
-            if (excludeDateFilters) {
-                console.log("excludeDateFilters", excludeDateFilters)
-            }
         }
-
         // if excludeDateFilters is true, remove from and to from hiddenEntries
         if (excludeDateFilters) {
             const today = new Date().toISOString().slice(0, 10);
