@@ -422,7 +422,7 @@ class SearchBox extends React.Component {
                           values: this.state.formData.lang_id,
                           setValues: this.updateLang.bind(this),
                       }),
-                      (showTimeRange && !excludeDateFilters) &&
+                      ((showTimeRange && !excludeDateFilters) || (!showTimeRange && !excludeDateFilters)) &&
                       e("div", null,
                           e("div", {
                               className: 'filter-label',

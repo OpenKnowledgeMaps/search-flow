@@ -160,10 +160,10 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.q_advanced = outerSettings.q_advanced;
   }
 
-  // //exclude_date_filters new param to exclude date filters from search box and dates from request
-  // if (typeof outerSettings.exclude_date_filters === "string") {
-  //   settings.excludeDateFilters = outerSettings.exclude_date_filters;
-  // }
+  //exclude_date_filters new param to exclude date filters from search box and dates from request
+  if (typeof outerSettings.exclude_date_filters === "string") {
+    settings.excludeDateFilters = outerSettings.exclude_date_filters;
+  }
 
   return settings;
 };
