@@ -181,6 +181,17 @@ paths:
           schema:
             type: boolean
         - in: query
+          name: exclude_date_filters
+          required: false
+          description: |
+            Specify if a search via the search box is allowed to include documents without publication date.
+            If set to true, the to and from date filters will not be applied, and the knowledge map can include documents with and without publication date.
+            Setting the parameter to true overrides the setting for show_time_range, and the time range options will not be shown.
+
+            If the parameter is not provided, it defaults to false.
+          schema:
+            type: boolean
+        - in: query
           name: coll
           required: false
           description: |
@@ -257,15 +268,6 @@ paths:
             The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
           schema:
             type: boolean
-        - in: query
-          name: exclude_date_filters
-          required: false
-          description: |
-            'Temporary description: This parameter is a prototype!'
-            Parameter that will trigger a search for documents without a publication date. Default is `false`.
-          schema:
-            type: boolean
-            example: false
       responses:
         "200": # status code
           description: Returns the search box page.
