@@ -159,6 +159,16 @@ paths:
             type: string
             format: date
         - in: query
+          name: exclude_date_filters
+          required: false
+          description: |
+            Specify if the knowledge map is allowed to include documents without publication date.
+            If set to `true`, the `to` and `from` date filters will not be applied, and the knowledge map can include documents with and without publication date.
+
+            If the parameter is not provided, it defaults to false.
+          schema:
+            type: boolean
+        - in: query
           name: coll
           required: false
           description: |
@@ -185,15 +195,6 @@ paths:
           schema:
             type: integer
             example: 300
-        - in: query
-          name: exclude_date_filters
-          required: false
-          description: |
-            'Temporary description: This parameter is a prototype!'
-            Parameter that will trigger a search for documents without a publication date. Default is `false`.
-          schema:
-            type: boolean
-            example: false
         - in: query
           name: custom_title
           required: false
