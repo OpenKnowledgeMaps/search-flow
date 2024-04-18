@@ -292,12 +292,8 @@ class SearchBox extends React.Component {
         } else {
             entries.push({name: "q_advanced", value: this.state.formData.q_advanced});
         }
-        // if excludeDateFilters is true, remove from and to from hiddenEntries
         if (excludeDateFilters) {
-            const today = new Date().toISOString().slice(0, 10);
-            entries = entries.filter(entry => entry.name !== 'from' && entry.name !== 'to');
             entries.push({name: "exclude_date_filters", value: excludeDateFilters})
-            entries.push({name: 'today', value: today});
         }
 
     return entries;
@@ -422,7 +418,7 @@ class SearchBox extends React.Component {
                           values: this.state.formData.lang_id,
                           setValues: this.updateLang.bind(this),
                       }),
-                      ((showTimeRange && !excludeDateFilters)) &&
+                      ((showTimeRange && !excludeDateFilters && !(this.state.formData.visType === "timeline"))) &&
                       e("div", null,
                           e("div", {
                               className: 'filter-label',
