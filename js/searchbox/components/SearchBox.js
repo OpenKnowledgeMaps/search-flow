@@ -364,6 +364,20 @@ class SearchBox extends React.Component {
               }
           })
       }
+      // check if vis_type is timeline, if yes ignore exclude_date_filters parameter
+      if (this.state.formData.visType === 'timeline') {
+            hiddenEntries.forEach((entry, index) => {
+                if (entry.name === 'exclude_date_filters') {
+                    // remove exclude_date_filters from hiddenEntries
+                    hiddenEntries.splice(index, 1)
+                }
+            });
+            // re-add from and to dates from default
+            (this.state.formData.service === 'pubmed')
+            ? hiddenEntries.push({name: "from", value: this.state.formData.timespan.fromPubmed})
+            : hiddenEntries.push({name: "from", value: this.state.formData.timespan.from});
+            hiddenEntries.push({name: "to", value: this.state.formData.timespan.to});
+      }
 
       return e(
           "div",
@@ -418,7 +432,7 @@ class SearchBox extends React.Component {
                           values: this.state.formData.lang_id,
                           setValues: this.updateLang.bind(this),
                       }),
-                      ((showTimeRange && !excludeDateFilters && !(this.state.formData.visType === "timeline"))) &&
+                      ((showTimeRange && !excludeDateFilters)) &&
                       e("div", null,
                           e("div", {
                               className: 'filter-label',
