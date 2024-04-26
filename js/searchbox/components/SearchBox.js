@@ -322,10 +322,9 @@ class SearchBox extends React.Component {
         showVisType,
         showMinDescsize,
         showQadvanced,
-        showCollection,
+        showCollection
     } = this.state.settings;
-      const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDescsize
-          || showQadvanced || showCollection;
+      const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDescsize || showQadvanced || showCollection;
 
       const actionUrl = this.getFormActionUrl();
       const hiddenEntries = this.getHiddenEntries();
