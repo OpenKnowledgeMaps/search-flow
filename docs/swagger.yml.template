@@ -159,16 +159,6 @@ paths:
             type: string
             format: date
         - in: query
-          name: exclude_date_filters
-          required: false
-          description: |
-            Specify if the knowledge map is allowed to include documents without publication date.
-            If set to `true`, the `to` and `from` date filters will not be applied, and the knowledge map can include documents with and without publication date.
-
-            If the parameter is not provided, it defaults to false.
-          schema:
-            type: boolean
-        - in: query
           name: coll
           required: false
           description: |
@@ -246,6 +236,26 @@ paths:
 
           schema:
             type: string
+        - in: query
+          name: exclude_date_filters
+          required: false
+          description: |
+            **This option is only recommended for repositories that predominantly contain documents without a publication date. 
+            Using this option has a significant impact on some existing features. 
+            This parameter is only available for the visualisation type Knowledge Map. 
+            It will be ignored in combination with the visualisation type Streamgraph. 
+            Streamgraphs can only be created for documents that have a publication date.**
+
+            Specify whether knowledge maps can contain documents **without** a publication date.
+            Selecting `true` means that the `to` and `from` date filters are **not** applied, 
+            and knowledge maps may also include documents without a publication date.
+
+            **Please note:** The sorting option `most-recent` might not work as expected therefore **we strongly recommend** selecting most-relevant under sorting.
+            In addition some functionalities on the knowledge map may not work as expected (e.g. sorting documents by year). 
+
+            If the parameter is not provided, it defaults to _false_.
+          schema:
+            type: boolean
       responses:
         '200':    # status code
           description: Redirecting to the waiting page

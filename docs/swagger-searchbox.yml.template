@@ -181,18 +181,6 @@ paths:
           schema:
             type: boolean
         - in: query
-          name: exclude_date_filters
-          required: false
-          description: |
-            Specify if a search via the search box is allowed to include documents without publication date.
-            If set to `true`, the `to` and `from` date filters will not be applied, and the knowledge map can include documents with and without publication date.
-            
-            **Please note:** Setting the parameter to `true` overrides the setting for `show_time_range`, and the time range options will not be shown.
-
-            If the parameter is not provided, it defaults to false.
-          schema:
-            type: boolean
-        - in: query
           name: coll
           required: false
           description: |
