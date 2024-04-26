@@ -2,10 +2,10 @@ openapi: 3.0.0
 info:
   title: OKMaps Parameterized Search and Visualisation Service
   description: |
-    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE or PubMed data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
+    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE, PubMed or OpenAIRE data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
 
     However, the service is not returning a raw data representation of a visualisation, but rather a web page that triggers the creation of the visualisation. Therefore, the service entry point does not conform to the strict definition of a HTTP-GET interface.
-    
+
     A link representing a request to the entry point can be created manually by the Custom Services integrator, or automatically in the integration according to the service specifications outlined in the documentation (see below). When the user clicks on the link, a new tab is opened showing a waiting page while the visual interface is being computed. Once the computation has successfully finished, the user is forwarded to the visual interface in the same tab. Visualisation data is persisted on our servers.
   version: dev
 
@@ -19,7 +19,7 @@ paths:
       summary: |
         Configure searches and create visualisations (Data source: BASE)
       description: |
-        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on BASE data. 
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on BASE data.
       parameters:
         - in: query
           name: repo
@@ -38,12 +38,12 @@ paths:
           name: vis_type
           required: false
           description: |
-            Choose a visualisation type. There are two types available: 1) Knowledge Map = `overview` and 2) Streamgraph = `timeline`. 
-            
-            A Knowledge Map presents you with a topical overview for your search query based on the 100 most relevant documents matching your query. 
-            
+            Choose a visualisation type. There are two types available: 1) Knowledge Map = `overview` and 2) Streamgraph = `timeline`.
+
+            A Knowledge Map presents you with a topical overview for your search query based on the 100 most relevant documents matching your query.
+
             A Streamgraph presents you with an overview of the main keywords over time based on up to 1000 documents matching your query. Please note the streamgraph is a prototype and may be rough around the edges.
-            
+
             If the parameter is not provided, it defaults to `overview` (=Knowledge Map).
           schema:
             type: string
@@ -55,7 +55,7 @@ paths:
             Enter your search query, e.g. `digital education`.
 
             We apply the verbatim search mode to improve visualisation quality. It is possible to use advanced query syntax as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.5 Query Syntax. Boolean operators such as `open AND science`, exclusion such as `science -research` and phrase search such as `"digital education"` are possible.
-            
+
             This parameter can be used on its own or in conjunction with q_advanced. If you decide to leave it empty please make sure you fill in `q_advanced` instead otherwise a working link can’t be generated. **Warning: Do not** use an advanced query designed for the _q_advanced_ field in the _q_ field, this can lead to an error during the request.
 
           schema:
@@ -67,8 +67,8 @@ paths:
           required: false
           description: |
             **This feature is a prototype! Some queries may not work as expected.**
-            
-            Enter your advanced search query, e.g. `dctitle:"open science"`. 
+
+            Enter your advanced search query, e.g. `dctitle:"open science"`.
 
             This parameter can either be used instead of `q` or in conjunction with `q`. If q_advanced is used in conjunction with q, e.g. `q=ethics` and `q_advanced=dctitle:"open science"`, the resulting knowledge map will contain documents that have “open science” in their title and the term ethics anywhere in their metadata.
 
@@ -90,8 +90,8 @@ paths:
         - in: query
           name: sorting
           required: false
-          description: | 
-            Choose a sorting value for your search. 
+          description: |
+            Choose a sorting value for your search.
 
             Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
 
@@ -162,12 +162,12 @@ paths:
           name: coll
           required: false
           description: |
-            Specify a collection available within BASE that your search will be restricted to. 
+            Specify a collection available within BASE that your search will be restricted to.
 
             This parameter denotes a collection of content providers belonging to a geographic region, e.g. `at` or `de`. For countries, please use a lower case two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2), for example `at` or `de`. For continents, please use a lower case three letter code according to the BASE Interface guide, e.g. `caf` for Africa, `ceu` for Europe or `cna` for North America.
 
             If the parameter is not provided, it defaults to _worldwide_.
-            
+
             **Warning:** The coll parameter can **not** be used in conjunction with the _repo_ parameter.  More information on available collections can be found in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1. Collection-related queries.
           schema:
             type: string
@@ -193,11 +193,11 @@ paths:
 
             **Example**
 
-            Before `cancer or (cancer and immunotherapy) or (cancer and cell biology) or cancer care`:
+            Before `education and dctitle:”open science”`:
             <br>
             <img src="../custom_title_before.png" />
 
-            After, with custom_title `cross-cutting research on cancer`:
+            After, with custom_title `education in open science`:
             <br>
             <img src="../custom_title_after.png" />
 
@@ -236,6 +236,26 @@ paths:
 
           schema:
             type: string
+        - in: query
+          name: exclude_date_filters
+          required: false
+          description: |
+            **This option is only recommended for repositories that predominantly contain documents without a publication date. 
+            Using this option has a significant impact on some existing features. 
+            This parameter is only available for the visualisation type Knowledge Map. 
+            It will be ignored in combination with the visualisation type Streamgraph. 
+            Streamgraphs can only be created for documents that have a publication date.**
+
+            Specify whether knowledge maps can contain documents **without** a publication date.
+            Selecting `true` means that the `to` and `from` date filters are **not** applied, 
+            and knowledge maps may also include documents without a publication date.
+
+            **Please note:** The sorting option `most-recent` might not work as expected therefore **we strongly recommend** selecting most-relevant under sorting.
+            In addition some functionalities on the knowledge map may not work as expected (e.g. sorting documents by year). 
+
+            If the parameter is not provided, it defaults to _false_.
+          schema:
+            type: boolean
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
@@ -245,17 +265,17 @@ paths:
       summary: |
         Configure searches and create visualisations (Data source: PubMed)
       description: |
-        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on PubMed data. 
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on PubMed data.
       parameters:
         - in: query
           name: q
           required: true
           description: |
             Enter your search query, e.g. `“climate change”`.
-            
+
             For PubMed, the query is relayed as-is, which means advanced PubMed syntax can be applied.
-            
-            If the parameter is empty the link can’t be generated. 
+
+            If the parameter is empty the link can’t be generated.
           schema:
             type : string
           example: climate change
@@ -279,8 +299,8 @@ paths:
         - in: query
           name: sorting
           required: false
-          description: | 
-            Choose a sorting value for your search. 
+          description: |
+            Choose a sorting value for your search.
 
             Sorting here means the way the documents are prioritised by the aggregator before the visualisation is created.
 
@@ -297,8 +317,8 @@ paths:
           name: article_types[]
           required: false
           description: |
-            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). 
-            To add an additional article type, click on "Add item" below the input field. 
+            Specify the article type(s) that your search will be restricted to, e.g. `journal article` or `clinical trial`. More information on available article types can be found in the [PubMed documentation](https://pubmed.ncbi.nlm.nih.gov/help/#publication-types).
+            To add an additional article type, click on "Add item" below the input field.
             If the parameter is not specified, it defaults to all article types.
           schema:
             type: array
@@ -314,7 +334,7 @@ paths:
   /search?type=get&service=openaire:
     get:
       summary: |
-        Configure searches and create visualisations for research projects (Data source: OpenAIRE) 
+        Configure searches and create visualisations for research projects (Data source: OpenAIRE)
       description: |
         This is an entry point into the automatic pipeline that leads users directly to a visualisation based on OpenAIRE data.
       parameters:
@@ -364,7 +384,7 @@ paths:
             |`TUBITAK`| Türkiye Bilimsel ve Teknolojik Araştırma Kurumu |
             |`UKRI`| UK Research and Innovation |
             |`WT`| Wellcome Trust |
-          
+
             **Please note** that this list may not be complete. More information on funder IDs can be found in the [OpenAIRE API documentation](https://graph.openaire.eu/develop/api.html).
 
           schema:
@@ -372,4 +392,3 @@ paths:
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
-
