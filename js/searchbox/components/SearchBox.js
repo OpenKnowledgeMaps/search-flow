@@ -50,7 +50,6 @@ class SearchBox extends React.Component {
         minDescriptionSize: settings.minDescriptionSize,
         q_advanced: settings.q_advanced,
         collection: settings.collection,
-          excludeDateFilters: settings.excludeDateFilters,
       },
       settings,
       showOptionsLabel: "Show advanced search options",
@@ -190,7 +189,6 @@ class SearchBox extends React.Component {
             showMinDescsize,
             showQadvanced,
             showCollection,
-            excludeDateFilters,
         } = this.state.settings;
 
         this.state.showOptions
@@ -292,9 +290,6 @@ class SearchBox extends React.Component {
         } else {
             entries.push({name: "q_advanced", value: this.state.formData.q_advanced});
         }
-        if (excludeDateFilters) {
-            entries.push({name: "exclude_date_filters", value: excludeDateFilters})
-        }
 
     return entries;
   }
@@ -328,10 +323,9 @@ class SearchBox extends React.Component {
         showMinDescsize,
         showQadvanced,
         showCollection,
-        excludeDateFilters,
     } = this.state.settings;
       const hasOptions = showTimeRange || showSorting || showDocTypes || showLang || showVisType || showMinDescsize
-          || showQadvanced || showCollection || excludeDateFilters;
+          || showQadvanced || showCollection;
 
       const actionUrl = this.getFormActionUrl();
       const hiddenEntries = this.getHiddenEntries();
@@ -363,20 +357,6 @@ class SearchBox extends React.Component {
                   hiddenEntries.splice(index, 1)
               }
           })
-      }
-      // check if vis_type is timeline, if yes ignore exclude_date_filters parameter
-      if (this.state.formData.visType === 'timeline') {
-            hiddenEntries.forEach((entry, index) => {
-                if (entry.name === 'exclude_date_filters') {
-                    // remove exclude_date_filters from hiddenEntries
-                    hiddenEntries.splice(index, 1)
-                }
-            });
-            // re-add from and to dates from default
-            (this.state.formData.service === 'pubmed')
-            ? hiddenEntries.push({name: "from", value: this.state.formData.timespan.fromPubmed})
-            : hiddenEntries.push({name: "from", value: this.state.formData.timespan.from});
-            hiddenEntries.push({name: "to", value: this.state.formData.timespan.to});
       }
 
       return e(
@@ -432,7 +412,7 @@ class SearchBox extends React.Component {
                           values: this.state.formData.lang_id,
                           setValues: this.updateLang.bind(this),
                       }),
-                      ((showTimeRange && !excludeDateFilters)) &&
+                      showTimeRange &&
                       e("div", null,
                           e("div", {
                               className: 'filter-label',
