@@ -177,7 +177,7 @@ class SearchBox extends React.Component {
 
 
     getHiddenEntries() {
-        const entries = [];
+        let entries = [];
 
         const {
             showTimeRange,

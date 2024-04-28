@@ -35,7 +35,6 @@ const InlineDatePickerTo = ({service, name, value, setValueTo}) => {
                     value: toDate,
                     "aria-label": name.toUpperCase(),
                     min: (service === "pubmed" ? PUBMED_DEFAULT_FROM : DEFAULT_FROM),
-                    max: DEFAULT_TO,
                     onChange: handleToChange,
                 },
             ),
