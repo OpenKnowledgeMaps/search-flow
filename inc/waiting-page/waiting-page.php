@@ -156,10 +156,16 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
 }
 
 $request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-if ($service != "openaire") {
-    $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
-} else {
-    $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+switch ($service) {
+    case "openaire":
+        $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        break;
+    case "orcid":
+        $get_query = getParam("orcid", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        break;
+    default:
+        $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        break;
 }
 $get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
@@ -353,43 +359,50 @@ if($has_sufficient_data) {
             script = "searchOpenAire.php";
             timeout = 240000;
         }
+        if (service === "orcid") {
+            script = "searchORCID.php";
+            timeout = 120000;
+        }
         });
 
-            let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
-            if (post_data["q_advanced"] === false) {
-                post_data["q_advanced"] = "undefined";
+        let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
+        if (post_data["q_advanced"] === false) {
+            post_data["q_advanced"] = "undefined";
+        }
+        let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
+        let terms = [search_term, search_term_advanced].filter(element => {
+            return element !== '';
+        });
+        let search_term_short = getSearchTermShort(terms.join(" and "));
+
+        // take search_term(s) and write them to the element with id #search_term
+        writeSearchTerm('search_term', search_term_short, terms.join(" "));
+        if (service === "openaire") {
+            $("#waiting_title_query_prefix").text("project ");
             }
-            let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
-            let terms = [search_term, search_term_advanced].filter(element => {
-                return element !== '';
-            });
-            let search_term_short = getSearchTermShort(terms.join(" and "));
+        if (service === "orcid") {
+            $("#waiting_title_query_prefix").text("ORCiD ");
+            }
 
-            // take search_term(s) and write them to the element with id #search_term
-            writeSearchTerm('search_term', search_term_short, terms.join(" "));
-            if (service === "openaire") {
-                $("#waiting_title_query_prefix").text("project ");
-                }
+        executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
 
-            executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
+        var check_fallback_interval = null;
+        var check_fallback_timeout = 
+                        window.setTimeout(function () {
+                            check_fallback_interval = window.setInterval(fallbackCheck, 4000
+                            , "<?php echo $headstart_path ?>server/services/getLastVersion.php?service=" + service + "&vis_id="
+                            , unique_id
+                            , vis_page
+                            , service
+                            , post_data);
+                        }, 10000);
+                        
+        const tick_interval = 1;
+        const tick_increment = 2;
 
-            var check_fallback_interval = null;
-            var check_fallback_timeout = 
-                            window.setTimeout(function () {
-                                check_fallback_interval = window.setInterval(fallbackCheck, 4000
-                                , "<?php echo $headstart_path ?>server/services/getLastVersion.php?service=" + service + "&vis_id="
-                                , unique_id
-                                , vis_page
-                                , service
-                                , post_data);
-                            }, 10000);
-                            
-            const tick_interval = 1;
-            const tick_increment = 2;
+        $("#progressbar").progressbar();
+        $("#progressbar").progressbar("value", 2);
 
-            $("#progressbar").progressbar();
-            $("#progressbar").progressbar("value", 2);
-
-            var progressbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
+        var progressbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
            
         </script>
