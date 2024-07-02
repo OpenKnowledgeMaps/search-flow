@@ -381,7 +381,7 @@ if($has_sufficient_data) {
             $("#waiting_title_query_prefix").text("project ");
             }
         if (service === "orcid") {
-            $("#waiting_title_query_prefix").text("ORCiD ");
+            $("#waiting_title_query_prefix").text("researcher ");
             }
 
         executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
