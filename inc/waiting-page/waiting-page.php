@@ -361,7 +361,7 @@ if($has_sufficient_data) {
         }
         if (service === "orcid") {
             script = "searchORCID.php";
-            timeout = 120000;
+            timeout = 300000;
         }
         });
 

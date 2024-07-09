@@ -196,6 +196,7 @@ if(isset($search_flow_config_local)) {
                 , "project id or funder id wrong": "project_id_error"
                 , "not enough results for project": "project_no_results_error"
                 , "invalid orcid id": "invalid_orcid_id_error"
+                , "not enough results for orcid": "orcid_no_results_error"
             }
             //Reason to always add to the list of error reasons
             , error_reason_always_add: [
@@ -355,8 +356,18 @@ if(isset($search_flow_config_local)) {
 
             },
             invalid_orcid_id_error: {
-                title: "Sorry! We could not create a knowledge map."
-                , reason: 'There are no results for the given ORCiD ID.'
+                title: "invalid ORCID error - Sorry! We could not create a knowledge map."
+                , reason: 'We could not create a knowledge map for the given ORCiD.'
+                , remedy: 'Please try again with another ORCiD ID.'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , resolution_type: "link"
+                , resolution_label: "Refresh this page"
+                , resolution_link: "javascript:location.reload()"
+
+            },
+            orcid_no_results_error: {
+                title: "ORCID no results error - Sorry! We could not create a knowledge map."
+                , reason: 'There are no results for the given ORCiD.'
                 , remedy: 'Please try again with another ORCiD ID.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
