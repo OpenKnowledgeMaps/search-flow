@@ -18,6 +18,7 @@ const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS
 export const DEFAULT_SETTINGS = {
   // features on/off
   showOptions: false,
+  showOptionsButton: true,
   showTimeRange: true,
   showDocTypes: true,
   showSorting: true,
@@ -50,6 +51,7 @@ export const DEFAULT_SETTINGS = {
   abstractExpansion: "",
   keywordsExpansion: "",
   q_advanced: "",
+  orcid: "",
   // Data Source (new param)
   defaultService: SERVICES_OPTIONS[0].id,  // by default chosen service is 'base'
 };
@@ -66,6 +68,7 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_min_descsize",
   "show_q_advanced",
   "show_coll",
+  "show_options_button"
 ]);
 
 /**
@@ -183,6 +186,9 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("show_service", TYPE_BOOL)) {
     settings.showService = queryParams.get("show_service") === "true";
+  }
+  if (queryParams.hasValid("show_options_button", TYPE_BOOL)) {
+    settings.showOptionsButton = queryParams.get("show_options_button") === "true";
   }
   if (queryParams.hasValid("show_vis_type", TYPE_BOOL)) {
     settings.showVisType = queryParams.get("show_vis_type") === "true";
@@ -303,6 +309,9 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("q_advanced", TYPE_SINGLE)) {
     settings.q_advanced = queryParams.get("q_advanced");
+  }
+  if (queryParams.hasValid("orcid", TYPE_SINGLE)) {
+    settings.orcid = queryParams.get("orcid");
   }
 
   return settings;

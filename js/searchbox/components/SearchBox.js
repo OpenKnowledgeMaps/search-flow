@@ -7,6 +7,7 @@ import Options from "./Options.js";
 import OptionsToggle from "./OptionsToggle.js";
 import SearchButton from "./SearchButton.js";
 import SearchField from "./SearchField.js";
+import SearchFieldORCID from "./SearchFieldORCID.js";
 import SortingPicker from "./SortingPicker.js";
 
 import {TRANSFERRED_PARAMS, getSettings} from "../settings.js";
@@ -89,6 +90,16 @@ class SearchBox extends React.Component {
             formData: {
                 ...this.state.formData,
                 q_advanced: newValue,
+            },
+        });
+    }
+
+    updateQueryORCID(newValue) {
+        this.setState({
+            ...this.state,
+            formData: {
+                ...this.state.formData,
+                orcid: newValue,
             },
         });
     }
@@ -185,6 +196,7 @@ class SearchBox extends React.Component {
             showDocTypes,
             showLang,
             showService,
+            showOptionsButton,
             showVisType,
             showMinDescsize,
             showQadvanced,
@@ -291,6 +303,10 @@ class SearchBox extends React.Component {
             entries.push({name: "q_advanced", value: this.state.formData.q_advanced});
         }
 
+        if (this.state.formData.service === 'orcid') {
+            entries.push({name: "orcid", value: this.state.settings.orcid});
+        }
+
     return entries;
   }
 
@@ -319,6 +335,7 @@ class SearchBox extends React.Component {
         showDocTypes,
         showLang,
         showService,
+        showOptionsButton,
         showVisType,
         showMinDescsize,
         showQadvanced,
@@ -377,7 +394,7 @@ class SearchBox extends React.Component {
                   value: this.state.formData.service,
                   setValue: this.updateService.bind(this),
               }),
-              hasOptions &&
+              hasOptions && showOptionsButton &&
               e(OptionsToggle, {
                   label: this.state.showOptionsLabel,
                   icon: this.state.showOptionsIcon,
@@ -455,10 +472,15 @@ class SearchBox extends React.Component {
                       })
                   ),
               ),
-              e(SearchField, {
+              this.state.formData.service != "orcid" && e(SearchField, {
                   value: this.state.formData.query,
                   setValue: this.updateQuery.bind(this),
                   required: (!(this.state.formData.service === "base" && showQadvanced && this.state.formData.q_advanced.length > 0)),
+              }),
+              this.state.formData.service === "orcid" && e(SearchFieldORCID, {
+                  value: this.state.formData.orcid,
+                  setValue: this.updateQueryORCID.bind(this),
+                  required: true,
               }),
               e(Hiddens, {entries: hiddenEntries}),
               e(SearchButton)
