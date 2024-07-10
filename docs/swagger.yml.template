@@ -373,3 +373,27 @@ paths:
         '200':    # status code
           description: Redirecting to the waiting page
 
+  /search?type=get&service=orcid:
+    get:
+      summary: |
+        Configure searches and create visualisations (Data source: ORCiD)
+      description: |
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on ORCiD data. 
+      parameters:
+        - in: query
+          name: orcid
+          required: true
+          description: |
+            Create a visualization of an ORCID profile. Please provide the ORCID iD of the researcher you want to visualize.
+          schema:
+            type: string
+        - in: query
+          name: limit
+          required: true
+          description: |
+            Set a maximum amount of publications to be visualized. Please provide a number between 1 and NNN.
+          schema:
+            type: integer
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page

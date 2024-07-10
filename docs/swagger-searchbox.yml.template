@@ -619,6 +619,15 @@ paths:
         "200": # status code
           description: Returns the search box page.
 
+  /embedded_searchbox?service=orcid&show_service=false:
+    get:
+      summary: Configure your Custom Services Search Box for the data source ORCiD.
+      description: |
+        This endpoint creates a search box for the ORCiD integration. A variety of ORCiD specific search options are available. 
 
-components:
-  parameters:
+        **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
+
+      parameters:
+      responses:
+        "200": # status code
+          description: Returns the search box page.
