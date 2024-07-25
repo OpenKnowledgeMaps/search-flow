@@ -307,7 +307,7 @@ if(isset($search_flow_config_local)) {
             },
             base_xml_error: {
                 title: "The API of our data source provider BASE is currently experiencing down time."
-                , reason: "Unfortunately this means, at the moment we cannot create <span class=\"vis_type_name\">knowledge map</span>s for this data source."
+                , reason: "Unfortunately this means, at the moment we cannot create <span class=\"vis_type_name\">knowledge map</span>s for BASE."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
@@ -355,20 +355,20 @@ if(isset($search_flow_config_local)) {
                 , resolution_link: "javascript:location.reload()"
 
             },
-            invalid_orcid_id_error: {
-                title: "Invalid ORCID error - Sorry! We could not create a knowledge map."
-                , reason: 'We could not create a knowledge map for the given ORCiD.'
-                , remedy: 'Please try again with another ORCiD ID.'
+            orcid_no_results_error: {
+                title: 'Sorry! We could not create a <span class="vis_type_name">knowledge map</span>.'
+                , reason: 'There are no documents available for ???.'
+                , remedy: 'Have another try!'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
                 , resolution_link: "javascript:location.reload()"
 
             },
-            orcid_no_results_error: {
-                title: "ORCID no results error - Sorry! We could not create a knowledge map."
-                , reason: 'There are no results for the given ORCiD.'
-                , remedy: 'Please try again with another ORCiD ID.'
+            invalid_orcid_id_error: {
+                title: 'Sorry! We could not create a <span class="vis_type_name">knowledge map</span>.'
+                , reason: 'Most likely you have entered the wrong ORCiD. Please verify the ORCiD and try again.'
+                , remedy: 'Have another try!'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
