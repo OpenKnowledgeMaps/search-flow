@@ -33,6 +33,7 @@ export const DEFAULT_SETTINGS = {
   defaultQuery: "",
   defaultDocTypes: ["121"], // deafult value for service='base'
   defaultArticleTypes: pubMedDefaultId, // default value for service='pubmed'
+  defaultORCID: "",
 
   defaultSorting: "most-relevant",
   // defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
