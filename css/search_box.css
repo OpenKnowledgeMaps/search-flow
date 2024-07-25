@@ -248,6 +248,12 @@ body.iframed {
     cursor: pointer;
 }
 
+.submit-btn:disabled {
+    background-color: #cacfd3;
+    color: white;
+    border-color: #cacfd3;
+}
+
 .options {
     margin-bottom: 20px;
     display: flex;

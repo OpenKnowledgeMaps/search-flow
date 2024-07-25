@@ -167,6 +167,7 @@ switch ($service) {
         $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
         break;
 }
+
 $get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 $unique_id = "";
 $dirty_query = "";
@@ -236,13 +237,11 @@ if($has_sufficient_data) {
 
 <script src="<?php echo $searchflow_path ?>js/search.js?v=2023-04-24"></script>
 <script>
-<?php
-    if(isset($post_data)) {
-        echo "var post_data = " . $post_data . ";\n";
-    }
-
-?>
+    <?php if (isset($post_data)): ?>
+        var post_data = <?php echo $post_data; ?>;
+    <?php endif; ?>
 </script>
+
 
 <div id="progress" class="waiting-page center-div">
     <!-- screen while knowledge map is loading -->
@@ -262,23 +261,24 @@ if($has_sufficient_data) {
         <p id="error-reason"></p>
         <p id="error-remedy"></p>
 
-	<?php if ($service == "openaire") {
-        } else { ?>
-        <p id="error-more-info"></p>
-	<?php } ?>
+
+        <?php if ($service != "openaire") { ?>
+            <p id="error-more-info"></p>
+        <?php } ?>
 
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php 
                 if ($service == "openaire") {
                 } else { ?>
                     <h3 id="try-again-title" class="waiting-title"></h3>
-            <?php    } ?>
+            <?php } ?>
             <?php
                 if ($service == "openaire") {
                 } else {
                     $default_lib = $service;
                     $search_query = htmlspecialchars(stripslashes($dirty_query));
-                    $open_options = true;
+                    // TODO: right now orcid doens't support options
+                    $open_options = ($service !== 'orcid');
                     if ($is_embed && substr($service, 0, 6) !== "triple") {
                         include(dirname(__FILE__). '/../search-form/new-search-form.php');
                     } else {
@@ -307,102 +307,110 @@ if($has_sufficient_data) {
 </div>
 
  <script>
-            $("#waiting-title").html(search_flow_config.waiting_page_texts.waiting_title);
-            $("#status").html(search_flow_config.waiting_page_texts.status_waiting);
-            $("#try-again-title").html(search_flow_config.waiting_page_texts.try_again_title);
-            
-            const params = new URLSearchParams(location.search);
-            var service = params.get("service");
-            var unique_id = "<?php echo (isset($unique_id)?($unique_id):("")) ?>";
-            
-            //If the page is called without any data or the ID/service parameter is missing, redirect to index page            
-            if (typeof post_data === "undefined" || unique_id === "" || service === null) {
-                errorOccurred();
+    const params = new URLSearchParams(location.search);
+    var service = params.get("service");
+    var unique_id = "<?php echo $unique_id ?? '' ?>";
 
-                const is_triple = typeof service === "string" && service.startsWith("triple");
-                const embed_mode = <?php echo $is_embed ? "true" : "false"; ?> && !is_triple;
-                let form_address = "<?php echo $search_form_page; ?>";
-                if (embed_mode) {
-                    // best effort: pass all query params to the search box component
-                    form_address = `embedded_searchbox${window.location.search}`;
-                }
+    if (service === 'orcid') {
+        $("#waiting-title").html(
+            `Your knowledge map for <span class="bold">researcher ${post_data.orcid}</span> is being created!`
+        );
+    } else {
+        $("#waiting-title").html(search_flow_config.waiting_page_texts.waiting_title);
+    }
 
-                redirectToIndex(form_address, embed_mode, service);
-                throw new Error("No post data or ID missing");
-            }
-            
-            params.set('id', unique_id);
-            window.history.replaceState({}, '', `${location.pathname}?${params}`);
+    $("#status").html(search_flow_config.waiting_page_texts.status_waiting);
+    $("#try-again-title").html(search_flow_config.waiting_page_texts.try_again_title);
+    
+    //If the page is called without any data or the ID/service parameter is missing, redirect to index page            
+    if (typeof post_data === "undefined" || unique_id === "" || service === null) {
+        errorOccurred();
 
-            var script = "";
-            var vis_page = "<?php echo $vis_page ?>";
-            var milliseconds_progressbar = 800;
-            var max_length_search_term_short = 115;
-            var timeout = 120000;
-
-            var search_aborted = false;
-            var error_occurred = false;
-            
-            var not_enough_results_links = search_flow_config.waiting_page_options.add_not_enough_results_links;
-            
-	    search_flow_config.search_options.options.find(function(item) {
-                if (item.id === service) {
-                    script = item.script;
-                    milliseconds_progressbar = item.milliseconds_progressbar;
-                    max_length_search_term_short = item.max_length_search_term_short;
-                    timeout = item.timeout;
-                    $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
-		}
-        // this manual injection is necessary at this point because we can't add it in search_options.php as a 
-        // normal service, because we don't want it to show up in the search box for now.
-        if (service === "openaire") {
-            script = "searchOpenAire.php";
-            timeout = 240000;
+        const is_triple = typeof service === "string" && service.startsWith("triple");
+        const embed_mode = <?php echo $is_embed ? "true" : "false"; ?> && !is_triple;
+        let form_address = "<?php echo $search_form_page; ?>";
+        if (embed_mode) {
+            // best effort: pass all query params to the search box component
+            form_address = `embedded_searchbox${window.location.search}`;
         }
-        if (service === "orcid") {
-            script = "searchORCID.php";
-            timeout = 300000;
+
+        redirectToIndex(form_address, embed_mode, service);
+        throw new Error("No post data or ID missing");
+    }
+    
+    params.set('id', unique_id);
+    window.history.replaceState({}, '', `${location.pathname}?${params}`);
+
+    var script = "";
+    var vis_page = "<?php echo $vis_page ?>";
+    var milliseconds_progressbar = 800;
+    var max_length_search_term_short = 115;
+    var timeout = 120000;
+
+    var search_aborted = false;
+    var error_occurred = false;
+    
+    var not_enough_results_links = search_flow_config.waiting_page_options.add_not_enough_results_links;
+            
+    search_flow_config.search_options.options.find(function(item) {
+            if (item.id === service) {
+                script = item.script;
+                milliseconds_progressbar = item.milliseconds_progressbar;
+                max_length_search_term_short = item.max_length_search_term_short;
+                timeout = item.timeout;
+                $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
+    }
+    // this manual injection is necessary at this point because we can't add it in search_options.php as a 
+    // normal service, because we don't want it to show up in the search box for now.
+    if (service === "openaire") {
+        script = "searchOpenAire.php";
+        timeout = 240000;
+    }
+    if (service === "orcid") {
+        script = "searchORCID.php";
+        timeout = 300000;
+    }
+    });
+
+    let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
+    if (post_data["q_advanced"] === false) {
+        post_data["q_advanced"] = "undefined";
+    }
+    let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
+    let terms = [search_term, search_term_advanced].filter(element => {
+        return element !== '';
+    });
+    let search_term_short = getSearchTermShort(terms.join(" and "));
+
+    // take search_term(s) and write them to the element with id #search_term
+    writeSearchTerm('search_term', search_term_short, terms.join(" "));
+    if (service === "openaire") {
+        $("#waiting_title_query_prefix").text("project ");
         }
-        });
-
-        let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
-        if (post_data["q_advanced"] === false) {
-            post_data["q_advanced"] = "undefined";
+    if (service === "orcid") {
+        $("#waiting_title_query_prefix").text("researcher ");
         }
-        let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
-        let terms = [search_term, search_term_advanced].filter(element => {
-            return element !== '';
-        });
-        let search_term_short = getSearchTermShort(terms.join(" and "));
 
-        // take search_term(s) and write them to the element with id #search_term
-        writeSearchTerm('search_term', search_term_short, terms.join(" "));
-        if (service === "openaire") {
-            $("#waiting_title_query_prefix").text("project ");
-            }
-        if (service === "orcid") {
-            $("#waiting_title_query_prefix").text("researcher ");
-            }
 
-        executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
+    executeSearchRequest("<?php echo $headstart_path ?>server/services/" + script, post_data, service, search_term_short, search_term, timeout, vis_page);
 
-        var check_fallback_interval = null;
-        var check_fallback_timeout = 
-                        window.setTimeout(function () {
-                            check_fallback_interval = window.setInterval(fallbackCheck, 4000
-                            , "<?php echo $headstart_path ?>server/services/getLastVersion.php?service=" + service + "&vis_id="
-                            , unique_id
-                            , vis_page
-                            , service
-                            , post_data);
-                        }, 10000);
-                        
-        const tick_interval = 1;
-        const tick_increment = 2;
+    var check_fallback_interval = null;
+    var check_fallback_timeout = 
+                    window.setTimeout(function () {
+                        check_fallback_interval = window.setInterval(fallbackCheck, 4000
+                        , "<?php echo $headstart_path ?>server/services/getLastVersion.php?service=" + service + "&vis_id="
+                        , unique_id
+                        , vis_page
+                        , service
+                        , post_data);
+                    }, 10000);
+                    
+    const tick_interval = 1;
+    const tick_increment = 2;
 
-        $("#progressbar").progressbar();
-        $("#progressbar").progressbar("value", 2);
+    $("#progressbar").progressbar();
+    $("#progressbar").progressbar("value", 2);
 
-        var progressbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
-           
-        </script>
+    var progressbar_timeout = window.setTimeout(tick_function, tick_interval * milliseconds_progressbar);
+
+</script>
