@@ -353,7 +353,7 @@ class SearchBox extends React.Component {
       {}
     );
 
-    if (formErrors.length === 0) {
+    if (Object.entries(formErrors).length === 0) {
       return true;
     }
 
