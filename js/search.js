@@ -284,7 +284,12 @@ function setErrorTexts(
     setErrorTitle(text_object.title);
   }
   if (text_object.hasOwnProperty("reason")) {
-    setErrorReason(text_object.reason, post_data);
+    const errorReason = text_object.reason.replace(
+      "%orcid%",
+      `<span class="bold">${post_data.orcid}</span>`
+    );
+    
+    setErrorReason(errorReason);
   }
   if (text_object.hasOwnProperty("remedy")) {
     setErrorRemedy(text_object.remedy);
