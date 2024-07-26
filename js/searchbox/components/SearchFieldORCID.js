@@ -9,7 +9,6 @@ const SearchFieldORCID = ({
   errors,
   setErrors,
   validators,
-  formData
 }) => {
   const inputRef = useRef(null);
 
