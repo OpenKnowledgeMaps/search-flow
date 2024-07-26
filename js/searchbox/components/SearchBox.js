@@ -55,7 +55,24 @@ class SearchBox extends React.Component {
       showOptionsLabel: "Show advanced search options",
       showOptionsIcon: "fa-angle-down",
       errors: {},
+      validators: {
+        orcid: [this.orcidValidator.bind(this)],
+      },
     };
+  }
+
+  orcidValidator(value) {
+    const formData = this.state.formData;
+
+    if (formData.service !== "orcid") {
+        return null;
+    }
+
+    if (!/^\d{4}-\d{4}-\d{4}-\d{4}$/.test(value)) {
+        return "Please enter a valid ORCiD";
+    }
+
+    return null;
   }
 
   toggleOptions() {
@@ -91,6 +108,16 @@ class SearchBox extends React.Component {
       errors: {
         ...this.state.errors,
         [field]: errors,
+      },
+    });
+  }
+
+  setFieldValidators(field, validators) {
+    this.setState({
+      ...this.state,
+      validators: {
+        ...this.state.validators,
+        [field]: validators,
       },
     });
   }
@@ -291,6 +318,68 @@ class SearchBox extends React.Component {
     return `search?${queryString}`;
   }
 
+  validate() {
+    const { validators } = this.state;
+
+    // always reset form errors
+    // in case there was form errors from backend
+    this.setState((state) => ({
+      ...state,
+      errors: {},
+    }));
+
+    if (!validators && Object.keys(validators).length === 0) {
+      return true;
+    }
+
+    const formErrors = Object.entries(validators).reduce(
+      (errors, [name, validators]) => {
+        const { formData } = this.state;
+        const messages = validators.reduce((result, validate) => {
+          const value = formData[name];
+          const err = validate(value);
+          return [...result, err];
+        }, []);
+
+        if (messages.length > 0) {
+          errors[name] = messages;
+        }
+
+        return errors;
+      },
+      {}
+    );
+
+    if (formErrors.length === 0) {
+      return true;
+    }
+
+    this.setState((state) => ({
+      ...state,
+      errors: formErrors,
+    }));
+
+    return false;
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const isValid = this.validate();
+
+    if (isValid) {
+      e.target.submit();
+    }
+  }
+
+  hasErrors() {
+    const errorFields = Object.values(this.state.errors).filter(
+        (errors) => errors.length > 0
+    )
+
+    return errorFields.length > 0;
+  }
+
   render() {
     const {
       showTimeRange,
@@ -346,7 +435,9 @@ class SearchBox extends React.Component {
       });
     }
 
-    const hasErrors = Object.keys(this.state.errors).length > 0;
+    console.log("this.state.errors", this.state.errors);
+
+    const hasErrors = this.hasErrors();
 
     return e(
       "div",
@@ -361,6 +452,7 @@ class SearchBox extends React.Component {
           method: "POST",
           target: "_self",
           "aria-label": "Open Knowledge Maps Search Box form",
+          onSubmit: this.handleSubmit.bind(this),
         },
         showService &&
           e(DataSource, {
@@ -479,7 +571,8 @@ class SearchBox extends React.Component {
             value: this.state.formData.orcid,
             setValue: this.updateFormData.bind(this, "orcid"),
             errors: this.state.errors.orcid,
-            setErrors: this.setFieldErrors.bind(this, 'orcid'),
+            setErrors: this.setFieldErrors.bind(this, "orcid"),
+            validators: this.state.validators.orcid,
           }),
         e(Hiddens, { entries: hiddenEntries }),
         e(SearchButton, { disabled: hasErrors })
