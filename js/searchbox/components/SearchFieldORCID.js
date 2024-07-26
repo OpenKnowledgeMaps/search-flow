@@ -1,8 +1,16 @@
 "use strict";
 
-const { useRef, useState, useEffect, createElement: e } = React;
+const { useRef, useEffect, createElement: e } = React;
 
-const SearchFieldORCID = ({ value, setValue, required, errors, setErrors }) => {
+const SearchFieldORCID = ({
+  value,
+  setValue,
+  required,
+  errors,
+  setErrors,
+  validators,
+  formData
+}) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -16,11 +24,16 @@ const SearchFieldORCID = ({ value, setValue, required, errors, setErrors }) => {
   const handleBlur = () => {
     const newValue = inputRef.current.value;
 
-    const isValid = /^\d{4}-\d{4}-\d{4}-\d{4}$/.test(newValue);
-    if (!isValid && newValue.length > 0) {
-      setErrors(["Please enter a valid ORCiD"]);
-    } else {
-      setErrors([""]);
+    if (validators) {
+      const newErrors = validators.reduce((acc, validator) => {
+        const error = validator(newValue);
+        if (error) {
+          acc.push(error);
+        }
+        return acc;
+      }, []);
+
+      setErrors(newErrors);
     }
   };
 
@@ -47,11 +60,12 @@ const SearchFieldORCID = ({ value, setValue, required, errors, setErrors }) => {
       onChange: handleChange,
       onBlur: handleBlur,
     }),
-    errors && errors.length > 0 &&
+    errors &&
+      errors.length > 0 &&
       e(
         "div",
-        { style: { color: "red", marginTop: 5 }, 'aria-live': "polite" },
-        errors.map(error => e("div", { key: error }, error))
+        { style: { color: "red", marginTop: 5 }, "aria-live": "polite" },
+        errors.map((error) => e("div", { key: error }, error))
       )
   );
 };
