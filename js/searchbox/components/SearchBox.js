@@ -338,7 +338,10 @@ class SearchBox extends React.Component {
         const messages = validators.reduce((result, validate) => {
           const value = formData[name];
           const err = validate(value);
-          return [...result, err];
+          if (err) {
+            return [...result, err];
+          }
+          return result;
         }, []);
 
         if (messages.length > 0) {
