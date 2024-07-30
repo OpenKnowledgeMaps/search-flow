@@ -311,7 +311,7 @@ if($has_sufficient_data) {
     var service = params.get("service");
     var unique_id = "<?php echo $unique_id ?? '' ?>";
 
-    if (service === 'orcid') {
+    if (typeof post_data !== "undefined" && post_data.orcid && service === 'orcid') {
         $("#waiting-title").html(
             `Your knowledge map for <span class="bold">researcher ${post_data.orcid}</span> is being created!`
         );
