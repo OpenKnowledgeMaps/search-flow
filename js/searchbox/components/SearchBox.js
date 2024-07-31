@@ -68,7 +68,7 @@ class SearchBox extends React.Component {
         return null;
     }
 
-    if (!/^\d{4}-\d{4}-\d{4}-\d{4}$/.test(value)) {
+    if (!/^\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/.test(value)) {
         return "Please enter a valid ORCiD";
     }
 
