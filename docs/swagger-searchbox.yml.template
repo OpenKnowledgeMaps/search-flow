@@ -627,7 +627,6 @@ paths:
 
         **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
 
-      parameters:
       responses:
         "200": # status code
           description: Returns the search box page.
