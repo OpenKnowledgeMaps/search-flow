@@ -167,113 +167,578 @@
 }
 
 
-
-
 body.iframed {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  font-family: "Open Sans", Helvetica;
-  font-weight: 300;
-  overflow: hidden;
-  background-color: transparent !important;
-  position: relative;
+    overflow-x: hidden;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    font-family: "Open Sans", Helvetica, serif;
+    font-weight: 400;
+    background-color: transparent !important;
+    position: relative;
 }
 
 #search_box_container {
-  box-sizing: border-box;
-  width: 660px;
-  padding: 30px 50px 40px;
-  background-color: white;
-  border-radius: 5px;
+    box-sizing: border-box;
+    width: 390px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+
 }
 
 #search_box_container.iframed {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -133px);
+    overflow: hidden;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
 }
 
 #search_box_container * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-/* .search_box {
+
+.search_box {
     width: 100%;
     height: 100%;
-  } */
+}
+
+.datasource-style {
+    margin-bottom: 15px;
+}
+
 
 .refine-search {
-  font-size: 18px;
-  text-decoration: underline;
-  color: black;
-  cursor: pointer;
-  margin-bottom: 10px;
+    font-size: 14px;
+    text-decoration: underline;
+    color: #333333;
+    cursor: pointer;
+    margin-bottom: 15px;
+    /*margin-top: 15px;*/
+    font-weight: 800;
 }
 
 .text-field {
-  height: 50px;
-  padding-left: 5px;
-  width: 85%;
-  border: 1px solid gray;
-  border-radius: 2px;
+    height: 50px;
+    padding-left: 15px;
+    width: 100%;
+    border: 1px solid #818181;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #818181;
+    margin-top: 5px;
 }
 
 .submit-btn {
-  margin-left: -5px;
-  margin-top: -3px;
-  background-color: #2d3e52;
-  color: white;
-  font-weight: bold;
-  width: 15%;
-  height: 50px;
-  font-size: 20px;
-  border-radius: 5px;
-  padding: 0px 0px;
-  vertical-align: middle;
-  border-width: 3px;
-  border-style: solid;
-  border-color: #2d3e52;
-  cursor: pointer;
+    margin-top: 20px;
+    background-color: #333333;
+    color: white;
+    font-weight: 800;
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 24px;
+    padding: 0px 0px;
+    vertical-align: middle;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #2d3e52;
+    cursor: pointer;
 }
 
 .options {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .basic_options {
-  display: flex;
-  gap: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .options_timespan {
-  display: flex;
-  gap: 12px;
+    display: flex;
+    gap: 15px;
 }
 
 .options_timespan input {
-  margin-left: 5px;
-  border: 1px solid rgb(202, 202, 202);
-  border-radius: 1px;
-  height: 34px;
-  padding-left: 5px;
-  cursor: text;
+    margin-left: 5px;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 1px;
+    height: 34px;
+    padding-left: 5px;
+    cursor: text;
 }
 
-.multiselect-container > li > a > label {
-  padding: 10px 20px 10px 40px;
-  border-bottom: 1px solid #eee;
+.multiselect-container > ul > li > a > label {
+    padding: 10px 20px 10px 40px;
 }
+
 
 .dropdown-menu > .active > a {
-  background-color: #cacfd3;
-  color: black;
+    background-color: white;
 }
 
+.dropdown-menu:hover {
+    color: #333333;
+}
+
+.open > .dropdown-menu {
+    display: block;
+    overflow: hidden;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:after {
+    background-color: white;
+    border: white;
+    color: #333333;
+}
+
+
 .btn {
-  height: 40px;
+    height: 50px;
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid #818181;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* add hover to .btn*/
+.btn:hover {
+    background: #f4f4f4;
+}
+
+/*button when list open */
+.open > .dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default:hover {
+    background-color: #f4f4f4;
+}
+
+
+/* button label text */
+
+.multiselect-selected-text {
+    color: #818181;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 60%;
+    padding-left: inherit;
+    text-align: left;
+}
+
+.multiselect-selected-text-count {
+    color: #818181;
+}
+
+/* New SB */
+
+/* Filter label */
+.filter-label {
+    font-size: 10px;
+    color: #818181;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+/* Filter value */
+.filter-value {
+    font-size: 14px;
+    font-weight: 400;
+    color: #818181;
+}
+
+.filter-dropdown-value {
+    font-size: 14px;
+    font-weight: 400;
+    color: #818181;
+}
+
+.filter-dropdown-value:hover {
+    color: #333333;
+}
+
+.advanced-options-label {
+    font-size: 14px;
+    font-weight: 800;
+    color: #333333;
+}
+
+
+/* Set the radio button color to blue */
+input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 2px solid #4d88f9;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    align-items: center;
+    margin-top: 0;
+    margin-right: 5px;
+    vertical-align: top;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Set the radio button background color when selected */
+input[type="radio"]:checked {
+    /*background-color: #4d88f9;*/
+    background-color: white;
+}
+
+
+/* Add a ring inside the radio button when it is checked */
+input[type="radio"]:checked::before {
+    content: "";
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4d88f9;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #4d88f9;
+    transform: translate(3px, 3px);
+}
+
+
+/* Set the label color when radio button is selected */
+input[type="radio"]:checked + label {
+    color: #4d88f9;
+}
+
+input[type="radio"]:focus {
+    box-shadow: 0 0 5px rgba(77, 136, 249, 0.8);
+    outline: #4d88f9 solid 3px;
+}
+
+.radio-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #818181;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+}
+
+/* add radio class for hover button */
+.radio-label:hover {
+    color: #4d88f9;
+    text-decoration: none;
+}
+
+.info-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #818181;
+    margin-left: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+div.info-title:hover {
+    text-decoration: none;
+    color: #333333;
+}
+
+.radio-menu {
+    max-height: 250px;
+}
+
+/* ul style */
+.custom-ul {
+    max-height: 150px;
+    overflow: auto;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+.custom-div {
+    max-height: 200px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0 10px 20px;
+}
+
+
+.multiselect-container, .dropdown-menu > ul > .custom-ul > li {
+    overflow: auto;
+    overflow-y: scroll;
+    max-height: 200px;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style-type: none;
+    margin: 0;
+}
+
+li:hover {
+    background-color: #f5f5f5;
+}
+
+
+li > a:link {
+    text-decoration: none;
+}
+
+
+li > a:visited {
+    text-decoration: none;
+}
+
+li > a:hover {
+    text-decoration: none;
+}
+
+li > a:active {
+    text-decoration: none;
+}
+
+li > a:focus {
+    text-decoration: none;
+}
+
+
+/*icons style*/
+
+.custom-icons {
+    color: #818181;
+}
+
+/* checkbox css  style without border and fontawesome black check mark */
+
+input[type=checkbox] {
+    display: none;
+}
+
+.checkbox {
+    position: relative;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* time range style */
+
+.inline_date_picker {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.time-range-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.time-range-container > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.time-labels {
+    width: 50px;
+}
+
+
+.items-flex-container {
+    margin-top: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: start;
+    align-items: start;
+}
+
+
+.date-field {
+    height: 50px;
+    padding-left: 5px;
+    width: 100%;
+    border: 1px solid #818181;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* change icon in input type date */
+
+input[type="date"] {
+    /*-webkit-appearance: none;*/
+    /*-moz-appearance: none;*/
+    /*appearance: none;*/
+    position: relative;
+    padding: 10px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    color: #818181;
+    z-index: 1;
+}
+
+
+/* popover bottom*/
+.popover__wrapper {
+    container: search_box_container;
+    position: relative;
+    display: inline-block;
+}
+
+.popover__content {
+    opacity: 1;
+    visibility: visible;
+    position: absolute;
+    left: calc(50% - 113px); /* updated value */
+    top: calc(100% + 2px); /* updated value */
+    background-color: white;
+    padding: 8px;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    width: 200px;
+    /* add transition properties */
+    z-index: 1000;
+    transition-property: opacity, visibility, z-index;
+}
+
+.popover__content:before {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    left: 90px; /* updated value */
+    top: -10px; /* updated value */
+    border-style: solid;
+    border-width: 10px 10px 0 10px; /* updated value */
+    border-color: white transparent transparent transparent; /* updated value */
+    transform: rotate(180deg); /* updated value */
+}
+
+.popover__title {
+    color: #818181;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 3px;
+}
+
+.popover__message {
+    color: #818181;
+    text-align: left;
+    font-size: 12px;
+}
+
+.clear-date-btn {
+    font-size: 14px;
+    position: absolute;
+    left: 115px;
+    top: 18px;
+    cursor: pointer;
+}
+
+
+/* Use a media query to target screens with a maximum width of 767px */
+@media only screen and (max-width: 480px) {
+    /*@media (max-width: 480px) {*/
+    body.iframed {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        overflow: auto;
+        background-color: transparent !important;
+        position: relative;
+    }
+
+    #search_box_container {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 30px;
+        background-color: white;
+        border-radius: 20px;
+    }
+
+    #search_box_container.iframed {
+        overflow-x: hidden;
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%);
+    }
+}
+
+@media only screen and (min-width: 899px) {
+    #search_box_container.iframed {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%);
+    }
+
+    #search_box_container {
+        box-sizing: border-box;
+        width: 490px;
+        padding: 30px 40px;
+        background-color: white;
+        border-radius: 20px;
+    }
+
+    .custom-ul {
+        max-height: 200px;
+        overflow: auto;
+        overflow-y: scroll;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .custom-div {
+        max-height: 300px;
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.1);
+        padding: 10px 0 10px 20px;
+    }
+
+    .items-flex-container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .time-range-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 15px;
+    }
+
+    .time-range-container > div {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
 }

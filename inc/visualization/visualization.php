@@ -55,7 +55,9 @@ if ($detect->isMobile()):
     })
 </script>
 <script>
-    data_config.options = search_flow_config.search_options.filter_options.options_<?php echo $service ?>.dropdowns;
+    if("options_<?php echo $service ?>" in search_flow_config.search_options.filter_options) {
+        data_config.options = search_flow_config.search_options.filter_options.options_<?php echo $service ?>.dropdowns;
+    }
     <?php if($has_custom_title): ?>
             data_config.create_title_from_context_style = "custom";
             data_config.custom_title = "<?php echo $custom_title?>";       

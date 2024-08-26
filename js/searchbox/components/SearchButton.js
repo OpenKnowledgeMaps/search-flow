@@ -10,7 +10,7 @@ const SearchButton = ({ onClick }) => {
       className: "submit-btn",
       onClick: onClick,
     },
-    "GO"
+    "Create Overview"
   );
 };
 

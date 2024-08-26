@@ -55,6 +55,28 @@ if($search_flow_config["vis_load_context"]) {
     $publication_year = ($timestamp !== null)
                                 ? ((new DateTime($timestamp))->format('Y'))
                                  : ("n.d.");
+
+    // Decode the "params" JSON string to an associative array from the context
+    $params = json_decode($context->params, true);
+
+    // Set the $custom_title_from_context variable based on the context
+    if (isset($params["custom_title"])) {
+        $custom_title_from_context = $params["custom_title"];
+    } else {
+        $custom_title_from_context = null;
+    }
+
+    // If $custom_title_from_context and $has_custom_title are false set value $custom_title_from_context to $custom_title
+    if ($custom_title_from_context !== null) {
+        $custom_title_from_context = preg_replace("/\\\\\"/", "&quot;", $custom_title_from_context);
+        $custom_title_from_context = preg_replace("/\\\'/", "&apos;", $custom_title_from_context);
+        if ($has_custom_title === false) {
+            $custom_title = $custom_title_from_context;
+            // Determine if $custom_title is not null
+            $has_custom_title = (bool)$custom_title;
+        }
+    }
+
 }
 
 function curl_get_contents($url) {
