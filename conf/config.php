@@ -356,8 +356,8 @@ if(isset($search_flow_config_local)) {
 
             },
             orcid_no_results_error: {
-                title: 'Sorry! We could not create a <span class="vis_type_name">knowledge map</span>.'
-                , reason: 'There are no documents available for %orcid%.'
+                title: 'Sorry! We could not create a knowledge map.'
+                , reason: 'We could not retrieve any documents for %orcid%. Most likely there are no documents available or access to the ORCiD’s data is restricted.'
                 , remedy: 'Please try again with another ORCiD.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
