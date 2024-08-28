@@ -55,24 +55,7 @@ class SearchBox extends React.Component {
       showOptionsLabel: "Show advanced search options",
       showOptionsIcon: "fa-angle-down",
       errors: {},
-      validators: {
-        orcid: [this.orcidValidator.bind(this)],
-      },
     };
-  }
-
-  orcidValidator(value) {
-    const formData = this.state.formData;
-
-    if (formData.service !== "orcid") {
-        return null;
-    }
-
-    if (!/^\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/.test(value)) {
-        return "Please enter a valid ORCiD";
-    }
-
-    return null;
   }
 
   toggleOptions() {
@@ -328,7 +311,7 @@ class SearchBox extends React.Component {
       errors: {},
     }));
 
-    if (!validators && Object.keys(validators).length === 0) {
+    if (!validators || Object.keys(validators).length === 0) {
       return true;
     }
 
@@ -377,8 +360,8 @@ class SearchBox extends React.Component {
 
   hasErrors() {
     const errorFields = Object.values(this.state.errors).filter(
-        (errors) => errors.length > 0
-    )
+      (errors) => errors.length > 0
+    );
 
     return errorFields.length > 0;
   }
@@ -575,7 +558,6 @@ class SearchBox extends React.Component {
             setValue: this.updateFormData.bind(this, "orcid"),
             errors: this.state.errors.orcid,
             setErrors: this.setFieldErrors.bind(this, "orcid"),
-            validators: this.state.validators.orcid,
           }),
         e(Hiddens, { entries: hiddenEntries }),
         e(SearchButton, { disabled: hasErrors })
