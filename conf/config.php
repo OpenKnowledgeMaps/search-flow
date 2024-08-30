@@ -3,123 +3,138 @@ $search_flow_config = array(
     //Path to the search form page
     "search_form_page" => "index.php"
     //Path to the waiting page
-    , "waiting_page" => "search.php"
+    ,
+    "waiting_page" => "search.php"
     //Path to the visualization page
-    , "vis_page" => "headstart.php"
+    ,
+    "vis_page" => "headstart.php"
     //Params that will be used to create the vis ID
-    , "params_arrays" => array(
+    ,
+    "params_arrays" => array(
         "integration1" => array("from", "to", "article_types")
     )
     //Optional parameters that can be specified in a GET request
-    , "optional_get_params" => [
+    ,
+    "optional_get_params" => [
         "integration1" => []
     ]
     //Load the visualization context on the knowledge map page
-    , "vis_load_context" => true
+    ,
+    "vis_load_context" => true
     //Default values and whether to enable them for the knowledge map page
-    , "enable_default_id" => false
-    , "default_id" => ""
-    , "enable_default_query" => false
-    , "default_query" => ""
-    , "enable_default_service" => false
-    , "default_service" => ""
+    ,
+    "enable_default_id" => false
+    ,
+    "default_id" => ""
+    ,
+    "enable_default_query" => false
+    ,
+    "default_query" => ""
+    ,
+    "enable_default_service" => false
+    ,
+    "default_service" => ""
     //Enable/disable user-set custom titles
-    , "enable_custom_title" => false
+    ,
+    "enable_custom_title" => false
     //Whether to display an alternate warning for desktops in the mobile warning component
-    , "banner_alternate_desktop_warning" => false
+    ,
+    "banner_alternate_desktop_warning" => false
     // force the Headstart embed mode
-    , "force_embed" => false
+    ,
+    "force_embed" => false
     //Filter options for search form and for general use in the package
-    , "filter_options" => [
+    ,
+    "filter_options" => [
         "options_integration1" =>
             [
-            'start_date' => '1809-01-01',
-            'dropdowns' => [
-                [
-                    'id' => 'time_range',
-                    'multiple' => false,
-                    'name' => 'Time Range',
-                    'type' => 'dropdown',
-                    'fields' => [
-                        [
-                            'id' => 'any-time',
-                            'text' => 'Any time'
-                        ],
-                        [
-                            'id' => 'last-month',
-                            'text' => 'Last month'
-                        ],
-                        [
-                            'id' => 'last-year',
-                            'text' => 'Last year'
-                        ],
-                        [
-                            'id' => 'user-defined',
-                            'text' => 'Custom range',
-                            'class' => 'user-defined',
-                            'inputs' => [
-                                [
-                                    'id' => 'from',
-                                    'label' => 'From: ',
-                                    'class' => 'time_input'
-                                ],
-                                [
-                                    'id' => 'to',
-                                    'label' => 'To: ',
-                                    'class' => 'time_input'
+                'start_date' => '1809-01-01',
+                'dropdowns' => [
+                    [
+                        'id' => 'time_range',
+                        'multiple' => false,
+                        'name' => 'Time Range',
+                        'type' => 'dropdown',
+                        'fields' => [
+                            [
+                                'id' => 'any-time',
+                                'text' => 'Any time'
+                            ],
+                            [
+                                'id' => 'last-month',
+                                'text' => 'Last month'
+                            ],
+                            [
+                                'id' => 'last-year',
+                                'text' => 'Last year'
+                            ],
+                            [
+                                'id' => 'user-defined',
+                                'text' => 'Custom range',
+                                'class' => 'user-defined',
+                                'inputs' => [
+                                    [
+                                        'id' => 'from',
+                                        'label' => 'From: ',
+                                        'class' => 'time_input'
+                                    ],
+                                    [
+                                        'id' => 'to',
+                                        'label' => 'To: ',
+                                        'class' => 'time_input'
+                                    ]
                                 ]
                             ]
                         ]
-                    ]
-                ],
-                [
-                    'id' => 'sorting',
-                    'multiple' => false,
-                    'name' => 'Sorting',
-                    'type' => 'dropdown',
-                    'fields' => [
-                        [
-                            'id' => 'most-relevant',
-                            'text' => 'Most relevant'
-                        ],
-                        [
-                            'id' => 'most-recent',
-                            'text' => 'Most recent'
+                    ],
+                    [
+                        'id' => 'sorting',
+                        'multiple' => false,
+                        'name' => 'Sorting',
+                        'type' => 'dropdown',
+                        'fields' => [
+                            [
+                                'id' => 'most-relevant',
+                                'text' => 'Most relevant'
+                            ],
+                            [
+                                'id' => 'most-recent',
+                                'text' => 'Most recent'
+                            ]
                         ]
-                    ]
-                ],
-                [
-                    'id' => 'article_types',
-                    'multiple' => true,
-                    'width' => '140px',
-                    'name' => 'Article types',
-                    'type' => 'dropdown',
-                    'fields' => [
-                        [
-                            'id' => 'adaptive clinical trial',
-                            'text' => 'Adaptive Clinical Trial',
-                            'selected' => true
-                        ],
-                        [
-                            'id' => 'address',
-                            'text' => 'Address',
-                            'selected' => true
-                        ],
-                        [
-                            'id' => 'autobiography',
-                            'text' => 'Autobiography',
-                            'selected' => true
+                    ],
+                    [
+                        'id' => 'article_types',
+                        'multiple' => true,
+                        'width' => '140px',
+                        'name' => 'Article types',
+                        'type' => 'dropdown',
+                        'fields' => [
+                            [
+                                'id' => 'adaptive clinical trial',
+                                'text' => 'Adaptive Clinical Trial',
+                                'selected' => true
+                            ],
+                            [
+                                'id' => 'address',
+                                'text' => 'Address',
+                                'selected' => true
+                            ],
+                            [
+                                'id' => 'autobiography',
+                                'text' => 'Autobiography',
+                                'selected' => true
+                            ]
                         ]
                     ]
                 ]
             ]
-        ]
-   ]
+    ]
 );
 
-if(isset($search_flow_config_local)) {
+if (isset($search_flow_config_local)) {
     foreach ($search_flow_config as $key => $value) {
-        if(isset($search_flow_config_local[$key])) {
+        if (isset($search_flow_config_local[$key])) {
             $search_flow_config[$key] = $search_flow_config_local[$key];
         }
     }
@@ -139,19 +154,20 @@ if(isset($search_flow_config_local)) {
             , filters_text: "Refine your search"
             //Options for each integration to search in
             , options: [
-                {id: "integration1", name: "Integration 1", disabled: false, default: false
+                {
+                    id: "integration1", name: "Integration 1", disabled: false, default: false
                     , text: "Integration 1", description: "(all disciplines)", vis_type_name: "knowledge map"
                     , script: "searchPubmed.php", milliseconds_progressbar: 800
                     , max_length_search_term_short: 115, timeout: 120000
 
                 }
-            ] 
+            ]
             //Example links for each integration
             , examples: {
                 examples_integration1: {
                     example_text: "Try out:",
                     examples: [
-                        {text: "covid-19", link: "url"}
+                        { text: "covid-19", link: "url" }
                     ]
                 }
             }
@@ -173,7 +189,7 @@ if(isset($search_flow_config_local)) {
             //      , e.g. value: {'triple_km': 'overview', 'triple_sg': 'timeline'} 
             , vis_page_params: [
                 { id: 'unique_id', name: 'id' }
-                , {id: "optradio", "name": "vis_type", value: {'triple_km': 'overview', 'triple_sg': 'timeline'}}
+                , { id: "optradio", "name": "vis_type", value: { 'triple_km': 'overview', 'triple_sg': 'timeline' } }
                 , { id: 'embed', name: 'embed', value: "true" }
             ]
             // For cool URIs the ability to add "classic" parameters with "&param=value"
@@ -338,7 +354,7 @@ if(isset($search_flow_config_local)) {
             project_id_error: {
                 title: "Sorry! We could not create a knowledge map."
                 , reason: 'You may have entered a wrong project ID and/or funder.'
-                , remedy:  'Please adjust the project ID and/or funder and try again.'
+                , remedy: 'Please adjust the project ID and/or funder and try again.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
@@ -367,7 +383,7 @@ if(isset($search_flow_config_local)) {
             },
             invalid_orcid_id_error: {
                 title: 'Sorry! We could not create a <span class="vis_type_name">knowledge map</span>.'
-                , reason: 'Most likely you have entered the wrong ORCiD.'
+                , reason: 'Most likely you have entered an invalid ORCiD.'
                 , remedy: 'Please verify the ORCiD and try again.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
                 , resolution_type: "link"
@@ -382,21 +398,21 @@ if(isset($search_flow_config_local)) {
         }
         //Banner texts
         , banner_texts: {
-            browser_unsupported_warning: 'You are using <strong>an unsupported browser</strong>. This website was successfully tested with the latest versions of <strong>Firefox, Chrome, Safari, Opera, and Edge</strong>. We strongly suggest <strong>to switch to one of the supported browsers.</strong>' 
+            browser_unsupported_warning: 'You are using <strong>an unsupported browser</strong>. This website was successfully tested with the latest versions of <strong>Firefox, Chrome, Safari, Opera, and Edge</strong>. We strongly suggest <strong>to switch to one of the supported browsers.</strong>'
             , mobile_warning: 'Note: the visualization isn\'t optimized for mobile yet, you may encounter some rough edges.'
             , alternate_desktop_warning: 'This is a prototype - you may encounter some rough edges'
         }
     }
-    
-    if(typeof search_flow_config_local !== "undefined") {
+
+    if (typeof search_flow_config_local !== "undefined") {
         Object.keys(search_flow_config).forEach(function (key) {
-            if(search_flow_config_local.hasOwnProperty(key)) {
+            if (search_flow_config_local.hasOwnProperty(key)) {
                 Object.assign(search_flow_config[key], search_flow_config_local[key]);
             }
         });
     }
-    
-    <?php foreach($search_flow_config["filter_options"] as $name => $options): ?>
+
+    <?php foreach ($search_flow_config["filter_options"] as $name => $options): ?>
         search_flow_config.search_options.filter_options.<?= $name; ?> = <?= json_encode($options) ?>;
     <?php endforeach; ?>
 </script>
