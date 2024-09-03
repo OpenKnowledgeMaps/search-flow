@@ -376,15 +376,15 @@ paths:
   /search?type=get&service=orcid:
     get:
       summary: |
-        Configure searches and create visualisations (Data source: ORCiD)
+        Configure searches and create visualisations (Data source: ORCID)
       description: |
-        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on ORCiD data. 
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on ORCID data. 
       parameters:
         - in: query
           name: orcid
           required: true
           description: |
-            Create a visualization of an ORCID profile. Please provide the ORCID iD of the researcher you want to visualize.
+            Create a visualization of an ORCID profile. Please provide the ORCID of the researcher you want to visualize.
           schema:
             type: string
         - in: query
@@ -394,6 +394,15 @@ paths:
             Set a maximum amount of publications to be visualized. Please provide a number between 1 and NNN.
           schema:
             type: integer
+            default: 200
+        - in: query
+          name: academic_age_offset
+          required: false
+          description: |
+            Set an academic age offset in years. This parameter will be added to the academic age of the researcher. Please provide a number between 0 and NNN.
+          schema:
+            type: integer
+            default: 0
       responses:
         '200':    # status code
           description: Redirecting to the waiting page
