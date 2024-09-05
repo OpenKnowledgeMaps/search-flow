@@ -58,7 +58,7 @@ export const DEFAULT_SETTINGS = {
   orcid: "",
   // Data Source (new param)
   defaultService: SERVICES_OPTIONS[0].id, // by default chosen service is 'base'
-  academicAgeOffset: 100,
+  academicAgeOffset: 0,
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
