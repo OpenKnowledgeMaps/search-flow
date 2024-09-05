@@ -323,6 +323,9 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("orcid", TYPE_SINGLE)) {
     settings.orcid = queryParams.get("orcid");
   }
+  if (queryParams.hasValid("academic_age_offset", TYPE_SINGLE)) {
+    settings.academicAgeOffset = queryParams.get("academic_age_offset");
+  }
 
   return settings;
 };
