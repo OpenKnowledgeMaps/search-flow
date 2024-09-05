@@ -239,11 +239,16 @@ class SearchBox extends React.Component {
     const { contentProvider } = this.state.settings;
     const { titleExpansion, abstractExpansion } = this.state.settings;
     const { keywordsExpansion } = this.state.settings;
+    const { academicAgeOffset } = this.state.settings;
     const { q_advanced } = this.state.settings;
     const collection = this.state.settings.collection;
 
     if (contentProvider) {
       entries.push({ name: "repo", value: contentProvider });
+    }
+
+    if (academicAgeOffset) {
+      entries.push({ name: "academic_age_offset", value: academicAgeOffset });
     }
 
     if (
