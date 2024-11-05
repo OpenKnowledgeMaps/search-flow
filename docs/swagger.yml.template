@@ -403,6 +403,13 @@ paths:
           schema:
             type: integer
             default: 0
+        - in: query
+          name: enable_h_index
+          required: false
+          description: |
+            Enable the display of the h-index in the visualization. Please provide a boolean value (true or false).
+          schema:
+            type: boolean
       responses:
         '200':    # status code
           description: Redirecting to the waiting page

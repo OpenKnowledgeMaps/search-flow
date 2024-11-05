@@ -58,7 +58,8 @@ export const DEFAULT_SETTINGS = {
   orcid: "",
   // Data Source (new param)
   defaultService: SERVICES_OPTIONS[0].id, // by default chosen service is 'base'
-  academicAgeOffset: 0,
+  academic_age_offset: 0,
+  enable_h_index: true,
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -74,6 +75,8 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_q_advanced",
   "show_coll",
   "show_options_button",
+  "enable_h_index",
+  "academic_age_offset",
 ]);
 
 /**
@@ -105,8 +108,12 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.showOptions = outerSettings.showOptions;
   }
 
+  if (typeof outerSettings.enable_h_index === "boolean") {
+    settings.enable_h_index = outerSettings.enable_h_index;
+  }
+
   if (typeof outerSettings.academic_age_offset === "number") {
-    settings.academicAgeOffset = outerSettings.academic_age_offset;
+    settings.academic_age_offset = outerSettings.academic_age_offset;
   }
 
   // default (preselected) values
@@ -181,6 +188,9 @@ const getQuerySettings = () => {
   const search_params = queryParams.searchParams;
 
   // features on/off
+  if (queryParams.hasValid("enable_h_index", TYPE_BOOL)) {
+    settings.enable_h_index = queryParams.get("enable_h_index") === "true";
+  }
   if (queryParams.hasValid("show_time_range", TYPE_BOOL)) {
     settings.showTimeRange = queryParams.get("show_time_range") === "true";
   }
@@ -375,6 +385,7 @@ const TYPE_INT = (from, to) => ({
   },
   description: `The value must be a number${parseRange(from, to)}.`,
 });
+
 const TYPE_SINGLE = {
   validator: (values) => values.length <= 1,
   description: "Specifying multiple values is prohibited.",

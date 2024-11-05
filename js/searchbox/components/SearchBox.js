@@ -50,6 +50,7 @@ class SearchBox extends React.Component {
         minDescriptionSize: settings.minDescriptionSize,
         q_advanced: settings.q_advanced,
         collection: settings.collection,
+        enable_h_index: settings.enable_h_index,
       },
       settings,
       showOptionsLabel: "Show advanced search options",
@@ -239,7 +240,8 @@ class SearchBox extends React.Component {
     const { contentProvider } = this.state.settings;
     const { titleExpansion, abstractExpansion } = this.state.settings;
     const { keywordsExpansion } = this.state.settings;
-    const { academicAgeOffset } = this.state.settings;
+    const { academic_age_offset } = this.state.settings;
+    const { enable_h_index } = this.state.settings;
     const { q_advanced } = this.state.settings;
     const collection = this.state.settings.collection;
 
@@ -247,8 +249,15 @@ class SearchBox extends React.Component {
       entries.push({ name: "repo", value: contentProvider });
     }
 
-    if (academicAgeOffset) {
-      entries.push({ name: "academic_age_offset", value: academicAgeOffset });
+    if (academic_age_offset !== undefined) {
+      entries.push({ name: "academic_age_offset", value: academic_age_offset });
+    }
+
+    if (enable_h_index !== undefined) {
+      entries.push({
+        name: "enable_h_index",
+        value: enable_h_index,
+      });
     }
 
     if (
