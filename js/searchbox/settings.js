@@ -59,7 +59,7 @@ export const DEFAULT_SETTINGS = {
   // Data Source (new param)
   defaultService: SERVICES_OPTIONS[0].id, // by default chosen service is 'base'
   academic_age_offset: 0,
-  enable_h_index: true,
+  enable_h_index: false,
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
