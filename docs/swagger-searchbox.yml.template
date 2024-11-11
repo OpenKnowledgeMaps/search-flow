@@ -626,6 +626,23 @@ paths:
         This endpoint creates a search box for the ORCiD integration. A variety of ORCiD specific search options are available. 
 
         **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
+      
+      parameters:
+        - in: query
+          name: academic_age_offset
+          required: false
+          description: |
+            Set an academic age offset in years. This parameter will be added to the academic age of the researcher. Please provide a number between 0 and NNN.
+          schema:
+            type: integer
+            default: 0
+        - in: query
+          name: enable_h_index
+          required: false
+          description: |
+            Enable the display of the h-index in the visualization. Please provide a boolean value (true or false).
+          schema:
+            type: boolean
 
       responses:
         "200": # status code
