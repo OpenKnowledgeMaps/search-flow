@@ -51,6 +51,7 @@ class SearchBox extends React.Component {
         q_advanced: settings.q_advanced,
         collection: settings.collection,
         enable_h_index: settings.enable_h_index,
+        enable_teaching_mentorship: settings.enable_teaching_mentorship,
       },
       settings,
       showOptionsLabel: "Show advanced search options",
@@ -241,7 +242,7 @@ class SearchBox extends React.Component {
     const { titleExpansion, abstractExpansion } = this.state.settings;
     const { keywordsExpansion } = this.state.settings;
     const { academic_age_offset } = this.state.settings;
-    const { enable_h_index } = this.state.settings;
+    const { enable_h_index, enable_teaching_mentorship } = this.state.settings;
     const { q_advanced } = this.state.settings;
     const collection = this.state.settings.collection;
 
@@ -257,6 +258,13 @@ class SearchBox extends React.Component {
       entries.push({
         name: "enable_h_index",
         value: enable_h_index,
+      });
+    }
+
+    if (enable_teaching_mentorship !== undefined) {
+      entries.push({
+        name: "enable_teaching_mentorship",
+        value: enable_teaching_mentorship,
       });
     }
 

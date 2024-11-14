@@ -643,6 +643,13 @@ paths:
             Enable the display of the h-index in the visualization. Please provide a boolean value (true or false).
           schema:
             type: boolean
+        - in: query
+          name: enable_teaching_mentorship
+          required: false
+          description: |
+            Enable the display of the h-index in the visualization. Please provide a boolean value (true or false).
+          schema:
+            type: boolean
 
       responses:
         "200": # status code
