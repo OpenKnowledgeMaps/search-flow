@@ -60,6 +60,7 @@ export const DEFAULT_SETTINGS = {
   defaultService: SERVICES_OPTIONS[0].id, // by default chosen service is 'base'
   academic_age_offset: 0,
   enable_h_index: false,
+  enable_teaching_mentorship: false,
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -76,6 +77,7 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_coll",
   "show_options_button",
   "enable_h_index",
+  "enable_teaching_mentorship",
   "academic_age_offset",
 ]);
 
@@ -110,6 +112,11 @@ const getConfigSettings = (outerSettings = {}) => {
 
   if (typeof outerSettings.enable_h_index === "boolean") {
     settings.enable_h_index = outerSettings.enable_h_index;
+  }
+
+  if (typeof outerSettings.enable_teaching_mentorship === "boolean") {
+    settings.enable_teaching_mentorship =
+      outerSettings.enable_teaching_mentorship;
   }
 
   if (typeof outerSettings.academic_age_offset === "number") {
@@ -190,6 +197,10 @@ const getQuerySettings = () => {
   // features on/off
   if (queryParams.hasValid("enable_h_index", TYPE_BOOL)) {
     settings.enable_h_index = queryParams.get("enable_h_index") === "true";
+  }
+  if (queryParams.hasValid("enable_teaching_mentorship", TYPE_BOOL)) {
+    settings.enable_teaching_mentorship =
+      queryParams.get("enable_teaching_mentorship") === "true";
   }
   if (queryParams.hasValid("show_time_range", TYPE_BOOL)) {
     settings.showTimeRange = queryParams.get("show_time_range") === "true";
