@@ -26,11 +26,17 @@ $has_custom_title = ($custom_title !== false)?(true):(false);
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
 
 if($search_flow_config["vis_load_context"]) {
+    // the following request should respond with the proper error code, e.g. a 503 for db connection errors
     if ($docker_internal) {
         $context_json = curl_get_contents($protocol . $headstart_path_docker_internal . "server/services/getContext.php?vis_id=$id");
     } else {
         $context_json = curl_get_contents($protocol . $headstart_path . "server/services/getContext.php?vis_id=$id");
     }
+    // error_log("visalization-header.php Context JSON: " . $context_json);
+    // Check if context is not available yet
+    // if it does reply with an error code we should bail before anything else happens
+    // instead of rendering vis page we should render an error page with the error code
+    // either by a redirect to a dedicated error page or by rendering the error page directly
     $context = json_decode($context_json);
 
     $service = setVariableFromContext($context
