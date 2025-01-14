@@ -16,7 +16,7 @@ const SERVICES_OPTIONS = [
   {
     id: "orcid",
     label: "Author metadata. Label text to be added.",
-    infoTitle: "ORCiD",
+    infoTitle: "ORCID",
     infoContent: "Text description to be added."
   },
 ];

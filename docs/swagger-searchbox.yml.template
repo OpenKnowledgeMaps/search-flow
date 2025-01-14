@@ -237,11 +237,11 @@ paths:
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
 
-            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCiD. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCiD profile can be retrieved. BASE is actively working on improving the coverage.
+            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCID. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCID profile can be retrieved. BASE is actively working on improving the coverage.
 
             * `dcrelation:"https://zenodo.org/communities/biosyslit"` This will create a knowledge map of documents with a specific Zenodo community mentioned in the relations field.
 
-            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCiD, author names may not be unique.
+            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCID, author names may not be unique.
 
             * `dccoverage:"Rocky Mountains"` This will create a knowledge map of documents containing research about the Rocky Mountains.
 
@@ -593,11 +593,11 @@ paths:
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
 
-            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCiD. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCiD profile can be retrieved. BASE is actively working on improving the coverage.
+            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCID. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCID profile can be retrieved. BASE is actively working on improving the coverage.
 
             * `dcrelation:"https://zenodo.org/communities/biosyslit"` This will create a knowledge map of documents with a specific Zenodo community mentioned in the relations field.
 
-            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCiD, author names may not be unique.
+            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCID, author names may not be unique.
 
             * `dccoverage:"Rocky Mountains"` This will create a knowledge map of documents containing research about the Rocky Mountains.
 
@@ -621,9 +621,9 @@ paths:
 
   /embedded_searchbox?service=orcid&show_service=false:
     get:
-      summary: Configure your Custom Services Search Box for the data source ORCiD.
+      summary: Configure your Custom Services Search Box for the data source ORCID.
       description: |
-        This endpoint creates a search box for the ORCiD integration. A variety of ORCiD specific search options are available. 
+        This endpoint creates a search box for the ORCID integration. A variety of ORCID specific search options are available. 
 
         **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
       

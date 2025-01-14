@@ -42,7 +42,7 @@ const SearchFieldORCID = ({
     e(
       "label",
       { htmlFor: "searchterm_orcid", className: "filter-label" },
-      "Enter ORCiD (e.g. 0000-0002-5238-4195)"
+      "Enter ORCID (e.g. 0000-0002-5238-4195)"
     ),
     e("input", {
       id: "searchterm_orcid",
