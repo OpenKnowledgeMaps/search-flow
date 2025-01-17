@@ -32,6 +32,8 @@ if($search_flow_config["vis_load_context"]) {
     } else {
         $context_json = curl_get_contents($protocol . $headstart_path . "server/services/getContext.php?vis_id=$id");
     }
+    // This is the earliest we can possibly know that the context could not be loaded
+    // We probably already want to throw a 404 here
     // error_log("visalization-header.php Context JSON: " . $context_json);
     // Check if context is not available yet
     // if it does reply with an error code we should bail before anything else happens
