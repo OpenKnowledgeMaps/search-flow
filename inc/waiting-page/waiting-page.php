@@ -191,6 +191,9 @@ if (!empty($_POST)) {
     if (array_key_exists("q_advanced", $post_array)) {
         $dirty_q_advanced = $post_array["q_advanced"];
     }
+    if (array_key_exists("orcid", $post_array)) {
+        $dirty_query = $post_array["orcid"];
+    }
     $has_sufficient_data = true;
 }
 
