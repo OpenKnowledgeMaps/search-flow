@@ -129,6 +129,10 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.defaultQuery = outerSettings.q.replace(/\\/g, "");
   }
 
+  if (typeof outerSettings.orcid === "string") {
+    settings.defaultORCID = outerSettings.orcid;
+  }
+
   if (typeof outerSettings.from === "string") {
     if (outerSettings.service === "pubmed") {
       settings.defaultFromPubmed = outerSettings.from;
