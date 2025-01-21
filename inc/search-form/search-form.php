@@ -8,8 +8,7 @@ $waiting_page = $search_flow_config["waiting_page"];
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>lib/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo $searchflow_path ?>css/options.css">
 
-<!-- TODO: Revert to original search form before merge to master, we changed the target=blank behavior for debugging purposes -->
-<form id="searchform" action="#" method="POST" class="center-div2">
+<form id="searchform" action="#" method="POST" class="center-div2" target="_blank">
     
     <div class="searchform-div">
         <p class="library"></p>
