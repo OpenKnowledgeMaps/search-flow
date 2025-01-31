@@ -33,8 +33,6 @@ if ($id_param === false) {
 }
 
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
-$enable_h_index = getParam("enable_h_index", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true);
-$enable_teaching_mentorship = getParam("enable_teaching_mentorship", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true);
 
 if (
     isset($_SESSION['post']) && isset($_SESSION['post'][$id_param]) && isset($_SESSION['post'][$id_param]["unique_id"])
@@ -244,8 +242,6 @@ if ($has_sufficient_data) {
     $post_array["service"] = $service;
     $post_array["optradio"] = $service;
     $post_array["embed"] = $is_embed;
-    $post_array["enable_h_index"] = $enable_h_index;
-    $post_array["enable_teaching_mentorship"] = $enable_teaching_mentorship;
     $post_data = json_encode($post_array);
 }
 ?>
