@@ -189,6 +189,7 @@ if(isset($search_flow_config_local)) {
                 , "API error: PubMed not reachable": "pubmed_500_error"
                 , "unexpected PubMed API error": "pubmed_unexpected_error"
                 , "unexpected data processing error": "server_error"
+                , "database connection error": "database_connection_error"
                 , "dataprocessing rate limit": "rate_limit"
                 , "API error: BASE not reachable": "base_xml_error"
                 , "BASE error: timeout": "base_timeout_error"
@@ -239,6 +240,15 @@ if(isset($search_flow_config_local)) {
             server_error: {
                 title: "Sorry! An unexpected error occurred."
                 , reason: 'Unfortunately we don’t know what went wrong. We apologize for the inconvenience. Please <a id="fail-index" class="underline" href="index.php">try again</a> in a few minutes.'
+                , remedy: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
+                , resolution_type: "link"
+                , resolution_label: "Try again"
+                , resolution_link: "index"
+
+            },
+            database_connection_error: {
+                title: "Database connection lost"
+                , reason: 'At the moment we are unable to establish a connection to our database. This can have a number of reasons, most likely our server is down. As a result we can’t create a visualisation for your query. Please <a class="underline" href="index.php">try again</a> in a few minutes.'
                 , remedy: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
