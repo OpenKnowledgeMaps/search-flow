@@ -373,6 +373,9 @@ class SearchBox extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
+    // Trim the query before validation and submission
+    this.updateFormData("query", this.state.formData.query.trim());
+
     const isValid = this.validate();
 
     if (isValid) {
