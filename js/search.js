@@ -149,6 +149,7 @@ function executeSearchRequest(
   vis_page
 ) {
   $.ajax({
+    //todo: this returns success=true even if the database server is not reachable
     url: service_url,
     type: "POST",
     data: post_data,
