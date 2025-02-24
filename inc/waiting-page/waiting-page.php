@@ -221,6 +221,24 @@ if ($has_sufficient_data) {
                 }
             }
         }
+        if ($service === "base") {
+            // re-establish historic order for backwards ID compatibility
+            // from, to, document_types, sorting, min_descsize, repo, coll, vis_type, lang_id, q_advanced, exclude_date_filters, custom_title, custom_clustering
+            $historic_params_order = array("from", "to", "document_types", "sorting", "min_descsize", "repo",
+            "coll", "vis_type", "lang_id", "q_advanced", "exclude_date_filters", "custom_title", "custom_clustering");
+            $reordered_params = array();
+            foreach($historic_params_order as $param) {
+                if (isset($post_params[$param])) {
+                    $reordered_params[] = $param;
+                    }
+                }
+            foreach($params_array as $param) {
+                if (!in_array($param, $reordered_params)) {
+                    $reordered_params[] = $param;
+                    }
+            }
+            $params_array = $reordered_params;
+        }
         $params_json = packParamsJSON($params_array, $post_array);
         if (!empty($query)) {
             $unique_id = createID(array($query, $params_json));
