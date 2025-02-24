@@ -228,7 +228,7 @@ if ($has_sufficient_data) {
             "coll", "vis_type", "lang_id", "q_advanced", "exclude_date_filters", "custom_title", "custom_clustering");
             $reordered_params = array();
             foreach($historic_params_order as $param) {
-                if (isset($post_params[$param])) {
+                if (isset($post_array[$param])) {
                     $reordered_params[] = $param;
                     }
                 }
