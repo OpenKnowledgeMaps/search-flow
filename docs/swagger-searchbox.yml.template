@@ -683,10 +683,10 @@ paths:
           name: enable_h_index
           required: false
           description: |
-            Display or hide the _normalised h-index_ in the _Metrics_ pop-up. 
+            Display or hide the _h-index_ in the _Metrics_ pop-up. 
 
-            `false` means the _normalised h-index_ will not be included in the _Metrics_ pop-up. 
-            `true` means the _normalised h-index_ will be displayed in the _Metrics_ pop-up.
+            `false` means the _h-index_ will not be included in the _Metrics_ pop-up. 
+            `true` means the _h-index_ will be displayed in the _Metrics_ pop-up.
 
             If the parameter is not provided, it defaults to `false`.
 
