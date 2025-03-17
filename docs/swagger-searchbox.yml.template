@@ -662,16 +662,20 @@ paths:
     get:
       summary: Configure your Custom Services Search Box for the data source ORCID.
       description: |
-        This endpoint creates a search box for the ORCID integration. A variety of ORCID specific search options are available. 
-
-        **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
+        This endpoint creates a search box for the ORCID integration.<br>
+        **This endpoint is a prototype! Some features may still be rough around the edges.**
       
       parameters:
         - in: query
           name: academic_age_offset
           required: false
           description: |
-            Set an academic age offset in years. This parameter will be added to the academic age of the researcher. Please provide a number between 0 and NNN.
+            Define a value that will be added to the _academic age_ metric. For example: The academic age of the researcher is 17 and 
+            the `academic_age_offset` you defined is 3, in this case the academic age of the researcher will be 20. 
+
+            **Please note** we are using the following definition for academic age: _number of years since PhD_.
+
+            If the parameter is not provided, it defaults to `0`.
           schema:
             type: integer
             default: 0
@@ -679,14 +683,27 @@ paths:
           name: enable_h_index
           required: false
           description: |
-            Enable the display of the h-index in the visualization. Please provide a boolean value (true or false).
+            Display or hide the _normalised h-index_ in the _Metrics_ pop-up. 
+
+            `false` means the _normalised h-index_ will not be included in the _Metrics_ pop-up. 
+            `true` means the _normalised h-index_ will be displayed in the _Metrics_ pop-up.
+
+            If the parameter is not provided, it defaults to `false`.
+
           schema:
             type: boolean
         - in: query
           name: enable_teaching_mentorship
           required: false
           description: |
-            Enable the display of the h-index in the visualization. Please provide a boolean value (true or false).
+            Display or hide the _teaching and mentorship metrics_ in the _Metrics_ pop-up. 
+
+            **Please note** these metrics do not work out of the box. If you are interested in these metrics please consult our handbook for more information. 
+
+            `false` means the _teaching and mentorship metrics_ will not be included in the _Metrics_ pop-up. 
+            `true` means the _teaching and mentorship metrics_ will be displayed in the _Metrics_ pop-up.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
 
