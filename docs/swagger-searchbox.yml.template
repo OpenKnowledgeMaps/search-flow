@@ -12,10 +12,11 @@ info:
 
     Once the component link is generated, the configuration can be tested by opening the link in your browser. A warning message is displayed in the browser console for parameters with an invalid value. The message states the parameter name and its allowed values.
 
-    The three endpoints below enable:
+    The four endpoints below enable:
       * A search box pre-configured for the BASE data source, with BASE related options and recommended defaults (endpoint `/embedded_searchbox?service=base&show_service=false`).
       * A search box pre-configured for the PubMed data source, with PubMed related options and recommended defaults (endpoint `/embedded_searchbox?service=pubmed&show_service=false`).
-      * A search box pre-configured for both data sources, their related options and recommended defaults (endpoint `/embedded_searchbox`).
+      * A search box pre-configured for BASE and PubMed data sources, their related options and recommended defaults (endpoint `/embedded_searchbox`).
+      * A search box pre-configured for the ORCID data source, with ORCID related defaults (endpoint `/embedded_searchbox?service=orcid&show_service=false`).
 
 
   version: dev
@@ -32,7 +33,7 @@ paths:
       description: |
         This endpoint creates a search box for the BASE integration. A variety of BASE specific search options are available.
 
-        **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
+        **Please note:** This search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
 
       parameters:
         - in: query
@@ -41,7 +42,7 @@ paths:
           description: |
             Specify a content provider available within BASE that your search box will be restricted to.
 
-            **Please note** that this parameter is currently hidden from the end user. If _repo_ is used, it will be applied to every search, and users will not be able to change the parameter.
+            **Please note:** This parameter is currently hidden from the end user. If _repo_ is used, it will be applied to every search, and users will not be able to change the parameter.
 
             The shorthand for a content provider can be identified as follows:
 
@@ -72,7 +73,9 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -97,7 +100,9 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            The sorting radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -123,7 +128,9 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            The dropdown for document types is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -149,7 +156,9 @@ paths:
           description: |
             Display or hide the language option in the search box.
 
-            The dropdown for languages is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -177,7 +186,9 @@ paths:
           description: |
             Display or hide the time range options (_from_ and _to_) in the search box.
 
-            The time range fields are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -198,7 +209,9 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            The dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -220,7 +233,9 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -254,7 +269,9 @@ paths:
           description: |
             Display or hide the advanced query text field in the search box.
 
-            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
       responses:
@@ -293,7 +310,9 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            The sorting radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -319,7 +338,9 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            The dropdown for document types is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -343,7 +364,9 @@ paths:
           description: |
             Display or hide the time range options (from and to) in the search box.
 
-            The time range fields are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
       responses:
@@ -392,7 +415,9 @@ paths:
 
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -417,7 +442,9 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            The sorting radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -465,7 +492,9 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            The dropdown for document types is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -495,7 +524,9 @@ paths:
 
             Display or hide the language option in the search box.
 
-            The dropdown for languages is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -523,7 +554,9 @@ paths:
           description: |
             Display or hide the time range options (_from_ and _to_) in the search box.
 
-            The time range fields are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -548,7 +581,9 @@ paths:
 
             Display or hide the collection (continent or country) option in the search box.
 
-            The dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -574,7 +609,9 @@ paths:
 
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -612,7 +649,9 @@ paths:
 
             Display or hide the advanced query text field in the search box.
 
-            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
       responses:
