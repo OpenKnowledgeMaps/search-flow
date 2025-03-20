@@ -269,7 +269,7 @@ paths:
           description: |
             Display or hide the advanced query text field in the search box.
 
-            `false` means the advanced query text field will be hidden in the search box. `true` means the advanced query text field will be displayed in the search box.
+            `false` means the text field will be hidden in the search box. `true` means the text field will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -649,7 +649,7 @@ paths:
 
             Display or hide the advanced query text field in the search box.
 
-            `false` means the advanced query text field will be hidden in the search box. `true` means the advanced query text field will be displayed in the search box.
+            `false` means the text field will be hidden in the search box. `true` means the text field will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
