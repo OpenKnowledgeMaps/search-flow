@@ -274,6 +274,26 @@ paths:
             If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
+        - in: query
+          name: exclude_date_filters
+          description: |
+            **This option is only recommended for repositories that predominantly contain documents without a publication date. 
+            Using this option has a significant impact on some existing features. This parameter is only available for 
+            the visualisation type Knowledge Maps. It will be ignored in combination with the visualisation type Streamgraph. 
+            Streamgraphs can only be created for documents that have a publication date.**
+
+            Specify whether knowledge maps can contain documents **without** a publication date. 
+            Selecting `true` means that the `to` and `from` date filters are **not** applied, and knowledge maps may also include documents 
+            without a publication date. It also means that _show_time_range_ is automatically set to false and therefore the time 
+            range options will not be available in your search box regardless of your settings.
+
+            **Please note:** The sorting option `most-recent` might not work as expected therefore **we strongly recommend** 
+            selecting `most-relevant` under _sorting_ and `false` under _show_sorting_. In addition some functionalities on the knowledge map 
+            may not work as expected (e.g. sorting documents by year).
+
+            If the parameter is not provided, it defaults to `false`.
+          schema:
+            type: boolean
       responses:
         "200": # status code
           description: Returns the search box page.
