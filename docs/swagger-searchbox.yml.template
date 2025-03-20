@@ -336,7 +336,7 @@ paths:
         - in: query
           name: show_doc_types
           description: |
-            Display or hide the document types option in the search box.
+            Display or hide the article types option in the search box.
 
             `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
