@@ -73,7 +73,7 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -100,7 +100,7 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -128,7 +128,7 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -156,7 +156,7 @@ paths:
           description: |
             Display or hide the language option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -186,7 +186,7 @@ paths:
           description: |
             Display or hide the time range options (_from_ and _to_) in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -209,7 +209,7 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -233,7 +233,7 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -269,7 +269,7 @@ paths:
           description: |
             Display or hide the advanced query text field in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -310,7 +310,7 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -338,7 +338,7 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -364,7 +364,7 @@ paths:
           description: |
             Display or hide the time range options (from and to) in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -415,7 +415,7 @@ paths:
 
             Display or hide the visualisation type in the search box options.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -442,7 +442,7 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -492,7 +492,7 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -524,7 +524,7 @@ paths:
 
             Display or hide the language option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -554,7 +554,7 @@ paths:
           description: |
             Display or hide the time range options (_from_ and _to_) in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `true`.
           schema:
@@ -581,7 +581,7 @@ paths:
 
             Display or hide the collection (continent or country) option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -609,7 +609,7 @@ paths:
 
             Display or hide the _min_descsize_ option in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
@@ -649,7 +649,7 @@ paths:
 
             Display or hide the advanced query text field in the search box.
 
-            `false` means the parameter will be hidden in the search box. `true` means the parameter will be displayed in the search box.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
 
             If the parameter is not provided, it defaults to `false`.
           schema:
