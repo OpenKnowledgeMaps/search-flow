@@ -7,7 +7,7 @@ const Hiddens = ({ entries }) => {
     React.Fragment,
     null,
     ...entries.map((entry) =>
-      e("input", { type: "hidden", name: entry.name, value: entry.value })
+      e("input", { type: "hidden", name: entry.name, value: entry.value || '' })
     )
   );
 };

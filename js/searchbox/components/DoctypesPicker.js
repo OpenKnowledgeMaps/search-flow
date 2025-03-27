@@ -361,7 +361,7 @@ const getLabel = (selectedValues, service) => {
     if (docTypes.length >= selectedValues.length > 0) {
         let text = '';
         selectedValues.forEach((value) => {
-            text += docTypes.find((o) => o.id === value).label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
+            text += docTypes.find((o) => o.id === value)?.label + (selectedValues.length > 1 ? (selectedValues.indexOf(value) !== selectedValues.length - 1 ? ', ' : '') : '');
         });
         return text;
     }
