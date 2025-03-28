@@ -1,6 +1,10 @@
 "use strict";
 
-import {DEFAULT_FROM, DEFAULT_TO, PUBMED_DEFAULT_FROM} from "./options/timespan.js";
+import {
+  DEFAULT_FROM,
+  DEFAULT_TO,
+  PUBMED_DEFAULT_FROM,
+} from "./options/timespan.js";
 import DOCTYPES_OPTIONS from "./options/doctypes.js";
 import VIS_TYPE_OPTIONS from "./options/vis_type.js";
 import SORTING_OPTIONS from "./options/sorting.js";
@@ -9,15 +13,15 @@ import SERVICES_OPTIONS from "./options/services.js";
 import DESC_SIZE_OPTIONS from "./options/desc_size.js";
 import PUBMED_DOCTYPES_OPTIONS from "./options/doctypes_pubmed.js";
 
-
-const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS
-    .filter(option => option.id !== 'retracted publication')
-    .map(option => option.id);
+const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS.filter(
+  (option) => option.id !== "retracted publication"
+).map((option) => option.id);
 
 // settings table: https://docs.google.com/spreadsheets/d/1C2v8IE_yVkxNHQ5aNC0mebcZ_BsojEeO4ZVn8GcaYsQ/edit#gid=0
 export const DEFAULT_SETTINGS = {
   // features on/off
   showOptions: false,
+  showOptionsButton: true,
   showTimeRange: true,
   showDocTypes: true,
   showSorting: true,
@@ -32,6 +36,7 @@ export const DEFAULT_SETTINGS = {
   defaultQuery: "",
   defaultDocTypes: ["121"], // deafult value for service='base'
   defaultArticleTypes: pubMedDefaultId, // default value for service='pubmed'
+  defaultORCID: "",
 
   defaultSorting: "most-relevant",
   // defaultFrom: DEFAULT_FROM, // deafult value for service='base' it changes if service='pubmed'
@@ -50,8 +55,12 @@ export const DEFAULT_SETTINGS = {
   abstractExpansion: "",
   keywordsExpansion: "",
   q_advanced: "",
+  orcid: "",
   // Data Source (new param)
-  defaultService: SERVICES_OPTIONS[0].id,  // by default chosen service is 'base'
+  defaultService: SERVICES_OPTIONS[0].id, // by default chosen service is 'base'
+  academic_age_offset: 0,
+  enable_h_index: false,
+  enable_teaching_mentorship: false,
 };
 
 // set of all parameters that will be passed from the search box url to the search url (because of fail page)
@@ -66,6 +75,10 @@ export const TRANSFERRED_PARAMS = new Set([
   "show_min_descsize",
   "show_q_advanced",
   "show_coll",
+  "show_options_button",
+  "enable_h_index",
+  "enable_teaching_mentorship",
+  "academic_age_offset",
 ]);
 
 /**
@@ -97,14 +110,31 @@ const getConfigSettings = (outerSettings = {}) => {
     settings.showOptions = outerSettings.showOptions;
   }
 
+  if (typeof outerSettings.enable_h_index === "boolean") {
+    settings.enable_h_index = outerSettings.enable_h_index;
+  }
+
+  if (typeof outerSettings.enable_teaching_mentorship === "boolean") {
+    settings.enable_teaching_mentorship =
+      outerSettings.enable_teaching_mentorship;
+  }
+
+  if (typeof outerSettings.academic_age_offset === "number") {
+    settings.academic_age_offset = outerSettings.academic_age_offset;
+  }
+
   // default (preselected) values
   if (typeof outerSettings.q === "string") {
     // the value is also in outerSettings.query, but it's somewhat escaped
     settings.defaultQuery = outerSettings.q.replace(/\\/g, "");
   }
 
+  if (typeof outerSettings.orcid === "string") {
+    settings.defaultORCID = outerSettings.orcid;
+  }
+
   if (typeof outerSettings.from === "string") {
-    if (outerSettings.service === 'pubmed') {
+    if (outerSettings.service === "pubmed") {
       settings.defaultFromPubmed = outerSettings.from;
     } else {
       settings.defaultFrom = outerSettings.from;
@@ -169,6 +199,13 @@ const getQuerySettings = () => {
   const search_params = queryParams.searchParams;
 
   // features on/off
+  if (queryParams.hasValid("enable_h_index", TYPE_BOOL)) {
+    settings.enable_h_index = queryParams.get("enable_h_index") === "true";
+  }
+  if (queryParams.hasValid("enable_teaching_mentorship", TYPE_BOOL)) {
+    settings.enable_teaching_mentorship =
+      queryParams.get("enable_teaching_mentorship") === "true";
+  }
   if (queryParams.hasValid("show_time_range", TYPE_BOOL)) {
     settings.showTimeRange = queryParams.get("show_time_range") === "true";
   }
@@ -183,6 +220,10 @@ const getQuerySettings = () => {
   }
   if (queryParams.hasValid("show_service", TYPE_BOOL)) {
     settings.showService = queryParams.get("show_service") === "true";
+  }
+  if (queryParams.hasValid("show_options_button", TYPE_BOOL)) {
+    settings.showOptionsButton =
+      queryParams.get("show_options_button") === "true";
   }
   if (queryParams.hasValid("show_vis_type", TYPE_BOOL)) {
     settings.showVisType = queryParams.get("show_vis_type") === "true";
@@ -200,36 +241,36 @@ const getQuerySettings = () => {
 
   if (queryParams.has("from")) {
     if (queryParams.hasValid("from", TYPE_DATE)) {
-      if (queryParams.get('service') === 'base') {
+      if (queryParams.get("service") === "base") {
         settings.defaultFrom = queryParams.hasValid("from", TYPE_DATE)
-            ? queryParams.get("from")
-            : undefined;
+          ? queryParams.get("from")
+          : undefined;
       }
-      if (queryParams.get('service') === 'pubmed') {
+      if (queryParams.get("service") === "pubmed") {
         settings.defaultFromPubmed = queryParams.hasValid("from", TYPE_DATE)
-            ? queryParams.get("from")
-            : undefined;
+          ? queryParams.get("from")
+          : undefined;
       }
     } else {
-      (queryParams.get('service') === 'pubmed')
-          ? settings.defaultFromPubmed = PUBMED_DEFAULT_FROM
-          : settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom;
+      queryParams.get("service") === "pubmed"
+        ? (settings.defaultFromPubmed = PUBMED_DEFAULT_FROM)
+        : (settings.defaultFrom = DEFAULT_SETTINGS.defaultFrom);
     }
   }
 
   if (queryParams.has("to")) {
     if (queryParams.hasValid("to", TYPE_DATE)) {
       settings.defaultTo = queryParams.hasValid("to", TYPE_DATE)
-          ? queryParams.get("to")
-          : undefined;
+        ? queryParams.get("to")
+        : undefined;
     } else {
       settings.defaultTo = DEFAULT_SETTINGS.defaultTo;
     }
   }
 
   if (queryParams.has("document_types[]")) {
-    if (queryParams.has('service')) {
-      if (queryParams.get('service') === 'base') {
+    if (queryParams.has("service")) {
+      if (queryParams.get("service") === "base") {
         if (queryParams.hasValid("document_types[]", TYPE_DOCTYPES)) {
           settings.defaultDocTypes = queryParams.getAll("document_types[]");
         } else {
@@ -246,8 +287,8 @@ const getQuerySettings = () => {
   }
 
   if (queryParams.has("article_types[]")) {
-    if (queryParams.has('service')) {
-      if (queryParams.get('service') === 'pubmed') {
+    if (queryParams.has("service")) {
+      if (queryParams.get("service") === "pubmed") {
         if (queryParams.hasValid("article_types[]", TYPE_DOCTYPES_PUBMED)) {
           settings.defaultArticleTypes = queryParams.getAll("article_types[]");
         } else {
@@ -304,31 +345,38 @@ const getQuerySettings = () => {
   if (queryParams.hasValid("q_advanced", TYPE_SINGLE)) {
     settings.q_advanced = queryParams.get("q_advanced");
   }
+  if (queryParams.hasValid("orcid", TYPE_SINGLE)) {
+    settings.orcid = queryParams.get("orcid");
+  }
+  if (queryParams.hasValid("academic_age_offset", TYPE_SINGLE)) {
+    settings.academic_age_offset = queryParams.get("academic_age_offset");
+  }
 
   return settings;
 };
 
 const TYPE_BOOL = {
   validator: (values) =>
-      values.length === 1 && ["true", "false"].includes(values[0]),
+    values.length === 1 && ["true", "false"].includes(values[0]),
   description: "Only the values 'true' and 'false' are allowed.",
 };
 const TYPE_DOCTYPES = {
   validator: (values) =>
-      !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
+    !values.some((value) => !DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
   description: "Only the BASE document ids (codes) are allowed.",
 };
 
 const TYPE_DOCTYPES_PUBMED = {
   validator: (values) =>
-      !values.some((value) => !PUBMED_DOCTYPES_OPTIONS.some((opt) => opt.id === value)),
+    !values.some(
+      (value) => !PUBMED_DOCTYPES_OPTIONS.some((opt) => opt.id === value)
+    ),
   description: "Only the PUBMED document ids (codes) are allowed.",
-
 };
 
 const TYPE_LANGTYPES = {
   validator: (values) =>
-      !values.some((value) => !LANG_OPTIONS.some((opt) => opt.id === value)),
+    !values.some((value) => !LANG_OPTIONS.some((opt) => opt.id === value)),
   description: "Only the BASE languages ids (codes) are allowed.",
 };
 
@@ -355,6 +403,7 @@ const TYPE_INT = (from, to) => ({
   },
   description: `The value must be a number${parseRange(from, to)}.`,
 });
+
 const TYPE_SINGLE = {
   validator: (values) => values.length <= 1,
   description: "Specifying multiple values is prohibited.",
@@ -386,17 +435,15 @@ URLSearchParams.prototype.hasValid = function (name, type) {
   const values = this.getAll(name);
 
   if (!type.validator(values)) {
-
     console.warn(
-        `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
+      `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
     );
 
-    if (name==="lang_id"){
-
+    if (name === "lang_id") {
       const searchParams = new URLSearchParams(window.location.search);
-      searchParams.set('lang_id', DEFAULT_SETTINGS.defaultLang)
-      const newParams = searchParams.toString()
-      window.location.replace(`${window.location.pathname}?${newParams}`)
+      searchParams.set("lang_id", DEFAULT_SETTINGS.defaultLang);
+      const newParams = searchParams.toString();
+      window.location.replace(`${window.location.pathname}?${newParams}`);
       console.warn(
         `The value of the parameter '${name}' is invalid. ${type.description} Default value will be used.`
       );

@@ -2,13 +2,14 @@
 
 const e = React.createElement;
 
-const SearchButton = ({ onClick }) => {
+const SearchButton = ({ onClick, disabled }) => {
   return e(
     "button",
     {
       type: "submit",
       className: "submit-btn",
-      onClick: onClick,
+      onClick,
+      disabled
     },
     "Create Overview"
   );
