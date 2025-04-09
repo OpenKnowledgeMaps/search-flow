@@ -12,10 +12,11 @@ info:
 
     Once the component link is generated, the configuration can be tested by opening the link in your browser. A warning message is displayed in the browser console for parameters with an invalid value. The message states the parameter name and its allowed values.
 
-    The three endpoints below enable:
+    The four endpoints below enable:
       * A search box pre-configured for the BASE data source, with BASE related options and recommended defaults (endpoint `/embedded_searchbox?service=base&show_service=false`).
       * A search box pre-configured for the PubMed data source, with PubMed related options and recommended defaults (endpoint `/embedded_searchbox?service=pubmed&show_service=false`).
-      * A search box pre-configured for both data sources, their related options and recommended defaults (endpoint `/embedded_searchbox`).
+      * A search box pre-configured for BASE and PubMed data sources, their related options and recommended defaults (endpoint `/embedded_searchbox`).
+      * A search box pre-configured for the ORCID data source, with ORCID related defaults (endpoint `/embedded_searchbox?service=orcid&show_service=false`).
 
 
   version: dev
@@ -32,7 +33,7 @@ paths:
       description: |
         This endpoint creates a search box for the BASE integration. A variety of BASE specific search options are available.
 
-        **Please note** that this search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
+        **Please note:** This search box does not allow users to switch between different data sources. Please use the _endpoint_ `/embedded_searchbox` for this purpose.
 
       parameters:
         - in: query
@@ -41,7 +42,7 @@ paths:
           description: |
             Specify a content provider available within BASE that your search box will be restricted to.
 
-            **Please note** that this parameter is currently hidden from the end user. If _repo_ is used, it will be applied to every search, and users will not be able to change the parameter.
+            **Please note:** This parameter is currently hidden from the end user. If _repo_ is used, it will be applied to every search, and users will not be able to change the parameter.
 
             The shorthand for a content provider can be identified as follows:
 
@@ -72,7 +73,9 @@ paths:
           description: |
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -97,7 +100,9 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            The sorting radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -123,7 +128,9 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            The dropdown for document types is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -149,7 +156,9 @@ paths:
           description: |
             Display or hide the language option in the search box.
 
-            The dropdown for languages is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -177,7 +186,9 @@ paths:
           description: |
             Display or hide the time range options (_from_ and _to_) in the search box.
 
-            The time range fields are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the options will be hidden in the search box. `true` means the options will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -198,7 +209,9 @@ paths:
           description: |
             Display or hide the collection (continent or country) option in the search box.
 
-            The dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -220,7 +233,9 @@ paths:
           description: |
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -237,11 +252,11 @@ paths:
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
 
-            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCiD. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCiD profile can be retrieved. BASE is actively working on improving the coverage.
+            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCID. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCID profile can be retrieved. BASE is actively working on improving the coverage.
 
             * `dcrelation:"https://zenodo.org/communities/biosyslit"` This will create a knowledge map of documents with a specific Zenodo community mentioned in the relations field.
 
-            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCiD, author names may not be unique.
+            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCID, author names may not be unique.
 
             * `dccoverage:"Rocky Mountains"` This will create a knowledge map of documents containing research about the Rocky Mountains.
 
@@ -254,7 +269,29 @@ paths:
           description: |
             Display or hide the advanced query text field in the search box.
 
-            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the text field will be hidden in the search box. `true` means the text field will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
+          schema:
+            type: boolean
+        - in: query
+          name: exclude_date_filters
+          description: |
+            **This option is only recommended for repositories that predominantly contain documents without a publication date. 
+            Using this option has a significant impact on some existing features. This parameter is only available for 
+            the visualisation type Knowledge Maps. It will be ignored in combination with the visualisation type Streamgraph. 
+            Streamgraphs can only be created for documents that have a publication date.**
+
+            Specify whether knowledge maps can contain documents **without** a publication date. 
+            Selecting `true` means that the `to` and `from` date filters are **not** applied, and knowledge maps may also include documents 
+            without a publication date. It also means that _show_time_range_ is automatically set to false and therefore the time 
+            range options will not be available in your search box regardless of your settings.
+
+            **Please note:** The sorting option `most-recent` might not work as expected therefore **we strongly recommend** 
+            selecting `most-relevant` under _sorting_ and `false` under _show_sorting_. In addition some functionalities on the knowledge map 
+            may not work as expected (e.g. sorting documents by year).
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
       responses:
@@ -293,7 +330,9 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            The sorting radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -317,9 +356,11 @@ paths:
         - in: query
           name: show_doc_types
           description: |
-            Display or hide the document types option in the search box.
+            Display or hide the article types option in the search box.
 
-            The dropdown for document types is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -343,7 +384,9 @@ paths:
           description: |
             Display or hide the time range options (from and to) in the search box.
 
-            The time range fields are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the options will be hidden in the search box. `true` means the options will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
       responses:
@@ -392,7 +435,9 @@ paths:
 
             Display or hide the visualisation type in the search box options.
 
-            The radio buttons is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -417,7 +462,9 @@ paths:
           description: |
             Display or hide the sorting option in the search box.
 
-            The sorting radio buttons are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -465,7 +512,9 @@ paths:
           description: |
             Display or hide the document types option in the search box.
 
-            The dropdown for document types is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -495,7 +544,9 @@ paths:
 
             Display or hide the language option in the search box.
 
-            The dropdown for languages is displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -523,7 +574,9 @@ paths:
           description: |
             Display or hide the time range options (_from_ and _to_) in the search box.
 
-            The time range fields are displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `true` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the options will be hidden in the search box. `true` means the options will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `true`.
           schema:
             type: boolean
         - in: query
@@ -548,7 +601,9 @@ paths:
 
             Display or hide the collection (continent or country) option in the search box.
 
-            The dropdown for collection is **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -574,7 +629,9 @@ paths:
 
             Display or hide the _min_descsize_ option in the search box.
 
-            The metadata quality radio buttons are **not displayed by default** in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the option will be hidden in the search box. `true` means the option will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
         - in: query
@@ -593,11 +650,11 @@ paths:
 
             It is possible to search directly in individual fields as described in the BASE Interface Guide, Appendix 1.2 Fields. For example:
 
-            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCiD. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCiD profile can be retrieved. BASE is actively working on improving the coverage.
+            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCID. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCID profile can be retrieved. BASE is actively working on improving the coverage.
 
             * `dcrelation:"https://zenodo.org/communities/biosyslit"` This will create a knowledge map of documents with a specific Zenodo community mentioned in the relations field.
 
-            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCiD, author names may not be unique.
+            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCID, author names may not be unique.
 
             * `dccoverage:"Rocky Mountains"` This will create a knowledge map of documents containing research about the Rocky Mountains.
 
@@ -612,13 +669,64 @@ paths:
 
             Display or hide the advanced query text field in the search box.
 
-            The advanced query field is **not** displayed by default in case no value is specified (symbolised by the dash “--” selected in the dropdown). Selecting `false` results in the same behaviour as for default, but makes an explicit mention of the parameter in the URL.
+            `false` means the text field will be hidden in the search box. `true` means the text field will be displayed in the search box.
+
+            If the parameter is not provided, it defaults to `false`.
           schema:
             type: boolean
       responses:
         "200": # status code
           description: Returns the search box page.
 
+  /embedded_searchbox?service=orcid&show_service=false:
+    get:
+      summary: Configure your Custom Services Search Box for the data source ORCID.
+      description: |
+        This endpoint creates a search box for the ORCID integration.<br>
+        **This endpoint is a prototype! Some features may still be rough around the edges.**
+      
+      parameters:
+        - in: query
+          name: academic_age_offset
+          required: false
+          description: |
+            Define a value that will be added to the _academic age_ metric. For example: The academic age of the researcher is 17 and 
+            the `academic_age_offset` you defined is 3, in this case the academic age of the researcher will be 20. 
 
-components:
-  parameters:
+            **Please note** we are using the following definition for academic age: _number of years since PhD_.
+
+            If the parameter is not provided, it defaults to `0`.
+          schema:
+            type: integer
+            default: 0
+        - in: query
+          name: enable_h_index
+          required: false
+          description: |
+            Display or hide the _h-index_ in the _Metrics_ pop-up. 
+
+            `false` means the _h-index_ will not be included in the _Metrics_ pop-up. 
+            `true` means the _h-index_ will be displayed in the _Metrics_ pop-up.
+
+            If the parameter is not provided, it defaults to `false`.
+
+          schema:
+            type: boolean
+        - in: query
+          name: enable_teaching_mentorship
+          required: false
+          description: |
+            Display or hide the _teaching and mentorship metrics_ in the _Metrics_ pop-up. 
+
+            **Please note** these metrics do not work out of the box. If you are interested in these metrics please consult our handbook for more information. 
+
+            `false` means the _teaching and mentorship metrics_ will not be included in the _Metrics_ pop-up. 
+            `true` means the _teaching and mentorship metrics_ will be displayed in the _Metrics_ pop-up.
+
+            If the parameter is not provided, it defaults to `false`.
+          schema:
+            type: boolean
+
+      responses:
+        "200": # status code
+          description: Returns the search box page.

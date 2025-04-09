@@ -149,6 +149,7 @@ function executeSearchRequest(
   vis_page
 ) {
   $.ajax({
+    //todo: this returns success=true even if the database server is not reachable
     url: service_url,
     type: "POST",
     data: post_data,
@@ -284,7 +285,12 @@ function setErrorTexts(
     setErrorTitle(text_object.title);
   }
   if (text_object.hasOwnProperty("reason")) {
-    setErrorReason(text_object.reason);
+    const errorReason = text_object.reason.replace(
+      "%orcid%",
+      `<span class="bold">${post_data.orcid}</span>`
+    );
+    
+    setErrorReason(errorReason);
   }
   if (text_object.hasOwnProperty("remedy")) {
     setErrorRemedy(text_object.remedy);
@@ -300,7 +306,7 @@ function setErrorTexts(
   }
 
   if (text_object.resolution_type) {
-    setErrorResolution(text_object, { post_data, service });
+    setErrorResolution(text_object, { post_data, service, show_form: true });
   }
 }
 
@@ -371,6 +377,9 @@ function setErrorResolution(text_object, options = {}) {
   $("#fail-index").attr("href", resolution_href);
 
   if (show_form) {
+    if (service === 'orcid') {
+      searchboxSettings.showOptions = false;
+    }
     $("#new_search_form").removeClass("nodisplay");
     $("#filters").removeClass("frontend-hidden");
     if (

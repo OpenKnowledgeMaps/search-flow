@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: OKMaps Parameterized Search and Visualisation Service
   description: |
-    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE, PubMed or OpenAIRE data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
+    This is an entry point into the automatic pipeline that leads users directly to a visualisation based on either BASE, PubMed, OpenAIRE, or ORCID data. The entry point is a parameterized search/waiting page that accepts URL-encoded parameters. In this sense, it is functionally similar to a HTTP-GET interface.
 
     However, the service is not returning a raw data representation of a visualisation, but rather a web page that triggers the creation of the visualisation. Therefore, the service entry point does not conform to the strict definition of a HTTP-GET interface.
 
@@ -74,11 +74,11 @@ paths:
 
             It is possible to search directly in individual fields as described in the [BASE Interface Guide](https://www.base-search.net/about/download/base_interface.pdf), Appendix 1.2 Fields. For example:
 
-            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCiD. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCiD profile can be retrieved. BASE is actively working on improving the coverage.
+            * `dcorcid:0000-0002-1894-5040` This will create a knowledge map of documents created by the author with the specified ORCID. Please be aware however that we are dependent on the metadata coverage in BASE. Currently, only a subset of the outputs linked to an ORCID profile can be retrieved. BASE is actively working on improving the coverage.
 
             * `dcrelation:"https://zenodo.org/communities/biosyslit"` This will create a knowledge map of documents with a specific Zenodo community mentioned in the relations field.
 
-            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCiD, author names may not be unique.
+            * `dccreator:"Lastname Firstname"` This will create a knowledge map of documents by a specified author. Please note that in contrast to an ORCID, author names may not be unique.
 
             * `dccoverage:"Rocky Mountains"` This will create a knowledge map of documents containing research about the Rocky Mountains.
 
@@ -225,8 +225,8 @@ paths:
 
             Annotations **must** be added to the metadata in the `dcsubject` field, with the following 
             format `prefix:annotation text`, and the custom_clustering parameter must match the `prefix`. 
-            If you add more than one annotation to a single document, 
-            e.g. `theme:invasion impact` and `theme:invasion success`. Only the first entry will be considered 
+            You can add more than one annotation to a single document, 
+            e.g. `theme:invasion impact` and `theme:invasion success` however only the first entry will be considered 
             during data processing and is used to assign the document to a cluster on the map. 
 
             **Please note** the custom clustering only works if the annotations have been successfully 
@@ -275,7 +275,7 @@ paths:
 
             For PubMed, the query is relayed as-is, which means advanced PubMed syntax can be applied.
 
-            If the parameter is empty the link can’t be generated.
+            **Warning:** If the parameter is empty the link can’t be generated.
           schema:
             type : string
           example: climate change
@@ -389,6 +389,88 @@ paths:
 
           schema:
             type: string
+      responses:
+        '200':    # status code
+          description: Redirecting to the waiting page
+
+  /search?type=get&service=orcid:
+    get:
+      summary: |
+        Configure searches and create visualisations for researchers (Data source: ORCID).
+      description: |
+        This is an entry point into the automatic pipeline that leads users directly to a visualisation based on ORCID data.<br>
+        **This endpoint is a prototype! Some features may still be rough around the edges.**
+
+      parameters:
+        - in: query
+          name: orcid
+          required: true
+          description: |
+            Enter a valid ORCID, e.g. `0000-0002-5238-4195`.
+
+            **Please note** that ORCID also lists researchers which may not have any resources (publications, 
+            datasets or other types of works) associated with their profile. In this case the search will 
+            fail and display an error message. If a profile is set to private, a search for this ORCID 
+            will also fail and display an error message.
+
+          schema:
+            type: string
+        - in: query
+          name: limit
+          required: false
+          description: |
+            This parameter sets an upper limit for the number of documents included in a knowledge map.
+
+            **Please note** that if an author has more works in their ORCID profile than the provided limit _N_, 
+            only the most recent _N_ works will be displayed as a knowledge map. We recommend keeping _N_ 
+            below 200 because higher values will have a significant impact on the User Experience. You may 
+            notice a significant delay, for example zooming into a bubble might take 
+            several seconds until the interaction is completed. 
+
+            If the parameter is not provided, it defaults to `200`.
+          schema:
+            type: integer
+            default: 200
+        - in: query
+          name: academic_age_offset
+          required: false
+          description: |
+            Define a value that will be added to the _academic age_ metric. For example: The academic age 
+            of the researcher is 17 and the `academic_age_offset` you defined is 3, in this case 
+            the academic age of the researcher will be 20. 
+
+            **Please note** we are using the following definition for academic age: _number of years since PhD_.
+
+            If the parameter is not provided, it defaults to `0`.
+          schema:
+            type: integer
+            default: 0
+        - in: query
+          name: enable_h_index
+          required: false
+          description: |
+            Display or hide the _h-index_ in the _Metrics_ pop-up. 
+
+            `false` means the _h-index_ will not be included in the _Metrics_ pop-up. 
+            `true` means the _h-index_ will be displayed in the _Metrics_ pop-up.
+
+            If the parameter is not provided, it defaults to `false`.
+          schema:
+            type: boolean
+        - in: query
+          name: enable_teaching_mentorship
+          required: false
+          description: |
+            Display or hide the _teaching and mentorship metrics_ in the _Metrics_ pop-up. 
+
+            **Please note** these metrics do not work out of the box. If you are interested in these metrics please consult our handbook for more information. 
+
+            `false` means the _teaching and mentorship metrics_ will not be included in the _Metrics_ pop-up. 
+            `true` means the _teaching and mentorship metrics_ will be displayed in the _Metrics_ pop-up.
+
+            If the parameter is not provided, it defaults to `false`.
+          schema:
+            type: boolean
       responses:
         '200':    # status code
           description: Redirecting to the waiting page

@@ -13,6 +13,12 @@ const SERVICES_OPTIONS = [
     infoTitle: "PubMed",
     infoContent: "Comprises more than 35 million citations for biomedical literature from MEDLINE, life science journals, and online books. PubMed is operated by the U.S. National Library of Medicine (NLM)."
   },
+  {
+    id: "orcid",
+    label: "Author metadata. Label text to be added.",
+    infoTitle: "ORCID",
+    infoContent: "Text description to be added."
+  },
 ];
 
 export default SERVICES_OPTIONS;
