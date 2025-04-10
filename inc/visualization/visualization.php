@@ -45,9 +45,37 @@ if ($detect->isMobile()):
     <?php endif ?>
 </script>
 <?php
-    // headstart.php is generated during frontend build using webpack
+    // Getting parsed url with parts such as host or path that can be used later
     $hs_url = parse_url($headstart_path);
-    include dirname(__FILE__) . "/../../.." . $hs_url["path"] . '/dist/headstart.php'; 
+
+    // Relative path to the headstart.php
+    $rel_path = rtrim($hs_url['path'], '/') . '/dist/headstart.php';
+
+    // Getting absolute path to the current file
+    $current_path = dirname(__FILE__);
+
+    // Defining host from the variable with parsed url
+    $host = $hs_url['host'] ?? '';
+
+    // Defining depth of the path depending on the host
+    switch ($host) {
+        case 'dev.openknowledgemaps.org':
+            $project_root = realpath($current_path . '/../../../../');
+            break;
+        default:
+            $project_root = realpath($current_path . '/../../../');
+            break;
+    }
+
+    // Preparing the full path to the headstart.php file
+    $headstart_full_path = $project_root . $rel_path;
+
+    // Check that headstart.php exists or showing understandable error in the logs
+    if (!file_exists($headstart_full_path)) {
+        error_log("ERROR: headstart.php not found at $headstart_full_path");
+    } else {
+        include $headstart_full_path;
+    }
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
