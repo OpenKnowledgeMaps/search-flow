@@ -45,6 +45,9 @@ if ($detect->isMobile()):
     <?php endif ?>
 </script>
 <?php
+    // This script is loading the headstart.php script from the Headstart. It is
+    // contains imports of bundles that are necessary for the application.
+
     // Getting parsed url with parts such as host or path that can be used later
     $hs_url = parse_url($headstart_path);
 
@@ -54,13 +57,9 @@ if ($detect->isMobile()):
     // Getting absolute path to the current file
     $current_path = dirname(__FILE__);
 
-    // TODO: Remove after functionality review
-    error_log("(visualization.php) current_path: " . $current_path);
-    error_log("(visualization.php) hs_url: " . print_r($hs_url, true));
-
     // Defining amount of levels in the headstart path
     $path_parts = explode('/', trim($hs_url['path'], '/'));
-    $extra_levels = max(count($path_parts) - 1, 0); // minus one, because headstart is the root
+    $extra_levels = max(count($path_parts) - 1, 0); // <- minus one, because headstart is the root
 
     // Defining relative root with basic level up ('/../../../') and
     // defined amount of levels in the headstart path
@@ -69,20 +68,14 @@ if ($detect->isMobile()):
     // Defining project root
     $project_root = realpath($relative_root);
 
-    // TODO: Remove after functionality review
-    error_log("visualization.php: project_root = " . $project_root);
-
     // Preparing the full path to the headstart.php file
-    $headstart_full_path = $project_root . $rel_path;
-
-    // TODO: Remove after functionality review
-    error_log("visualization.php: computed path = " . $headstart_full_path);
+    $result_path = $project_root . $rel_path;
 
     // Check that headstart.php exists or showing understandable error in the logs
-    if (!file_exists($headstart_full_path)) {
-        error_log("ERROR: headstart.php not found at $headstart_full_path");
+    if (!file_exists($result_path)) {
+        error_log("ERROR: headstart.php not found at $result_path");
     } else {
-        include $headstart_full_path;
+        include $result_path;
     }
 ?>
 <script type="text/javascript">
