@@ -44,14 +44,45 @@ if ($detect->isMobile()):
         $("#visualization").css("min-height", div_height + "px")
     <?php endif ?>
 </script>
-<script type="text/javascript" src="<?php echo $headstart_path ?>dist/headstart.js"></script>
+<?php
+    // This script is loading the headstart.php script from the Headstart. It is
+    // contains imports of bundles that are necessary for the application.
+
+    // Getting parsed url with parts such as host or path that can be used later
+    $hs_url = parse_url($headstart_path);
+
+    // Relative path to the headstart.php
+    $rel_path = rtrim($hs_url['path'], '/') . '/dist/headstart.php';
+
+    // Getting absolute path to the current file
+    $current_path = dirname(__FILE__);
+
+    // Defining amount of levels in the headstart path
+    $path_parts = explode('/', trim($hs_url['path'], '/'));
+    $extra_levels = max(count($path_parts) - 1, 0); // <- minus one, because headstart is the root
+
+    // Defining relative root with basic level up ('/../../../') and
+    // defined amount of levels in the headstart path
+    $relative_root = $current_path . str_repeat('/..', 3 + $extra_levels);
+
+    // Defining project root
+    $project_root = realpath($relative_root);
+
+    // Preparing the full path to the headstart.php file
+    $result_path = $project_root . $rel_path;
+
+    // Check that headstart.php exists or showing understandable error in the logs
+    if (!file_exists($result_path)) {
+        error_log("ERROR: headstart.php not found at $result_path");
+    } else {
+        include $result_path;
+    }
+?>
 <script type="text/javascript">
     $(document).ready(function () {
         headstart.start();
     })
 </script>
-
-<link rel="stylesheet" href="<?php echo $headstart_path ?>dist/headstart.css">
 <script>
     if("options_<?php echo $service ?>" in search_flow_config.search_options.filter_options) {
         data_config.options = search_flow_config.search_options.filter_options.options_<?php echo $service ?>.dropdowns;
