@@ -54,21 +54,29 @@ if ($detect->isMobile()):
     // Getting absolute path to the current file
     $current_path = dirname(__FILE__);
 
-    // Defining host from the variable with parsed url
-    $host = $hs_url['host'] ?? '';
+    // TODO: Remove after functionality review
+    error_log("(visualization.php) current_path: " . $current_path);
+    error_log("(visualization.php) hs_url: " . print_r($hs_url, true));
 
-    // Defining depth of the path depending on the host
-    switch ($host) {
-        case 'dev.openknowledgemaps.org':
-            $project_root = realpath($current_path . '/../../../../');
-            break;
-        default:
-            $project_root = realpath($current_path . '/../../../');
-            break;
-    }
+    // Defining amount of levels in the headstart path
+    $path_parts = explode('/', trim($hs_url['path'], '/'));
+    $extra_levels = max(count($path_parts) - 1, 0); // minus one, because headstart is the root
+
+    // Defining relative root with basic level up ('/../../../') and
+    // defined amount of levels in the headstart path
+    $relative_root = $current_path . str_repeat('/..', 3 + $extra_levels);
+
+    // Defining project root
+    $project_root = realpath($relative_root);
+
+    // TODO: Remove after functionality review
+    error_log("visualization.php: project_root = " . $project_root);
 
     // Preparing the full path to the headstart.php file
     $headstart_full_path = $project_root . $rel_path;
+
+    // TODO: Remove after functionality review
+    error_log("visualization.php: computed path = " . $headstart_full_path);
 
     // Check that headstart.php exists or showing understandable error in the logs
     if (!file_exists($headstart_full_path)) {
