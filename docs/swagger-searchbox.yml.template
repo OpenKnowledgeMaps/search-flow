@@ -395,7 +395,7 @@ paths:
 
   /embedded_searchbox?show_service=true:
     get:
-      summary: Configure your Custom Services Search Box for both data sources.
+      summary: Configure your Custom Services Search Box for the data sources PubMed and BASE.
       description: |
         This endpoint creates a search box for both integrations: PubMed & BASE. A variety of PubMed and BASE specific search options are available.  It is indicated in the description of each parameter, whether they are restricted to a certain data source.
 
