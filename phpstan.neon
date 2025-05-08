@@ -1,0 +1,13 @@
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
+parameters:
+    phpVersion: 80200
+    reportUnmatchedIgnoredErrors: false
+    paths:
+        - ./
+    ignoreErrors:
+        -
+            message: '#Call to deprecated#'
+            path: *
+            count: 0
