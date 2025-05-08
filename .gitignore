@@ -1,3 +1,7 @@
+# Folders
 /nbproject/private/
+vendor/
 
+# Files
 /config_local.ini
+composer.lock
