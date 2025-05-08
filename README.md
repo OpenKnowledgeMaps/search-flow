@@ -1,14 +1,16 @@
 # search-flow
+
 This package provides a modular, customizable workflow for creating knowledge maps with Head Start. It is written in PHP and JavaScript and intended for use in PHP-based websites
 
 ## Usage
+
 Drop the package into your example or add it as a submodule. In a next step, copy and rename config.ini to config_local.ini and set the paths to Head Start and the search-flow module on your webserver. You can also enable the debug mode and [GET requests](doc/GET_route.md) for the search page.
 
 Now you can add the components from the `inc` directory to your example. A typical Head Start example consists of the following elements:
 
-* Search form: `head-search-form.php` & `search-form.php`
-* Waiting page: `head-search-form.php`,  `waiting-page-header.php` &`waiting-page.php`
-* Visualization: `head-min.php`,  `visualization-header.php` & `visualization.php`
+- Search form: `head-search-form.php` & `search-form.php`
+- Waiting page: `head-search-form.php`, `waiting-page-header.php` &`waiting-page.php`
+- Visualization: `head-min.php`, `visualization-header.php` & `visualization.php`
 
 In addition, banners for use on all pages and components providing additional context to a visualization are provided.
 
@@ -24,5 +26,44 @@ For more information on GET requests, please refer to the [GET route & parameter
 
 The current implementation is extracted from https://github.com/OpenKnowledgeMaps/project-website and turned into a reusable package. As such, there is of course room for improvement; but the package should nevertheless alleviate the process of rewriting the search-flow for every Head Start integration.
 
+## Analyzing code with PHPStan
+
+PHPStan is configured in the project to keep the code base in a decent state. To use it, the composer must be installed on your computer. Before starting code analysis, run the `composer install` command and install the necessary dependencies ([PHPStan](https://phpstan.org/) and [phpstan-deprecation-rules](https://github.com/phpstan/phpstan-deprecation-rules)):
+
+```bash
+composer install
+```
+
+The command above should create the `vendor` folder, as well as the `composer.lock` file. If these resources were not created in the project, it means that the installation process went wrong and it is necessary to pay attention to errors in the terminal. After everything is done, the code can be analyzed.
+
+Code analysis can be run in two ways: locally on the computer or in a Docker container:
+
+1. For local running you should use such command:
+
+   ```bash
+   vendor/bin/phpstan analyse --level 8 --memory-limit 4048M
+   ```
+
+   Many parameters can be configured for this command, it is recommended to refer to [PHPStan documentation](https://phpstan.org/user-guide/getting-started) for details. Here we specify the code analysis level - 8 (recommended) and the limit of memory that will be available during the check.
+
+To run code analysis in a Docker container:
+
+1. Build container:
+
+   ```bash
+   docker build -t phpstan-analyzer -f phpstan.dockerfile .
+   ```
+
+   For this step, you must have Docker running before running this command.
+
+2. Run container:
+
+   ```bash
+   docker run --rm -v $(pwd):/app phpstan-analyzer
+   ```
+
+   After that, the terminal should show the result of the code analysis.
+
 ## License
+
 MIT
