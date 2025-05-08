@@ -6,8 +6,3 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     paths:
         - ./
-    ignoreErrors:
-        -
-            message: '#Call to deprecated#'
-            path: *
-            count: 0
