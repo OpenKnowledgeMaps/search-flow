@@ -12,4 +12,4 @@ RUN composer install --no-interaction --no-scripts --optimize-autoloader
 
 COPY . .
 
-CMD ["vendor/bin/phpstan", "analyse", "--level", "5", "--memory-limit", "4048M"]
+CMD ["vendor/bin/phpstan", "analyse", "--level", "8", "--memory-limit", "4048M"]
