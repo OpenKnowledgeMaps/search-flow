@@ -83,7 +83,7 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
             $param = $options["id"];
 
             if ($options["multiple"] === true) {
-                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
+                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_REQUIRE_ARRAY]);
             } else {
                 $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
             }
@@ -147,7 +147,7 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
         foreach ($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
             if ($optional_param_type === "array") {
                 // force string to array conversion for backward compatibility of GET-API
-                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FORCE_ARRAY);
+                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FORCE_ARRAY]);
             } else {
                 $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
             }
@@ -164,17 +164,17 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
 $request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
 switch ($service) {
     case "openaire":
-        $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
         break;
     case "orcid":
-        $get_query = getParam("orcid", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $get_query = getParam("orcid", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
         break;
     default:
-        $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
         break;
 }
 
-$get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+$get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
 $unique_id = "";
 $dirty_query = "";
 $dirty_q_advanced = "";
