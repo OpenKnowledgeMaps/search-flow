@@ -99,8 +99,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
                     $range = ($options["id"] === "time_range") ? ("time_range") : ("year_range");
                     $is_custom_date = false;
 
-                    $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-                    $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                    $param_from_raw = getParam("from", INPUT_GET, FILTER_DEFAULT, true, true);
+                    $param_to_raw = getParam("to", INPUT_GET, FILTER_DEFAULT, true, true);
+
+                    $param_from = sanitize_if_string($param_from_raw);
+                    $param_to = sanitize_if_string($param_to_raw);
 
                     if ($param_from === false) {
                         $ret_array["from"] = $current_options["start_date"];
