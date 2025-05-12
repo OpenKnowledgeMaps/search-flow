@@ -16,7 +16,9 @@ $vis_type_raw = getParam("vis_type", INPUT_GET, FILTER_DEFAULT, true, true);
 $vis_type = sanitize_string($vis_type_raw);
 $has_vis_type = ($vis_type === false || $vis_type === '') ? false : true;
 
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https:' : 'http:';
+$protocol_server_raw = getParam("HTTPS", INPUT_SERVER, FILTER_DEFAULT, true, true);
+$protocol_server = sanitize_string($protocol_server_raw);
+$protocol = $protocol_server !== '' && $protocol_server !== 'off' ? 'https:' : 'http:';
 
 $custom_title_raw = getParam("custom_title", INPUT_GET, FILTER_DEFAULT, true, true);
 $custom_title = sanitize_string($custom_title_raw);
