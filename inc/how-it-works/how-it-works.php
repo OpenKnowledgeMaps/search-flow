@@ -1,11 +1,13 @@
 <?php
-include_once dirname(__FILE__). '../../../php/get-params.php';
+
+include_once dirname(__FILE__) . '../../../php/get-params.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 
 $service_raw = getParam("service", INPUT_GET, null, true);
 $vis_type_raw = getParam("vis_type", INPUT_GET, null, true, true);
 
-$service = is_string($service_raw) ? htmlspecialchars($service_raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : '';
-$vis_type = is_string($vis_type_raw) ? htmlspecialchars($vis_type_raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : '';
+$service = sanitize_string($service_raw);
+$vis_type = sanitize_string($vis_type_raw);
 
 $is_vis_type_is_timeline = $vis_type === 'timeline';
 $is_service_name_contains_sg_letters = substr($service, -2) === 'sg';
@@ -20,4 +22,5 @@ if (
 } else {
   include('knowledge-map.php');
 }
+
 ?>

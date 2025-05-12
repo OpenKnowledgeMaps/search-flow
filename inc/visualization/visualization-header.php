@@ -1,24 +1,25 @@
 <?php
 include_once dirname(__FILE__). '../../../conf/config.php';
 include_once dirname(__FILE__). '../../../php/header-head.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 
 $docker_internal = loadConfigOption($ini_array, "docker_internal", "general");
 $headstart_path_docker_internal = loadConfigOption($ini_array, "headstart_path_docker_internal", "general");
 
 $id_raw = getParam("id", INPUT_GET, FILTER_DEFAULT, true);
-$id = is_string($id_raw) ? htmlspecialchars($id_raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : '';
+$id = sanitize_string($id_raw);
 if ($search_flow_config["enable_default_id"] && ($id === false || $id === "")) {
     $id = $search_flow_config["default_id"];
 }
 
 $vis_type_raw = getParam("vis_type", INPUT_GET, FILTER_DEFAULT, true, true);
-$vis_type = is_string($vis_type_raw) ? htmlspecialchars($vis_type_raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : '';
+$vis_type = sanitize_string($vis_type_raw);
 $has_vis_type = ($vis_type === false || $vis_type === '') ? false : true;
 
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https:' : 'http:';
 
 $custom_title_raw = getParam("custom_title", INPUT_GET, FILTER_DEFAULT, true, true);
-$custom_title = is_string($custom_title_raw) ? htmlspecialchars($custom_title_raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : false;
+$custom_title = sanitize_string($custom_title_raw);
 $has_custom_title = ($custom_title !== false && $custom_title !== '') ? true : false;
 
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
