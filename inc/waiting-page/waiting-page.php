@@ -153,9 +153,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
         foreach ($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
             if ($optional_param_type === "array") {
                 // force string to array conversion for backward compatibility of GET-API
-                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FORCE_ARRAY]);
+                $param_get_raw = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FORCE_ARRAY]);
+                $param_get = sanitize_if_string($param_get_raw);
             } else {
-                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                $param_get_raw = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true);
+                $param_get = sanitize_if_string($param_get_raw);
             }
             // prevent double string sanitization for q_advanced
             if ($param_get !== false && $optional_param != "q_advanced") {
