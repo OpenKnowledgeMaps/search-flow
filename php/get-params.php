@@ -11,32 +11,24 @@ function getParam(
 ) {
     $boolean_filter = $filter === FILTER_VALIDATE_BOOLEAN;
 
-    // PHP 8.1+: filter must be int, not null
-    // This if statement check that it is int or using FILTER_DEFAULT
-    if ($filter !== null) {
-        $return_param = !empty($options)
-            ? filter_input($where, $param, $filter, ['options' => $options])
-            : filter_input($where, $param, $filter);
-    } else {
-        $return_param = filter_input($where, $param, FILTER_DEFAULT);
-    }
+    $has_options = !empty($options);
+    $filter_value = $filter ?? FILTER_DEFAULT;
 
-    if (!$boolean_filter && $return_param === false) {
-        die("An error occurred while retrieving the following parameter: {$param}");
-    } else if ($boolean_filter && $return_param === null) {
+    $return_param = $has_options
+        ? filter_input($where, $param, $filter_value, ['options' => $options])
+        : filter_input($where, $param, $filter_value);
+
+    // Return false if parameter is not exists or is not equals to flag (for example - not an array)
+    if ($return_param === false) {
+        // ..., but if this parameter was required — die()
+        if (!$boolean_filter && !$return_false_nonexistent) {
+            die("An error ocurred while retrieving the following parameter: " . $param);
+        }
+
         return false;
     }
 
-    if ($return_param === false) {
-        if ($filter === FILTER_VALIDATE_BOOLEAN) {
-            return false;
-        } else if ($return_false_nonexistent === true) {
-            return false;
-        } else {
-            die("The following parameter does not exist: {$param}");
-        }
-    }
-
+    // If its required to return false when param is equal null
     if ($return_false_null && $return_param === null) {
         return false;
     }
