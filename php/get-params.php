@@ -22,7 +22,7 @@ function getParam(
     if ($return_param === false) {
         // ..., but if this parameter was required — die()
         if (!$boolean_filter && !$return_false_nonexistent) {
-            die("An error ocurred while retrieving the following parameter: " . $param);
+            die("An error occurred while retrieving the following parameter: " . $param);
         }
 
         return false;

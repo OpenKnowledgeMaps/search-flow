@@ -1,6 +1,7 @@
 <?php
 include_once dirname(__FILE__) . '../../../php/load-config.php';
 include_once dirname(__FILE__) . '../../../php/get-params.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 include_once dirname(__FILE__) . '../../../conf/config.php';
 
 $ini_array = loadConfigFile();
