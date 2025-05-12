@@ -2,6 +2,7 @@
 include_once dirname(__FILE__) . '../../../php/load-config.php';
 include_once dirname(__FILE__) . '../../../php/get-params.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-if-string.php';
 include_once dirname(__FILE__) . '../../../conf/config.php';
 
 $ini_array = loadConfigFile();
@@ -83,9 +84,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
             $param = $options["id"];
 
             if ($options["multiple"] === true) {
-                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_REQUIRE_ARRAY]);
+                $param_get_raw = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_REQUIRE_ARRAY]);
+                $param_get = sanitize_if_string($param_get_raw);
             } else {
-                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                $param_get_raw = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true);
+                $param_get = sanitize_if_string($param_get_raw);
             }
 
             if ($param_get !== false) {
