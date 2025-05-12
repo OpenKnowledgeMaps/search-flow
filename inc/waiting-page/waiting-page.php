@@ -24,16 +24,15 @@ function logToConsole($data)
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
 
-// This fixes a bug in iOS Safari where an inactive tab would forget the post 
+// This fixes a bug in iOS Safari where an inactive tab would forget the post
 // parameters - usually when the user opens a different tab while waiting for
 // a map to be created.
-$service = getParam("service", INPUT_GET, FILTER_SANITIZE_STRING, true);
-$id_param = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
-if ($id_param === false) {
-    $id_param = "";
-}
-
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
+$service_raw = getParam("service", INPUT_GET, FILTER_DEFAULT, true);
+$id_param_raw = getParam("id", INPUT_GET, FILTER_DEFAULT, true);
+
+$service = sanitize_string($service_raw);
+$id_param = sanitize_string($id_param_raw);
 
 if (
     isset($_SESSION['post']) && isset($_SESSION['post'][$id_param]) && isset($_SESSION['post'][$id_param]["unique_id"])
