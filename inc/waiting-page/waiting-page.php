@@ -187,7 +187,9 @@ switch ($service) {
         break;
 }
 
-$get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+$get_q_advanced_raw = getParam("q_advanced", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+$get_q_advanced = sanitize_if_string($get_q_advanced_raw);
+
 $unique_id = "";
 $dirty_query = "";
 $dirty_q_advanced = "";
