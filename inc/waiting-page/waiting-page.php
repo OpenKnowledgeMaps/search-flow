@@ -169,16 +169,21 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     return $ret_array;
 }
 
-$request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+$request_type_raw = getParam("type", INPUT_GET, FILTER_DEFAULT, true, true);
+$request_type = sanitize_if_string($request_type_raw);
+
 switch ($service) {
     case "openaire":
-        $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query_raw = getParam("project_id", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query = sanitize_if_string($get_query_raw);
         break;
     case "orcid":
-        $get_query = getParam("orcid", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query_raw = getParam("orcid", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query = sanitize_if_string($get_query_raw);
         break;
     default:
-        $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query_raw = getParam("q", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query = sanitize_if_string($get_query_raw);
         break;
 }
 
