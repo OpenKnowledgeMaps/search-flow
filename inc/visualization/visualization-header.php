@@ -1,27 +1,28 @@
 <?php
 include_once dirname(__FILE__). '../../../conf/config.php';
 include_once dirname(__FILE__). '../../../php/header-head.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 
 $docker_internal = loadConfigOption($ini_array, "docker_internal", "general");
 $headstart_path_docker_internal = loadConfigOption($ini_array, "headstart_path_docker_internal", "general");
 
-$id = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
+$id_raw = getParam("id", INPUT_GET, FILTER_DEFAULT, true);
+$id = sanitize_string($id_raw);
 if ($search_flow_config["enable_default_id"] && ($id === false || $id === "")) {
     $id = $search_flow_config["default_id"];
 }
 
-$vis_type = getParam("vis_type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-$has_vis_type = ($vis_type === false)?(false):(true);
+$vis_type_raw = getParam("vis_type", INPUT_GET, FILTER_DEFAULT, true, true);
+$vis_type = sanitize_string($vis_type_raw);
+$has_vis_type = ($vis_type === false || $vis_type === '') ? false : true;
 
-$protocol_server = getParam("HTTPS", INPUT_SERVER, FILTER_SANITIZE_STRING, true, true);
-$protocol = $protocol_server !== false && $protocol_server !== 'off' ? 'https:' : 'http:';
+$protocol_server_raw = getParam("HTTPS", INPUT_SERVER, FILTER_DEFAULT, true, true);
+$protocol_server = sanitize_string($protocol_server_raw);
+$protocol = $protocol_server !== '' && $protocol_server !== 'off' ? 'https:' : 'http:';
 
-$custom_title = 
-        ($search_flow_config["enable_custom_title"])
-            ?(getParam("custom_title", INPUT_GET, FILTER_SANITIZE_STRING, true, true))
-            :(false);
-
-$has_custom_title = ($custom_title !== false)?(true):(false);
+$custom_title_raw = getParam("custom_title", INPUT_GET, FILTER_DEFAULT, true, true);
+$custom_title = sanitize_string($custom_title_raw);
+$has_custom_title = ($custom_title !== false && $custom_title !== '') ? true : false;
 
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
 
@@ -65,7 +66,7 @@ if($search_flow_config["vis_load_context"]) {
                                  : ("n.d.");
 
     // Decode the "params" JSON string to an associative array from the context
-    $params = json_decode($context->params, true);
+    $params = isset($context->params) ? json_decode($context->params, true) : [];
 
     // Set the $custom_title_from_context variable based on the context
     if (isset($params["custom_title"])) {

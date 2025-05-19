@@ -1,6 +1,8 @@
 # Folders
 /nbproject/private/
 vendor/
+.idea/
+.vscode/
 
 # Files
 /config_local.ini

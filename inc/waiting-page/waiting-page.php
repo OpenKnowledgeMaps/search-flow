@@ -1,6 +1,8 @@
 <?php
 include_once dirname(__FILE__) . '../../../php/load-config.php';
 include_once dirname(__FILE__) . '../../../php/get-params.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-if-string.php';
 include_once dirname(__FILE__) . '../../../conf/config.php';
 
 $ini_array = loadConfigFile();
@@ -23,16 +25,15 @@ function logToConsole($data)
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
 
-// This fixes a bug in iOS Safari where an inactive tab would forget the post 
+// This fixes a bug in iOS Safari where an inactive tab would forget the post
 // parameters - usually when the user opens a different tab while waiting for
 // a map to be created.
-$service = getParam("service", INPUT_GET, FILTER_SANITIZE_STRING, true);
-$id_param = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
-if ($id_param === false) {
-    $id_param = "";
-}
-
 $is_embed = getParam("embed", INPUT_GET, FILTER_VALIDATE_BOOLEAN, true) || $search_flow_config["force_embed"];
+$service_raw = getParam("service", INPUT_GET, FILTER_DEFAULT, true);
+$id_param_raw = getParam("id", INPUT_GET, FILTER_DEFAULT, true);
+
+$service = sanitize_string($service_raw);
+$id_param = sanitize_string($id_param_raw);
 
 if (
     isset($_SESSION['post']) && isset($_SESSION['post'][$id_param]) && isset($_SESSION['post'][$id_param]["unique_id"])
@@ -83,9 +84,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
             $param = $options["id"];
 
             if ($options["multiple"] === true) {
-                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_REQUIRE_ARRAY);
+                $param_get_raw = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_REQUIRE_ARRAY]);
+                $param_get = sanitize_if_string($param_get_raw);
             } else {
-                $param_get = getParam($param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                $param_get_raw = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true);
+                $param_get = sanitize_if_string($param_get_raw);
             }
 
             if ($param_get !== false) {
@@ -96,8 +99,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
                     $range = ($options["id"] === "time_range") ? ("time_range") : ("year_range");
                     $is_custom_date = false;
 
-                    $param_from = getParam("from", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
-                    $param_to = getParam("to", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                    $param_from_raw = getParam("from", INPUT_GET, FILTER_DEFAULT, true, true);
+                    $param_to_raw = getParam("to", INPUT_GET, FILTER_DEFAULT, true, true);
+
+                    $param_from = sanitize_if_string($param_from_raw);
+                    $param_to = sanitize_if_string($param_to_raw);
 
                     if ($param_from === false) {
                         $ret_array["from"] = $current_options["start_date"];
@@ -147,9 +153,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
         foreach ($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
             if ($optional_param_type === "array") {
                 // force string to array conversion for backward compatibility of GET-API
-                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FORCE_ARRAY);
+                $param_get_raw = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FORCE_ARRAY]);
+                $param_get = sanitize_if_string($param_get_raw);
             } else {
-                $param_get = getParam($optional_param, INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+                $param_get_raw = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true);
+                $param_get = sanitize_if_string($param_get_raw);
             }
             // prevent double string sanitization for q_advanced
             if ($param_get !== false && $optional_param != "q_advanced") {
@@ -161,20 +169,27 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     return $ret_array;
 }
 
-$request_type = getParam("type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+$request_type_raw = getParam("type", INPUT_GET, FILTER_DEFAULT, true, true);
+$request_type = sanitize_if_string($request_type_raw);
+
 switch ($service) {
     case "openaire":
-        $get_query = getParam("project_id", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $get_query_raw = getParam("project_id", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query = sanitize_if_string($get_query_raw);
         break;
     case "orcid":
-        $get_query = getParam("orcid", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $get_query_raw = getParam("orcid", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query = sanitize_if_string($get_query_raw);
         break;
     default:
-        $get_query = getParam("q", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $get_query_raw = getParam("q", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+        $get_query = sanitize_if_string($get_query_raw);
         break;
 }
 
-$get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_SANITIZE_STRING, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
+$get_q_advanced_raw = getParam("q_advanced", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+$get_q_advanced = sanitize_if_string($get_q_advanced_raw);
+
 $unique_id = "";
 $dirty_query = "";
 $dirty_q_advanced = "";

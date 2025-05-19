@@ -1,35 +1,36 @@
 <?php
 
-// Returns parameter or false in case of error/filter failure
-function getParam($param, $where = INPUT_GET, $filter = FILTER_SANITIZE_STRING
-                    , $return_false_nonexistent = false
-                    , $return_false_null = false
-                    , $options = array()) {
-    
-   $boolean_filter = $filter === FILTER_VALIDATE_BOOLEAN;
-    
-   $return_param = filter_input($where, $param, $filter, $options);
-    
-    if(!$boolean_filter && $return_param === false) {
-        die("An error ocurred while retrieving the following parameter: " . $param);
-    } else if($boolean_filter && $return_param === null) {
+// Returns parameter or false (in case of error/filter failure)
+function getParam(
+    string $param,
+    int $where = INPUT_GET,
+    ?int $filter = FILTER_DEFAULT,
+    bool $return_false_nonexistent = false,
+    bool $return_false_null = false,
+    array $options = []
+) {
+    $boolean_filter = $filter === FILTER_VALIDATE_BOOLEAN;
+
+    $has_options = !empty($options);
+    $filter_value = $filter ?? FILTER_DEFAULT;
+
+    $return_param = $has_options
+        ? filter_input($where, $param, $filter_value, ['options' => $options])
+        : filter_input($where, $param, $filter_value);
+
+    // Return false if parameter is not exists or is not equals to flag (for example - not an array)
+    if ($return_param === false) {
+        // ..., but if this parameter was required — die()
+        if (!$boolean_filter && !$return_false_nonexistent) {
+            die("An error occurred while retrieving the following parameter: " . $param);
+        }
+
         return false;
     }
 
-    if($return_param === false) {
-        if($filter === FILTER_VALIDATE_BOOLEAN) {
-            return false;
-        } else if ($return_false_nonexistent === true) {
-            return false;
-        } else {
-            die("The following parameter does not exist: ". $param);
-        }
-    }
-    
-    if($return_false_null) {
-        if($return_param === null) {
-            return false;
-        }
+    // If its required to return false when param is equal null
+    if ($return_false_null && $return_param === null) {
+        return false;
     }
 
     return $return_param;
