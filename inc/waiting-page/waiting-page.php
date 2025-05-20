@@ -4,6 +4,8 @@ include_once dirname(__FILE__) . '../../../php/get-params.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-if-string.php';
 include_once dirname(__FILE__) . '../../../conf/config.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-recursive.php';
+
 
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
@@ -159,6 +161,7 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
                 $param_get = $_GET[$optional_param];
             }
 
+            $param_get = sanitize_recursive($param_get);
         } else {
             $param_get_raw = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true);
             $param_get = sanitize_if_string($param_get_raw);
