@@ -5,7 +5,7 @@ include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-if-string.php';
 include_once dirname(__FILE__) . '../../../conf/config.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-recursive.php';
-
+include_once dirname(__FILE__) . '../../../php/normalizeAndSanitizeString.php';
 
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
@@ -15,6 +15,14 @@ $headstart_path = loadConfigOption($ini_array, "headstart_path", "general");
 $enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "general");
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
+
+function normalizeAndSanitizeIfValueIsString(mixed $value): mixed {
+    if (!is_string($value)) {
+        return $value;
+    }
+
+    return normalizeAndSanitizeString($value);
+}
 
 // Log to the browser console
 function logToConsole($data)
@@ -182,20 +190,20 @@ $request_type = sanitize_if_string($request_type_raw);
 switch ($service) {
     case "openaire":
         $get_query_raw = getParam("project_id", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-        $get_query = sanitize_if_string($get_query_raw);
+        $get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
         break;
     case "orcid":
         $get_query_raw = getParam("orcid", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-        $get_query = sanitize_if_string($get_query_raw);
+        $get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
         break;
     default:
         $get_query_raw = getParam("q", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-        $get_query = sanitize_if_string($get_query_raw);
+        $get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
         break;
 }
 
 $get_q_advanced_raw = getParam("q_advanced", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-$get_q_advanced = sanitize_if_string($get_q_advanced_raw);
+$get_q_advanced = normalizeAndSanitizeIfValueIsString($get_q_advanced_raw);
 
 $unique_id = "";
 $dirty_query = "";
