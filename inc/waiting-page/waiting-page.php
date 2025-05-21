@@ -423,11 +423,24 @@ if ($has_sufficient_data) {
         }
     });
 
-    let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
+    function sanitizeQuery(input) {
+        // Decode HTML entities
+        const htmlDecoded = new DOMParser().parseFromString(input, "text/html").documentElement.textContent;
+
+        // Remove backslashes
+        const unescaped = htmlDecoded.replace(/\\(["'])/g, '$1');
+
+        // Remove HTML tags (basic XSS strip)
+        const tagStripped = unescaped.replace(/<[^>]*>/g, '');
+
+        return tagStripped;
+    }
+
+    let search_term = sanitizeQuery(getPostData(post_data, "q", "string"));
     if (post_data["q_advanced"] === false) {
         post_data["q_advanced"] = "undefined";
     }
-    let search_term_advanced = getPostData(post_data, "q_advanced", "string").replace(/[\\]/g, "");
+    let search_term_advanced = sanitizeQuery(getPostData(post_data, "q_advanced", "string"));
     let terms = [search_term, search_term_advanced].filter(element => {
         return element !== '';
     });
