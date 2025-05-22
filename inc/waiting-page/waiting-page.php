@@ -94,11 +94,16 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
             $param = $options["id"];
 
             if ($options["multiple"] === true) {
-                $param_get_raw = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_REQUIRE_ARRAY]);
-                $param_get = sanitize_if_string($param_get_raw);
+                $param_get = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_REQUIRE_ARRAY]);
             } else {
-                $param_get_raw = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true);
-                $param_get = sanitize_if_string($param_get_raw);
+                $param_get = getParam($param, INPUT_GET, FILTER_DEFAULT, true, true);
+            }
+
+            // Sanitize parameter
+            if (is_array($param_get)) {
+                $param_get = sanitize_recursive($param_get);
+            } elseif (is_string($param_get)) {
+                $param_get = sanitize_string($param_get);
             }
 
             if ($param_get !== false) {
@@ -160,26 +165,19 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
 
     // Check for params from search form
     if (isset($search_flow_config["optional_get_params"][$service])) {
-    foreach ($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
-
-        if ($optional_param_type === "array") {
-            $param_get = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_REQUIRE_ARRAY]);
-
-            if ($param_get === false && isset($_GET[$optional_param]) && is_array($_GET[$optional_param])) {
-                $param_get = $_GET[$optional_param];
+        foreach ($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
+            if ($optional_param_type === "array") {
+                // force string to array conversion for backward compatibility of GET-API
+                $param_get = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FORCE_ARRAY]);
+            } else {
+                $param_get = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true);
             }
-
-            $param_get = sanitize_recursive($param_get);
-        } else {
-            $param_get_raw = getParam($optional_param, INPUT_GET, FILTER_DEFAULT, true, true);
-            $param_get = sanitize_if_string($param_get_raw);
-        }
-
-        if ($param_get !== false && $optional_param != "q_advanced") {
-            $ret_array[$optional_param] = $param_get;
+            // prevent double string sanitization for q_advanced
+            if ($param_get !== false && $optional_param != "q_advanced") {
+                $ret_array[$optional_param] = $param_get;
+            }
         }
     }
-}
 
     return $ret_array;
 }
