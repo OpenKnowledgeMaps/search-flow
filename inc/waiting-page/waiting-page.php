@@ -269,17 +269,16 @@ $request_type = sanitize_if_string($request_type_raw);
 switch ($service) {
     case "openaire":
         $get_query_raw = getParam("project_id", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-        $get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
         break;
     case "orcid":
         $get_query_raw = getParam("orcid", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-        $get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
         break;
     default:
         $get_query_raw = getParam("q", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-        $get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
         break;
 }
+
+$get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
 
 // TODO: Ask to explain what is q_advanced and for what is used for?
 /**
