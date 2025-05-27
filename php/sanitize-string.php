@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Safely encodes string for HTML context.
+ * HTML special characters escaping for safe output.
  * @param mixed $value - Value that must be encoded.
  * @param int $flags - Flags of the htmlspecialchars in-built function.
  * @param string $encoding - Encoding format.

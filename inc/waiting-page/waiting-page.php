@@ -5,7 +5,7 @@ include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-if-string.php';
 include_once dirname(__FILE__) . '../../../conf/config.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-array-with-strings.php';
-include_once dirname(__FILE__) . '../../../php/normalizeAndSanitizeString.php';
+include_once dirname(__FILE__) . '../../../php/normalize-and-sanitize.php';
 
 /**
  * Connect objects with configuration and get the
@@ -22,17 +22,17 @@ $filter_options = $search_flow_config["filter_options"];
 
 /**
  * The function accepts a value of any type. If the value is a string,
- * it passes it to the normalizeAndSanitizeString function and returns
+ * it passes it to the normalize_and_sanitize function and returns
  * the result of its work (a string without HTML encoding and tags).
  * @param mixed $value - Some value.
  * @return mixed - Initial value or formatted string.
  */
-function normalizeAndSanitizeIfValueIsString(mixed $value): mixed {
+function normalize_and_sanitize_if_string(mixed $value): mixed {
     if (!is_string($value)) {
         return $value;
     }
 
-    return normalizeAndSanitizeString($value);
+    return normalize_and_sanitize($value);
 }
 
 /**
@@ -278,14 +278,14 @@ switch ($service) {
         break;
 }
 
-$get_query = normalizeAndSanitizeIfValueIsString($get_query_raw);
+$get_query = normalize_and_sanitize_if_string($get_query_raw);
 
 // TODO: Ask to explain what is q_advanced and for what is used for?
 /**
  * Retrieving the advanced query from the request too. And sanitizing it.
  */
 $get_q_advanced_raw = getParam("q_advanced", INPUT_GET, FILTER_DEFAULT, true, true, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
-$get_q_advanced = normalizeAndSanitizeIfValueIsString($get_q_advanced_raw);
+$get_q_advanced = normalize_and_sanitize_if_string($get_q_advanced_raw);
 
 /**
  * Defining the variables with default values
