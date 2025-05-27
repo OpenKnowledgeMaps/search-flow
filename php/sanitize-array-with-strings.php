@@ -9,9 +9,9 @@ include_once dirname(__FILE__) . '/sanitize-if-string.php';
  * @param string $encoding - Encoding format.
  * @return string[] - Array with encoded strings.
  */
-function sanitize_recursive(mixed $value, int $flags = ENT_QUOTES | ENT_SUBSTITUTE, string $encoding = 'UTF-8'): mixed {
+function sanitize_array_with_strings(mixed $value, int $flags = ENT_QUOTES | ENT_SUBSTITUTE, string $encoding = 'UTF-8'): mixed {
     if (is_array($value)) {
-        return array_map(fn($v) => sanitize_recursive($v, $flags, $encoding), $value);
+        return array_map(fn($v) => sanitize_array_with_strings($v, $flags, $encoding), $value);
     }
 
     // Fallback if value is not array

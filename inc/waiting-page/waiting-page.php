@@ -4,7 +4,7 @@ include_once dirname(__FILE__) . '../../../php/get-params.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-string.php';
 include_once dirname(__FILE__) . '../../../php/sanitize-if-string.php';
 include_once dirname(__FILE__) . '../../../conf/config.php';
-include_once dirname(__FILE__) . '../../../php/sanitize-recursive.php';
+include_once dirname(__FILE__) . '../../../php/sanitize-array-with-strings.php';
 include_once dirname(__FILE__) . '../../../php/normalizeAndSanitizeString.php';
 
 /**
@@ -154,7 +154,7 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
          * For each parameter:
          * - If the parameter allows multiple selections, retrieves an array of values with getParam, applying filters.
          * - If the parameter is not an array, treats it as a string.
-         * - Parameters are cleared using sanitize_recursive or sanitize_string.
+         * - Parameters are cleared using sanitize_array_with_strings or sanitize_string.
          * - If the value of the parameter is not false, adds it to the array.
          * - If the value is false and the parameter is a time range or a range of years, processes the time parameters
          * from and to, setting default or custom dates.
@@ -170,7 +170,7 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
 
             // Sanitize parameter
             if (is_array($param_get)) {
-                $param_get = sanitize_recursive($param_get);
+                $param_get = sanitize_array_with_strings($param_get);
             } elseif (is_string($param_get)) {
                 $param_get = sanitize_string($param_get);
             }
