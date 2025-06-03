@@ -36,6 +36,25 @@ function normalize_and_sanitize_if_string(mixed $value): mixed {
 }
 
 /**
+ * This function is required for backward compatibility of id visualizations creation.
+ * Previously, we used the FILTER_SANITIZE_STRING (from php 8.2 it is deprecated),
+ * which encoded characters in the old format (FILTER_SANITIZE_STRING: gov't > gov&#39;t),
+ * but htmlspecialchars encodes in the new one, gov&#39;t.
+ * So we don't escape the quotes with htmlspecialchars, but use a retype.
+ *
+ * @param string $value - String that should be sanitized.
+ * @return - Sanitized string in the format of FILTER_SANITIZE_STRING.
+*/
+function filter_sanitize_string_compatibility_bridge(string $value): string {
+    $value = normalize_and_sanitize($value);
+    $value = strip_tags($value);
+    $value = htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
+    $value = str_replace("'", '&#39;', $value);
+    $value = str_replace('"', '&#34;', $value);
+    return $value;
+}
+
+/**
  * This function allows to output logs to the BROWSER console.
  * @param mixed $data - data that should be displayed in a browser.
  * @return void - This function is not returning anything.
@@ -170,7 +189,7 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
 
             // Sanitize parameter
             if (is_array($param_get)) {
-                $param_get = sanitize_array_with_strings($param_get);
+                $param_get = array_map('filter_sanitize_string_compatibility_bridge', $param_get);
             } elseif (is_string($param_get)) {
                 $param_get = sanitize_string($param_get);
             }
