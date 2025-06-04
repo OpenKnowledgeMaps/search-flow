@@ -7,3 +7,4 @@ vendor/
 # Files
 /config_local.ini
 composer.lock
+.phpunit.result.cache
