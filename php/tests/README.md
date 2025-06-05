@@ -4,23 +4,23 @@ This folder contains tests and their configurations for PHP scripts in the `/php
 
 It contains three main folders:
 
-1. functions - this is the folder with the tests themselves;
-2. docker is the folder with the dockerfile;
-3. configuration - a folder for storing test configurations.
+1. `functions` - folder with the tests;
+2. `docker` - folder with the dockerfile;
+3. `configuration` - folder for storing test configurations.
 
-Tests implemented using `PHPUnit`. All tests are run in the docker container.
+Tests implemented using [`PHPUnit`](https://phpunit.de/index.html). All tests are run in the docker container.
 
 ## How to run tests
 
-To run the tests, you need to follow the two steps below:
+To run tests, you need to follow steps below (run them from the root folder level of the project):
 
-1. Build docker container:
+1. Build a docker container:
 
    ```
    docker build -t php-test php/tests/docker
    ```
 
-2. Run container with tests:
+2. Run the container with tests:
 
    ```
    docker run --rm -v $(pwd)/php:/app php-test phpunit --configuration tests/configuration/phpunit.xml
