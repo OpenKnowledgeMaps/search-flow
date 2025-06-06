@@ -1,7 +1,7 @@
 <?php
 
 // Returns parameter or false in case of error/filter failure
-function getParam($param, $where = INPUT_GET, $filter = FILTER_SANITIZE_STRING
+function getParam($param, $where = INPUT_GET, $filter = FILTER_DEFAULT
                     , $return_false_nonexistent = false
                     , $return_false_null = false
                     , $options = array()) {
