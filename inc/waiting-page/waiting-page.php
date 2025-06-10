@@ -5,6 +5,10 @@ include_once dirname(__FILE__) . '../../../conf/config.php';
 require_once __DIR__ . '/../../php/normalize-string.php';
 require_once __DIR__ . '/../../php/sanitize-string.php';
 
+/**
+ * Connect objects with configuration and get the
+ * necessary settings from these objects
+ */
 $ini_array = loadConfigFile();
 $is_debug = loadConfigOption($ini_array, "debug", "general");
 $searchflow_path = loadConfigOption($ini_array, "searchflow_path", "general");
@@ -14,7 +18,11 @@ $enable_get_requests = loadConfigOption($ini_array, "enable_get_requests", "gene
 $vis_page = $search_flow_config["vis_page"];
 $filter_options = $search_flow_config["filter_options"];
 
-// Log to the browser console
+/**
+ * This function allows to output logs to the BROWSER console.
+ * @param mixed $data - data that should be displayed in a browser.
+ * @return void - This function is not returning anything.
+ */
 function logToConsole($data)
 {
     $output = $data;
@@ -25,6 +33,13 @@ function logToConsole($data)
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
 
+/**
+ * The function accepts a value of any type. If the value is a string,
+ * it passes it to the normalize_and_sanitize function and returns
+ * the result of its work (a string without HTML encoding and tags).
+ * @param mixed $value - Some value
+ * @return mixed - Initial value or formatted string
+ */
 function normalize_and_sanitize(mixed $value): mixed {
     if (is_string($value)) {
         $processed_value = normalize_string($value);
@@ -39,9 +54,12 @@ function normalize_and_sanitize(mixed $value): mixed {
     return $value;
 }
 
-// This fixes a bug in iOS Safari where an inactive tab would forget the post 
-// parameters - usually when the user opens a different tab while waiting for
-// a map to be created.
+/**
+ * This fixes a bug in iOS Safari where an inactive tab would forget
+ * the post parameters - usually when the user opens a different tab
+ * while waiting for a map to be created.
+ *
+ */
 $service = getParam("service", INPUT_GET, FILTER_DEFAULT, true);
 $service = normalize_and_sanitize($service);
 
@@ -64,6 +82,20 @@ if (
     $_POST = $_SESSION['post'][$id_param];
 }
 
+/**
+ * This function accepts two arrays: parameters ($params_array) and parameters
+ * from $_POST ($post_params). It returns a new array with parameters in json format.
+ * This new array contains the parameters that were in the parameters array from $_POST.
+ * If parameters from the first received array ($params_array) were not found in the second
+ * array ($post_params), they are ignored.
+ * @param mixed $params_array - Array of parameters whose occurrence should be checked.
+ * @param mixed $post_params - Array of all possible parameters.
+ * @return string|null - This function can return a variety of value options:
+ * null: If $params_array is null, the function returns null;
+ * string: If $output_array is not empty and is successfully encoded into JSON, json_encode returns a string.
+ * bool: If json_encode fails to encode the array (for example, if there are encoding
+ * problems), the function returns false.
+ */
 function packParamsJSON($params_array, $post_params)
 {
 
@@ -82,16 +114,34 @@ function packParamsJSON($params_array, $post_params)
     return json_encode($output_array);
 }
 
+/**
+ * This function generates the id for the visualization based on an array of strings.
+ * @param mixed $string_array - Array with strings;
+ * @return string - Visualization id.
+ */
 function createID($string_array)
 {
     $string_to_hash = implode(" ", $string_array);
     return md5($string_to_hash);
 }
 
+/**
+ * This function forms an array of GET request parameters based on input data and settings.
+ * @param mixed $get_query - Query string.
+ * @param mixed $service - Service (BASE, PubMed, ORCID, etc.).
+ * @param mixed $filter_options - Predefined in the config filter options.
+ * @param mixed $get_q_advanced - Advanced query string.
+ * @return array<array|string>|array{q: mixed}
+ */
 function createGetRequestArray($get_query, $service, $filter_options, $get_q_advanced)
 {
     global $search_flow_config, $is_embed;
 
+    /**
+     * Creation of the array that will be returned back from the function.
+     * Also the query string is added into it and advanced query string too,
+     * if it is defined
+     */
     $ret_array = [
         "q" => $get_query
     ];
@@ -99,9 +149,21 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
         $ret_array["q_advanced"] = $get_q_advanced;
     }
 
-    // Check for params from search form
+    /**
+     * Check if parameters related to the $service in $filter_options are exists.
+     */
     if (array_key_exists("options_" . $service, $filter_options)) {
         $current_options = $filter_options["options_" . $service];
+
+        /**
+         * For each parameter:
+         * - If the parameter allows multiple selections, retrieves an array of values with getParam, applying filters.
+         * - If the parameter is not an array, treats it as a string.
+         * - Parameters are cleared using sanitize_array_with_strings or sanitize_string.
+         * - If the value of the parameter is not false, adds it to the array.
+         * - If the value is false and the parameter is a time range or a range of years, processes the time parameters
+         * from and to, setting default or custom dates.
+         */
         foreach ($current_options["dropdowns"] as $options) {
             $param = $options["id"];
 
@@ -170,7 +232,11 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
         }
     }
 
-    // Check for params from search form
+    /**
+     * Checks for additional optional parameters in $search_flow_config.
+     * Retrieves them with getParam and adds them to the array if they are
+     * not false and are not q_advanced.
+     */
     if (isset($search_flow_config["optional_get_params"][$service])) {
         foreach ($search_flow_config["optional_get_params"][$service] as $optional_param => $optional_param_type) {
             if ($optional_param_type === "array") {
@@ -192,9 +258,17 @@ function createGetRequestArray($get_query, $service, $filter_options, $get_q_adv
     return $ret_array;
 }
 
+/**
+ * Code below is getting the request type (e.g. GET).
+ * Type will be received from the request URL, so it will be sanitized before use.
+ */
 $request_type = getParam("type", INPUT_GET, FILTER_DEFAULT, true, true);
 $request_type = normalize_and_sanitize($request_type);
 
+/**
+ * Depending on the service that should be used we are retrieving the query value
+ * from the different URL parameters. Then it is sanitizing too.
+ */
 switch ($service) {
     case "openaire":
         $get_query = getParam("project_id", INPUT_GET, FILTER_DEFAULT, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -210,18 +284,28 @@ switch ($service) {
 $get_query = normalize_string($get_query);
 $get_query = sanitize_string($get_query);
 
+/**
+ * Retrieving the advanced query from the request too. And sanitizing it.
+ */
 $get_q_advanced = getParam("q_advanced", INPUT_GET, FILTER_DEFAULT, true, true, FILTER_FLAG_NO_ENCODE_QUOTES);
 if (is_string($get_q_advanced)) {
     $get_q_advanced = normalize_string($get_q_advanced);
     $get_q_advanced = sanitize_string($get_q_advanced);
 }
 
+/**
+ * Defining the variables with default values
+ */
 $unique_id = "";
 $dirty_query = "";
 $dirty_q_advanced = "";
 $post_array = array();
-$has_sufficient_data = false;
+$has_sufficient_data = false; // Flag that says that all data processed
 
+/**
+ * If $_POST array is not empty, then it will be assign to the $post_array variable.
+ * And we will get the query (-advance too) string from it.
+ */
 if (!empty($_POST)) {
     $post_array = $_POST;
     if (array_key_exists("q", $post_array)) {
@@ -237,6 +321,11 @@ if (!empty($_POST)) {
 }
 
 # this is where the request is translated from GET request to POST
+/**
+ * If get requests are enabled and the request is GET then post array will be created
+ * from it or from the predefined configuration parameters. It is possible only if $service
+ * is defined from the $_POST request parameters.
+ */
 if (
     $enable_get_requests && $request_type === "get"
     && $service !== false && $service !== null
@@ -247,13 +336,27 @@ if (
     $has_sufficient_data = true;
 }
 
+/**
+ * If all data was provided and script was possible to process everything correctly...
+ */
 if ($has_sufficient_data) {
+    /**
+     * Checks that visualization id is not created and creates it using createID function.
+     * Or retrieve it from the request parameters.
+     */
     if (!isset($post_array["unique_id"])) {
+        /**
+         * Preparing the query string and date of the visualization creation.
+         */
         $query = addslashes(trim(strtolower(strip_tags($dirty_query))));
 
         $date = new DateTime();
         $post_array["today"] = $date->format('Y-m-d');
 
+        /**
+         * Then retrieve an array of mandatory parameters for the specified service and
+         * add optional parameters to it, if they exist.
+         */
         $params_array = $search_flow_config["params_arrays"][$service];
         if (isset($search_flow_config["optional_get_params"][$service])) {
             foreach ($search_flow_config["optional_get_params"][$service] as $optional_param) {
@@ -263,8 +366,10 @@ if ($has_sufficient_data) {
             }
         }
         if ($service === "base") {
-            // re-establish historic order for backwards ID compatibility
-            // from, to, document_types, sorting, min_descsize, repo, coll, vis_type, lang_id, q_advanced, exclude_date_filters, custom_title, custom_clustering
+            /**
+             * Re-establish historic order for backwards ID compatibility:
+             * [from, to, document_types, sorting, min_descsize, repo, coll, vis_type, lang_id, q_advanced, exclude_date_filters, custom_title, custom_clustering].
+             */
             $historic_params_order = array("from", "to", "document_types", "sorting", "min_descsize", "repo",
             "coll", "vis_type", "lang_id", "q_advanced", "exclude_date_filters", "custom_title", "custom_clustering");
             $reordered_params = array();
