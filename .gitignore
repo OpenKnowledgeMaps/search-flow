@@ -1,4 +1,10 @@
+# Folders
 /nbproject/private/
-
-/config_local.ini
 .vscode/
+
+# Files
+/config_local.ini
+/docs/swagger.yml
+/docs/swagger-searchbox.yml
+/docs/swagger/index.html
+/docs/swagger/searchbox-configurator.html
