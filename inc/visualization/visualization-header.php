@@ -1,25 +1,35 @@
 <?php
 include_once dirname(__FILE__). '../../../conf/config.php';
 include_once dirname(__FILE__). '../../../php/header-head.php';
+require_once __DIR__ . '/../../php/normalize-string.php';
+require_once __DIR__ . '/../../php/sanitize-string.php';
 
 $docker_internal = loadConfigOption($ini_array, "docker_internal", "general");
 $headstart_path_docker_internal = loadConfigOption($ini_array, "headstart_path_docker_internal", "general");
 
-$id = getParam("id", INPUT_GET, FILTER_SANITIZE_STRING, true);
+$id = getParam("id", INPUT_GET, FILTER_DEFAULT, true);
 if ($search_flow_config["enable_default_id"] && ($id === false || $id === "")) {
     $id = $search_flow_config["default_id"];
+} else {
+    $id = normalize_string($id);
+    $id = sanitize_string($id, true);
 }
 
-$vis_type = getParam("vis_type", INPUT_GET, FILTER_SANITIZE_STRING, true, true);
+$vis_type = getParam("vis_type", INPUT_GET, FILTER_DEFAULT, true, true);
 $has_vis_type = ($vis_type === false)?(false):(true);
 
-$protocol_server = getParam("HTTPS", INPUT_SERVER, FILTER_SANITIZE_STRING, true, true);
+$protocol_server = getParam("HTTPS", INPUT_SERVER, FILTER_DEFAULT, true, true);
 $protocol = $protocol_server !== false && $protocol_server !== 'off' ? 'https:' : 'http:';
 
-$custom_title = 
+$custom_title =
         ($search_flow_config["enable_custom_title"])
-            ?(getParam("custom_title", INPUT_GET, FILTER_SANITIZE_STRING, true, true))
+            ?(getParam("custom_title", INPUT_GET, FILTER_DEFAULT, true, true))
             :(false);
+
+if (is_string($custom_title)) {
+    $custom_title = normalize_string($custom_title);
+    $custom_title = sanitize_string($custom_title, true);
+}
 
 $has_custom_title = ($custom_title !== false)?(true):(false);
 
