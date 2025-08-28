@@ -300,7 +300,7 @@ paths:
             It will be ignored in combination with the visualisation type Streamgraph. Streamgraphs 
             can only be created for documents that have a publication date.
 
-            **Please note** the sorting option `most-recent` might not work as expected therefore **we strongly recommend** selecting most-relevant under sorting.
+            **Please note** the sorting option `most-recent` might not work as expected therefore **we strongly recommend** selecting `most-relevant` under _sorting_.
             In addition some functionalities on the knowledge map may not work as expected (e.g. sorting documents by year). 
 
             If the parameter is not provided, it defaults to _false_.
