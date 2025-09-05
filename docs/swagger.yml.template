@@ -442,7 +442,7 @@ paths:
             |`WT`| Wellcome Trust |
 
             **Please note** that this list may not be complete. More information on funder IDs can 
-            be found in the [OpenAIRE API documentation](https://graph.openaire.eu/develop/api.html).
+            be found in the [OpenAIRE API documentation](https://graph.openaire.eu/docs/apis/search-api/).
 
           schema:
             type: string
