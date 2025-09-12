@@ -1,8 +1,14 @@
 <div id="search_box_container" class="<?php echo isset($search_box_class) ? $search_box_class : "" ?>"></div>
 
-<!-- Note: when developing, replace "production.min.js" with "development.js". -->
-<script src="search-flow/lib/react.development.js"></script>
-<script src="search-flow/lib/react-dom.development.js"></script>
+<!--
+    ⚠️ Development Note:
+    When working in development mode, replace the following:
+
+    1. "react.production.min.js"     ➜ "react.development.js"
+    2. "react-dom.production.min.js" ➜ "react-dom.development.js"
+-->
+<script src="search-flow/lib/react.production.min.js"></script>
+<script src="search-flow/lib/react-dom.production.min.js"></script>
 
 <script>
     var searchboxSettings = {
