@@ -545,6 +545,10 @@ if ($has_sufficient_data) {
             script = "searchORCID.php";
             timeout = 600000;
         }
+        if (service === 'aquanavi') {
+            script = "searchAQUANAVI.php";
+            timeout = 240000;
+        }
     });
 
     let search_term = getPostData(post_data, "q", "string").replace(/[\\]/g, "");
