@@ -396,7 +396,7 @@ paths:
           name: project_id
           required: true
           description: |
-            Enter a valid project ID, e.g. `643410` (=OpenAIRE2020).
+            Enter a valid project ID, e.g. `710722` (=OpenUP).
 
             **Please note** that OpenAIRE also lists projects which may not have any resources 
             (publications or datasets) associated with it. In this case the search will fail 
