@@ -306,7 +306,13 @@ function setErrorTexts(
   }
 
   if (text_object.resolution_type) {
-    setErrorResolution(text_object, { post_data, service });
+    const isShowForm = service === "orcid";
+
+    setErrorResolution(text_object, {
+      post_data,
+      service,
+      show_form: isShowForm,
+    });
   }
 }
 
