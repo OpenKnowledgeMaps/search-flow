@@ -75,7 +75,7 @@ function redirectToMap(vis_page, id, service, post_data) {
   let has_previous_params = false;
   if (search_flow_config.waiting_page_options.vis_page_cool_uri) {
     if (post_data.vis_type == "timeline") {
-      redirect_url = "streamgraph"
+      redirect_url = "streamgraph";
     }
     search_flow_config.waiting_page_options.vis_page_params.forEach(function (
       param
@@ -289,7 +289,7 @@ function setErrorTexts(
       "%orcid%",
       `<span class="bold">${post_data.orcid}</span>`
     );
-    
+
     setErrorReason(errorReason);
   }
   if (text_object.hasOwnProperty("remedy")) {
@@ -306,7 +306,13 @@ function setErrorTexts(
   }
 
   if (text_object.resolution_type) {
-    setErrorResolution(text_object, { post_data, service, show_form: true });
+    const isShowForm = service === "orcid";
+
+    setErrorResolution(text_object, {
+      post_data,
+      service,
+      show_form: isShowForm,
+    });
   }
 }
 
@@ -377,7 +383,7 @@ function setErrorResolution(text_object, options = {}) {
   $("#fail-index").attr("href", resolution_href);
 
   if (show_form) {
-    if (service === 'orcid') {
+    if (service === "orcid") {
       searchboxSettings.showOptions = false;
     }
     $("#new_search_form").removeClass("nodisplay");
