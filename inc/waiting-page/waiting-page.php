@@ -410,7 +410,7 @@ if ($has_sufficient_data) {
 }
 ?>
 
-<script src="<?php echo $searchflow_path ?>js/search.js?v=2023-04-24"></script>
+<script src="<?php echo $searchflow_path ?>js/search.js?v=2025-11-21"></script>
 <script>
     <?php if (isset($post_data)): ?>
         var post_data = <?php echo $post_data; ?>;
