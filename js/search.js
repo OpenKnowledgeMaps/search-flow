@@ -174,17 +174,23 @@ function executeSearchRequest(
         let additional_api_errors =
           search_flow_config.waiting_page_options.additional_api_errors;
         if (list_array.length > 0) {
-          if (Object.keys(additional_api_errors).includes(list_array[0])) {
+          const error = list_array[0];
+          if (Object.keys(additional_api_errors).includes(error)) {
+            // If request was to BASE, with usage of a q_advanced option and the error
+            // is related to the q_advanced option the reload button must be removed
+            // from the waiting page
+            if (service === "base" && checkIsQueryAdvancedError(error)) {
+              removeTheRefreshPageButton();
+            }
+
             setErrorTexts(
-              error_texts[additional_api_errors[list_array[0]]],
+              error_texts[additional_api_errors[error]],
               post_data,
               service
             );
             return;
           } else {
-            console.log(
-              "Unhandled additional API error code: " + list_array[0]
-            );
+            console.log("Unhandled additional API error code: " + error);
           }
         }
 
@@ -515,6 +521,19 @@ function createDoctypeString(doctypes, service) {
       doctypes_string += "%22" + doctype + "%22%5BPublication%20Type%5D%20OR";
   });
   return doctypes_string;
+}
+
+// Value must match some from the additional_api_errors from config.php
+function checkIsQueryAdvancedError(error) {
+  const QUERY_ADVANCED_ERROR = "API error: q_advanced";
+  return QUERY_ADVANCED_ERROR === error;
+}
+
+// Removes the page refresh button from HTML (it was created by a PHP template
+// that does not know whether to display it or not).
+function removeTheRefreshPageButton() {
+  const container = document.getElementById("reload-button-paragraph");
+  container.remove();
 }
 
 // Everything related to the progress bar apart from global settings

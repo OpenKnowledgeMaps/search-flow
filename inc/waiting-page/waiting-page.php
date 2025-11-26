@@ -470,7 +470,7 @@ if ($has_sufficient_data) {
         <?php
         if ($service == "openaire") {
         } else { ?>
-            <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
+            <p id="reload-button-paragraph" class="try-now" style="text-align: left !important; margin:30px 0 0;">
                 <a id="error-resolution-link" class="basic-button nodisplay"></a>
             <p id="error-resolution-countdown" class="error-countdown nodisplay">
                 <span class="count-label"></span> <span class="count-value"></span>
