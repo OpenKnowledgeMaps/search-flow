@@ -468,7 +468,7 @@ if ($has_sufficient_data) {
 
         <p id="error-contact"></p>
         <?php
-        if ($service == "openaire" || ($service == "base" && isset($get_q_advanced))) {
+        if ($service == "openaire") {
         } else { ?>
             <p class="try-now" style="text-align: left !important; margin:30px 0 0;">
                 <a id="error-resolution-link" class="basic-button nodisplay"></a>
