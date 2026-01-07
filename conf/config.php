@@ -246,8 +246,8 @@ if (isset($search_flow_config_local)) {
                 title: 'Sorry! We could not create a <span class="vis_type_name">knowledge map</span>.'
                 , reason: 'Most likely there were not enough results for <strong id="search_term_fail"></strong> with the selected search options.'
                 , remedy: "<strong>Here are some tips to improve your query:</strong>"
-                , more_info: '<span id="more-info-service-desc">Alternatively you can <a class="underline" id="more-info-link_na" target="_blank">check out results for your search query on <span id="more-info-link_service"></span></a>. </span>For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>.'
-                , contact: 'If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. Please include the search query in your message.'
+                , more_info: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>.'
+                , contact: 'If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "index"

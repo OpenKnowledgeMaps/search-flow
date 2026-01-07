@@ -436,11 +436,6 @@ if ($has_sufficient_data) {
         <p id="error-reason"></p>
         <p id="error-remedy"></p>
 
-
-        <?php if ($service != "openaire") { ?>
-            <p id="error-more-info"></p>
-        <?php } ?>
-
         <div id="new_search_form" class="noresults-search-form nodisplay">
             <?php
             if ($service == "openaire") {
@@ -465,6 +460,10 @@ if ($has_sufficient_data) {
                 $("#searchform").attr("target", "");
             </script>
         </div>
+
+        <?php if ($service != "openaire") { ?>
+            <p id="error-more-info"></p>
+        <?php } ?>
 
         <p id="error-contact"></p>
         <?php
