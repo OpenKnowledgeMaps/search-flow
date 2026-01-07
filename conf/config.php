@@ -272,8 +272,8 @@ if (isset($search_flow_config_local)) {
             },
             database_connection_error: {
                 title: "Database connection lost"
-                , reason: 'At the moment we are unable to establish a connection to our database. This can have a number of reasons, most likely our server is down. As a result we can’t create a visualisation for your query. Please <a class="underline" href="index.php">try again</a> in a few minutes.'
-                , remedy: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further.'
+                , reason: 'At the moment we are unable to establish a connection to our database. This can have a number of reasons, most likely our server is down. As a result we can\'t create a visualisation for your query. Please <a class="underline" href="index.php">try again</a> in a few minutes.'
+                , remedy: 'If the error persists, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>. We will investigate the issue further and contact our server provider.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "index"
