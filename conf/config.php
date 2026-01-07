@@ -282,7 +282,7 @@ if (isset($search_flow_config_local)) {
             no_post_data: {
                 title: "Ooops! You should not be here..."
                 , reason: 'We apologize for this slight detour. You will be redirected to <a id="fail-index" class="underline" href="index">our search page</a> in 10 seconds.'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Go to search page"
                 , resolution_link: "index"
@@ -292,7 +292,7 @@ if (isset($search_flow_config_local)) {
                 title: "We didn't anticipate this taking so long - unfortunately your request timed out."
                 , reason: "It might be that too many people are currently creating <span class=\"vis_type_name\">knowledge map</span>s. You may also have lost your Internet connection."
                 , remedy: 'In any case, we recommend to check your Internet settings and try again by <a class="underline" style="cursor:pointer" onClick="window.location.reload();">refreshing this page</a>.'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "javascript:location.reload()"
@@ -311,7 +311,7 @@ if (isset($search_flow_config_local)) {
                 title: "An unexpected error occurred while retrieving data from PubMed."
                 , reason: "The PubMed API is currently experiencing problems. We have logged the error and will investigate the issue."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "index"
@@ -321,7 +321,7 @@ if (isset($search_flow_config_local)) {
                 title: "The PubMed API is currently experiencing down time."
                 , reason: "Unfortunately this means, at the moment we cannot provide <span class=\"vis_type_name\">knowledge map</span>s for PubMed."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "index"
@@ -331,7 +331,7 @@ if (isset($search_flow_config_local)) {
                 title: "An error occurred while retrieving data from PubMed."
                 , reason: "Unfortunately this means we cannot create a <span class=\"vis_type_name\">knowledge map</span> for this search."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> with a different search term or <a class="underline" style="cursor:pointer" href="index">use the BASE integration</a>, which also covers the articles indexed in PubMed.'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "index"
@@ -341,7 +341,7 @@ if (isset($search_flow_config_local)) {
                 title: "The API of our data source provider BASE is currently experiencing down time."
                 , reason: "Unfortunately this means, at the moment we cannot create <span class=\"vis_type_name\">knowledge map</span>s for BASE."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in a few minutes.'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Try again"
                 , resolution_link: "index"
@@ -351,7 +351,7 @@ if (isset($search_flow_config_local)) {
                 title: "An unexpected error occurred while retrieving data from BASE."
                 , reason: "The BASE API is currently experiencing problems. We have logged the error and will investigate the issue."
                 , remedy: 'Please <a class="underline" style="cursor:pointer" onClick="window.location.reload();">try again</a> in around 10 seconds.'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please let us know at <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
                 , resolution_link: "javascript:location.reload()"
