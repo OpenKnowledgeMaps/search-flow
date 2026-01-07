@@ -229,10 +229,16 @@ if (isset($search_flow_config_local)) {
         }
         //Translations for potential error reasons when not enough results are returned
         , error_reason_translation: {
-            'timeframe too short': 'Increase the custom time range'
-            , 'query length': 'Try a shorter query'
-            , 'too specific': 'Try keywords instead of long phrases'
-            , 'typo': 'Check if you have a typo in your query'
+            'timeframe too short': [
+                'Increase the custom time range',
+                'Check if you have a typo in your query',
+                'Try keywords instead of long phrases or questions. For example <b>“climate change” and impact</b> instead of “How does climate change impact our lives?”',
+                'Add further document types or reduce the metadata quality under “Refine your search”'],
+            'not enough results': [
+                'Check if you have a typo in your query',
+                'Try keywords instead of long phrases or questions. For example <b>“climate change” and impact</b> instead of “How does climate change impact our lives?”',
+                'Add further document types or reduce the metadata quality under “Refine your search”',
+            ],
         }
         //Error texts
         , error_texts: {
