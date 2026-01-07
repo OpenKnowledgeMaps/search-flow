@@ -161,6 +161,7 @@
 
 #error-remedy_list li {
     list-style: disc;
+    margin-bottom: 10px;
 }
 
 #error-remedy_list {
