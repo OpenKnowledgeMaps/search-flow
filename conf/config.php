@@ -290,11 +290,11 @@ if (isset($search_flow_config_local)) {
             },
             timeout: {
                 title: "We didn't anticipate this taking so long - unfortunately your request timed out."
-                , reason: "It might be that too many people are currently creating <span class=\"vis_type_name\">knowledge map</span>s. You may also have lost your Internet connection."
+                , reason: "It might be that too many people are currently creating visualisations. You may also have lost your Internet connection."
                 , remedy: 'In any case, we recommend to check your Internet settings and try again by <a class="underline" style="cursor:pointer" onClick="window.location.reload();">refreshing this page</a>.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
-                , resolution_label: "Try again"
+                , resolution_label: "Refresh this page"
                 , resolution_link: "javascript:location.reload()"
 
             },
