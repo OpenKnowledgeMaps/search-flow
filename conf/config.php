@@ -361,7 +361,7 @@ if (isset($search_flow_config_local)) {
                 title: "Sorry! We could not create a knowledge map."
                 , reason: "Most likely there were not enough results for your search query."
                 , remedy: 'We recommend adjusting the query and trying again (e.g. use keywords instead of long phrases, use only one of the q fields).'
-                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarizing the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
+                , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
                 , resolution_label: "Refresh this page"
                 , resolution_link: "javascript:location.reload()"
