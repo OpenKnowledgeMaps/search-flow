@@ -20,9 +20,10 @@ For an example to build on top of, refer to the [TRIPLE example](https://github.
 
 For more information on GET requests, please refer to the [GET route & parameters](doc/GET_route.md) document.
 
-## Notes
-
-The current implementation is extracted from https://github.com/OpenKnowledgeMaps/project-website and turned into a reusable package. As such, there is of course room for improvement; but the package should nevertheless alleviate the process of rewriting the search-flow for every Head Start integration.
-
 ## License
 MIT
+
+## Funding
+<img src="https://raw.githubusercontent.com/OpenKnowledgeMaps/CoVis/master/img/EU-flag_small-270x183.png" width="60"> 
+
+This project has received funding from the European Union's Horizon 2020 research and innovation programme, under grant agreement no. 863420.
