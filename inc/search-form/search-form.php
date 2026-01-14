@@ -19,7 +19,7 @@ $waiting_page = $search_flow_config["waiting_page"];
         <span id="base-language-selector-container" style="display: none"></span>
         
         <input type="text" name="q" size="89" required class="text-field" 
-            id="searchterm" placeholder="Enter your search term" spellcheck="true" 
+            id="searchterm" placeholder="Enter your keyword(s), e.g. „climate change“ and impact" spellcheck="true" 
             value="<?php echo (isset($search_query)?($search_query):("")) ?>">
         
         <button type="submit" class="submit-btn">GO</button>

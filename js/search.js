@@ -174,17 +174,16 @@ function executeSearchRequest(
         let additional_api_errors =
           search_flow_config.waiting_page_options.additional_api_errors;
         if (list_array.length > 0) {
-          if (Object.keys(additional_api_errors).includes(list_array[0])) {
+          const error = list_array[0];
+          if (Object.keys(additional_api_errors).includes(error)) {
             setErrorTexts(
-              error_texts[additional_api_errors[list_array[0]]],
+              error_texts[additional_api_errors[error]],
               post_data,
               service
             );
             return;
           } else {
-            console.log(
-              "Unhandled additional API error code: " + list_array[0]
-            );
+            console.log("Unhandled additional API error code: " + error);
           }
         }
 
@@ -198,20 +197,30 @@ function executeSearchRequest(
 
         setErrorTitle(current_error_texts.title);
         setErrorReason(current_error_texts.reason);
+
         if (list_array.length > 0) {
-          let list_array_translated = [];
+          const { error_reason_translation: tips_config } = search_flow_config;
+          const tips = [];
+
           for (let item of list_array) {
-            if (
-              search_flow_config.error_reason_translation.hasOwnProperty(item)
-            ) {
-              list_array_translated.push(
-                search_flow_config.error_reason_translation[item]
-              );
+            const is_tips_exists = tips_config.hasOwnProperty(item);
+
+            if (is_tips_exists) {
+              const tip = tips_config[item];
+
+              if (typeof tip === "string") {
+                tips.push(tip);
+              }
+
+              if (typeof tip === "object") {
+                tips.push(...tip);
+              }
             } else {
               console.log("Unrecognized error code: " + item);
             }
           }
-          setErrorRemedy(current_error_texts.remedy, list_array_translated);
+
+          setErrorRemedy(current_error_texts.remedy, tips);
         }
 
         if (not_enough_results_links) {
@@ -459,7 +468,7 @@ function writeErrorFieldList(field, list_array, text) {
     let list_id = field + "_list";
     $("#" + field).append($("<ul>", { id: list_id }));
     for (let item of list_array) {
-      $("#" + list_id).append($("<li>", { text: item }));
+      $("#" + list_id).append($("<li>", { html: item }));
     }
   }
 }
