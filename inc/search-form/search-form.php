@@ -11,6 +11,7 @@ $waiting_page = $search_flow_config["waiting_page"];
 <form id="searchform" action="#" method="POST" class="center-div2" target="_blank">
     
     <div class="searchform-div">
+        <p><strong>Please note:</strong> our services will undergo scheduled maintenance and will be unavailable on Friday, Jan 16th, approximately from 13:00 UTC+1 to 17:00 UTC+1.</p>
         <p class="library"></p>
         
         <div id="filter-container"></div>
