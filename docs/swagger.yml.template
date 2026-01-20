@@ -390,6 +390,8 @@ paths:
       summary: |
         Configure searches and create visualisations for research projects (Data source: OpenAIRE)
       description: |
+        **The OpenAIRE API is currently undergoing major changes. Some features may not work as expected.**
+
         This is an entry point into the automatic pipeline that leads users directly to a visualisation based on OpenAIRE data.
       parameters:
         - in: query
