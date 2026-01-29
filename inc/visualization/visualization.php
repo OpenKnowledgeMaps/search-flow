@@ -89,11 +89,14 @@ if ($detect->isMobile()):
     }
     <?php if($has_custom_title): ?>
             data_config.create_title_from_context_style = "custom";
-            data_config.custom_title = "<?php echo $custom_title?>";       
+            data_config.custom_title = "<?php echo $custom_title?>";
     <?php endif ?>
 
-    <?php if($has_vis_type && $vis_type === "timeline"): ?>
-        data_config.is_streamgraph = true;
+    <?php if ($has_vis_type && in_array($vis_type, ["overview", "timeline", "geomap"])): ?>
+        data_config.visualization_type = "<?php echo $vis_type ?>";
+    <?php endif; ?>
+
+    <?php if ($has_vis_type && $vis_type === "timeline"): ?>
         data_config.show_area = false;
         data_config.faqs_button = false;
     <?php endif; ?>
