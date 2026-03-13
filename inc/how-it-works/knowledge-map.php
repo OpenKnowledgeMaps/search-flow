@@ -9,7 +9,7 @@
                 <span class="number">1</span>
                 <img class="howimg" src="https://openknowledgemaps.org/img/howitworks/KM-top100.png" alt=''>
             </p> 
-            <p>A Knowledge Map presents you with a topical overview for your search query based on the 100 <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">most relevant</a> documents matching your query.
+            <p>A Knowledge Map presents you with a topical overview for your search query based on the 100 <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">most relevant</a> resources matching your query.
             </p>
 
         </div>
@@ -32,7 +32,7 @@
                 <img class="howimg" src="https://openknowledgemaps.org/img/howitworks/KM-area.png" alt=''>
             </p>
             <p>The visualization is intended to give you a head start on your 
-                scholarly search. You can identify relevant areas at a glance and documents related to them.
+                scholarly search. You can identify relevant areas at a glance and resources related to them.
             </p>
 
         </div>
