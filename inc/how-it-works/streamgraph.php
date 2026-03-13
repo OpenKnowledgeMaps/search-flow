@@ -9,7 +9,7 @@
                 <span class="number">1</span>
                 <img class="howimg" src="https://openknowledgemaps.org/img/howitworks/SG-max-1000.png" alt=''>
             </p> 
-            <p>A Streamgraph presents you with an overview of the main keywords over time based on up to 1000 documents matching your query.
+            <p>A Streamgraph presents you with an overview of the main keywords over time based on up to 1000 resources matching your query.
             </p>
 
         </div>
@@ -20,7 +20,7 @@
                 <span class="number">2</span>
                 <img class="howimg" src="https://openknowledgemaps.org/img/howitworks/SG-stream.png" alt=''>
             </p>
-            <p>The main keywords and related documents are represented as coloured streams.
+            <p>The main keywords and related resources are represented as coloured streams.
             </p>
 
         </div>
