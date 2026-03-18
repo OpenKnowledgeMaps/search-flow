@@ -233,11 +233,11 @@ if (isset($search_flow_config_local)) {
                 'Increase the custom time range',
                 'Check if you have a typo in your query',
                 'Try keywords instead of long phrases or questions. For example <b>“climate change” and impact</b> instead of “How does climate change impact our lives?”',
-                'Add further document types or reduce the metadata quality under “Refine your search”'],
+                'Add further resource types or reduce the metadata quality under “Refine your search”'],
             'not enough results': [
                 'Check if you have a typo in your query',
                 'Try keywords instead of long phrases or questions. For example <b>“climate change” and impact</b> instead of “How does climate change impact our lives?”',
-                'Add further document types or reduce the metadata quality under “Refine your search”',
+                'Add further resource types or reduce the metadata quality under “Refine your search”',
             ],
         }
         //Error texts
@@ -389,7 +389,7 @@ if (isset($search_flow_config_local)) {
             },
             orcid_no_results_error: {
                 title: 'Sorry! We could not create a knowledge map.'
-                , reason: 'There are no documents available for %orcid%.'
+                , reason: 'There are no resources available for %orcid%.'
                 , remedy: 'Please try again with another ORCID.'
                 , contact: 'For more information about our service please <a class="underline" href="https://openknowledgemaps.org/faq" target="_blank">see our FAQs</a>. If you think that there is something wrong with our service, please send a message summarising the issue to <a class="underline" href="mailto:info@openknowledgemaps.org">info@openknowledgemaps.org</a>.'
                 , resolution_type: "link"
