@@ -144,7 +144,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                             name: "notSent",
                             className: "text-field",
                             type: "text",
-                            placeholder: "Enter document type",
+                            placeholder: "Enter resource type",
                             style: {width: "100%", position: "relative", height: '36px', paddingLeft: 30},
                             onChange: (e => {
                                 setSearch(e.target.value)
