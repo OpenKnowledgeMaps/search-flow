@@ -6,7 +6,7 @@ const SERVICES_OPTIONS = [
     label: "All disciplines",
     infoTitle: "BASE",
     infoContent:
-      "Provides access to more than 300 million resources for all disciplines from more than 10,000 content providers. BASE is operated by Bielefeld University Library.",
+      "Provides access to more than 400 million resources for all disciplines from more than 10,000 content providers. BASE is operated by Bielefeld University Library.",
   },
   {
     id: "pubmed",
