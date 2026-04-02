@@ -62,7 +62,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
         e("label", {
             className: 'filter-label',
             htmlFor: 'multiselect-dropdown-doctypes',
-        }, `select document type(s)`),
+        }, `select resources type(s)`),
         e(
             "div",
             {
@@ -144,7 +144,7 @@ const DoctypesPicker = ({values, setValues, service}) => {
                             name: "notSent",
                             className: "text-field",
                             type: "text",
-                            placeholder: "Enter document type",
+                            placeholder: "Enter resource type",
                             style: {width: "100%", position: "relative", height: '36px', paddingLeft: 30},
                             onChange: (e => {
                                 setSearch(e.target.value)
