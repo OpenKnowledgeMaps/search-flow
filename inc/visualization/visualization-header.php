@@ -122,7 +122,13 @@ function setVariableFromContext($context, $var, $enable_default = false, $defaul
     
 }
 
-$citation_vis_type = $vis_type === "timeline" ? "Streamgraph" : "Knowledge Map";
+if ($vis_type === "timeline") {
+    $citation_vis_type = "Streamgraph";
+} elseif ($vis_type === "geomap") {
+    $citation_vis_type = "Geo Map";
+} else {
+    $citation_vis_type = "Knowledge Map";
+}
 $citation_title = $has_custom_title ? $custom_title : $query;
 $citation_meta_string = $citation_vis_type . " for research on " . $citation_title;
 ?>
