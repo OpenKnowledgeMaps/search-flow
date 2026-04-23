@@ -77,21 +77,25 @@ function redirectToMap(vis_page, id, service, post_data) {
     if (post_data.vis_type == "timeline") {
       redirect_url = "streamgraph";
     }
-    search_flow_config.waiting_page_options.vis_page_params.forEach(function (
-      param
-    ) {
-      redirect_url += "/" + createParamValue(param, post_data);
-    });
+
+    if (post_data.vis_type == "geomap") {
+      redirect_url = "geomap";
+    }
+
+    search_flow_config.waiting_page_options.vis_page_params.forEach(
+      function (param) {
+        redirect_url += "/" + createParamValue(param, post_data);
+      },
+    );
   } else {
-    search_flow_config.waiting_page_options.vis_page_params.forEach(function (
-      param,
-      i
-    ) {
-      redirect_url +=
-        createParamName(param, i, has_previous_params) +
-        createParamValue(param, post_data);
-      has_previous_params = true;
-    });
+    search_flow_config.waiting_page_options.vis_page_params.forEach(
+      function (param, i) {
+        redirect_url +=
+          createParamName(param, i, has_previous_params) +
+          createParamValue(param, post_data);
+        has_previous_params = true;
+      },
+    );
   }
 
   search_flow_config.waiting_page_options.vis_page_additional_params.forEach(
@@ -100,7 +104,7 @@ function redirectToMap(vis_page, id, service, post_data) {
         createParamName(param, i, has_previous_params) +
         createParamValue(param, post_data);
       has_previous_params = true;
-    }
+    },
   );
 
   if (post_data.embed) {
@@ -146,7 +150,7 @@ function executeSearchRequest(
   search_term_short,
   search_term,
   timeout,
-  vis_page
+  vis_page,
 ) {
   $.ajax({
     //todo: this returns success=true even if the database server is not reachable
@@ -179,7 +183,7 @@ function executeSearchRequest(
             setErrorTexts(
               error_texts[additional_api_errors[error]],
               post_data,
-              service
+              service,
             );
             return;
           } else {
@@ -236,7 +240,7 @@ function executeSearchRequest(
             setErrorMoreInfo(current_error_texts.more_info);
             $("#more-info-link_na").attr("href", search_string);
             $("#more-info-link_service").text(
-              service === "base" ? "BASE" : "PubMed"
+              service === "base" ? "BASE" : "PubMed",
             );
             if (post_data.embed) {
               $("#more-info-service-desc").hide();
@@ -253,6 +257,10 @@ function executeSearchRequest(
 
         if (service.endsWith("sg") || post_data.vis_type === "timeline") {
           $(".vis_type_name").text("streamgraph");
+        }
+
+        if (post_data.vis_type === "geomap") {
+          $(".vis_type_name").text("geo map");
         }
       }
     })
@@ -288,7 +296,7 @@ function setErrorTexts(
   post_data,
   service,
   search_term_short,
-  search_term
+  search_term,
 ) {
   if (text_object.hasOwnProperty("title")) {
     setErrorTitle(text_object.title);
@@ -296,7 +304,7 @@ function setErrorTexts(
   if (text_object.hasOwnProperty("reason")) {
     const errorReason = text_object.reason.replace(
       "%orcid%",
-      `<span class="bold">${post_data.orcid}</span>`
+      `<span class="bold">${post_data.orcid}</span>`,
     );
 
     setErrorReason(errorReason);
@@ -370,7 +378,7 @@ function getResolutionHref(resolution_link, post_data = {}, service = "") {
     });
     if (Array.isArray(post_data.document_types)) {
       post_data.document_types.forEach((type) =>
-        queryParams.append("document_types[]", type)
+        queryParams.append("document_types[]", type),
       );
     }
     return `embedded_searchbox?${queryParams.toString()}`;
@@ -386,7 +394,7 @@ function setErrorResolution(text_object, options = {}) {
   const resolution_href = getResolutionHref(
     resolution_link,
     post_data,
-    service
+    service,
   );
 
   $("#fail-index").attr("href", resolution_href);
@@ -405,7 +413,7 @@ function setErrorResolution(text_object, options = {}) {
     }
     if (search_flow_config.search_options.search_term_focus) {
       requestAnimationFrame(() =>
-        document.getElementById("searchterm").focus({ preventScroll: true })
+        document.getElementById("searchterm").focus({ preventScroll: true }),
       );
     }
 
@@ -430,14 +438,14 @@ function setErrorResolution(text_object, options = {}) {
     $("#error-resolution-countdown").removeClass("nodisplay");
     $("#error-resolution-countdown .count-label").text(resolution_label);
     $("#error-resolution-countdown .count-value").text(
-      resolution_countdown + " seconds."
+      resolution_countdown + " seconds.",
     );
 
     let time_passed = 0;
     window.setInterval(() => {
       time_passed++;
       $("#error-resolution-countdown .count-value").text(
-        resolution_countdown - time_passed + " seconds."
+        resolution_countdown - time_passed + " seconds.",
       );
 
       if (time_passed >= resolution_countdown) {
@@ -490,7 +498,7 @@ function unboxPostData(post_data, service) {
       "&type1[]=doctype" +
       createDoctypeString(
         getPostData(post_data, "document_types", "array"),
-        service
+        service,
       ) +
       "&allrights=all&type2[]=rights&lookfor2[]=CC-*&lookfor2[]=CC-BY&lookfor2[]=CC-BY-SA&lookfor2[]=CC-BY-ND&lookfor2[]=CC-BY-NC&lookfor2[]=CC-BY-NC-SA&lookfor2[]=CC-BY-NC-ND&lookfor2[]=PD&lookfor2[]=CC0&lookfor2[]=PDM&type3[]=access&lookfor3[]=1&lookfor3[]=0&lookfor3[]=2&name=&join=AND&bool0[]=AND&bool1[]=OR&bool2[]=OR&bool3[]=OR&newsearch=1";
 
@@ -508,7 +516,7 @@ function unboxPostData(post_data, service) {
       "%20AND%20((" +
       createDoctypeString(
         getPostData(post_data, "article_types", "array"),
-        service
+        service,
       ) +
       "))";
 
@@ -534,14 +542,14 @@ function tick_function() {
   $("#progressbar").progressbar("option", "value", value);
   progressbar_timeout = window.setTimeout(
     tick_function,
-    tick_interval * milliseconds_progressbar
+    tick_interval * milliseconds_progressbar,
   );
 
   if (value >= 100) {
     $("#status").html(
       "<span style='color:red'>" +
         search_flow_config.waiting_page_texts["longer_than_expected_text"] +
-        "</span>"
+        "</span>",
     );
     $("#progressbar").progressbar("value", 5);
   }

@@ -526,13 +526,20 @@ if ($has_sufficient_data) {
 
     var not_enough_results_links = search_flow_config.waiting_page_options.add_not_enough_results_links;
 
+    var VIS_TYPE_DISPLAY_NAMES = {
+        timeline: "streamgraph",
+        geomap: "geo map",
+    };
+
     search_flow_config.search_options.options.find(function (item) {
         if (item.id === service) {
             script = item.script;
             milliseconds_progressbar = item.milliseconds_progressbar;
             max_length_search_term_short = item.max_length_search_term_short;
             timeout = item.timeout;
-            $(".vis_type_name").text(post_data && post_data.vis_type === "timeline" ? "streamgraph" : "knowledge map");
+            $(".vis_type_name").text(
+                (post_data && VIS_TYPE_DISPLAY_NAMES[post_data.vis_type]) || "knowledge map"
+            );
         }
         // this manual injection is necessary at this point because we can't add it in search_options.php as a 
         // normal service, because we don't want it to show up in the search box for now.
