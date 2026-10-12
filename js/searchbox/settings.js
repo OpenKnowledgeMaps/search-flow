@@ -21,6 +21,7 @@ const pubMedDefaultId = PUBMED_DOCTYPES_OPTIONS.filter(
 export const DEFAULT_SETTINGS = {
   // features on/off
   showOptions: false,
+  openInNewTab: false,
   showOptionsButton: true,
   showTimeRange: true,
   showDocTypes: true,
@@ -108,6 +109,10 @@ const getConfigSettings = (outerSettings = {}) => {
   // features on/off
   if (typeof outerSettings.showOptions === "boolean") {
     settings.showOptions = outerSettings.showOptions;
+  }
+
+  if (typeof outerSettings.openInNewTab === "boolean") {
+    settings.openInNewTab = outerSettings.openInNewTab;
   }
 
   if (typeof outerSettings.enable_h_index === "boolean") {

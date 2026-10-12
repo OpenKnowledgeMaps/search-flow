@@ -31,6 +31,7 @@ class SearchBox extends React.Component {
 
     this.state = {
       showOptions: settings.showOptions,
+      target: settings.openInNewTab ? "_blank" : "_self",
       formData: {
         query: settings.defaultQuery,
         orcid: settings.defaultORCID,
@@ -461,7 +462,7 @@ class SearchBox extends React.Component {
         {
           action: actionUrl,
           method: "POST",
-          target: "_self",
+          target: this.state.target,
           "aria-label": "Open Knowledge Maps Search Box form",
           onSubmit: this.handleSubmit.bind(this),
         },
