@@ -32,6 +32,7 @@ class SearchBox extends React.Component {
     this.state = {
       showOptions: settings.showOptions,
       target: settings.openInNewTab ? "_blank" : "_self",
+      isEmbed: !settings.noEmbed,
       formData: {
         query: settings.defaultQuery,
         orcid: settings.defaultORCID,
@@ -317,7 +318,8 @@ class SearchBox extends React.Component {
     });
 
     queryParams.append("service", this.state.formData.service);
-    queryParams.append("embed", "true");
+    if(this.state.isEmbed)
+      queryParams.append("embed", "true");
 
     const queryString = queryParams.toString();
 

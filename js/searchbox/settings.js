@@ -22,6 +22,7 @@ export const DEFAULT_SETTINGS = {
   // features on/off
   showOptions: false,
   openInNewTab: false,
+  noEmbed: false,
   showOptionsButton: true,
   showTimeRange: true,
   showDocTypes: true,
@@ -113,6 +114,10 @@ const getConfigSettings = (outerSettings = {}) => {
 
   if (typeof outerSettings.openInNewTab === "boolean") {
     settings.openInNewTab = outerSettings.openInNewTab;
+  }
+
+  if (typeof outerSettings.noEmbed === "boolean") {
+    settings.noEmbed = outerSettings.noEmbed;
   }
 
   if (typeof outerSettings.enable_h_index === "boolean") {

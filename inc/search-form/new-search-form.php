@@ -15,6 +15,7 @@
         query: "<?php echo isset($search_query) ? $search_query : "" ?>",
         showOptions: <?php echo isset($open_options) && $open_options ? "true" : "false" ?>,
         openInNewTab: <?php echo isset($open_in_new_tab) && $open_in_new_tab ? "true" : "false" ?>,
+        noEmbed: <?php echo isset($no_embed) && $no_embed ? "true" : "false" ?>,
     };
     if (typeof post_data === "object") {
         searchboxSettings = {
