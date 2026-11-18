@@ -1,0 +1,16 @@
+/* Increase spacing between all parameter rows */
+.swagger-ui .parameters-container table.parameters tbody tr td {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ebebeb; /* Optional: adds a subtle divider line */
+}
+
+/* Remove extra top padding on the very first parameter */
+.swagger-ui .parameters-container table.parameters tbody tr:first-child td {
+  padding-top: 10px;
+}
+
+/* Hide copy-to-clipboard links */
+.swagger-ui .opblock .opblock-summary .view-line-link.copy-to-clipboard {
+  display: none !important;
+}
